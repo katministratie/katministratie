@@ -2,3 +2,4 @@
 
 
 Project om de administratie van katten door de vrijwilligers en gastgezinnen makkelijker te laten verlopen.
+Deze stichting maakt gebruik van vrijwilligers die hiervoor geen vergoeding krijgen.
