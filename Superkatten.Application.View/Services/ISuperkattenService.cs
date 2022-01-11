@@ -1,10 +1,10 @@
+using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Superkatten.Application.View.Models;
 
-namespace Superkatten.Application.View.Services
+namespace Superkatten.Katministratie.View.Services
 {
-    public interface ISuperkattenService
+    public interface ISuperkattenService : IHostedService
     {
         Task<IReadOnlyCollection<Superkat>> GetSuperkattenAsync();
     }

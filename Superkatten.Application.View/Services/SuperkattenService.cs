@@ -1,12 +1,8 @@
-using Microsoft.Extensions.Logging;
-using Superkatten.Application.View.Models;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
 
-namespace Superkatten.Application.View.Services
+namespace Superkatten.Katministratie.View.Services
 {
     public class SuperkattenService : ISuperkattenService
     {
