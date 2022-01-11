@@ -6,6 +6,6 @@ namespace Superkatten.Application.View.Services
 {
     public interface ISuperkattenService
     {
-        Task<IEnumerable<Superkat>> GetSuperkattenAsync();
+        Task<IReadOnlyCollection<Superkat>> GetSuperkattenAsync();
     }
 }

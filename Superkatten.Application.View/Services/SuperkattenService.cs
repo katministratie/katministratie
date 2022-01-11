@@ -1,4 +1,6 @@
+using Microsoft.Extensions.Logging;
 using Superkatten.Application.View.Models;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -15,10 +17,14 @@ namespace Superkatten.Application.View.Services
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<Superkat>> GetSuperkattenAsync()
+        public async Task<IReadOnlyCollection<Superkat>> GetSuperkattenAsync()
         {
-            var superkatten = await _httpClient.GetFromJsonAsync<Superkat[]>("api/superkatten");
-            return superkatten;
+            return new List<Superkat>
+            {
+                new Superkat(1, "piet"),
+                new Superkat(2, "jan"),
+                new Superkat(3, "klaas")
+            };
         }
     }
 }
