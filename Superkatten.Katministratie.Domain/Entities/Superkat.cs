@@ -1,13 +1,26 @@
-namespace Superkatten.Katministratie.Domain.Models
+using System.ComponentModel.DataAnnotations;
+
+namespace Superkatten.Katministratie.Domain.Entities
 {
     public class Superkat
     {
-        public int Nummer { get; init; }
-        public string Name { get; init; }
-        public Superkat(int nummer, string name)
+        [Key]
+        public int Id { get; set; } 
+        public int Number { get; private set; }
+        public string Name { get; private set; }
+
+        public Superkat(
+            int number,
+            string name
+        )
         {
-            Nummer = nummer;
+            Number = number;
             Name = name;
+        }
+
+        public Superkat CreateUpdatedModel(string name)
+        {
+            return new Superkat(Number, name);
         }
     }
 }

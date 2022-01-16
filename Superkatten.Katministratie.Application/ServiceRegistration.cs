@@ -1,11 +1,17 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Superkatten.Katministratie.Application.Interfaces;
+using Superkatten.Katministratie.Application.Mappers;
+using Superkatten.Katministratie.Application.Services;
 
 namespace Superkatten.Katministratie.Application
 {
     public static class ServiceRegistration
     {
-        public static IServiceProvider AddApplicationServices(this IServiceProvider services)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            services.AddTransient<ISuperkattenService, SuperkattenService>();
+            services.AddTransient<ISuperkattenMapper, SuperkattenMapper>();
+
             return services;
         }
     }
