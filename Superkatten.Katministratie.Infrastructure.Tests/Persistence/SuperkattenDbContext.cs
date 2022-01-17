@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Superkatten.Katministratie.Domain.Entities;
+using Superkatten.Katministratie.Infrastructure.Entities;
 
 namespace Superkatten.Katministratie.Infrastructure.Persistence
 {
@@ -9,8 +9,8 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
         {
         }
 
-        public DbSet<Superkat> SuperKatten { get; set; }
-        public DbSet<Gastgezin> Gastgezinnen { get; set; }
+        public DbSet<SuperkatDto> SuperKatten { get; set; }
+        public DbSet<GastgezinDto> Gastgezinnen { get; set; }
 
         public string DbPath { get; } = string.Empty;
     }

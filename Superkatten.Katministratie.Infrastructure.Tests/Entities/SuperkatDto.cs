@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Superkatten.Katministratie.Infrastructure.Entities
 {
-    internal class SuperkatDto
+    public class SuperkatDto
     {
-        int id; //TODO: nodig voor EF
-        int number;
-        int name;
+        [Key]
+        public int Id { get; set; }
+        [Required]
+        public int Number { get;set; }
+        [Required]
+        public string Name { get; set; } = string.Empty;
     }
 }
