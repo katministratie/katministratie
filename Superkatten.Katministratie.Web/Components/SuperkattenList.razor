@@ -1,7 +1,7 @@
 ﻿@page "/superkatten"
 
 @using Superkatten.Katministratie.Application.Contracts
-@using Superkatten.Katministratie.Web.Components
+@using Superkatten.Katministratie.Web.Services
 
 <div id="superkatten" class="widget">
     <h3>Superkatten</h3>
@@ -19,6 +19,8 @@
             @foreach (var superkat in Superkatten)
             {
                 <tr>
+                    <td>@superkat.Number.ToString("{000}")</td>
+                    <td>@superkat.FoundDate.ToString("dd-MM-yyyy")</td>
                     <td>@superkat.Name</td>
                 </tr>
             }
@@ -37,6 +39,8 @@
     protected override async Task OnInitializedAsync() 
     {
         Superkatten = await superkattenService.GetAllSuperkattenAsync();
+        SuperkatProperties.Add("Number");
+        SuperkatProperties.Add("Found at");
         SuperkatProperties.Add("Name");
     }
 }

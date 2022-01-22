@@ -1,6 +1,6 @@
 ﻿using Superkatten.Katministratie.Application.Contracts;
 
-namespace Superkatten.Katministratie.Web.Components
+namespace Superkatten.Katministratie.Web.Services
 {
     public interface ISuperkattenListService
     {

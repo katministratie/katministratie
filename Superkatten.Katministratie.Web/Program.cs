@@ -1,4 +1,4 @@
-using Superkatten.Katministratie.Web.Components;
+using Superkatten.Katministratie.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
