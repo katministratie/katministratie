@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "dgSpecHash": "B1zOK72iUIbY6CFLFp5pBrwRYCPvs1P8vq6b5n/QNLUDKVJJzJ80YchpZPI6IuyyflJnEp9In5I3pBmf9x3xOg==",
-  "success": false,
+  "dgSpecHash": "PHx382jN350SRi+9A2TpO9E0Ja86O8IZHVCCDnNejKkCBlaDTErZSAQUw37BQY4EBEvRyrbLrEnEaXG8OLMdVg==",
+  "success": true,
   "projectFilePath": "C:\\Git\\katministratie\\Superkatten.Katministratie.SuperkatApi\\Superkatten.Katministratie.SuperkatApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\trudy\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
@@ -37,6 +37,7 @@
     "C:\\Users\\trudy\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.1\\microsoft.entityframeworkcore.abstractions.6.0.1.nupkg.sha512",
     "C:\\Users\\trudy\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\6.0.1\\microsoft.entityframeworkcore.analyzers.6.0.1.nupkg.sha512",
     "C:\\Users\\trudy\\.nuget\\packages\\microsoft.entityframeworkcore.design\\6.0.1\\microsoft.entityframeworkcore.design.6.0.1.nupkg.sha512",
+    "C:\\Users\\trudy\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\6.0.1\\microsoft.entityframeworkcore.inmemory.6.0.1.nupkg.sha512",
     "C:\\Users\\trudy\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\6.0.1\\microsoft.entityframeworkcore.relational.6.0.1.nupkg.sha512",
     "C:\\Users\\trudy\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\6.0.1\\microsoft.entityframeworkcore.sqlserver.6.0.1.nupkg.sha512",
     "C:\\Users\\trudy\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\6.0.1\\microsoft.entityframeworkcore.tools.6.0.1.nupkg.sha512",
@@ -181,15 +182,5 @@
     "C:\\Users\\trudy\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\trudy\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1104",
-      "level": "Error",
-      "message": "Unable to find project 'C:\\Git\\katministratie\\Superkatten.Katministration.Infrastructure\\Superkatten.Katministratie.Infrastructure.csproj'. Check that the project reference is valid and that the project file exists.",
-      "libraryId": "C:\\Git\\katministratie\\Superkatten.Katministration.Infrastructure\\Superkatten.Katministratie.Infrastructure.csproj",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    }
-  ]
+  "logs": []
 }

@@ -951,6 +951,18 @@
           "build/net6.0/Microsoft.EntityFrameworkCore.Design.props": {}
         }
       },
+      "Microsoft.EntityFrameworkCore.InMemory/6.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "6.0.1"
+        },
+        "compile": {
+          "lib/net6.0/Microsoft.EntityFrameworkCore.InMemory.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.EntityFrameworkCore.InMemory.dll": {}
+        }
+      },
       "Microsoft.EntityFrameworkCore.Relational/6.0.1": {
         "type": "package",
         "dependencies": {
@@ -3115,6 +3127,23 @@
         "runtime": {
           "bin/placeholder/Superkatten.Katministratie.Domain.dll": {}
         }
+      },
+      "Superkatten.Katministratie.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "6.0.1",
+          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.1",
+          "Microsoft.EntityFrameworkCore.InMemory": "6.0.1",
+          "Microsoft.Extensions.DependencyInjection": "6.0.0",
+          "Superkatten.Katministratie.Application": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Superkatten.Katministratie.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Superkatten.Katministratie.Infrastructure.dll": {}
+        }
       }
     }
   },
@@ -4198,6 +4227,20 @@
         "lib/net6.0/Microsoft.EntityFrameworkCore.Design.xml",
         "microsoft.entityframeworkcore.design.6.0.1.nupkg.sha512",
         "microsoft.entityframeworkcore.design.nuspec"
+      ]
+    },
+    "Microsoft.EntityFrameworkCore.InMemory/6.0.1": {
+      "sha512": "ORvH+p+Qu8Lr08gRidXy3BxGXVFEccKi+JTkEtLuKvDJbQ4KICW1YMjI47A/vWnJIB915zz2zDN8YeJfiEkVxg==",
+      "type": "package",
+      "path": "microsoft.entityframeworkcore.inmemory/6.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "lib/net6.0/Microsoft.EntityFrameworkCore.InMemory.dll",
+        "lib/net6.0/Microsoft.EntityFrameworkCore.InMemory.xml",
+        "microsoft.entityframeworkcore.inmemory.6.0.1.nupkg.sha512",
+        "microsoft.entityframeworkcore.inmemory.nuspec"
       ]
     },
     "Microsoft.EntityFrameworkCore.Relational/6.0.1": {
@@ -9642,15 +9685,20 @@
       "type": "project",
       "path": "../Superkatten.Katministratie.Domain/Superkatten.Katministratie.Domain.csproj",
       "msbuildProject": "../Superkatten.Katministratie.Domain/Superkatten.Katministratie.Domain.csproj"
+    },
+    "Superkatten.Katministratie.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../Superkatten.Katministratie.Infrastructure.Tests/Superkatten.Katministratie.Infrastructure.csproj",
+      "msbuildProject": "../Superkatten.Katministratie.Infrastructure.Tests/Superkatten.Katministratie.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "C:\\Git\\katministratie\\Superkatten.Katministration.Infrastructure\\Superkatten.Katministratie.Infrastructure.csproj",
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.1",
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.1",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 6.0.1",
       "Superkatten.Katministratie.Application >= 1.0.0",
+      "Superkatten.Katministratie.Infrastructure >= 1.0.0",
       "Swashbuckle.AspNetCore >= 6.2.3"
     ]
   },
@@ -9692,8 +9740,8 @@
             "C:\\Git\\katministratie\\Superkatten.Katministratie.Application\\Superkatten.Katministratie.Application.csproj": {
               "projectPath": "C:\\Git\\katministratie\\Superkatten.Katministratie.Application\\Superkatten.Katministratie.Application.csproj"
             },
-            "C:\\Git\\katministratie\\Superkatten.Katministration.Infrastructure\\Superkatten.Katministratie.Infrastructure.csproj": {
-              "projectPath": "C:\\Git\\katministratie\\Superkatten.Katministration.Infrastructure\\Superkatten.Katministratie.Infrastructure.csproj"
+            "C:\\Git\\katministratie\\Superkatten.Katministratie.Infrastructure.Tests\\Superkatten.Katministratie.Infrastructure.csproj": {
+              "projectPath": "C:\\Git\\katministratie\\Superkatten.Katministratie.Infrastructure.Tests\\Superkatten.Katministratie.Infrastructure.csproj"
             }
           }
         }
@@ -9748,16 +9796,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1104",
-      "level": "Error",
-      "message": "Unable to find project 'C:\\Git\\katministratie\\Superkatten.Katministration.Infrastructure\\Superkatten.Katministratie.Infrastructure.csproj'. Check that the project reference is valid and that the project file exists.",
-      "libraryId": "C:\\Git\\katministratie\\Superkatten.Katministration.Infrastructure\\Superkatten.Katministratie.Infrastructure.csproj",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    }
-  ]
+  }
 }

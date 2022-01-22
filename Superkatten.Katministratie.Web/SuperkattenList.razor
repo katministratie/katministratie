@@ -1,0 +1,42 @@
+﻿@page "/superkatten"
+
+@using Superkatten.Katministratie.Application.Contracts
+@using Superkatten.Katministratie.Web.Components
+
+<div id="superkatten" class="widget">
+    <h3>Superkatten</h3>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                @foreach (var superkatProperty in SuperkatProperties)
+                {
+                    <td>@superkatProperty</td>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var superkat in Superkatten)
+            {
+                <tr>
+                    <td>@superkat.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    [Inject]
+    public ISuperkattenListService superkattenService { get; set; }
+
+    public List<string> SuperkatProperties { get; set; } = new List<string>();
+
+    public List<Superkat> Superkatten { get; set; } = new List<Superkat>();
+
+    protected override async Task OnInitializedAsync() 
+    {
+        Superkatten = await superkattenService.GetAllSuperkattenAsync();
+        SuperkatProperties.Add("Name");
+    }
+}

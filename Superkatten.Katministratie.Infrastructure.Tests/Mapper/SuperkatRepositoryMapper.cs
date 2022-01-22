@@ -7,12 +7,21 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
     {
         public SuperkatDto MapDomainToSuperkatDto(Superkat superkat)
         {
-            throw new System.NotImplementedException();
+            return new SuperkatDto
+            {
+                Number = superkat.Number,
+                Name = superkat.Name,
+                FoundDate = superkat.FoundDate
+            };
         }
 
         public Superkat MapSuperkatDtoToDomain(SuperkatDto superkatDto)
         {
-            throw new System.NotImplementedException();
+            return new Superkat(
+                superkatDto.Number,
+                superkatDto.Name,
+                superkatDto.FoundDate
+            );
         }
     }
 }

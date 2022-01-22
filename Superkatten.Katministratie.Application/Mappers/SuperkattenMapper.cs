@@ -2,20 +2,22 @@
 {
     internal class SuperkattenMapper : ISuperkattenMapper
     {
-        public Entities.Superkat MapFromDomain(Domain.Entities.Superkat superkat)
+        public Contracts.Superkat MapFromDomain(Domain.Entities.Superkat superkat)
         {
-            return new Entities.Superkat
+            return new Contracts.Superkat
             {
                 Number = superkat.Number,
                 Name = superkat.Name,
+                FoundDate= superkat.FoundDate
             };
         }
 
-        public Domain.Entities.Superkat MapToDomain(Entities.Superkat superkat)
+        public Domain.Entities.Superkat MapToDomain(Contracts.Superkat superkat)
         {
             return new Domain.Entities.Superkat(
                 superkat.Number,
-                superkat.Name
+                superkat.Name,
+                superkat.FoundDate
             );
         }
     }

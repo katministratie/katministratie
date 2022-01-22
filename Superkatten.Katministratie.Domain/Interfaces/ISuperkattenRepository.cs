@@ -6,10 +6,11 @@ namespace Superkatten.Katministratie.Domain.Interfaces
 {
     public interface ISuperkattenRepository
     {
-        Task<Superkat> CreateSuperkatAsync(Superkat createSuperkat);
-        Task<Superkat> GetSuperkatAsync(int superkatId);
-        Task DeleteSuperkatAsync(int superkatId);
-        Task<Superkat> UpdateSuperkatAsync(Superkat updateSuperkat);
+        Task<Superkat> CreateSuperkatAsync(Superkat superkat);
+        Task<Superkat> GetSuperkatAsync(int superkatNumber);
+        Task DeleteSuperkatAsync(int superkatNumber);
+        Task<Superkat> UpdateSuperkatAsync(Superkat superkat);
         Task<IReadOnlyCollection<Superkat>> GetAvailableSuperkattenAsync();
+        Task<int> GetSuperkatCountForGivenYear(int year);
     }
 }

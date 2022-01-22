@@ -20,15 +20,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{1713E262-0BDA-43C5-B54B-59F65890FB5B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{038EB850-57B8-4F56-9E84-3B84B17B0682}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{1587BA49-B52B-44FF-8C33-5D4DAE59566B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Superkatten.Katministratie.Infrastructure.Tests", "Superkatten.Katministratie.Infrastructure.Tests\Superkatten.Katministratie.Infrastructure.Tests.csproj", "{EDD4402D-7760-4E5A-B7AF-4E5F359B2E9F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Superkatten.Katministratie.SuperkatApi", "Superkatten.Katministratie.SuperkatApi\Superkatten.Katministratie.SuperkatApi.csproj", "{E7D305C8-3930-4321-9C82-562374A5D2EA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Superkatten.Katministratie.Infrastructure", "Superkatten.Katministratie.Infrastructure.Tests\Superkatten.Katministratie.Infrastructure.csproj", "{CF68715B-C728-47A7-81EA-F976AE7AAB1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Superkatten.Katministratie.Web", "Superkatten.Katministratie.Web\Superkatten.Katministratie.Web.csproj", "{0D9DC1BA-7721-4347-9BBF-B26913B34696}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,10 +40,6 @@ Global
 		{8C15CD4E-A84E-440C-9585-3672FF1EBB39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C15CD4E-A84E-440C-9585-3672FF1EBB39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C15CD4E-A84E-440C-9585-3672FF1EBB39}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EDD4402D-7760-4E5A-B7AF-4E5F359B2E9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EDD4402D-7760-4E5A-B7AF-4E5F359B2E9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EDD4402D-7760-4E5A-B7AF-4E5F359B2E9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EDD4402D-7760-4E5A-B7AF-4E5F359B2E9F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E7D305C8-3930-4321-9C82-562374A5D2EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E7D305C8-3930-4321-9C82-562374A5D2EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7D305C8-3930-4321-9C82-562374A5D2EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -56,6 +48,10 @@ Global
 		{CF68715B-C728-47A7-81EA-F976AE7AAB1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF68715B-C728-47A7-81EA-F976AE7AAB1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF68715B-C728-47A7-81EA-F976AE7AAB1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D9DC1BA-7721-4347-9BBF-B26913B34696}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D9DC1BA-7721-4347-9BBF-B26913B34696}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D9DC1BA-7721-4347-9BBF-B26913B34696}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D9DC1BA-7721-4347-9BBF-B26913B34696}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,10 +59,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3993E1B5-7CFB-4F50-96C4-1BFD3AB4E0D6} = {1713E262-0BDA-43C5-B54B-59F65890FB5B}
 		{8C15CD4E-A84E-440C-9585-3672FF1EBB39} = {615228B0-5BAE-48F7-90EE-EF47B8B9E079}
-		{1587BA49-B52B-44FF-8C33-5D4DAE59566B} = {038EB850-57B8-4F56-9E84-3B84B17B0682}
-		{EDD4402D-7760-4E5A-B7AF-4E5F359B2E9F} = {1587BA49-B52B-44FF-8C33-5D4DAE59566B}
 		{E7D305C8-3930-4321-9C82-562374A5D2EA} = {A60B41D9-C0AA-4199-93FD-D75C76A6FBB9}
 		{CF68715B-C728-47A7-81EA-F976AE7AAB1A} = {13C5D956-DFDB-4EB1-9121-B09549829396}
+		{0D9DC1BA-7721-4347-9BBF-B26913B34696} = {A60B41D9-C0AA-4199-93FD-D75C76A6FBB9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CC434EE0-E851-4CBB-BF31-23462A9160ED}

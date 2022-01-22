@@ -1,13 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
+using Superkatten.Katministratie.Application.Contracts;
 using Superkatten.Katministratie.Application.Entities;
+using Superkatten.Katministratie.Application.Exceptions;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
-using Superkatten.Katministratie.Domain.CRUD;
 using Superkatten.Katministratie.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
-using Superkatten.Katministratie.Application.Exceptions;
+using System.Threading.Tasks;
 
 namespace Superkatten.Katministratie.Application.Services
 {
@@ -27,15 +28,19 @@ namespace Superkatten.Katministratie.Application.Services
             _superkattenMapper = superkattenMapper;
         }
 
-        public async Task<Superkat> CreateSuperkatAsync(CreateOrModifySuperkatParameters createSuperkatDto)
+        public async Task<Superkat> CreateSuperkatAsync(CreateSuperkatParameters createSuperkatParameters)
         {
-            if (string.IsNullOrEmpty(createSuperkatDto.Name))
+            if (string.IsNullOrEmpty(createSuperkatParameters.Name))
             {
                 throw new ValidationException($"Superkat name is empty");
             }
 
-            var superkatNumber = 1; //TODO: GetUniqueSuperkatNumber();
-            var superkat = new Domain.Entities.Superkat(superkatNumber, createSuperkatDto.Name);
+            int superkatCountForYear = await _superkattenRepository.GetSuperkatCountForGivenYear(DateTime.Now.Year);
+            var superkat = new Domain.Entities.Superkat(
+                superkatCountForYear + 1, 
+                createSuperkatParameters.Name, 
+                DateTimeOffset.Now
+            );
 
             await _superkattenRepository.CreateSuperkatAsync(superkat);
 
@@ -50,24 +55,35 @@ namespace Superkatten.Katministratie.Application.Services
         public async Task<IReadOnlyCollection<Superkat>> ReadAvailableSUperkattenAsync()
         {
             var superkatten = await _superkattenRepository.GetAvailableSuperkattenAsync();
+            
             return superkatten
                 .Select(superkat => _superkattenMapper.MapFromDomain(superkat))
                 .ToList();
         }
 
-        public async Task<Superkat> ReadSuperkatAsync(int superkatId)
+        public async Task<Superkat> ReadSuperkatAsync(int superkatNumber)
         {
-            var superkat = await _superkattenRepository.GetSuperkatAsync(superkatId);
+            var superkat = await _superkattenRepository.GetSuperkatAsync(superkatNumber);
 
             return _superkattenMapper.MapFromDomain(superkat);
         }
 
-        public async Task<Superkat> UpdateSuperkatAsync(CreateOrModifySuperkatParameters updateSuperkatDto)
+        public async Task<Superkat> UpdateSuperkatAsync(int number, UpdateSuperkatParameters updateSuperkatParameters)
         {
-            var superkat = await _superkattenRepository.GetSuperkatAsync(updateSuperkatDto.Number);
+            if (number <=  0)
+            {
+                throw new ValidationException($"Superkat number ({number}) is invallid");
+            }
+
+            if (string.IsNullOrEmpty(updateSuperkatParameters.Name))
+            {
+                throw new ValidationException("Superkat name is empty");
+            }
+
+            var superkat = await _superkattenRepository.GetSuperkatAsync(number);
 
             var newSuperkat = superkat.CreateUpdatedModel(
-                updateSuperkatDto.Name
+                updateSuperkatParameters.Name
             );
 
             await _superkattenRepository.UpdateSuperkatAsync(newSuperkat);

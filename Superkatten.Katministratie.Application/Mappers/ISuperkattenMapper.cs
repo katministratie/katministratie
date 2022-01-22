@@ -1,4 +1,5 @@
-﻿using Superkatten.Katministratie.Application.Entities;
+﻿using Superkatten.Katministratie.Application.Contracts;
+
 using DomainEntities = Superkatten.Katministratie.Domain.Entities;
 
 namespace Superkatten.Katministratie.Application.Mappers

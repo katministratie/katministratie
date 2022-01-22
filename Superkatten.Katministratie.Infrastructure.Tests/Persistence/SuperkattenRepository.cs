@@ -14,36 +14,47 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
 {
     public class SuperkattenRepository : ISuperkattenRepository
     {
-        private readonly ILogger<SuperkattenRepository> _logger;
+        private readonly ILogger<ISuperkattenRepository> _logger;
         private readonly SuperkattenDbContext _context;
         private readonly ISuperkatRepositoryMapper _mapper;
         public SuperkattenRepository(ILogger<SuperkattenRepository> logger, SuperkattenDbContext context, ISuperkatRepositoryMapper mapper)
         {
             _logger = logger;
-            _context = context;
             _mapper = mapper;
+            _context = context;
+            _context.Database.EnsureCreated();
         }
 
-        public async Task<Superkat> CreateSuperkatAsync(Superkat newSuperkat)
+        public async Task<Superkat> CreateSuperkatAsync(Superkat superkat)
         {
-            var superkatDto = _mapper.MapDomainToSuperkatDto(newSuperkat);    //TODO: is this the correct way
+            var existingSuperkatCount = await _context
+                .SuperKatten
+                .Where(s => s.Number == superkat.Number)
+                .CountAsync();
+
+            if (existingSuperkatCount > 0)
+            {
+                throw new DatabaseException($"A {nameof(Superkat)} found in the database with number {superkat.Number}");
+            }
+            
+            var superkatDto = _mapper.MapDomainToSuperkatDto(superkat);
 
             await _context.SuperKatten.AddAsync(superkatDto);
             await _context.SaveChangesAsync();
 
-            return newSuperkat;
+            return superkat;
         }
 
-        public async Task DeleteSuperkatAsync(int superkatId)
+        public async Task DeleteSuperkatAsync(int superkatNumber)
         {
            var superkatDto = await _context
                 .SuperKatten
-                .Where(s => s.Id == superkatId)
+                .Where(s => s.Number == superkatNumber)
                 .FirstAsync();
 
             if (superkatDto == null)
             {
-                throw new DatabaseException($"No superkat found in the database with id {superkatId}");
+                throw new DatabaseException($"No superkat found in the database with number {superkatNumber}");
             }
 
             _context.SuperKatten.Remove(superkatDto);
@@ -54,58 +65,56 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
         {
             var superkatten = await _context
                 .SuperKatten
-                .Where(s => s.Number > 20102)
                 .ToListAsync();
 
             return superkatten
                 .Select(_mapper.MapSuperkatDtoToDomain)
-                .AsQueryable()
-                .ToListAsync();
+                .ToList();
         }
 
 
-        public async Task<Superkat> GetSuperkatAsync(int superkatId)
+        public async Task<Superkat> GetSuperkatAsync(int superkatNumber)
         {
             var superkatDto = await _context
                 .SuperKatten
-                .Where(superkat => superkat.Number == superkatId)
+                .Where(s => s.Number == superkatNumber)
                 .FirstOrDefaultAsync();
 
             if (superkatDto == null)
             {
-                throw new DatabaseException($"No superkat found in the database with id {superkatId}");
+                throw new DatabaseException($"No superkat found in the database with number {superkatNumber}");
             }
 
             return _mapper.MapSuperkatDtoToDomain(superkatDto);
         }
 
-        public async Task<Superkat> UpdateSuperkatAsync(Superkat updateSuperkatParameters)
+        public async Task<Superkat> UpdateSuperkatAsync(Superkat superkat)
         {
-            var count = await _context
+            var superkatDto = await _context
                 .SuperKatten
-                .Where(s => s.Number == updateSuperkatParameters.Number)
-                .CountAsync();
+                .Where(s => s.Number == superkat.Number)
+                .FirstAsync();
 
-            if (count <= 0)
+            if (superkatDto == null)
             {
-                throw new DatabaseException($"No superkat found in the database with Id {updateSuperkatParameters.Id} Number {updateSuperkatParameters.Number}");
+                throw new DatabaseException($"No superkat found in the database with Number {superkat.Number}");
             }
 
-            var updatedSuperkat = superkat.CreateUpdatedModel(updateSuperkatParameters.Name);
+            superkatDto.Name = superkat.Name;
 
-            _context.Update(updatedSuperkatDto);
+            _context.Update(superkatDto);
             await _context.SaveChangesAsync();
             
-            return _mapper.MapSuperkatDtoToDomain(updatedSuperkat);
+            return _mapper.MapSuperkatDtoToDomain(superkatDto);
         }
 
-        public int GetLastNumberForYear(int year)
+        public async Task<int> GetSuperkatCountForGivenYear(int year)
         {
-            var superkatCount = _context
-                .SuperKatten?
-                .Count(s => s.Number > year * 10000); //TODO: filter on year instead on calculation
+            var count = _context
+                .SuperKatten
+                .CountAsync(s => s.FoundDate.Year == year);
 
-            return superkatCount == null ? 0 : superkatCount.Value;
+            return count == null ? 0 : await count;
         }
     }
 }
