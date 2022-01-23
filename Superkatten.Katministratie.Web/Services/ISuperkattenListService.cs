@@ -7,6 +7,6 @@ namespace Superkatten.Katministratie.Web.Services
         public Task<List<Superkat>> GetAllSuperkattenAsync();
         public Task<Superkat> GetSuperkatAsync(int superkatNumber);
         public Task CreateSuperkat(CreateSuperkatParameters newSuperkat);
-        public Task UpdateSuperkat(UpdateSuperkatParameters updateSuperkat);
+        public Task UpdateSuperkat(int superkatNumber, UpdateSuperkatParameters updateSuperkat);
     }
 }

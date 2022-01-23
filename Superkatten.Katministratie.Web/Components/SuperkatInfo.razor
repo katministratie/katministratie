@@ -1,0 +1,21 @@
+﻿@using Superkatten.Katministratie.Application.Contracts
+
+@inject NavigationManager NavigationManager
+
+<div>@Context.Number</div>
+<div>@Context.Name </div>
+<div>@Context.FoundDate</div>
+
+<Button Type="@ButtonType.Primary" Icon="@IconType.Outline.Edit" OnClick="() => NavigateToClient(Context.Number)"/>
+<div>Naam van de kat [ @Context.Name ]</div>
+<div>Diverse info van de kat via icons ?</div>
+
+@code {
+    [Parameter]
+    public Superkat Context { get; set; }
+
+    RenderFragment avatar = @<Avatar Src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></Avatar>
+    ;
+
+    public void NavigateToClient(int superkatNumber) => NavigationManager.NavigateTo($"superkat/{superkatNumber}");
+}

@@ -14,13 +14,15 @@ namespace Superkatten.Katministratie.Web.Services
 
         public async Task CreateSuperkat(CreateSuperkatParameters newSuperkat)
         {
-            var content = JsonContent.Create(newSuperkat);
+            var uri = $"api/Superkatten?Name={newSuperkat.Name}";
             var request = new HttpRequestMessage(HttpMethod.Put, $"api/Superkatten?Name=" + newSuperkat.Name);
             await _client.SendAsync(request);
         }
-        public async Task UpdateSuperkat(UpdateSuperkatParameters updateSuperkat)
+        public async Task UpdateSuperkat(int superkatNumber, UpdateSuperkatParameters updateSuperkat)
         {
-            throw new NotImplementedException();
+            var uri = $"api/Superkatten?Number={superkatNumber}&Name={updateSuperkat.Name}";
+            var request = new HttpRequestMessage(HttpMethod.Put, uri);
+            await _client.SendAsync(request);
         }
 
         public async Task<Superkat> GetSuperkatAsync(int superkatNumber)
