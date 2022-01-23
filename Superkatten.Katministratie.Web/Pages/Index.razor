@@ -1,8 +1,15 @@
 ﻿@page "/"
 @using Superkatten.Katministratie.Web.Components
 
-<PageTitle>Index</PageTitle>
+@inject NavigationManager NavigationManager
+
+<PageTitle>Overzicht superkatten</PageTitle>
 
 <div>
+    <Button Type="primary" OnClick="() => NavigateToCreatePage()">Nieuw</Button>
     <SuperkattenList />
 </div>
+
+@code {
+    public void NavigateToCreatePage() => NavigationManager.NavigateTo($"/superkatinfocreate");
+}

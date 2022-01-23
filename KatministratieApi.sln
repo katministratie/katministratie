@@ -24,7 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Superkatten.Katministratie.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Superkatten.Katministratie.Infrastructure", "Superkatten.Katministratie.Infrastructure.Tests\Superkatten.Katministratie.Infrastructure.csproj", "{CF68715B-C728-47A7-81EA-F976AE7AAB1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Superkatten.Katministratie.Web", "Superkatten.Katministratie.Web\Superkatten.Katministratie.Web.csproj", "{0D9DC1BA-7721-4347-9BBF-B26913B34696}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Superkatten.Katministratie.Web", "Superkatten.Katministratie.Web\Superkatten.Katministratie.Web.csproj", "{0D9DC1BA-7721-4347-9BBF-B26913B34696}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

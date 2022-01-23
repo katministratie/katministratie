@@ -12,6 +12,25 @@ namespace Superkatten.Katministratie.Web.Services
             _client = client;
         }
 
+        public async Task CreateSuperkat(CreateSuperkatParameters newSuperkat)
+        {
+            var content = JsonContent.Create(newSuperkat);
+            var request = new HttpRequestMessage(HttpMethod.Put, $"api/Superkatten?Name=" + newSuperkat.Name);
+            await _client.SendAsync(request);
+        }
+        public async Task UpdateSuperkat(UpdateSuperkatParameters updateSuperkat)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Superkat> GetSuperkatAsync(int superkatNumber)
+        {
+            var superkatten = await GetAllSuperkattenAsync();
+            return superkatten
+                .Where(s => s.Number == superkatNumber)
+                .First();
+        }
+
         public async Task<List<Superkat>> GetAllSuperkattenAsync()
         {
             var stream = await _client.GetStreamAsync($"api/superkatten");

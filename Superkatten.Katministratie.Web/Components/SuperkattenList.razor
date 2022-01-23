@@ -3,44 +3,25 @@
 @using Superkatten.Katministratie.Application.Contracts
 @using Superkatten.Katministratie.Web.Services
 
-<div id="superkatten" class="widget">
-    <h3>Superkatten</h3>
-
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                @foreach (var superkatProperty in SuperkatProperties)
-                {
-                    <td>@superkatProperty</td>
-                }
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var superkat in Superkatten)
-            {
-                <tr>
-                    <td>@superkat.Number.ToString("{000}")</td>
-                    <td>@superkat.FoundDate.ToString("dd-MM-yyyy")</td>
-                    <td>@superkat.Name</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+<AntList DataSource="@Superkatten" TItem="Superkat">
+    <ListItem OnClick="()=>ItemClick(context.Number)">
+        <SuperkatInfo Context=@context />
+    </ListItem>
+</AntList>
 
 @code {
     [Inject]
     public ISuperkattenListService superkattenService { get; set; }
-
-    public List<string> SuperkatProperties { get; set; } = new List<string>();
 
     public List<Superkat> Superkatten { get; set; } = new List<Superkat>();
 
     protected override async Task OnInitializedAsync() 
     {
         Superkatten = await superkattenService.GetAllSuperkattenAsync();
-        SuperkatProperties.Add("Number");
-        SuperkatProperties.Add("Found at");
-        SuperkatProperties.Add("Name");
+    }
+
+    public void ItemClick(int superkatNumber)
+    {
+        
     }
 }

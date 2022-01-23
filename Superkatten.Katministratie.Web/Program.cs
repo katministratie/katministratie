@@ -12,6 +12,8 @@ builder.Services.AddScoped<HttpClient>(s =>
     return new HttpClient { BaseAddress = new System.Uri("https://localhost:7171/") };
 });
 
+builder.Services.AddAntDesign();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

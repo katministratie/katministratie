@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Superkatten.Katministratie.Domain\Superkatten.Katministratie.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entities\" />
+  </ItemGroup>
+
 </Project>
