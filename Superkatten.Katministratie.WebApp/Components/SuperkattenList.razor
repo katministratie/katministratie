@@ -1,0 +1,27 @@
+﻿@page "/superkatten"
+
+@using Superkatten.Katministratie.Application.Contracts
+@using Superkatten.Katministratie.Web.Services
+
+<AntList DataSource="@Superkatten" TItem="Superkat">
+    <ListItem OnClick="()=>ItemClick(context.Number)">
+        <SuperkatInfo Context=@context />
+    </ListItem>
+</AntList>
+
+@code {
+    [Inject]
+    public ISuperkattenListService superkattenService { get; set; }
+
+    public List<Superkat> Superkatten { get; set; } = new List<Superkat>();
+
+    protected override async Task OnInitializedAsync() 
+    {
+        Superkatten = await superkattenService.GetAllSuperkattenAsync();
+    }
+
+    public void ItemClick(int superkatNumber)
+    {
+        
+    }
+}

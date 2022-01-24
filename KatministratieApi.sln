@@ -26,6 +26,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Superkatten.Katministratie.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Superkatten.Katministratie.Web", "Superkatten.Katministratie.Web\Superkatten.Katministratie.Web.csproj", "{0D9DC1BA-7721-4347-9BBF-B26913B34696}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Superkatten.Katministratie.WebApp", "Superkatten.Katministratie.WebApp\Superkatten.Katministratie.WebApp.csproj", "{D674DF94-814E-4924-8A42-D9B229267C50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,10 @@ Global
 		{0D9DC1BA-7721-4347-9BBF-B26913B34696}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D9DC1BA-7721-4347-9BBF-B26913B34696}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D9DC1BA-7721-4347-9BBF-B26913B34696}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D674DF94-814E-4924-8A42-D9B229267C50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D674DF94-814E-4924-8A42-D9B229267C50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D674DF94-814E-4924-8A42-D9B229267C50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D674DF94-814E-4924-8A42-D9B229267C50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{E7D305C8-3930-4321-9C82-562374A5D2EA} = {A60B41D9-C0AA-4199-93FD-D75C76A6FBB9}
 		{CF68715B-C728-47A7-81EA-F976AE7AAB1A} = {13C5D956-DFDB-4EB1-9121-B09549829396}
 		{0D9DC1BA-7721-4347-9BBF-B26913B34696} = {A60B41D9-C0AA-4199-93FD-D75C76A6FBB9}
+		{D674DF94-814E-4924-8A42-D9B229267C50} = {A60B41D9-C0AA-4199-93FD-D75C76A6FBB9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CC434EE0-E851-4CBB-BF31-23462A9160ED}
