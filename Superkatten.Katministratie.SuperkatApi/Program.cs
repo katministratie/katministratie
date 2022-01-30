@@ -13,12 +13,14 @@ builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructure();
 
 var app = builder.Build();
+
+//TODO: Tijdelijk alles open zetten....
 app.UseCors(cors => cors
-.AllowAnyMethod()
-.AllowAnyHeader()
-.SetIsOriginAllowed(origin => true)
-.AllowCredentials()
-);
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true)
+    .AllowCredentials()
+    );
 
 if (builder.Environment.IsDevelopment())
 {
