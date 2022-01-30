@@ -1,4 +1,5 @@
 ﻿using Superkatten.Katministratie.Application.Contracts;
+using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace Superkatten.Katministratie.Web.Services
@@ -20,9 +21,12 @@ namespace Superkatten.Katministratie.Web.Services
         }
         public async Task UpdateSuperkat(int superkatNumber, UpdateSuperkatParameters updateSuperkat)
         {
-            var uri = $"api/Superkatten?Number={superkatNumber}&Name={updateSuperkat.Name}";
-            var request = new HttpRequestMessage(HttpMethod.Put, uri);
-            await _client.SendAsync(request);
+            var request = $"api/Superkatten?Number={superkatNumber}";
+            var myContent = JsonSerializer.Serialize<UpdateSuperkatParameters>(updateSuperkat);
+            var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+            var byteContent = new ByteArrayContent(buffer);
+            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            await _client.PostAsync(request, byteContent);
         }
 
         public async Task<Superkat> GetSuperkatAsync(int superkatNumber)
