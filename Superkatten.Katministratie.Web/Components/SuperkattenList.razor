@@ -3,6 +3,8 @@
 @using Superkatten.Katministratie.Application.Contracts
 @using Superkatten.Katministratie.Web.Services
 
+@inject NavigationManager NavigationManager
+
 <AntList DataSource="@Superkatten" TItem="Superkat">
     <ListItem OnClick="()=>ItemClick(context.Number)">
         <SuperkatInfo Context=@context />
@@ -13,15 +15,16 @@
     [Inject]
     public ISuperkattenListService superkattenService { get; set; }
 
-    public List<Superkat> Superkatten { get; set; } = new List<Superkat>();
+    public List<Superkat> Superkatten { get; set; }
 
-    protected override async Task OnInitializedAsync() 
+    protected override async Task OnInitializedAsync()
     {
-        Superkatten = await superkattenService.GetAllSuperkattenAsync();
+        var superkatten = await superkattenService.GetAllSuperkattenAsync();
+        Superkatten = superkatten.AsQueryable().OrderBy(s => s.Name).ToList();
     }
 
     public void ItemClick(int superkatNumber)
     {
-        
+        NavigationManager.NavigateTo($"superkat/{superkatNumber}");    
     }
 }

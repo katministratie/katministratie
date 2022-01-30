@@ -10,6 +10,12 @@
     <SuperkattenList />
 </div>
 
-@code {
+@code 
+{
     public void NavigateToCreatePage() => NavigationManager.NavigateTo($"/superkatinfocreate");
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+    }
 }

@@ -1,5 +1,5 @@
-﻿using Superkatten.Katministratie.Domain.Entities;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Superkatten.Katministratie.Infrastructure.Entities
@@ -14,5 +14,7 @@ namespace Superkatten.Katministratie.Infrastructure.Entities
         public string Name { get; set; } = string.Empty;
         [Required]
         public DateTimeOffset FoundDate { get; set; }
+        [Required]
+        public List<SuperkatDetailsDto> Details { get; set; } = new List<SuperkatDetailsDto>();
     }
 }

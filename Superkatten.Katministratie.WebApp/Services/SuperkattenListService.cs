@@ -37,7 +37,7 @@ namespace Superkatten.Katministratie.Web.Services
         {
             try
             {
-                var stream = await _client.GetStreamAsync("api/superkatten");
+                var stream = await _client.GetStreamAsync("/api/superkatten");
                 var mylist = await JsonSerializer.DeserializeAsync<List<Superkat>>(
                     stream,
                     new JsonSerializerOptions()

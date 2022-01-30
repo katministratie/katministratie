@@ -11,13 +11,21 @@
 
 @code {
     [Inject]
-    public ISuperkattenListService superkattenService { get; set; }
+    public ISuperkattenListService superkattenService 
+    { 
+        get; 
+        set; 
+    }
 
     public List<Superkat> Superkatten { get; set; } = new List<Superkat>();
 
     protected override async Task OnInitializedAsync() 
     {
-        Superkatten = await superkattenService.GetAllSuperkattenAsync();
+        var superkatten = await superkattenService.GetAllSuperkattenAsync();
+        Superkatten = superkatten
+            .AsQueryable()
+            .OrderBy(s => s.Name)
+            .ToList();
     }
 
     public void ItemClick(int superkatNumber)

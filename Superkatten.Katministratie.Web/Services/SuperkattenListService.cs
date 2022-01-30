@@ -21,7 +21,7 @@ namespace Superkatten.Katministratie.Web.Services
         public async Task UpdateSuperkat(int superkatNumber, UpdateSuperkatParameters updateSuperkat)
         {
             var uri = $"api/Superkatten?Number={superkatNumber}&Name={updateSuperkat.Name}";
-            var request = new HttpRequestMessage(HttpMethod.Put, uri);
+            var request = new HttpRequestMessage(HttpMethod.Post, uri);
             await _client.SendAsync(request);
         }
 

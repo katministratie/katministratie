@@ -8,7 +8,9 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddTransient<ISuperkattenListService, SuperkattenListService>();
-builder.Services.AddScoped<HttpClient>(s => { return new HttpClient { BaseAddress = new System.Uri("http://localhost:7171/") }; });
+builder.Services.AddScoped<HttpClient>(s => { return new HttpClient { BaseAddress = new System.Uri("https://localhost:7171/") }; });
 builder.Services.AddAntDesign();
 
-await builder.Build().RunAsync();
+var app = builder.Build();
+
+await app.RunAsync();
