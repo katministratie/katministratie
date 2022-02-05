@@ -7,6 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\Superkatten.Katministratie.Web\Services\ISuperkattenListService.cs" Link="Services\ISuperkattenListService.cs" />
+    <Compile Include="..\Superkatten.Katministratie.Web\Services\SuperkattenListService.cs" Link="Services\SuperkattenListService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Superkatten.Katministratie.Web\Components\SuperkatInfo.razor" Link="Components\SuperkatInfo.razor" />
+    <None Include="..\Superkatten.Katministratie.Web\Components\SuperkattenList.razor" Link="Components\SuperkattenList.razor" />
+    <None Include="..\Superkatten.Katministratie.Web\Pages\Index.razor" Link="Pages\Index.razor" />
+    <None Include="..\Superkatten.Katministratie.Web\Pages\SuperkatInfoCreate.razor" Link="Pages\SuperkatInfoCreate.razor" />
+    <None Include="..\Superkatten.Katministratie.Web\Pages\SuperkatInfoEdit.razor" Link="Pages\SuperkatInfoEdit.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AntDesign" Version="0.10.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.1" PrivateAssets="all" />
@@ -15,6 +28,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Superkatten.Katministratie.Application\Superkatten.Katministratie.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\" />
   </ItemGroup>
 
 </Project>

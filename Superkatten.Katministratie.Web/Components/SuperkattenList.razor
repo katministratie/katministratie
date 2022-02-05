@@ -13,18 +13,26 @@
 
 @code {
     [Inject]
-    public ISuperkattenListService superkattenService { get; set; }
+    public ISuperkattenListService? superkattenService { get; set; }
 
-    public List<Superkat> Superkatten { get; set; }
+    public List<Superkat>? Superkatten { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        var superkatten = await superkattenService.GetAllSuperkattenAsync();
-        Superkatten = superkatten.AsQueryable().OrderBy(s => s.Name).ToList();
+        await UpdateList();
     }
 
     public void ItemClick(int superkatNumber)
     {
-        NavigationManager.NavigateTo($"superkat/{superkatNumber}");    
+        NavigationManager.NavigateTo($"superkat/{superkatNumber}");
+    }
+
+    private async Task UpdateList()
+    {
+        var superkatten = await superkattenService.GetAllSuperkattenAsync();
+        Superkatten = superkatten
+            .AsQueryable()
+            .OrderBy(s => s.Name)
+            .ToList();
     }
 }

@@ -1,8 +1,20 @@
 ﻿@using Superkatten.Katministratie.Application.Contracts
 
-<div>@Context.Number</div>
-<div>@Context.Name </div>
-<div>@Context.FoundDate</div>
+
+    <Space>
+        <Space>
+            <SpaceItem>
+            <Col>@Context.Number</Col>
+            </SpaceItem>
+            <SpaceItem>
+            <Col>@Context.Name </Col>
+            </SpaceItem>
+            <SpaceItem>
+            <Col>@Context.FoundDate</Col>
+            </SpaceItem>
+        </Space>
+    </Space>>
+
 
 @code {
     [Parameter]

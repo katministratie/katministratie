@@ -11,8 +11,8 @@ namespace Superkatten.Katministratie.Infrastructure.Entities
         public DateTime Entered { get; set; }
 
         [Required, StringLength(50)]
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
     }
 }

@@ -12,11 +12,11 @@
 {
     [Inject]
     private ISuperkattenListService _superkattenService { get; set; }
-    
+
     [Parameter]
     public int SuperkatNumber{ get; set; }
 
-    
+
     public string SuperkatName { get; set; }
 
 
@@ -26,13 +26,10 @@
         SuperkatName = superkat.Name;
     }
 
-    public void OkClick()
+    public async void OkClick()
     {
-        var updateSuperkatParameters = new UpdateSuperkatParameters
-            {
-                Name = SuperkatName
-            };
-        _superkattenService.UpdateSuperkat(SuperkatNumber, updateSuperkatParameters);
+        var updateSuperkatParameters = new UpdateSuperkatParameters { Name = SuperkatName };
+        await _superkattenService.UpdateSuperkatAsync(SuperkatNumber, updateSuperkatParameters);
         _navigationManager.NavigateTo($"/");
     }
 }
