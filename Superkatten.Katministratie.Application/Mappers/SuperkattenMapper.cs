@@ -1,6 +1,6 @@
 ﻿namespace Superkatten.Katministratie.Application.Mappers
 {
-    internal class SuperkattenMapper : ISuperkattenMapper
+    public class SuperkattenMapper : ISuperkattenMapper
     {
         public Contracts.Superkat MapFromDomain(Domain.Entities.Superkat superkat)
         {

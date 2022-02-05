@@ -22,6 +22,11 @@ namespace Superkatten.Katministratie.Domain.Entities
 
         public Superkat CreateUpdatedModel(string name)
         {
+            if (name == string.Empty)
+            {
+                throw new DomainException("An empty name is not allowed.");
+            }
+
             return new Superkat(
                 Number, 
                 name, 
