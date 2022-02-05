@@ -38,7 +38,8 @@ namespace Superkatten.Katministratie.Application.Services
             var superkat = new Domain.Entities.Superkat(
                 superkatCountForYear + 1, 
                 createSuperkatParameters.Name, 
-                DateTimeOffset.Now
+                DateTimeOffset.Now,
+                createSuperkatParameters.Location
             );
 
             await _superkattenRepository.CreateSuperkatAsync(superkat);
@@ -82,7 +83,8 @@ namespace Superkatten.Katministratie.Application.Services
             var superkat = await _superkattenRepository.GetSuperkatAsync(number);
 
             var newSuperkat = superkat.CreateUpdatedModel(
-                updateSuperkatParameters.Name
+                updateSuperkatParameters.Name,
+                updateSuperkatParameters.Location
             );
 
             await _superkattenRepository.UpdateSuperkatAsync(newSuperkat);

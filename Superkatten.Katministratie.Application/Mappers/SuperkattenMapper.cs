@@ -8,7 +8,8 @@
             {
                 Number = superkat.Number,
                 Name = superkat.Name,
-                FoundDate= superkat.FoundDate
+                FoundDate= superkat.FoundDate,
+                Location = superkat.Location
             };
         }
 
@@ -17,7 +18,8 @@
             return new Domain.Entities.Superkat(
                 superkat.Number,
                 superkat.Name,
-                superkat.FoundDate
+                superkat.FoundDate,
+                superkat.Location
             );
         }
     }

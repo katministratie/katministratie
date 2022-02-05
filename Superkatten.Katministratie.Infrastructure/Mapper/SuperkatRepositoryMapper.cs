@@ -11,7 +11,8 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
             {
                 Number = superkat.Number,
                 Name = superkat.Name,
-                FoundDate = superkat.FoundDate
+                FoundDate = superkat.FoundDate,
+                Location = superkat.Location
             };
         }
 
@@ -20,7 +21,8 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
             return new Superkat(
                 superkatDto.Number,
                 superkatDto.Name,
-                superkatDto.FoundDate
+                superkatDto.FoundDate,
+                superkatDto.Location
             );
         }
     }

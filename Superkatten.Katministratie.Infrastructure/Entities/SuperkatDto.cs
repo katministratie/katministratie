@@ -16,5 +16,7 @@ namespace Superkatten.Katministratie.Infrastructure.Entities
         public DateTimeOffset FoundDate { get; set; }
         [Required]
         public List<SuperkatDetailsDto> Details { get; set; } = new List<SuperkatDetailsDto>();
+        [Required]
+        public int Location { get; set; }
     }
 }

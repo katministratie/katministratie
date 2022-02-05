@@ -8,22 +8,33 @@ namespace Superkatten.Katministratie.Application.Tests.Mappers
 {
     public class SuperkattenMapperTests
     {
+        private readonly string KAT_NAME = "katName";
+        private readonly int KAT_LOCATION = 1;
+        private readonly int KAT_NUMBER = 1;
         [Fact]
         public void SuperkattenMapper_MapToDomain_Success()
         {
             //arrange
-            const string KAT_NAAM = "kat_under_test";
+            var foundDate = DateTime.Now;
             var sut = new SuperkattenMapper();
-            var contractSuperkat = new Contracts.Superkat() { Number = 1, Name = KAT_NAAM };
+            var contractSuperkat = new Contracts.Superkat()
+            {
+                Number = KAT_NUMBER,
+                Name = KAT_NAME,
+                FoundDate = foundDate,
+                Location = KAT_LOCATION,
+                Picture = It.IsAny<string>()
+            };
 
             // act
             var result = sut.MapToDomain(contractSuperkat);
 
             // assert
             result.Should().BeEquivalentTo(new Superkat(
-                1, 
-                KAT_NAAM, 
-                It.IsAny<DateTimeOffset>()
+                KAT_NUMBER,
+                KAT_NAME,
+                foundDate,
+                KAT_LOCATION
             ));
         }
 
@@ -31,18 +42,25 @@ namespace Superkatten.Katministratie.Application.Tests.Mappers
         public void SupperkattenMapper_MapFromDomain_Success()
         {
             // arrange
-            const string KAT_NAAM = "kat_under_test";
+            var foundDate = DateTime.Now;
             var sut = new SuperkattenMapper();
-            var superkat = new Superkat(1, KAT_NAAM, It.IsAny<DateTimeOffset>());
+            var superkat = new Superkat(
+                KAT_NUMBER,
+                KAT_NAME,
+                foundDate,
+                KAT_LOCATION
+            );
 
             // act
             var result = sut.MapFromDomain(superkat);
 
             // assert
             result.Should().BeEquivalentTo(new Contracts.Superkat {
-                Number = 1,
-                Name = KAT_NAAM,
-                FoundDate = It.IsAny<DateTimeOffset>()
+                Number = KAT_NUMBER,
+                Name = KAT_NAME,
+                FoundDate = foundDate,
+                Location = KAT_LOCATION,
+                Picture = String.Empty
             });
         }
 

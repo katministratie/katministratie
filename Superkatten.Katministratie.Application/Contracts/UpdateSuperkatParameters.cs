@@ -3,5 +3,6 @@
     public class UpdateSuperkatParameters
     {
         public string Name { get; init; } = string.Empty;
+        public int Location { get; init; }
     }
 }
