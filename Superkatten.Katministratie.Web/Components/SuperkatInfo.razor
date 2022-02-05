@@ -1,23 +1,33 @@
 ﻿@using Superkatten.Katministratie.Application.Contracts
 
-
-    <Space>
-        <Space>
-            <SpaceItem>
-            <Col>@Context.Number</Col>
-            </SpaceItem>
-            <SpaceItem>
-            <Col>@Context.Name </Col>
-            </SpaceItem>
-            <SpaceItem>
-            <Col>@Context.FoundDate</Col>
-            </SpaceItem>
-        </Space>
-    </Space>>
-
+<div style="background-color:lightgray">
+    <Row>
+        <Col>
+            <Image Width="200px" Src="@SuperkatFoto" />
+        </Col>
+        <Col>
+            <Card Title="@Context.Name" style="background-color:lightblue">
+                <Extra>
+                    <a>@Context.Number</a>
+                </Extra>
+                <Body>        
+                    Number: @Context.Number | Found at: @Context.FoundDate<br />
+                </Body>
+            </Card>
+        </Col>
+    </Row>
+</div>
 
 @code {
     [Parameter]
     public Superkat Context { get; set; }
+
+    public string SuperkatFoto 
+    {
+        get 
+        {
+            return "../images/nosuperkatpicture.jpg";
+        }
+    }
 
 }
