@@ -7,6 +7,7 @@
 
 <Button Type="@ButtonType.Primary" OnClick="()=>OkClick()"/>
 <Input Placeholder="Name" @bind-Value="@SuperkatName"  />
+<Input Placeholder="Location" @bind-Value="@SuperkatLocation"  />
 
 @code
 {
@@ -19,16 +20,21 @@
 
     public string SuperkatName { get; set; }
 
+    public int SuperkatLocation { get; set; }
 
     protected override async Task OnInitializedAsync() 
     {
         var superkat = await _superkattenService.GetSuperkatAsync(SuperkatNumber);
         SuperkatName = superkat.Name;
+        SuperkatLocation = superkat.Location;
     }
 
     public async void OkClick()
     {
-        var updateSuperkatParameters = new UpdateSuperkatParameters { Name = SuperkatName };
+        var updateSuperkatParameters = new UpdateSuperkatParameters {
+            Name = SuperkatName,
+            Location = SuperkatLocation
+        };
         await _superkattenService.UpdateSuperkatAsync(SuperkatNumber, updateSuperkatParameters);
         _navigationManager.NavigateTo($"/");
     }

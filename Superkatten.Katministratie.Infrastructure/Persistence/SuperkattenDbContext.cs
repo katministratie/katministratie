@@ -6,8 +6,8 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
 {
     public class SuperkattenDbContext : DbContext
     {
-        public DbSet<SuperkatDto>? SuperKatten { get; set; }
-        public DbSet<GastgezinDto>? Gastgezinnen { get; set; }
+        public DbSet<SuperkatDto> SuperKatten { get; set; }
+        public DbSet<GastgezinDto> Gastgezinnen { get; set; }
 
         public SuperkattenDbContext(DbContextOptions<SuperkattenDbContext> options) : base(options)
         {
@@ -15,11 +15,11 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<SuperkatDto>().HasData(new SuperkatDto { Id = 1, Number = 1, Name = "Jan", FoundDate = System.DateTimeOffset.Now });
-            modelBuilder.Entity<SuperkatDto>().HasData(new SuperkatDto { Id = 2, Number = 2, Name = "Piet", FoundDate = System.DateTimeOffset.Now });
-            modelBuilder.Entity<SuperkatDto>().HasData(new SuperkatDto { Id = 3, Number = 3, Name = "Frances", FoundDate = System.DateTimeOffset.Now });
-            modelBuilder.Entity<SuperkatDto>().HasData(new SuperkatDto { Id = 4, Number = 4, Name = "Caitlyn", FoundDate = System.DateTimeOffset.Now });
-            modelBuilder.Entity<SuperkatDto>().HasData(new SuperkatDto { Id = 5, Number = 5, Name = "Trudy", FoundDate = System.DateTimeOffset.Now });
+            modelBuilder.Entity<SuperkatDto>().HasData(new SuperkatDto { Id = 1, Number = 1, Location = 11, Name = "Jan", FoundDate = System.DateTimeOffset.Now });
+            modelBuilder.Entity<SuperkatDto>().HasData(new SuperkatDto { Id = 2, Number = 2, Location = 12, Name = "Piet", FoundDate = System.DateTimeOffset.Now });
+            modelBuilder.Entity<SuperkatDto>().HasData(new SuperkatDto { Id = 3, Number = 3, Location = 21, Name = "Frances", FoundDate = System.DateTimeOffset.Now });
+            modelBuilder.Entity<SuperkatDto>().HasData(new SuperkatDto { Id = 4, Number = 4, Location = 22, Name = "Caitlyn", FoundDate = System.DateTimeOffset.Now });
+            modelBuilder.Entity<SuperkatDto>().HasData(new SuperkatDto { Id = 5, Number = 5, Location = 23, Name = "Trudy", FoundDate = System.DateTimeOffset.Now });
 
             modelBuilder.Entity<SuperkatDetailsDto>().HasData(new SuperkatDetailsDto { Id = 1, Entered = DateTime.Parse("2022-01-25 08:00:00"), Title = "Bezoek dierenarts", Description = "Checkup" });
             modelBuilder.Entity<SuperkatDetailsDto>().HasData(new SuperkatDetailsDto { Id = 2, Entered = DateTime.Parse("2022-01-27 08:00:00"), Title = "Bezoek dierenarts", Description = "Checkup" });

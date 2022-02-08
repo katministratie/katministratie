@@ -34,6 +34,11 @@ namespace Superkatten.Katministratie.Application.Services
                 throw new ValidationException($"Superkat name is empty");
             }
 
+            if (createSuperkatParameters.Location <= 0)
+            {
+                throw new ValidationException($"Superkat location {createSuperkatParameters.Location} is invallid");
+            }
+
             int superkatCountForYear = await _superkattenRepository.GetSuperkatCountForGivenYear(DateTime.Now.Year);
             var superkat = new Domain.Entities.Superkat(
                 superkatCountForYear + 1, 

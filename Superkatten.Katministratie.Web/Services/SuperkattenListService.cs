@@ -1,4 +1,5 @@
-﻿using Superkatten.Katministratie.Application.Contracts;
+﻿using Microsoft.AspNetCore.Mvc;
+using Superkatten.Katministratie.Application.Contracts;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -13,16 +14,18 @@ namespace Superkatten.Katministratie.Web.Services
             _client = client;
         }
 
-        public async Task CreateSuperkatAsync(CreateSuperkatParameters newSuperkat)
+        public async Task CreateSuperkatAsync([FromBody] CreateSuperkatParameters newSuperkat)
         {
             var uri = $"api/Superkatten?Name={newSuperkat.Name}";
-            var request = new HttpRequestMessage(HttpMethod.Put, uri);
-            await _client.SendAsync(request);
+            var myContent = JsonSerializer.Serialize(newSuperkat);
+            var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+            var byteContent = new ByteArrayContent(buffer);
+            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            await _client.PutAsync(uri, byteContent);
         }
-        public async Task UpdateSuperkatAsync(int superkatNumber, UpdateSuperkatParameters updateSuperkat)
+        public async Task UpdateSuperkatAsync(int superkatNumber, [FromBody] UpdateSuperkatParameters updateSuperkat)
         {
             var uri = $"api/Superkatten?Number={superkatNumber}";
-            //var request = new HttpRequestMessage(HttpMethod.Post, uri);
             var myContent = JsonSerializer.Serialize(updateSuperkat); 
             var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
             var byteContent = new ByteArrayContent(buffer);

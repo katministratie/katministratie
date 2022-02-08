@@ -5,8 +5,15 @@
 
 @inject NavigationManager _navigationManager
 
-<Input Placeholder="Name" @bind-Value="@SuperkatName"  />
-<Button Type="@ButtonType.Primary" OnClick="()=>OkClick()"/>
+<div>
+    <div>
+        <Input Placeholder="Name" @bind-Value="@SuperkatName"  />
+        <Input Placeholder="Name" @bind-Value="@SuperkatLocation"  />
+    </div>
+    <div>
+        <Button Type="@ButtonType.Primary" OnClick="()=>OkClick()"/>
+    </div>
+</div>
 
 @code
 {
@@ -17,23 +24,20 @@
     public int SuperkatNumber{ get; set; }
 
 
-    public string SuperkatName { get; set; } = string.Empty;
+    public string SuperkatName { get; set; } = "John Doe";
+    public int SuperkatLocation { get; set; } = 1;
 
     protected override bool ShouldRender()
     {
         return base.ShouldRender();
     }
 
-    protected override async Task OnInitializedAsync() 
-    {
-        SuperkatName = "John Doe";
-    }
-
     public void OkClick()
     {
         var createSuperkatParameters = new CreateSuperkatParameters
             {
-                Name = SuperkatName
+                Name = SuperkatName,
+                Location = SuperkatLocation
             };
         _superkattenService.CreateSuperkatAsync(createSuperkatParameters);
         _navigationManager.NavigateTo($"/");
