@@ -1,21 +1,60 @@
 ﻿@page "/superkatten"
-
+@using System.ComponentModel
+@using AntDesign.TableModels
 @using Superkatten.Katministratie.Application.Contracts
 @using Superkatten.Katministratie.Web.Services
+@using System.Text.Json;
 
 @inject NavigationManager NavigationManager
 
-<AntList DataSource="@Superkatten" TItem="Superkat">
-    <ListItem OnClick="()=>ItemClick(context.Number)">
-        <SuperkatInfo Context=@context />
-    </ListItem>
-</AntList>
+<Table @ref="table"
+       TItem="SuperkatDisplay"
+       DataSource="@Superkatten"
+       Total="_total"
+       @bind-PageIndex="_pageIndex"
+       @bind-PageSize="_pageSize"
+       @bind-SelectedRows="selectedRows"
+       OnChange="OnChange"
+        >
+    <ActionColumn>
+        <Space>
+            <Button Type="@ButtonType.Primary" OnClick="()=>EditSuperkat(context.Number)">Edit</Button>
+        </Space>
+    </ActionColumn>    
+    
+    <Column Title="#" @bind-Field="@context.Number" Sortable />
+    <Column Title="Found" @bind-Field="@context.FoundDate" Format="yyyy-MM-dd" Sortable />
+    <Column Title="Name" @bind-Field="@context.Name" Sortable />
+    <Column Title="Location" Field="@context.Location" />
+    
+    <ActionColumn>
+        <Space>
+            <SpaceItem><Button Danger OnClick="()=>DeleteSuperkat(context.Number)">Delete</Button></SpaceItem>
+        </Space>
+    </ActionColumn>
+</Table>
 
 @code {
+    IEnumerable<SuperkatDisplay> selectedRows;
+    ITable table;
+
+    int _pageIndex = 1;
+    int _pageSize = 10;
+    int _total = 0;
+
+    public class SuperkatDisplay
+    {        
+        public string Picture { get; set; } = string.Empty;
+        public int Number { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public DateTimeOffset FoundDate { get; set; }
+        public int Location { get; set; } = 0;
+    }
+
     [Inject]
     public ISuperkattenListService? superkattenService { get; set; }
 
-    public List<Superkat>? Superkatten { get; set; }
+    public List<SuperkatDisplay>? Superkatten { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -29,10 +68,43 @@
 
     private async Task UpdateList()
     {
+        if (superkattenService == null)
+        {
+            return;
+        }
+
         var superkatten = await superkattenService.GetAllSuperkattenAsync();
         Superkatten = superkatten
             .AsQueryable()
+            .Select(s => ConvertToLocalSuperkat(s))
             .OrderBy(s => s.Name)
             .ToList();
+    }
+
+    public async Task OnChange(QueryModel<SuperkatDisplay> queryModel)
+    {
+        Console.WriteLine(JsonSerializer.Serialize(queryModel));
+    }
+
+    private void EditSuperkat(int superkatNumber)
+    {
+        //superkattenService.DeleteSuperkatAsync(superkatNumber);
+    }
+
+    private void DeleteSuperkat(int superkatNumber)
+    {
+        //superkattenService.DeleteSuperkatAsync(superkatNumber);
+    }
+
+    private SuperkatDisplay ConvertToLocalSuperkat(Superkat superkat)
+    {
+        return new SuperkatDisplay
+            {
+                Number = superkat.Number,
+                Name = superkat.Name,
+                FoundDate = superkat.FoundDate,
+                Location = superkat.Location,
+                Picture = superkat.Picture
+            };
     }
 }
