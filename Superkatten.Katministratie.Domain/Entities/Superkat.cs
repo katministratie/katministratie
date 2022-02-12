@@ -9,7 +9,7 @@ namespace Superkatten.Katministratie.Domain.Entities
         public string Name { get; private set; } = string.Empty;
         public DateTimeOffset FoundDate { get; private set; }
         public int Location { get; private set; }
-        public string ChipNumber { get; private set; } = string.Empty;
+        public string? ChipNumber { get; private set; }
 
         public Superkat(
             int number,

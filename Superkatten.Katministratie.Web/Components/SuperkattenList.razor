@@ -17,10 +17,19 @@
        OnChange="OnChangeAsync"
         >
     <ActionColumn>
-        <Space>
-            <Button Type="@ButtonType.Primary" OnClick="()=>EditSuperkat(context.Number)">Edit</Button>
-        </Space>
-    </ActionColumn>    
+        <Button Type="@ButtonType.Primary" OnClick="()=>EditSuperkat(context.Number)">Edit</Button>
+    </ActionColumn>
+
+    <ActionColumn>
+        <Dropdown Trigger="@(new Trigger[] { Trigger.Click })" OnClick='e => {  }'>
+            <Overlay>
+                @_overlayMenu(@context.Number)
+            </Overlay>
+            <ChildContent>
+                <Button>Actie<Icon Type="down" /></Button>
+            </ChildContent>
+        </Dropdown>    
+    </ActionColumn>
     
     <Column Title="#" @bind-Field="@context.Number" Sortable />
     <Column Title="Found" @bind-Field="@context.FoundDate" Format="yyyy-MM-dd" Sortable />
@@ -28,9 +37,7 @@
     <Column Title="Location" Field="@context.Location" />
     
     <ActionColumn>
-        <Space>
-            <SpaceItem><Button Danger OnClick="()=>DeleteSuperkat(context.Number)">Delete</Button></SpaceItem>
-        </Space>
+        <Button Danger OnClick="()=>DeleteSuperkat(context.Number)">Delete</Button>
     </ActionColumn>
 </Table>
 
@@ -52,7 +59,11 @@
     }
 
     [Inject]
-    public ISuperkattenListService? superkattenService { get; set; }
+    public ISuperkattenListService? _superkattenService { get; set; }
+
+    [Inject]
+    public ISuperkatActionService? _superkatActionService { get; set; }
+
 
     public List<SuperkatDisplay>? Superkatten { get; set; }
 
@@ -70,22 +81,18 @@
 
     private async Task UpdateListAsync()
     {
-        if (superkattenService == null)
+        if (_superkattenService == null)
         {
             return;
         }
 
-        var superkatten = await superkattenService.GetAllSuperkattenAsync();
+        var superkatten = await _superkattenService.GetAllSuperkattenAsync();
         Superkatten = superkatten
             .AsQueryable()
             .Select(s => ConvertToLocalSuperkat(s))
             .OrderBy(s => s.Name)
             .ToList();
     }
-
-    private void EditSuperkat(int superkatNumber) => NavigationManager.NavigateTo($"/superkatinfoedit/{superkatNumber}");
-
-    private void DeleteSuperkat(int superkatNumber) => superkattenService!.DeleteSuperkatAsync(superkatNumber);
 
     private SuperkatDisplay ConvertToLocalSuperkat(Superkat superkat)
     {
@@ -97,5 +104,40 @@
             Location = superkat.Location,
             Picture = superkat.Picture
         };
+    }
+
+    private void EditSuperkat(int superkatNumber) => NavigationManager.NavigateTo($"/superkat/{superkatNumber}");
+    private void DeleteSuperkat(int superkatNumber) => _superkattenService!.DeleteSuperkatAsync(superkatNumber);
+
+    private void SuperkatCastration(int superkatNumber)
+    {
+        Console.WriteLine("Castration");
+        _superkatActionService.CastrationAsync(superkatNumber);
+    }
+
+    private void SuperkatDewurm(int superkatNumber) => NavigationManager.NavigateTo($"/deworm/{superkatNumber}");
+    private void SuperkatReserve(int superkatNumber) => NavigationManager.NavigateTo($"/reserve/{superkatNumber}");
+    private void SuperkatApplyMedicine(int superkatNumber) => NavigationManager.NavigateTo($"/applymedicine/{superkatNumber}");
+
+    private RenderFragment _overlayMenu(int superkatNumber)
+    {
+        return
+            @<Menu>
+                <MenuItem>
+                    <div style="background-color:palevioletred; color: rgb(100, 100, 100)">
+                    <Button Type="@ButtonType.Link" OnClick="()=>SuperkatCastration(superkatNumber)">Castration</Button>
+                    </div>
+                </MenuItem>
+                <MenuItem>
+                    <Button Type="@ButtonType.Link" OnClick="()=>SuperkatDewurm(superkatNumber)">Ontwormen</Button>
+                </MenuItem>
+                <MenuItem>
+                    <Button Type="@ButtonType.Link" OnClick="()=>SuperkatReserve(superkatNumber)">Reserveren</Button>
+                </MenuItem>
+                <MenuItem>
+                    <Button Type="@ButtonType.Link" OnClick="()=>SuperkatApplyMedicine(superkatNumber)">Medicijn</Button>
+                </MenuItem>
+            </Menu>
+        ;
     }
 }
