@@ -33,6 +33,12 @@ namespace Superkatten.Katministratie.Web.Services
             _ = await _client.PostAsync(uri, byteContent);
         }
 
+        public async Task DeleteSuperkatAsync(int superkatNumber)
+        {
+            var uri = $"api/Superkatten?Number={superkatNumber}";
+            _ = await _client.DeleteAsync(uri);
+        }
+
         public async Task<Superkat> GetSuperkatAsync(int superkatNumber)
         {
             var superkatten = await GetAllSuperkattenAsync();

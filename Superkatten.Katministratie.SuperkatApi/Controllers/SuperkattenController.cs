@@ -38,7 +38,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
             {
                 await _service.CreateSuperkatAsync(newSuperkatParameters);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError($"Error create superkat ({newSuperkatParameters.Name}). Message: ({ex.Message})");
             }
@@ -48,10 +48,23 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         public async Task PostSuperkatten(int number, [FromBody] UpdateSuperkatParameters updateSuperkatParameters)
         {
             try
-            { 
+            {
                 await _service.UpdateSuperkatAsync(number, updateSuperkatParameters);
             }
             catch (Exception ex)
+            {
+                _logger.LogError($"{ex.Message}");
+            }
+        }
+
+        [HttpDelete]
+        public async Task DeleteSuperkatten(int number)
+        {
+            try
+            {
+                await _service.DeleteSuperkatAsync(number);
+            }
+            catch(Exception ex)
             {
                 _logger.LogError($"{ex.Message}");
             }

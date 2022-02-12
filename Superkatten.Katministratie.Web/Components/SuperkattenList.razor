@@ -39,7 +39,7 @@
     ITable table;
 
     int _pageIndex = 1;
-    int _pageSize = 10;
+    int _pageSize = 3;
     int _total = 0;
 
     public class SuperkatDisplay
@@ -88,12 +88,12 @@
 
     private void EditSuperkat(int superkatNumber)
     {
-        //superkattenService.DeleteSuperkatAsync(superkatNumber);
+        superkattenService.UpdateSuperkatAsync(superkatNumber);
     }
 
     private void DeleteSuperkat(int superkatNumber)
     {
-        //superkattenService.DeleteSuperkatAsync(superkatNumber);
+        superkattenService.DeleteSuperkatAsync(superkatNumber);
     }
 
     private SuperkatDisplay ConvertToLocalSuperkat(Superkat superkat)

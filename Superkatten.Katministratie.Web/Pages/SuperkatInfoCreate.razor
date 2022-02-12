@@ -24,21 +24,16 @@
     public int SuperkatNumber{ get; set; }
 
 
-    public string SuperkatName { get; set; } = "John Doe";
+    public string SuperkatName { get; set; } = string.Empty;
     public int SuperkatLocation { get; set; } = 1;
-
-    protected override bool ShouldRender()
-    {
-        return base.ShouldRender();
-    }
 
     public void OkClick()
     {
         var createSuperkatParameters = new CreateSuperkatParameters
-            {
-                Name = SuperkatName,
-                Location = SuperkatLocation
-            };
+        {
+            Name = SuperkatName,
+            Location = SuperkatLocation
+        };
         _superkattenService.CreateSuperkatAsync(createSuperkatParameters);
         _navigationManager.NavigateTo($"/");
     }

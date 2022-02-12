@@ -15,15 +15,21 @@
     private ISuperkattenListService _superkattenService { get; set; }
 
     [Parameter]
-    public int SuperkatNumber{ get; set; }
+    public int SuperkatNumber { get; set; } = -1;
 
+    public Superkat Superkat { get; set; }
 
-    public string SuperkatName { get; set; }
+    public string SuperkatName { get; set; } = string.Empty;
 
     public int SuperkatLocation { get; set; }
 
     protected override async Task OnInitializedAsync() 
     {
+        if (SuperkatNumber == -1)
+        {
+            return;
+        }
+
         var superkat = await _superkattenService.GetSuperkatAsync(SuperkatNumber);
         SuperkatName = superkat.Name;
         SuperkatLocation = superkat.Location;
@@ -31,7 +37,8 @@
 
     public async void OkClick()
     {
-        var updateSuperkatParameters = new UpdateSuperkatParameters {
+        var updateSuperkatParameters = new UpdateSuperkatParameters 
+        {
             Name = SuperkatName,
             Location = SuperkatLocation
         };
