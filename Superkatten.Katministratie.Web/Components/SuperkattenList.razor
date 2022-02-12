@@ -14,7 +14,7 @@
        @bind-PageIndex="_pageIndex"
        @bind-PageSize="_pageSize"
        @bind-SelectedRows="selectedRows"
-       OnChange="OnChange"
+       OnChange="OnChangeAsync"
         >
     <ActionColumn>
         <Space>
@@ -39,11 +39,11 @@
     ITable table;
 
     int _pageIndex = 1;
-    int _pageSize = 3;
+    int _pageSize = 5;
     int _total = 0;
 
     public class SuperkatDisplay
-    {        
+    {
         public string Picture { get; set; } = string.Empty;
         public int Number { get; set; }
         public string Name { get; set; } = string.Empty;
@@ -56,17 +56,19 @@
 
     public List<SuperkatDisplay>? Superkatten { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
-        await UpdateList();
-    }
+    protected override async Task OnInitializedAsync() => await UpdateListAsync();
 
     public void ItemClick(int superkatNumber)
     {
         NavigationManager.NavigateTo($"superkat/{superkatNumber}");
     }
 
-    private async Task UpdateList()
+    public async Task OnChangeAsync(QueryModel<SuperkatDisplay> queryModel)
+    {
+        await UpdateListAsync();
+    }
+
+    private async Task UpdateListAsync()
     {
         if (superkattenService == null)
         {
@@ -81,30 +83,19 @@
             .ToList();
     }
 
-    public async Task OnChange(QueryModel<SuperkatDisplay> queryModel)
-    {
-        Console.WriteLine(JsonSerializer.Serialize(queryModel));
-    }
+    private void EditSuperkat(int superkatNumber) => NavigationManager.NavigateTo($"/superkatinfoedit/{superkatNumber}");
 
-    private void EditSuperkat(int superkatNumber)
-    {
-        superkattenService.UpdateSuperkatAsync(superkatNumber);
-    }
-
-    private void DeleteSuperkat(int superkatNumber)
-    {
-        superkattenService.DeleteSuperkatAsync(superkatNumber);
-    }
+    private void DeleteSuperkat(int superkatNumber) => superkattenService!.DeleteSuperkatAsync(superkatNumber);
 
     private SuperkatDisplay ConvertToLocalSuperkat(Superkat superkat)
     {
         return new SuperkatDisplay
-            {
-                Number = superkat.Number,
-                Name = superkat.Name,
-                FoundDate = superkat.FoundDate,
-                Location = superkat.Location,
-                Picture = superkat.Picture
-            };
+        {
+            Number = superkat.Number,
+            Name = superkat.Name,
+            FoundDate = superkat.FoundDate,
+            Location = superkat.Location,
+            Picture = superkat.Picture
+        };
     }
 }

@@ -25,7 +25,5 @@ namespace Superkatten.Katministratie.Domain.Tests.Entities
             // assert
             act.Should().ThrowExactly<DomainException>();
         }
-
-
     }
 }

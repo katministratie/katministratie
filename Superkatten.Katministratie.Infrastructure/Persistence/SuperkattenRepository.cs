@@ -108,7 +108,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
             return _mapper.MapSuperkatDtoToDomain(superkatDto);
         }
 
-        public async Task<int> GetSuperkatCountForGivenYear(int year)
+        public async Task<int> GetSuperkatCountForGivenYearAsync(int year)
         {
             var count = _context
                 .SuperKatten

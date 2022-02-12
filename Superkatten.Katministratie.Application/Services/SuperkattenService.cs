@@ -31,7 +31,7 @@ namespace Superkatten.Katministratie.Application.Services
         {
             if (string.IsNullOrEmpty(createSuperkatParameters.Name))
             {
-                throw new ValidationException($"Superkat name is empty");
+                throw new ValidationException("Superkat name is empty");
             }
 
             if (createSuperkatParameters.Location <= 0)
@@ -39,7 +39,7 @@ namespace Superkatten.Katministratie.Application.Services
                 throw new ValidationException($"Superkat location {createSuperkatParameters.Location} is invallid");
             }
 
-            int superkatCountForYear = await _superkattenRepository.GetSuperkatCountForGivenYear(DateTime.Now.Year);
+            int superkatCountForYear = await _superkattenRepository.GetSuperkatCountForGivenYearAsync(DateTime.Now.Year);
             var superkat = new Domain.Entities.Superkat(
                 superkatCountForYear + 1, 
                 createSuperkatParameters.Name, 

@@ -7,15 +7,11 @@
 
 <div>
     <Button Type="primary" OnClick="() => NavigateToCreatePage()">Nieuw</Button>
+    <Space />
     <SuperkattenList />
 </div>
 
 @code 
 {
     public void NavigateToCreatePage() => NavigationManager.NavigateTo($"/superkatinfocreate");
-
-    protected override async Task OnInitializedAsync()
-    {
-        
-    }
 }

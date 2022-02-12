@@ -6,9 +6,10 @@ namespace Superkatten.Katministratie.Domain.Entities
     public class Superkat
     {
         public int Number { get; private set; }
-        public string Name { get; private set; }
+        public string Name { get; private set; } = string.Empty;
         public DateTimeOffset FoundDate { get; private set; }
         public int Location { get; private set; }
+        public string ChipNumber { get; private set; } = string.Empty;
 
         public Superkat(
             int number,
