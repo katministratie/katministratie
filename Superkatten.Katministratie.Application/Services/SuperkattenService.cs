@@ -29,23 +29,30 @@ namespace Superkatten.Katministratie.Application.Services
 
         public async Task<Superkat> CreateSuperkatAsync(CreateSuperkatParameters createSuperkatParameters)
         {
-            if (string.IsNullOrEmpty(createSuperkatParameters.Name))
+            if (string.IsNullOrEmpty(createSuperkatParameters.Kleur))
             {
-                throw new ValidationException("Superkat name is empty");
+                throw new ValidationException("Superkat kleur is invalid");
             }
 
-            if (createSuperkatParameters.Location <= 0)
+            if (string.IsNullOrEmpty(createSuperkatParameters.CatchLocation))
             {
-                throw new ValidationException($"Superkat location {createSuperkatParameters.Location} is invallid");
+                throw new ValidationException($"Superkat location is empty");
             }
 
+            var today = DateTimeOffset.Now;
             int superkatCountForYear = await _superkattenRepository.GetSuperkatCountForGivenYearAsync(DateTime.Now.Year);
             var superkat = new Domain.Entities.Superkat(
                 superkatCountForYear + 1, 
-                createSuperkatParameters.Name, 
-                DateTimeOffset.Now,
-                createSuperkatParameters.Location
+                createSuperkatParameters.Kleur, 
+                today,
+                createSuperkatParameters.CatchLocation
             );
+
+            if (createSuperkatParameters.DaysOld > 0)
+            {
+                var birthDay = DateTimeOffset.Now.AddDays(-createSuperkatParameters.DaysOld);
+                superkat.SetBirthday(birthDay);
+            }
 
             await _superkattenRepository.CreateSuperkatAsync(superkat);
 
@@ -80,21 +87,16 @@ namespace Superkatten.Katministratie.Application.Services
                 throw new ValidationException($"Superkat number ({number}) is invallid");
             }
 
-            if (string.IsNullOrEmpty(updateSuperkatParameters.Name))
-            {
-                throw new ValidationException("Superkat name is empty");
-            }
-
             var superkat = await _superkattenRepository.GetSuperkatAsync(number);
 
-            var newSuperkat = superkat.CreateUpdatedModel(
-                updateSuperkatParameters.Name,
-                updateSuperkatParameters.Location
-            );
+            var birthday = superkat.FoundDate.AddDays(-updateSuperkatParameters.DaysOld);
+            var updatedSuperkat = superkat
+                .SetName(updateSuperkatParameters.Name)
+                .SetBirthday(birthday);
 
-            await _superkattenRepository.UpdateSuperkatAsync(newSuperkat);
+            await _superkattenRepository.UpdateSuperkatAsync(updatedSuperkat);
 
-            return _superkattenMapper.MapFromDomain(newSuperkat);
+            return _superkattenMapper.MapFromDomain(updatedSuperkat);
         }
     }
 }

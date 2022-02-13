@@ -9,20 +9,26 @@ namespace Superkatten.Katministratie.Infrastructure.Tests.Mapper
 {
     public class SuperkatRepositoryMapperTests
     {
-        private readonly string KAT_NAME = "katnaam";
-        private readonly int KAT_LOCATION = 2;
-        private readonly int KAT_NUMBER = 1;
+        private readonly string SUPERKAT_NAME = "katnaam";
+        private readonly string SUPERKAT_COLOR = "red";
+        private readonly string SUPERKAT_CATCH_LOCATION = "rhenoy";
+        private readonly int SUPERKAT_NUMBER = 1;
         [Fact]
         public void SuperkatRepositoryMapper_MapDomainToSuperkatDto_Success()
         {
             // arrange
             var sut = new SuperkatRepositoryMapper();
+
+            var today = DateTimeOffset.Now;
+            var birthday = today.AddDays(-1);
             var superkat = new Superkat(
-                KAT_NUMBER,
-                KAT_NAME, 
-                It.IsAny<DateTimeOffset>(),
-                KAT_LOCATION
-            );
+                SUPERKAT_NUMBER,
+                SUPERKAT_COLOR, 
+                today,
+                SUPERKAT_CATCH_LOCATION
+            ).SetName(SUPERKAT_NAME)
+             .SetBirthday(birthday);
+            
 
             // act
             var superkatDto = sut.MapDomainToSuperkatDto(superkat);
@@ -33,12 +39,13 @@ namespace Superkatten.Katministratie.Infrastructure.Tests.Mapper
                 .BeEquivalentTo(
                 new SuperkatDto
                 {
-                    Id = It.IsAny<int>(),
-                    Number = KAT_NUMBER,
-                    Name = KAT_NAME,
-                    Location = KAT_LOCATION,
-                    FoundDate = It.IsAny<DateTimeOffset>(),
-                    Details = new List<SuperkatDetailsDto>()
+                    Id = 0,
+                    Number = SUPERKAT_NUMBER,
+                    Name = SUPERKAT_NAME,
+                    CatchLocation = SUPERKAT_CATCH_LOCATION,
+                    FoundDate = today,
+                    Kleur = SUPERKAT_COLOR,
+                    Birthday = birthday,
                 });
 
         }
@@ -48,14 +55,17 @@ namespace Superkatten.Katministratie.Infrastructure.Tests.Mapper
         {
             // arrange
             var sut = new SuperkatRepositoryMapper();
+            var foundDate = DateTimeOffset.Now;
+            var birthday = foundDate.AddDays(-1);
             var superkatDto = new SuperkatDto
             {
                 Id = It.IsAny<int>(),
-                Number = KAT_NUMBER,
-                Name = KAT_NAME,
-                Location = KAT_LOCATION,
-                FoundDate = It.IsAny<DateTimeOffset>(),
-                Details = new List<SuperkatDetailsDto>()
+                Number = SUPERKAT_NUMBER,
+                Name = SUPERKAT_NAME,
+                CatchLocation = SUPERKAT_CATCH_LOCATION,
+                FoundDate = foundDate,
+                Kleur = SUPERKAT_COLOR,
+                Birthday = birthday,
             };
 
             // act
@@ -65,12 +75,15 @@ namespace Superkatten.Katministratie.Infrastructure.Tests.Mapper
             superkat
                 .Should()
                 .BeEquivalentTo(
-                new Superkat(
-                    KAT_NUMBER,
-                    KAT_NAME,
-                    It.IsAny<DateTimeOffset>(),
-                    KAT_LOCATION
-                ));
+                    new Superkat(
+                        SUPERKAT_NUMBER,
+                        SUPERKAT_COLOR,
+                        foundDate,
+                        SUPERKAT_CATCH_LOCATION
+                    )
+                    .SetName(SUPERKAT_NAME)
+                    .SetBirthday(birthday)
+                );
         }
     }
 }

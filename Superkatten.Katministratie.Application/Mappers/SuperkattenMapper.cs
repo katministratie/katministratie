@@ -9,18 +9,22 @@
                 Number = superkat.Number,
                 Name = superkat.Name,
                 FoundDate= superkat.FoundDate,
-                Location = superkat.Location
+                CatchLocation = superkat.CatchLocation,
+                Birthday = superkat.Birthday,
+                Kleur = superkat.Kleur,
             };
         }
 
         public Domain.Entities.Superkat MapToDomain(Contracts.Superkat superkat)
         {
             return new Domain.Entities.Superkat(
-                superkat.Number,
-                superkat.Name,
-                superkat.FoundDate,
-                superkat.Location
-            );
+                    number: superkat.Number,
+                    kleur: superkat.Kleur,
+                    foundDate: superkat.FoundDate,
+                    catchLocation: superkat.CatchLocation
+                )
+                .SetName(superkat.Name is null ? string.Empty : superkat.Name)
+                .SetBirthday(superkat.Birthday);
         }
     }
 }

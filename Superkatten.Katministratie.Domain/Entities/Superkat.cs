@@ -6,42 +6,53 @@ namespace Superkatten.Katministratie.Domain.Entities
     public class Superkat
     {
         public int Number { get; private set; }
-        public string Name { get; private set; } = string.Empty;
         public DateTimeOffset FoundDate { get; private set; }
-        public int Location { get; private set; }
-        public string? ChipNumber { get; private set; }
+        public string CatchLocation { get; private set; }
+        public string Kleur { get; private set; }
+        public string? Name { get; private set; }
+        public DateTimeOffset Birthday { get; private set; }
 
         public Superkat(
             int number,
-            string name,
+            string kleur,
             DateTimeOffset foundDate,
-            int location
+            string catchLocation
         )
         {
             Number = number;
-            Name = name;
+            Kleur = kleur;
             FoundDate = foundDate;
-            Location = location;
+            CatchLocation = catchLocation;
         }
 
-        public Superkat CreateUpdatedModel(string name, int location)
+        public Superkat SetBirthday(DateTimeOffset birthday)
         {
-            if (name == string.Empty)
+            if (birthday >= FoundDate)
             {
-                throw new DomainException("An empty name is not allowed.");
+                throw new DomainException($"Birthday '{birthday}' is larger or equal than founddate '{FoundDate}'");
             }
 
-            if (location <= 0)
+            if (Birthday != birthday)
             {
-                throw new DomainException($"location {location} must be higher than 0.");
+                Birthday = birthday;
             }
 
-            return new Superkat(
-                Number, 
-                name, 
-                FoundDate,
-                Location
-            );
+            return this;
+        }
+
+        public Superkat SetName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new DomainException("Empty name not allowed");
+            }
+
+            if (Name != name)
+            {
+                Name = name;
+            }
+
+            return this;
         }
     }
 }

@@ -8,9 +8,9 @@ namespace Superkatten.Katministratie.Application.Tests.Mappers
 {
     public class SuperkattenMapperTests
     {
-        private readonly string KAT_NAME = "katName";
-        private readonly int KAT_LOCATION = 1;
-        private readonly int KAT_NUMBER = 1;
+        private readonly string SUPERKAT_COLOR = "red";
+        private readonly string SUPERKAT_CATCH_LOCATION = "rhenoy";
+        private readonly int SUPERKAT_NUMBER = 1;
         [Fact]
         public void SuperkattenMapper_MapToDomain_Success()
         {
@@ -19,23 +19,25 @@ namespace Superkatten.Katministratie.Application.Tests.Mappers
             var sut = new SuperkattenMapper();
             var contractSuperkat = new Contracts.Superkat()
             {
-                Number = KAT_NUMBER,
-                Name = KAT_NAME,
+                Number = SUPERKAT_NUMBER,
+                Kleur = SUPERKAT_COLOR,
                 FoundDate = foundDate,
-                Location = KAT_LOCATION,
-                Picture = It.IsAny<string>()
+                CatchLocation = SUPERKAT_CATCH_LOCATION,
+                Birthday = foundDate.AddDays(-1),
+                Name = string.Empty
             };
 
             // act
             var result = sut.MapToDomain(contractSuperkat);
 
             // assert
-            result.Should().BeEquivalentTo(new Superkat(
-                KAT_NUMBER,
-                KAT_NAME,
-                foundDate,
-                KAT_LOCATION
-            ));
+            result.Should().BeEquivalentTo(
+                new Superkat(
+                    number: SUPERKAT_NUMBER,
+                    kleur: SUPERKAT_COLOR,
+                    foundDate: foundDate,
+                    catchLocation: SUPERKAT_CATCH_LOCATION
+                ));
         }
 
         [Fact]
@@ -45,23 +47,24 @@ namespace Superkatten.Katministratie.Application.Tests.Mappers
             var foundDate = DateTime.Now;
             var sut = new SuperkattenMapper();
             var superkat = new Superkat(
-                KAT_NUMBER,
-                KAT_NAME,
+                SUPERKAT_NUMBER,
+                SUPERKAT_COLOR,
                 foundDate,
-                KAT_LOCATION
+                SUPERKAT_CATCH_LOCATION
             );
 
             // act
             var result = sut.MapFromDomain(superkat);
 
             // assert
-            result.Should().BeEquivalentTo(new Contracts.Superkat {
-                Number = KAT_NUMBER,
-                Name = KAT_NAME,
-                FoundDate = foundDate,
-                Location = KAT_LOCATION,
-                Picture = String.Empty
-            });
+            result.Should().BeEquivalentTo(
+                new Contracts.Superkat 
+                {
+                    Number = SUPERKAT_NUMBER,
+                    Name = null,
+                    FoundDate = foundDate,
+                    CatchLocation = SUPERKAT_CATCH_LOCATION
+                });
         }
 
     }

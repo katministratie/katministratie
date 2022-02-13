@@ -16,7 +16,7 @@ namespace Superkatten.Katministratie.Web.Services
 
         public async Task CreateSuperkatAsync([FromBody] CreateSuperkatParameters newSuperkat)
         {
-            var uri = $"api/Superkatten?Name={newSuperkat.Name}";
+            var uri = $"api/Superkatten";
             var myContent = JsonSerializer.Serialize(newSuperkat);
             var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
             var byteContent = new ByteArrayContent(buffer);

@@ -26,7 +26,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error reading available superkatten. Message: ({ex.Message})");
+                _logger.LogError($"Error reading available superkatten; Message: ({ex.Message})");
                 return default;
             }
         }
@@ -40,7 +40,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error create superkat ({newSuperkatParameters.Name}). Message: ({ex.Message})");
+                _logger.LogError($"Error creating superkat; Message: ({ex.Message})");
             }
         }
 
@@ -53,7 +53,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{ex.Message}");
+                _logger.LogError($"Error updating superkat; Message: {ex.Message}");
             }
         }
 
@@ -66,7 +66,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
             }
             catch(Exception ex)
             {
-                _logger.LogError($"{ex.Message}");
+                _logger.LogError($"Error deleting superkat number {number}; {ex.Message}");
             }
         }
 

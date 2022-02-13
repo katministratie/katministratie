@@ -33,8 +33,8 @@
     
     <Column Title="#" @bind-Field="@context.Number" Sortable />
     <Column Title="Found" @bind-Field="@context.FoundDate" Format="yyyy-MM-dd" Sortable />
-    <Column Title="Name" @bind-Field="@context.Name" Sortable />
-    <Column Title="Location" Field="@context.Location" />
+    <Column Title="Birthday" @bind-Field="@context.Birthday" Format="yyyy-MM-dd" Sortable />
+    <Column Title="Location" Field="@context.CatchLocation" />
     
     <ActionColumn>
         <Button Danger OnClick="()=>DeleteSuperkat(context.Number)">Delete</Button>
@@ -51,11 +51,11 @@
 
     public class SuperkatDisplay
     {
-        public string Picture { get; set; } = string.Empty;
         public int Number { get; set; }
         public string Name { get; set; } = string.Empty;
         public DateTimeOffset FoundDate { get; set; }
-        public int Location { get; set; } = 0;
+        public DateTimeOffset Birthday { get; set; }
+        public string CatchLocation { get; set; } = string.Empty;
     }
 
     [Inject]
@@ -99,10 +99,10 @@
         return new SuperkatDisplay
         {
             Number = superkat.Number,
-            Name = superkat.Name,
+            Name = superkat.Name == null ? string.Empty : superkat.Name,
             FoundDate = superkat.FoundDate,
-            Location = superkat.Location,
-            Picture = superkat.Picture
+            Birthday = superkat.Birthday,
+            CatchLocation = superkat.CatchLocation
         };
     }
 

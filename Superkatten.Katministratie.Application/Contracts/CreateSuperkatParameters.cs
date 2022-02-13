@@ -2,7 +2,9 @@
 {
     public class CreateSuperkatParameters
     {
-        public string Name { get; init; } = string.Empty;
-        public int Location { get; init; }
+        public string Kleur { get; init; } = string.Empty;
+        public string CatchLocation { get; init; } = string.Empty;
+        public bool HasStronghold { get; init; } = false;
+        public int DaysOld { get; set; }
     }
 }

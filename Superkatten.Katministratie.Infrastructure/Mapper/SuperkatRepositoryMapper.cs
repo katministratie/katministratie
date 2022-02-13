@@ -1,5 +1,6 @@
 ﻿using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Infrastructure.Entities;
+using System;
 
 namespace Superkatten.Katministratie.Infrastructure.Mapper
 {
@@ -12,18 +13,32 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
                 Number = superkat.Number,
                 Name = superkat.Name,
                 FoundDate = superkat.FoundDate,
-                Location = superkat.Location
+                CatchLocation = superkat.CatchLocation,
+                Kleur = MapFromDomainKleur(superkat.Kleur),
+                Birthday = superkat.Birthday
             };
+        }
+
+        private string MapFromDomainKleur(string kleur)
+        {
+            return kleur;
         }
 
         public Superkat MapSuperkatDtoToDomain(SuperkatDto superkatDto)
         {
             return new Superkat(
                 superkatDto.Number,
-                superkatDto.Name,
+                MapToDomainKleur(superkatDto.Kleur),
                 superkatDto.FoundDate,
-                superkatDto.Location
-            );
+                superkatDto.CatchLocation
+                )
+                .SetBirthday(superkatDto.Birthday)
+                .SetName(superkatDto.Name);
+        }
+
+        private string MapToDomainKleur(string kleur)
+        {
+            return kleur;
         }
     }
 }

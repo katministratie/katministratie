@@ -4,12 +4,11 @@ namespace Superkatten.Katministratie.Application.Contracts
 {
     public class Superkat
     {
-        const int INVALLID_LOCATION = 0;
-
-        public string Picture { get; init; } = string.Empty;
         public int Number { get; init; }
-        public string Name { get; init; } = string.Empty;
+        public string? Name { get; init; }
         public DateTimeOffset FoundDate { get; init; }
-        public int Location { get; init; } = INVALLID_LOCATION;
+        public DateTimeOffset Birthday { get;init; }
+        public string CatchLocation { get; init; } = string.Empty;
+        public string Kleur { get; init; } = string.Empty;
     }
 }
