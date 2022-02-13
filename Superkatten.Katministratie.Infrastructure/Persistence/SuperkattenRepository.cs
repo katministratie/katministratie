@@ -42,7 +42,17 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
             await _context.SuperKatten.AddAsync(superkatDto);
             await _context.SaveChangesAsync();
 
-            return superkat;
+            var addedSuperkat = await _context
+                .SuperKatten
+                .Where(s => s.Number == superkatDto.Number)
+                .FirstOrDefaultAsync();
+
+            if (addedSuperkat is null)
+            {
+                throw new DatabaseException($"Error adding superkat number '{superkatDto.Number}'");
+            }
+
+            return _mapper.MapSuperkatDtoToDomain(addedSuperkat);
         }
 
         public async Task DeleteSuperkatAsync(int superkatNumber)

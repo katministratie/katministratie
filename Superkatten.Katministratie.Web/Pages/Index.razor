@@ -6,12 +6,13 @@
 <PageTitle>Overzicht superkatten</PageTitle>
 
 <div>
-    <Button Type="primary" OnClick="() => NavigateToCreatePage()">Nieuw</Button>
+    <Space />
+    <Button Type="primary" OnClick="() => NavigateToCreatePage()">Intake</Button>
     <Space />
     <SuperkattenList />
 </div>
 
 @code 
 {
-    public void NavigateToCreatePage() => NavigationManager.NavigateTo($"/superkat");
+    public void NavigateToCreatePage() => NavigationManager.NavigateTo($"/intake");
 }

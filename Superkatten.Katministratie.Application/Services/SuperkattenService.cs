@@ -27,31 +27,29 @@ namespace Superkatten.Katministratie.Application.Services
             _superkattenMapper = superkattenMapper;
         }
 
-        public async Task<Superkat> CreateSuperkatAsync(CreateSuperkatParameters createSuperkatParameters)
+        public async Task<Superkat> CreateSuperkatAsync(CreateSuperkatParameters parameters)
         {
-            if (string.IsNullOrEmpty(createSuperkatParameters.Kleur))
+            if (string.IsNullOrEmpty(parameters.Kleur))
             {
                 throw new ValidationException("Superkat kleur is invalid");
             }
 
-            if (string.IsNullOrEmpty(createSuperkatParameters.CatchLocation))
+            if (string.IsNullOrEmpty(parameters.CatchLocation))
             {
                 throw new ValidationException($"Superkat location is empty");
             }
 
             var today = DateTimeOffset.Now;
-            int superkatCountForYear = await _superkattenRepository.GetSuperkatCountForGivenYearAsync(DateTime.Now.Year);
-            var superkat = new Domain.Entities.Superkat(
-                superkatCountForYear + 1, 
-                createSuperkatParameters.Kleur, 
-                today,
-                createSuperkatParameters.CatchLocation
-            );
+            int superkatCountForYear = await _superkattenRepository.GetSuperkatCountForGivenYearAsync(today.Year);
+            var superkatNumber = superkatCountForYear + 1;
 
-            if (createSuperkatParameters.DaysOld > 0)
+            var superkat = new Domain.Entities.Superkat(superkatNumber, parameters.Kleur, today,parameters.CatchLocation);
+
+            if (parameters.WeeksOld > 0)
             {
-                var birthDay = DateTimeOffset.Now.AddDays(-createSuperkatParameters.DaysOld);
-                superkat.SetBirthday(birthDay);
+                var daysOld = 7 * parameters.WeeksOld;
+                var birthDay = today.AddDays(-daysOld);
+                superkat = superkat.SetBirthday(birthDay);
             }
 
             await _superkattenRepository.CreateSuperkatAsync(superkat);

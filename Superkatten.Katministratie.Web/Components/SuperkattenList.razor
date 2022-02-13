@@ -17,28 +17,24 @@
        OnChange="OnChangeAsync"
         >
     <ActionColumn>
-        <Button Type="@ButtonType.Primary" OnClick="()=>EditSuperkat(context.Number)">Edit</Button>
-    </ActionColumn>
+        <Button Type="@ButtonType.Primary" OnClick="()=>EditSuperkat(context.Id)">Edit</Button>
 
-    <ActionColumn>
         <Dropdown Trigger="@(new Trigger[] { Trigger.Click })" OnClick='e => {  }'>
             <Overlay>
-                @_overlayMenu(@context.Number)
+                @_overlayMenu(@context.Id)
             </Overlay>
             <ChildContent>
                 <Button>Actie<Icon Type="down" /></Button>
             </ChildContent>
         </Dropdown>    
+        
+        <Button Danger OnClick="()=>DeleteSuperkat(context.Id)">Delete</Button>
     </ActionColumn>
     
-    <Column Title="#" @bind-Field="@context.Number" Sortable />
-    <Column Title="Found" @bind-Field="@context.FoundDate" Format="yyyy-MM-dd" Sortable />
-    <Column Title="Birthday" @bind-Field="@context.Birthday" Format="yyyy-MM-dd" Sortable />
-    <Column Title="Location" Field="@context.CatchLocation" />
-    
-    <ActionColumn>
-        <Button Danger OnClick="()=>DeleteSuperkat(context.Number)">Delete</Button>
-    </ActionColumn>
+    <Column Title="Nummmer" @bind-Field="@context.Number" Sortable />
+    <Column Title="Gevonden op" @bind-Field="@context.FoundDate" Format="yyyy-MM-dd" Sortable />
+    <Column Title="Geboren op" @bind-Field="@context.Birthday" Format="yyyy-MM-dd" Sortable />
+    <Column Title="Vang locatie" Field="@context.CatchLocation" />
 </Table>
 
 @code {
@@ -51,7 +47,8 @@
 
     public class SuperkatDisplay
     {
-        public int Number { get; set; }
+        public int Id { get; set; }
+        public string Number { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public DateTimeOffset FoundDate { get; set; }
         public DateTimeOffset Birthday { get; set; }
@@ -96,9 +93,15 @@
 
     private SuperkatDisplay ConvertToLocalSuperkat(Superkat superkat)
     {
+        var displayNumberBuilder = new System.Text.StringBuilder();
+        displayNumberBuilder.Append(superkat.FoundDate.Year);
+        displayNumberBuilder.Append("-");
+        displayNumberBuilder.Append(superkat.Number.ToString("000"));
+
         return new SuperkatDisplay
         {
-            Number = superkat.Number,
+            Id = superkat.Number,
+            Number = displayNumberBuilder.ToString(),
             Name = superkat.Name == null ? string.Empty : superkat.Name,
             FoundDate = superkat.FoundDate,
             Birthday = superkat.Birthday,

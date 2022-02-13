@@ -8,8 +8,8 @@ namespace Superkatten.Katministratie.Domain.Entities
         public int Number { get; private set; }
         public DateTimeOffset FoundDate { get; private set; }
         public string CatchLocation { get; private set; }
-        public string Kleur { get; private set; }
-        public string? Name { get; private set; }
+        public string Kleur { get; private set; } = string.Empty;
+        public string Name { get; private set; } = string.Empty;
         public DateTimeOffset Birthday { get; private set; }
 
         public Superkat(
@@ -42,11 +42,6 @@ namespace Superkatten.Katministratie.Domain.Entities
 
         public Superkat SetName(string name)
         {
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new DomainException("Empty name not allowed");
-            }
-
             if (Name != name)
             {
                 Name = name;
