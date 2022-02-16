@@ -1,0 +1,44 @@
+﻿@page "/superkatten2"
+@using System.ComponentModel
+@using AntDesign.TableModels
+@using Superkatten.Katministratie.Application.Contracts
+@using Superkatten.Katministratie.Web.Services
+@using System.Text.Json;
+
+@inject NavigationManager NavigationManager
+
+@foreach(var item in Superkatten)
+{
+    <SuperkatInfo Context=@item/>
+}
+
+
+@code {
+    [Inject]
+    public ISuperkattenListService? _superkattenService { get; set; }
+
+    [Inject]
+    public ISuperkatActionService? _superkatActionService { get; set; }
+
+    public int StartIndex { get; set; } = 0;
+
+    public List<Superkat> Superkatten { get; set; } = new List<Superkat>();
+
+    protected override async Task OnInitializedAsync() => await UpdateListAsync();
+
+    private async Task UpdateListAsync()
+    {
+        if (_superkattenService == null)
+        {
+            return;
+        }
+
+        var superkatten = await _superkattenService.GetAllSuperkattenAsync();
+        Superkatten = superkatten
+            .AsQueryable()
+            .Where(s => s.Number >= StartIndex)
+            .Take(5)
+            .OrderByDescending(sk => sk.Number)
+            .ToList();
+    }
+}

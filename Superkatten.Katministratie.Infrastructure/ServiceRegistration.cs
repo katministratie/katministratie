@@ -13,6 +13,8 @@ namespace Superkatten.Katministratie.Infrastructure
             services.AddDbContext<SuperkattenDbContext>(opt => opt.UseInMemoryDatabase("Superkatten"));
             services.AddTransient<ISuperkattenRepository, SuperkattenRepository>();
             services.AddTransient<ISuperkatRepositoryMapper, SuperkatRepositoryMapper>();
+            services.AddTransient<IGastgezinnenRepository, GastgezinnenRepository>();
+            services.AddTransient<IGastgezinRepositoryMapper, GastgezinRepositoryMapper>();
 
             return services;
         }

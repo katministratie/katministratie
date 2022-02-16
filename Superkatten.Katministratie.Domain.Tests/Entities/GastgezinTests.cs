@@ -13,7 +13,7 @@ namespace Superkatten.Katministratie.Domain.Tests.Entities
             // arrange
 
             // act
-            Action act = () => new Gastgezin(string.Empty);
+            Action act = () => new Gastgezin(string.Empty, null, null, null);
 
             // assert
             act.Should().ThrowExactly<DomainException>();

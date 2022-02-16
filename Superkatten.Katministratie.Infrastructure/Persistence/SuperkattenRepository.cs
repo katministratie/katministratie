@@ -2,10 +2,8 @@
 using Microsoft.Extensions.Logging;
 using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Domain.Interfaces;
-using Superkatten.Katministratie.Infrastructure.Entities;
 using Superkatten.Katministratie.Infrastructure.Exceptions;
 using Superkatten.Katministratie.Infrastructure.Mapper;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +12,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
 {
     public class SuperkattenRepository : ISuperkattenRepository
     {
-        private readonly ILogger<ISuperkattenRepository> _logger;
+        private readonly ILogger<SuperkattenRepository> _logger;
         private readonly SuperkattenDbContext _context;
         private readonly ISuperkatRepositoryMapper _mapper;
         public SuperkattenRepository(ILogger<SuperkattenRepository> logger, SuperkattenDbContext context, ISuperkatRepositoryMapper mapper)
@@ -49,7 +47,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
 
             if (addedSuperkat is null)
             {
-                throw new DatabaseException($"Error adding superkat number '{superkatDto.Number}'");
+                throw new DatabaseException($"Error adding superkat number '{superkat.Number}'");
             }
 
             return _mapper.MapSuperkatDtoToDomain(addedSuperkat);

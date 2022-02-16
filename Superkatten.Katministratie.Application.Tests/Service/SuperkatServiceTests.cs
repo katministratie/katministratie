@@ -39,7 +39,7 @@ namespace Superkatten.Katministratie.Application.Tests.Service
                 Kleur = SUPERKAT_COLOR,
                 CatchLocation = SUPERKAT_CATCH_LOCATION,
                 HasStronghold = true,
-                DaysOld = 21
+                WeeksOld = 21
             };
 
             // act
@@ -68,7 +68,7 @@ namespace Superkatten.Katministratie.Application.Tests.Service
             var createSuperkatParameters = new CreateSuperkatParameters
             {
                 CatchLocation = SUPERKAT_CATCH_LOCATION,
-                DaysOld = 1,
+                WeeksOld = 1,
                 HasStronghold = true,
                 Kleur = string.Empty
             };
@@ -100,7 +100,7 @@ namespace Superkatten.Katministratie.Application.Tests.Service
             {
 
                 CatchLocation = string.Empty,
-                DaysOld = 1,
+                WeeksOld = 1,
                 HasStronghold = true,
                 Kleur = SUPERKAT_COLOR
             };
@@ -132,7 +132,7 @@ namespace Superkatten.Katministratie.Application.Tests.Service
             {
 
                 CatchLocation = SUPERKAT_CATCH_LOCATION,
-                DaysOld = 1,
+                WeeksOld = 1,
                 HasStronghold = true,
                 Kleur = string.Empty
             };

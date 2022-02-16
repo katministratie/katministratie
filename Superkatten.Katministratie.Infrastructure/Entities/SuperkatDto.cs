@@ -22,7 +22,6 @@ namespace Superkatten.Katministratie.Infrastructure.Entities
         [Required]
         public string Kleur { get; set; } = string.Empty;
 
-        public string? Name { get; set; }
-
+        public string? Name { get; set; } = String.Empty;
     }
 }

@@ -32,7 +32,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpPut]
-        public async Task PostSuperkatten([FromBody] CreateSuperkatParameters newSuperkatParameters)
+        public async Task PutSuperkat([FromBody] CreateSuperkatParameters newSuperkatParameters)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpPost]
-        public async Task PostSuperkatten(int number, [FromBody] UpdateSuperkatParameters updateSuperkatParameters)
+        public async Task PostSuperkat(int number, [FromBody] UpdateSuperkatParameters updateSuperkatParameters)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpDelete]
-        public async Task DeleteSuperkatten(int number)
+        public async Task DeleteSuperkat(int number)
         {
             try
             {

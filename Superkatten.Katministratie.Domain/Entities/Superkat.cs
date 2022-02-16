@@ -9,7 +9,7 @@ namespace Superkatten.Katministratie.Domain.Entities
         public DateTimeOffset FoundDate { get; private set; }
         public string CatchLocation { get; private set; }
         public string Kleur { get; private set; } = string.Empty;
-        public string Name { get; private set; } = string.Empty;
+        public string? Name { get; private set; } = string.Empty;
         public DateTimeOffset Birthday { get; private set; }
 
         public Superkat(
@@ -40,7 +40,7 @@ namespace Superkatten.Katministratie.Domain.Entities
             return this;
         }
 
-        public Superkat SetName(string name)
+        public Superkat SetName(string? name)
         {
             if (Name != name)
             {

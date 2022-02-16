@@ -32,9 +32,8 @@
     </ActionColumn>
     
     <Column Title="Nummmer" @bind-Field="@context.Number" Sortable />
-    <Column Title="Gevonden op" @bind-Field="@context.FoundDate" Format="yyyy-MM-dd" Sortable />
     <Column Title="Geboren op" @bind-Field="@context.Birthday" Format="yyyy-MM-dd" Sortable />
-    <Column Title="Vang locatie" Field="@context.CatchLocation" />
+    <Column Title="Vang locatie" Field="@context.CatchLocation" Sortable/>
 </Table>
 
 @code {
@@ -87,7 +86,6 @@
         Superkatten = superkatten
             .AsQueryable()
             .Select(s => ConvertToLocalSuperkat(s))
-            .OrderBy(s => s.Name)
             .ToList();
     }
 

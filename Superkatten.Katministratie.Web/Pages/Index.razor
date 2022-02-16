@@ -5,12 +5,14 @@
 
 <PageTitle>Overzicht superkatten</PageTitle>
 
-<div>
-    <Space />
+
+<Row Wrap="false">
     <Button Type="primary" OnClick="() => NavigateToCreatePage()">Intake</Button>
-    <Space />
-    <SuperkattenList />
-</div>
+</Row>
+
+<Row>
+    <SuperkattenList2 />
+</Row>
 
 @code 
 {

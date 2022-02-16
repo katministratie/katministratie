@@ -27,14 +27,14 @@ namespace Superkatten.Katministratie.Application.Services
             _superkattenMapper = superkattenMapper;
         }
 
-        public async Task<Superkat> CreateSuperkatAsync(CreateSuperkatParameters parameters)
+        public async Task<Superkat> CreateSuperkatAsync(CreateSuperkatParameters createSuperkatParameters)
         {
-            if (string.IsNullOrEmpty(parameters.Kleur))
+            if (string.IsNullOrEmpty(createSuperkatParameters.Kleur))
             {
                 throw new ValidationException("Superkat kleur is invalid");
             }
 
-            if (string.IsNullOrEmpty(parameters.CatchLocation))
+            if (string.IsNullOrEmpty(createSuperkatParameters.CatchLocation))
             {
                 throw new ValidationException($"Superkat location is empty");
             }
@@ -43,11 +43,11 @@ namespace Superkatten.Katministratie.Application.Services
             int superkatCountForYear = await _superkattenRepository.GetSuperkatCountForGivenYearAsync(today.Year);
             var superkatNumber = superkatCountForYear + 1;
 
-            var superkat = new Domain.Entities.Superkat(superkatNumber, parameters.Kleur, today,parameters.CatchLocation);
+            var superkat = new Domain.Entities.Superkat(superkatNumber, createSuperkatParameters.Kleur, today, createSuperkatParameters.CatchLocation);
 
-            if (parameters.WeeksOld > 0)
+            if (createSuperkatParameters.WeeksOld > 0)
             {
-                var daysOld = 7 * parameters.WeeksOld;
+                var daysOld = 7 * createSuperkatParameters.WeeksOld;
                 var birthDay = today.AddDays(-daysOld);
                 superkat = superkat.SetBirthday(birthDay);
             }
