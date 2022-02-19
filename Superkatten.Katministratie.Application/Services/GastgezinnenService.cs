@@ -25,15 +25,15 @@ namespace Superkatten.Katministratie.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<Gastgezin> CreateGastgezinAsync(CreateUpdateGastgezinParameters createGastgezinParameters)
+        public async Task<Gastgezin> CreateGastgezinAsync(string name, CreateUpdateGastgezinParameters createGastgezinParameters)
         {
-            if (string.IsNullOrEmpty(createGastgezinParameters.Name))
+            if (string.IsNullOrEmpty(name))
             {
                 throw new ValidationException("Gastgezin name is invalid");
             }
 
             var gastgezin= new Domain.Entities.Gastgezin(
-                createGastgezinParameters.Name,
+                name,
                 createGastgezinParameters.Address,
                 createGastgezinParameters.City,
                 createGastgezinParameters.Phone
@@ -75,7 +75,7 @@ namespace Superkatten.Katministratie.Application.Services
             var gastgezin = await _repository.GetGastgezinAsync(name);
 
             var updatedGastgezin = gastgezin
-                .SetName(updateGastgezinParameters.Name)
+                .SetName(name)
                 .SetAddress(updateGastgezinParameters.Address)
                 .SetCity(updateGastgezinParameters.City)
                 .SetPhone(updateGastgezinParameters.Phone);

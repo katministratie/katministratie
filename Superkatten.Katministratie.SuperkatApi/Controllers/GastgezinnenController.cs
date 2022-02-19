@@ -32,11 +32,11 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpPut]
-        public async Task PutGastgezin([FromBody] CreateUpdateGastgezinParameters createGastgezinParameters)
+        public async Task PutGastgezin(string name, [FromBody] CreateUpdateGastgezinParameters createGastgezinParameters)
         {
             try
             {
-                await _service.CreateGastgezinAsync(createGastgezinParameters);
+                await _service.CreateGastgezinAsync(name, createGastgezinParameters);
             }
             catch (Exception ex)
             {

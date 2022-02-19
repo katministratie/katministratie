@@ -23,30 +23,31 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
             _context.Database.EnsureCreated();
         }
 
-        public async Task<Gastgezin> CreateGastgezinAsync(Gastgezin gastgezin)
+        public async Task<Gastgezin> CreateGastgezinAsync(Gastgezin createGastgezin)
         {
+            var name = createGastgezin.Name;
             var existingGastgezinCount = await _context
                 .Gastgezinnen
-                .CountAsync(s => s.Name == gastgezin.Name);
+                .CountAsync(gg => gg.Name == createGastgezin.Name);
 
             if (existingGastgezinCount > 0)
             {
-                throw new DatabaseException($"A {nameof(Gastgezin)} found in the database with name '{gastgezin.Name}'");
+                throw new DatabaseException($"A gastgezin found in the database with name '{createGastgezin.Name}'");
             }
 
-            var gastgezinDto = _mapper.MapDomainToGastgezinDto(gastgezin);
+            var gastgezinDto = _mapper.MapDomainToGastgezinDto(createGastgezin);
 
             await _context.Gastgezinnen.AddAsync(gastgezinDto);
             await _context.SaveChangesAsync();
 
-            var addedGastgezin= await _context
+            var addedGastgezin = await _context
                 .Gastgezinnen
-                .Where(gg => gg.Name == gastgezin.Name)
+                .Where(gg => gg.Name == createGastgezin.Name)
                 .FirstOrDefaultAsync();
 
             if (addedGastgezin is null)
             {
-                throw new DatabaseException($"Error adding gastgezin '{gastgezin.Name}'");
+                throw new DatabaseException($"Error adding gastgezin '{createGastgezin.Name}'");
             }
 
             return _mapper.MapGastgezinDtoToDomain(addedGastgezin);
