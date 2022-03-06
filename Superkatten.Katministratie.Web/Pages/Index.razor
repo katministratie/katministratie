@@ -1,15 +1,39 @@
 ﻿@page "/"
+@using Superkatten.Katministratie.Application.Contracts
+@using Superkatten.Katministratie.Web.Services
+@using Superkatten.Katministratie.Web.Components
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Superkatten</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Superkatten</h1>
 
-Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<SuperkatComponent SuperkatNumber="123"/>
 
-<Dialogbox Title="My first Modal dialog" Show="true">
- <p>
-   This is my first modal dialog
- </p>
-</Dialogbox>
+
+@code {
+    [Inject]
+    public ISuperkattenListService? _superkattenService { get; set; }
+
+    public List<Superkat> Superkatten { get; set; } = new List<Superkat>();
+
+    private int StartIndex { get; set; } = 0;
+
+    protected override async Task OnInitializedAsync() => await UpdateListAsync();
+
+    private async Task UpdateListAsync()
+    {
+        if (_superkattenService == null)
+        {
+            return;
+        }
+
+        var superkatten = await _superkattenService.GetAllSuperkattenAsync();
+        Superkatten = superkatten
+            .AsQueryable()
+            .Where(s => s.Number >= StartIndex)
+            .Take(5)
+            .OrderByDescending(sk => sk.Number)
+            .ToList();
+    }
+}
