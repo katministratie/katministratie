@@ -7,11 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SuperkattenComponents" Version="0.0.4" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Superkatten.Katministratie.Application\Superkatten.Katministratie.Application.csproj" />
+    <ProjectReference Include="..\Superkatten.katministratie.Web.Components\Superkatten.Katministratie.Web.Components.csproj" />
   </ItemGroup>
 
 </Project>

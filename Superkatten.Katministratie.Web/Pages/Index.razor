@@ -7,8 +7,19 @@
 
 <h1>Superkatten</h1>
 
-
-<SuperkatComponent SuperkatNumber="123"/>
+@if (Superkatten is null)
+{
+    <p>Geen superkatten in het systeem...</p>
+}
+else
+{
+    <ul>
+    @foreach (var superkatEntry in Superkatten)
+    {
+        <li><SuperkatComponent SuperkatContext=superkatEntry /></li>
+    }
+    </ul>
+}
 
 
 @code {

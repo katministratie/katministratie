@@ -1,11 +1,14 @@
-﻿
+﻿@using Superkatten.Katministratie.Application.Contracts
+
 
 <div class="container-fluid">
-    <p>Number:</p> <p>@SuperkatNumber</p>
+    <p>Dit is een card waarin de katdata staat vermeld.</p>
+    <p>Number:</p>
+    <p>@SuperkatContext.FoundDate.Year @SuperkatContext.Number</p>
 </div>
 
 
 @code {
     [ParameterAttribute]
-    public int SuperkatNumber { get; set; } = 0;
+    public Superkat SuperkatContext { get; set; }
 }

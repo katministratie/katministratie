@@ -35,6 +35,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Superkatten.Katministratie.Web.Components", "Superkatten.katministratie.Web.Components\Superkatten.Katministratie.Web.Components.csproj", "{A4CE4DFC-97FB-4CA5-8DCB-2A1CA3CA39D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Superkatten.Katministratie.Web", "Superkatten.Katministratie.Web\Superkatten.Katministratie.Web.csproj", "{0DE43DAA-F132-406B-A984-B634FC88B7BF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A4CE4DFC-97FB-4CA5-8DCB-2A1CA3CA39D3} = {A4CE4DFC-97FB-4CA5-8DCB-2A1CA3CA39D3}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
