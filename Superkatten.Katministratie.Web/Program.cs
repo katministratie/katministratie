@@ -1,6 +1,5 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Superkatten.Katministratie.Web.Data;
+using Superkatten.Katministratie.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddTransient<ISuperkattenListService, SuperkattenListService>();
+builder.Services.AddTransient<ISuperkatActionService, SuperkatActionService>();
+builder.Services.AddScoped<HttpClient>(s => { return new HttpClient { BaseAddress = new System.Uri("https://localhost:7171/") }; });
 
 var app = builder.Build();
 
