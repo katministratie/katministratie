@@ -13,17 +13,42 @@
 }
 else
 {
-    <ul>
-    @foreach (var superkatEntry in Superkatten)
-    {
-        <li><SuperkatComponent SuperkatContext=superkatEntry /></li>
-    }
-    </ul>
-    <Button Color="ButtonColor.Primary" @onclick="Previous">Previous</Button>
-    <button> - @StartIndex - </button>
-    <Button Color="ButtonColor.Primary" @onclick="Next">Next</Button>
-}
+    <div>
+        <Row>
+            <div class="p-lg-1">
+                <Button Type="@ButtonType.Primary" OnClick="OnNewSuperkat">
+                    Nieuwe kat
+                </Button>
+            </div>
+            <div class="p-lg-1">
+                <Button Type="@ButtonType.Primary" >
+                    Report
+                </Button>
+            </div>
+        </Row>
+    </div>
+    
+    <Divider Orientation="left" />
 
+    <div>
+        <Row>
+            <ul>
+            @foreach (var superkatEntry in Superkatten)
+            {
+                <li><SuperkatComponent SuperkatContext=superkatEntry /></li>
+            }
+            </ul>
+        </Row>
+    </div>
+    
+    <Divider Orientation="left" />
+
+    <div>
+        <Row>
+            <Pagination Size="small" OnChange="OnPageChange" DefaultCurrent="@TotalPageCount" Total="@TotalCount" />
+        </Row>
+    </div>
+}
 
 @code {
     [Inject]
@@ -31,24 +56,16 @@ else
 
     public List<Superkat> Superkatten { get; set; } = new List<Superkat>();
 
+    private int TotalPageCount { get; set; } = 4;
+    private int TotalCount { get; set; } = 10;
     private int StartIndex { get; set; } = 0;
 
-    public void Next()
-    {
-        if (StartIndex <= Superkatten.Count - 5 )
-        {
-            StartIndex += 5;
-            UpdateListAsync();
-        }
-    }
+    private static IEnumerable<int> PageItems => new int[] { 3, 10, 20, 40 };
 
-    public void Previous()
+    private async Task OnPageChange(PaginationEventArgs args) 
     {
-        if (StartIndex >= 5)
-        {
-            StartIndex -= 5;
-            UpdateListAsync();
-        }
+        StartIndex = (args.Page - 1) * TotalPageCount;
+        await UpdateListAsync();
     }
 
     protected override async Task OnInitializedAsync() => await UpdateListAsync();
@@ -61,11 +78,16 @@ else
         }
 
         var superkatten = await _superkattenService.GetAllSuperkattenAsync();
+        TotalCount = superkatten.Count() * 2;
         Superkatten = superkatten
             .AsQueryable()
             .Where(s => s.Number >= StartIndex)
-            .Take(5)
+            .Take(TotalPageCount)
             .OrderByDescending(sk => sk.Number)
             .ToList();
+    }
+
+    private async Task OnNewSuperkat()
+    {
     }
 }

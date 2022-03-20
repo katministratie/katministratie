@@ -11,6 +11,7 @@ builder.Services.AddScoped<HttpClient>(s =>
     { 
         return new HttpClient { BaseAddress = new System.Uri("https://katministratie.azurewebsites.net/") }; 
     });
+builder.Services.AddAntDesign();
 
 var app = builder.Build();
 
@@ -19,7 +20,6 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
 }
-
 
 app.UseStaticFiles();
 

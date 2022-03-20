@@ -3,12 +3,12 @@
 
 <div class="container-fluid">
     <p>Dit is een card waarin de katdata staat vermeld.</p>
-    <p>Number:</p>
-    <p>@SuperkatContext.FoundDate.Year @SuperkatContext.Number</p>
+    <p>Number:@SuperkatContext?.FoundDate.Year @SuperkatContext?.Number</p>
+    <p>Name: @SuperkatContext?.Name</p>
 </div>
 
 
 @code {
     [ParameterAttribute]
-    public Superkat SuperkatContext { get; set; }
+    public Superkat? SuperkatContext { get; set; }
 }
