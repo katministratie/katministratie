@@ -9,7 +9,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddTransient<ISuperkattenListService, SuperkattenListService>();
 builder.Services.AddTransient<ISuperkatActionService, SuperkatActionService>();
-builder.Services.AddScoped<HttpClient>(s => { return new HttpClient { BaseAddress = new System.Uri("https://localhost:7171/") }; });
+builder.Services.AddScoped<HttpClient>(s => { return new HttpClient { BaseAddress = new System.Uri("https://katministratie.azurewebsites.net/") }; });
 
 var app = builder.Build();
 
