@@ -10,7 +10,8 @@ namespace Superkatten.Katministratie.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            services.AddDbContext<SuperkattenDbContext>(opt => opt.UseInMemoryDatabase("Superkatten"));
+            var cs = "Server=tcp:katministratiedbserver.database.windows.net,1433;Initial Catalog=KatministratieDb;Persist Security Info=False;User ID=katministrator;Password=Superkatten4143vk.;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            services.AddDbContext<SuperkattenDbContext>(opt => opt.UseSqlServer(cs));
             services.AddTransient<ISuperkattenRepository, SuperkattenRepository>();
             services.AddTransient<ISuperkatRepositoryMapper, SuperkatRepositoryMapper>();
             services.AddTransient<IGastgezinnenRepository, GastgezinnenRepository>();

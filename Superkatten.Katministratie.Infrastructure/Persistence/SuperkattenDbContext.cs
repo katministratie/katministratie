@@ -12,8 +12,10 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
 
         public SuperkattenDbContext(DbContextOptions<SuperkattenDbContext> options) : base(options)
         {
+            
         }
 
+        /*
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var superkat_1 = new SuperkatDtoBuilder().WithId(1).WithNumber(1).WithName("Piet").Build();
@@ -37,5 +39,6 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
 
             base.OnModelCreating(modelBuilder);
         }
+        */
     }
 }
