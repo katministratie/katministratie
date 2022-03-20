@@ -19,6 +19,9 @@ else
         <li><SuperkatComponent SuperkatContext=superkatEntry /></li>
     }
     </ul>
+    <Button Color="ButtonColor.Primary" @onclick="Previous">Previous</Button>
+    <button> - @StartIndex - </button>
+    <Button Color="ButtonColor.Primary" @onclick="Next">Next</Button>
 }
 
 
@@ -29,6 +32,24 @@ else
     public List<Superkat> Superkatten { get; set; } = new List<Superkat>();
 
     private int StartIndex { get; set; } = 0;
+
+    public void Next()
+    {
+        if (StartIndex <= Superkatten.Count - 5 )
+        {
+            StartIndex += 5;
+            UpdateListAsync();
+        }
+    }
+
+    public void Previous()
+    {
+        if (StartIndex >= 5)
+        {
+            StartIndex -= 5;
+            UpdateListAsync();
+        }
+    }
 
     protected override async Task OnInitializedAsync() => await UpdateListAsync();
 

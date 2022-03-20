@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Superkatten.katministratie.Web.Components\Superkatten.Katministratie.Web.Components.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
 </Project>
