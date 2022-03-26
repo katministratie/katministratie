@@ -3,6 +3,8 @@
 @using Superkatten.Katministratie.Web.Services
 @using Superkatten.Katministratie.Web.Components
 
+@inject NavigationManager NavigationManager
+
 <PageTitle>Superkatten</PageTitle>
 
 <h1>Superkatten</h1>
@@ -16,13 +18,18 @@ else
     <div>
         <Row>
             <div class="p-lg-1">
-                <Button Type="@ButtonType.Primary" OnClick="OnNewSuperkat">
+                <Button Type="@ButtonType.Primary" OnClick="OnCreateSuperkat">
                     Nieuwe kat
                 </Button>
             </div>
             <div class="p-lg-1">
                 <Button Type="@ButtonType.Primary" >
                     Report
+                </Button>
+            </div>
+            <div class="p-lg-1">
+                <Button Type="@ButtonType.Primary" OnClick="OnReload">
+                    Reload
                 </Button>
             </div>
         </Row>
@@ -54,7 +61,19 @@ else
     [Inject]
     public ISuperkattenListService? _superkattenService { get; set; }
 
-    public List<Superkat> Superkatten { get; set; } = new List<Superkat>();
+    public List<Superkat> _superkatten;
+    public List<Superkat> Superkatten 
+    { 
+        get
+        {
+            UpdateListAsync();
+            return _superkatten;
+        }
+        set
+        {
+            _superkatten = value;
+        }
+    }
 
     private int TotalPageCount { get; set; } = 4;
     private int TotalCount { get; set; } = 10;
@@ -87,7 +106,13 @@ else
             .ToList();
     }
 
-    private async Task OnNewSuperkat()
+    private void OnCreateSuperkat()
     {
+        NavigationManager.NavigateTo("CreateSuperkat");
+    }
+
+    private async Task OnReload()
+    {
+        await UpdateListAsync();
     }
 }
