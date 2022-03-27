@@ -3,13 +3,14 @@
 @using Superkatten.Katministratie.Web.Services
 @using Superkatten.Katministratie.Web.Components
 
-@inject NavigationManager NavigationManager
+@inject NavigationManager _navigationManager
+@inject ISuperkattenListService _superkattenService
 
 <PageTitle>Superkatten</PageTitle>
 
 <h1>Superkatten</h1>
 
-@if (_superkatten is null)
+@if (!_superkatten.Any())
 {
     <p>Geen superkatten in het systeem...</p>
 }
@@ -17,21 +18,16 @@ else
 {
     <div>
         <Row>
-            <div class="p-lg-1">
+            <div class="m-2">
                 <Button Type="@ButtonType.Primary" OnClick="OnCreateSuperkat">
                     Nieuwe kat
                 </Button>
             </div>
-            <div class="p-lg-1">
+            <div class="m-2">
                 <Button Type="@ButtonType.Primary" >
                     Report
                 </Button>
             </div>
-            <div class="p-lg-1">
-                <Button Type="@ButtonType.Primary" OnClick="OnReload">
-                    Reload
-                </Button>
-            </div>
         </Row>
     </div>
     
@@ -39,43 +35,26 @@ else
 
     <div>
         <Row>
-            <ul>
+            <div class="p-2 ">
             @foreach (var superkatEntry in Superkatten)
             {
-                <li><SuperkatComponent SuperkatContext=superkatEntry /></li>
+                <div><SuperkatComponent SuperkatContext=superkatEntry /></div>
+                <Divider />
             }
-            </ul>
-        </Row>
-    </div>
-    
-    <Divider Orientation="left" />
-
-    <div>
-        <Row>
-            <Pagination Size="small" OnChange="OnPageChange" DefaultCurrent="@TotalPageCount" Total="@TotalCount" />
+            </div>
         </Row>
     </div>
 }
 
 @code {
-    [Inject]
-    public ISuperkattenListService? _superkattenService { get; set; }
-
-    public List<Superkat>? _superkatten;
+    public List<Superkat> _superkatten = new();
     public List<Superkat> Superkatten => _superkatten;
 
-    private int TotalPageCount { get; set; } = 4;
-    private int TotalCount { get; set; } = 0;
-    private int StartIndex { get; set; } = 0;
-
-    private async Task OnPageChange(PaginationEventArgs args) 
+    protected override async Task OnInitializedAsync()
     {
-        StartIndex = (args.Page - 1) * TotalPageCount;
+        //base.OnInitializedAsync();
         await UpdateListAsync();
     }
-
-    protected override async Task OnInitializedAsync() => await UpdateListAsync();
-
     private async Task UpdateListAsync()
     {
         if (_superkattenService == null)
@@ -84,22 +63,26 @@ else
         }
 
         var superkatten = await _superkattenService.GetAllSuperkattenAsync();
-        TotalCount = superkatten.Count();
         _superkatten = superkatten
             .AsQueryable()
-            .Where(s => s.Number >= StartIndex)
-            .Take(TotalPageCount)
             .OrderByDescending(sk => sk.Number)
             .ToList();
     }
 
     private void OnCreateSuperkat()
     {
-        NavigationManager.NavigateTo("CreateSuperkat");
+        _navigationManager.NavigateTo("CreateSuperkat");
     }
 
-    private async Task OnReload()
+    private void OnShowSizeChange(PaginationEventArgs args)
     {
-        await UpdateListAsync();
+        var(current, pageSize) = args;
+        Console.WriteLine($"{current}, {pageSize}");
+    }
+
+    private void OnPageChange(PaginationEventArgs args)
+    {        
+        var(current, pageSize) = args;
+        Console.WriteLine($"{current}, {pageSize}");
     }
 }

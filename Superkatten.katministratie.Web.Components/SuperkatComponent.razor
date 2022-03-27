@@ -3,9 +3,18 @@
 
 <div class="container-fluid">
     <div class="row">
-        <p>Number:@SuperkatContext?.FoundDate.Year @SuperkatContext?.Number</p>
-        <p>Kleur: @SuperkatContext?.Kleur</p>
-        <p>Vanglokatie: @SuperkatContext?.CatchLocation</p>
+        <div class="col-4">
+            <div class="p-2 border">
+                <img class="img-thumbnail" src=".\Images\superkat.jpg" />      
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="bg-black text-white">
+                nr: @SuperkatContext?.FoundDate.Year@SuperkatContext?.Number
+            </div>
+            <div>@SuperkatContext?.Kleur</div>
+            <div>@SuperkatContext?.CatchLocation</div>
+        </div>
     </div>
 </div>
 
