@@ -9,7 +9,7 @@
 
 <h1>Superkatten</h1>
 
-@if (Superkatten is null)
+@if (_superkatten is null)
 {
     <p>Geen superkatten in het systeem...</p>
 }
@@ -61,25 +61,12 @@ else
     [Inject]
     public ISuperkattenListService? _superkattenService { get; set; }
 
-    public List<Superkat> _superkatten;
-    public List<Superkat> Superkatten 
-    { 
-        get
-        {
-            UpdateListAsync();
-            return _superkatten;
-        }
-        set
-        {
-            _superkatten = value;
-        }
-    }
+    public List<Superkat>? _superkatten;
+    public List<Superkat> Superkatten => _superkatten;
 
     private int TotalPageCount { get; set; } = 4;
-    private int TotalCount { get; set; } = 10;
+    private int TotalCount { get; set; } = 0;
     private int StartIndex { get; set; } = 0;
-
-    private static IEnumerable<int> PageItems => new int[] { 3, 10, 20, 40 };
 
     private async Task OnPageChange(PaginationEventArgs args) 
     {
@@ -97,8 +84,8 @@ else
         }
 
         var superkatten = await _superkattenService.GetAllSuperkattenAsync();
-        TotalCount = superkatten.Count() * 2;
-        Superkatten = superkatten
+        TotalCount = superkatten.Count();
+        _superkatten = superkatten
             .AsQueryable()
             .Where(s => s.Number >= StartIndex)
             .Take(TotalPageCount)

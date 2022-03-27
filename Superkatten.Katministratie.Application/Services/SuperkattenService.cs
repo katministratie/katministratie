@@ -40,8 +40,8 @@ namespace Superkatten.Katministratie.Application.Services
             }
 
             var today = DateTimeOffset.Now;
-            int superkatCountForYear = await _superkattenRepository.GetSuperkatCountForGivenYearAsync(today.Year);
-            var superkatNumber = superkatCountForYear + 1;
+            int lastUsedSuperkatNumber = await _superkattenRepository.GetSuperkatMaxNumberForGivenYearAsync(today.Year);
+            var superkatNumber = lastUsedSuperkatNumber + 1;
 
             var superkat = new Domain.Entities.Superkat(superkatNumber, createSuperkatParameters.Kleur, today, createSuperkatParameters.CatchLocation);
 

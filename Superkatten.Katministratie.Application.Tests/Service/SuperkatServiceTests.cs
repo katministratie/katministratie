@@ -27,7 +27,7 @@ namespace Superkatten.Katministratie.Application.Tests.Service
             // arrange
             var superkattenRepository = new Mock<ISuperkattenRepository>();
             superkattenRepository
-                .Setup(s => s.GetSuperkatCountForGivenYearAsync(It.IsAny<int>()))
+                .Setup(s => s.GetSuperkatMaxNumberForGivenYearAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(SUPERKATTEN_COUNT));
 
             var superkattenMapper = new SuperkattenMapper();
@@ -55,7 +55,7 @@ namespace Superkatten.Katministratie.Application.Tests.Service
             // arrange
             var superkattenRepository = new Mock<ISuperkattenRepository>();
             superkattenRepository
-                .Setup(s => s.GetSuperkatCountForGivenYearAsync(It.IsAny<int>()))
+                .Setup(s => s.GetSuperkatMaxNumberForGivenYearAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(SUPERKATTEN_COUNT));
 
             var superkattenMapper = new SuperkattenMapper();
@@ -89,7 +89,7 @@ namespace Superkatten.Katministratie.Application.Tests.Service
             // arrange
             var superkattenRepository = new Mock<ISuperkattenRepository>();
             superkattenRepository
-                .Setup(s => s.GetSuperkatCountForGivenYearAsync(DateTime.Now.Year))
+                .Setup(s => s.GetSuperkatMaxNumberForGivenYearAsync(DateTime.Now.Year))
                 .Returns(Task.FromResult(SUPERKATTEN_COUNT));
 
             var superkattenMapper = new SuperkattenMapper();
@@ -121,7 +121,7 @@ namespace Superkatten.Katministratie.Application.Tests.Service
             // arrange
             var superkattenRepository = new Mock<ISuperkattenRepository>();
             superkattenRepository
-                .Setup(s => s.GetSuperkatCountForGivenYearAsync(DateTime.Now.Year))
+                .Setup(s => s.GetSuperkatMaxNumberForGivenYearAsync(DateTime.Now.Year))
                 .Returns(Task.FromResult(SUPERKATTEN_COUNT));
 
             var superkattenMapper = new SuperkattenMapper();

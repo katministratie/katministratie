@@ -116,13 +116,12 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
             return _mapper.MapSuperkatDtoToDomain(superkatDto);
         }
 
-        public async Task<int> GetSuperkatCountForGivenYearAsync(int year)
+        public async Task<int> GetSuperkatMaxNumberForGivenYearAsync(int year)
         {
-            var count = _context
+            return await _context
                 .SuperKatten
-                .CountAsync(s => s.FoundDate.Year == year);
-
-            return count == null ? 0 : await count;
+                .Where(s => s.FoundDate.Year == year)
+                .MaxAsync(s => s.Number);
         }
     }
 }

@@ -4,9 +4,7 @@ using Superkatten.Katministratie.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(config =>
 {
@@ -16,7 +14,6 @@ builder.Services.AddSwaggerGen(config =>
         Version = "v1"
     });
 });
-
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructure();
 
@@ -29,18 +26,14 @@ app.UseCors(cors => cors
     .SetIsOriginAllowed(origin => true)
     .AllowCredentials()
     );
-
 if (builder.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ch20Ex01 v1"));
 }
-
 app.UseSwagger();
 app.UseSwaggerUI();
-
-
 app.UseHttpsRedirection();
-app.UseAuthorization();
+//app.UseAuthorization();
 app.MapControllers();
 app.Run();

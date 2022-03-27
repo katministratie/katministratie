@@ -27,17 +27,21 @@ namespace Superkatten.Katministratie.Application.Tests.Mappers
                 Name = string.Empty
             };
 
-            // act
-            var result = sut.MapToDomain(contractSuperkat);
-
-            // assert
-            result.Should().BeEquivalentTo(
-                new Superkat(
+            var expectedSuperkatInstance = new Superkat(
                     number: SUPERKAT_NUMBER,
                     kleur: SUPERKAT_COLOR,
                     foundDate: foundDate,
                     catchLocation: SUPERKAT_CATCH_LOCATION
-                ));
+                );
+            expectedSuperkatInstance.SetBirthday(foundDate.AddDays(-1));
+
+            // act
+            var result = sut.MapToDomain(contractSuperkat);
+
+            // assert
+            result
+                .Should()
+                .BeEquivalentTo(expectedSuperkatInstance);
         }
 
         [Fact]
@@ -52,19 +56,25 @@ namespace Superkatten.Katministratie.Application.Tests.Mappers
                 foundDate,
                 SUPERKAT_CATCH_LOCATION
             );
+            superkat.SetBirthday(foundDate.AddDays(-1));
+
+            var expectedContractSuperkat = new Contracts.Superkat
+            {
+                Number = SUPERKAT_NUMBER,
+                Name = string.Empty,
+                FoundDate = foundDate,
+                CatchLocation = SUPERKAT_CATCH_LOCATION,
+                Kleur = SUPERKAT_COLOR,
+                Birthday = foundDate.AddDays(-1)
+            };
 
             // act
-            var result = sut.MapFromDomain(superkat);
+            var contractSuperkat = sut.MapFromDomain(superkat);
 
             // assert
-            result.Should().BeEquivalentTo(
-                new Contracts.Superkat 
-                {
-                    Number = SUPERKAT_NUMBER,
-                    Name = null,
-                    FoundDate = foundDate,
-                    CatchLocation = SUPERKAT_CATCH_LOCATION
-                });
+            contractSuperkat
+                .Should()
+                .BeEquivalentTo(expectedContractSuperkat);
         }
 
     }

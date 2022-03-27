@@ -9,24 +9,6 @@ namespace Superkatten.Katministratie.Domain.Tests.Entities
     public class SuperkatTests
     {
         [Fact]
-        public void  CreateUpdatedModel_WithEmptyName_ThrowsException()
-        {
-            // arrange
-            var sut = new Superkat(
-                It.IsAny<int>(), 
-                It.IsAny<string>(), 
-                It.IsAny<DateTimeOffset>(), 
-                It.IsAny<string>()
-            );
-
-            // act
-            Action act = () => sut.SetName(string.Empty);
-
-            // assert
-            act.Should().ThrowExactly<DomainException>();
-        }
-
-        [Fact]
         public void CreateUpdatedModel_WithName_Success()
         {
             // arrange
