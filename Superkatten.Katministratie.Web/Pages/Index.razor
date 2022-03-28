@@ -38,7 +38,9 @@ else
             <div class="p-2 ">
             @foreach (var superkatEntry in Superkatten)
             {
-                <div><SuperkatComponent SuperkatContext=superkatEntry /></div>
+                <div>
+                    <SuperkatComponent SuperkatContext=superkatEntry />
+                </div>
                 <Divider />
             }
             </div>

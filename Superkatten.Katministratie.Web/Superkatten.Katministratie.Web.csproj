@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="AntDesign" Version="0.10.5" />
-    <PackageReference Include="BootstrapBlazor" Version="6.4.5" />
+    <PackageReference Include="BootstrapBlazor" Version="6.4.7" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.3" />
   </ItemGroup>
 

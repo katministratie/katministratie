@@ -1,0 +1,29 @@
+﻿@using Superkatten.Katministratie.Application.Contracts
+
+<div class="container">
+    <div class="row">
+        <div class="col-1"
+            <SuperkatAction OnClickCallback="@ReserveSuperkat" ActionName="A" />
+        </div>
+        <div class="col-1"
+            <SuperkatAction OnClickCallback="@ReserveSuperkat" ActionName="B"/>
+        </div>
+        <div class="col-1"
+            <SuperkatAction OnClickCallback="@ReserveSuperkat" ActionName="C"/>
+        </div>
+        <div class="col-1"
+            <SuperkatAction OnClickCallback="@ReserveSuperkat" ActionName="D"/>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Superkat? SuperkatContext { get; set; }
+
+    private void ReserveSuperkat()
+    {
+        var message = "Click";
+    }
+    
+}

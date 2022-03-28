@@ -1,4 +1,5 @@
 ﻿@using Superkatten.Katministratie.Application.Contracts
+@using Superkatten.Katministratie.Web.Components
 
 
 <div class="container-fluid">
@@ -10,10 +11,9 @@
         </div>
         <div class="col-4">
             <div class="bg-black text-white">
-                nr: @SuperkatContext?.FoundDate.Year@SuperkatContext?.Number
+                nr: @SuperkatDisplayableNumber
             </div>
-            <div>@SuperkatContext?.Kleur</div>
-            <div>@SuperkatContext?.CatchLocation</div>
+            <SuperkatActions SuperkatContext="SuperkatContext" />
         </div>
     </div>
 </div>
@@ -22,4 +22,19 @@
 @code {
     [ParameterAttribute]
     public Superkat? SuperkatContext { get; set; }
+
+    public string SuperkatDisplayableNumber 
+    {
+        get
+        { 
+            if (SuperkatContext is null)
+            {
+                return "?";
+            }
+
+            var yearPart = SuperkatContext.FoundDate.Year % 100;
+            return yearPart + "-" + SuperkatContext?.Number.ToString();
+        }
+    }
+
 }
