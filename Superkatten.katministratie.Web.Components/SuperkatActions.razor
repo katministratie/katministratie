@@ -1,18 +1,21 @@
 ﻿@using Superkatten.Katministratie.Application.Contracts
 
-<div class="container">
-    <div class="row">
-        <div class="col-1"
-            <SuperkatAction OnClickCallback="@ReserveSuperkat" ActionName="A" />
+<div class="container-fluid border">
+    <div class="p-0 m-0 row">
+        <div class="p-1 col-2">
+            <SuperkatAction OnClickCallback="@ReserveSuperkat" ActionName="D" ActionIcon="verified" />
         </div>
-        <div class="col-1"
-            <SuperkatAction OnClickCallback="@ReserveSuperkat" ActionName="B"/>
+        <div class="p-1 col-2">
+            <SuperkatAction OnClickCallback="@ReserveSuperkat" ActionName="D" ActionIcon="lock" />
         </div>
-        <div class="col-1"
-            <SuperkatAction OnClickCallback="@ReserveSuperkat" ActionName="C"/>
+        <div class="p-1 col-2">
+            <SuperkatAction OnClickCallback="@ReserveSuperkat" ActionName="D" ActionIcon="find_replace" />
         </div>
-        <div class="col-1"
-            <SuperkatAction OnClickCallback="@ReserveSuperkat" ActionName="D"/>
+        <div class="p-1 col-2">
+            <SuperkatAction OnClickCallback="@ReserveSuperkat" ActionName="D" ActionIcon="settings_input_antenna" />
+        </div>
+        <div class="p-1 col-2">
+            <SuperkatAction OnClickCallback="@ReserveSuperkat" ActionName="D" ActionIcon="dangerous" />
         </div>
     </div>
 </div>
@@ -23,7 +26,6 @@
 
     private void ReserveSuperkat()
     {
-        var message = "Click";
-    }
-    
+        
+    }    
 }

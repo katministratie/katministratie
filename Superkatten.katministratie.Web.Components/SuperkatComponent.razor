@@ -33,7 +33,7 @@
             }
 
             var yearPart = SuperkatContext.FoundDate.Year % 100;
-            return yearPart + "-" + SuperkatContext?.Number.ToString();
+            return yearPart + "-" + SuperkatContext?.Number.ToString("000");
         }
     }
 
