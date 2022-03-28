@@ -6,7 +6,14 @@
             <SuperkatAction OnClickCallback="@ReserveSuperkat" ActionName="D" ActionIcon="verified" />
         </div>
         <div class="p-1 col-2">
-            <SuperkatAction OnClickCallback="@ReserveSuperkat" ActionName="D" ActionIcon="lock" />
+            @if(SuperkatContext.Reserved)
+            {
+                <SuperkatAction OnClickCallback="@ReserveSuperkat" ActionName="D" ActionIcon="lock" />
+            }
+            else
+            {
+                <span class="material-icons">no_encryption_gmailerrorred</span>  
+            }
         </div>
         <div class="p-1 col-2">
             <SuperkatAction OnClickCallback="@ReserveSuperkat" ActionName="D" ActionIcon="find_replace" />
