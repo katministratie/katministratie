@@ -7,12 +7,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AntDesign" Version="0.10.3.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <ProjectReference Include="..\Superkatten.Katministratie.Application\Superkatten.Katministratie.Application.csproj" />
+    <ProjectReference Include="..\Superkatten.katministratie.Web.Components\Superkatten.Katministratie.Web.Components.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Superkatten.Katministratie.Application\Superkatten.Katministratie.Application.csproj" />
+    <PackageReference Include="AntDesign" Version="0.10.5" />
+    <PackageReference Include="BootstrapBlazor" Version="6.4.7" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\superkat.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

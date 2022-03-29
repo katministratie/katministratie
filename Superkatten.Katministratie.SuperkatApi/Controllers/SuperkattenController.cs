@@ -26,34 +26,47 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error reading available superkatten. Message: ({ex.Message})");
+                _logger.LogError($"Error reading available superkatten; Message: ({ex.Message})");
                 return default;
             }
         }
 
         [HttpPut]
-        public async Task PostSuperkatten(CreateSuperkatParameters newSuperkatParameters)
+        public async Task PutSuperkat([FromBody] CreateSuperkatParameters newSuperkatParameters)
         {
             try
             {
                 await _service.CreateSuperkatAsync(newSuperkatParameters);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                _logger.LogError($"Error create superkat ({newSuperkatParameters.Name}). Message: ({ex.Message})");
+                _logger.LogError($"Error creating superkat; Message: ({ex.Message})");
             }
         }
 
         [HttpPost]
-        public async Task PostSuperkatten(int number, UpdateSuperkatParameters updateSuperkatParameters)
+        public async Task PostSuperkat(int number, [FromBody] UpdateSuperkatParameters updateSuperkatParameters)
         {
             try
-            { 
+            {
                 await _service.UpdateSuperkatAsync(number, updateSuperkatParameters);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{ex.Message}");
+                _logger.LogError($"Error updating superkat; Message: {ex.Message}");
+            }
+        }
+
+        [HttpDelete]
+        public async Task DeleteSuperkat(int number)
+        {
+            try
+            {
+                await _service.DeleteSuperkatAsync(number);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"Error deleting superkat number {number}; {ex.Message}");
             }
         }
 

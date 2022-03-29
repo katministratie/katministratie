@@ -1,4 +1,6 @@
-﻿using Superkatten.Katministratie.Application.Contracts;
+﻿using Microsoft.AspNetCore.Mvc;
+using Superkatten.Katministratie.Application.Contracts;
+using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace Superkatten.Katministratie.Web.Services
@@ -12,17 +14,30 @@ namespace Superkatten.Katministratie.Web.Services
             _client = client;
         }
 
-        public async Task CreateSuperkat(CreateSuperkatParameters newSuperkat)
+        public async Task CreateSuperkatAsync([FromBody] CreateSuperkatParameters newSuperkat)
         {
-            var uri = $"api/Superkatten?Name={newSuperkat.Name}";
-            var request = new HttpRequestMessage(HttpMethod.Put, $"api/Superkatten?Name=" + newSuperkat.Name);
-            await _client.SendAsync(request);
+            var uri = $"api/Superkatten";
+            var myContent = JsonSerializer.Serialize(newSuperkat);
+            var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+            var byteContent = new ByteArrayContent(buffer);
+            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            await _client.PutAsync(uri, byteContent);
         }
-        public async Task UpdateSuperkat(int superkatNumber, UpdateSuperkatParameters updateSuperkat)
+
+        public async Task UpdateSuperkatAsync(int superkatNumber, [FromBody] UpdateSuperkatParameters updateSuperkat)
         {
-            var uri = $"api/Superkatten?Number={superkatNumber}&Name={updateSuperkat.Name}";
-            var request = new HttpRequestMessage(HttpMethod.Put, uri);
-            await _client.SendAsync(request);
+            var uri = $"api/Superkatten?Number={superkatNumber}";
+            var myContent = JsonSerializer.Serialize(updateSuperkat); 
+            var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+            var byteContent = new ByteArrayContent(buffer);
+            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            _ = await _client.PostAsync(uri, byteContent);
+        }
+
+        public async Task DeleteSuperkatAsync(int superkatNumber)
+        {
+            var uri = $"api/Superkatten?Number={superkatNumber}";
+            _ = await _client.DeleteAsync(uri);
         }
 
         public async Task<Superkat> GetSuperkatAsync(int superkatNumber)

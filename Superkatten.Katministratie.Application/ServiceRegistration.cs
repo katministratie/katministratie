@@ -11,6 +11,8 @@ namespace Superkatten.Katministratie.Application
         {
             services.AddTransient<ISuperkattenService, SuperkattenService>();
             services.AddTransient<ISuperkattenMapper, SuperkattenMapper>();
+            services.AddTransient<IGastgezinnenService, GastgezinnenService>();
+            services.AddTransient<IGastgezinnenMapper, GastgezinnenMapper>();
 
             return services;
         }

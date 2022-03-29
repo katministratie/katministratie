@@ -1,0 +1,42 @@
+﻿@using Superkatten.Katministratie.Application.Contracts
+@using Superkatten.Katministratie.Web.Components
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="p-0 m-0 col-3">
+            <div class="p-0 m-1 border">
+                <img class="img-thumbnail" src=".\Images\superkat.jpg" />      
+            </div>
+        </div>
+        <div class="p-0 m-0 col-6">
+            <div class="px-1 bg-black text-white">
+                nr: @SuperkatDisplayableNumber
+            </div>
+            <div class="p-0">
+                <SuperkatActions SuperkatContext="SuperkatContext" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [ParameterAttribute]
+    public Superkat? SuperkatContext { get; set; }
+
+    public string SuperkatDisplayableNumber 
+    {
+        get
+        { 
+            if (SuperkatContext is null)
+            {
+                return "?";
+            }
+
+            var yearPart = SuperkatContext.FoundDate.Year % 100;
+            return yearPart + "-" + SuperkatContext?.Number.ToString("000");
+        }
+    }
+
+}
