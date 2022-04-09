@@ -10,9 +10,9 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
             return new GastgezinDto
             {
                 Name = gastgezin.Name,
-                Address = gastgezin?.Address,
-                City = gastgezin?.City,
-                Phone = gastgezin?.Phone,
+                Address = gastgezin.Address,
+                City = gastgezin.City,
+                Phone = gastgezin.Phone,
             };
         }
 
@@ -20,9 +20,9 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
         {
             return new Gastgezin(
                 gastgezinDto.Name,
-                gastgezinDto?.Address,
-                gastgezinDto?.City,
-                gastgezinDto?.Phone);
+                gastgezinDto.Address,
+                gastgezinDto.City,
+                gastgezinDto.Phone);
         }
     }
 }

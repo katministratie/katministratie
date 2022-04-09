@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Superkatten.Katministratie.Application;
 using Superkatten.Katministratie.Infrastructure;
 
@@ -33,7 +34,15 @@ if (builder.Environment.IsDevelopment())
 }
 app.UseSwagger();
 app.UseSwaggerUI();
+app.UseRouting();
 app.UseHttpsRedirection();
-//app.UseAuthorization();
 app.MapControllers();
+
+app.UseAuthentication();
+app.UseAuthorization();
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapControllers();
+//});
+
 app.Run();

@@ -6,6 +6,7 @@ using Xunit;
 
 namespace Superkatten.Katministratie.Domain.Tests.Entities
 {
+    //TODO: isAny eruit, gebruik SuperkatBuilder
     public class SuperkatTests
     {
         [Fact]
@@ -13,11 +14,11 @@ namespace Superkatten.Katministratie.Domain.Tests.Entities
         {
             // arrange
             const string KAT_NAME = "katnaam";
-            var sut = new Superkat(
+            var sut = new Superkat( //TODO: remove the It.IsAny -> replace by created type
                 It.IsAny<int>(),
-                It.IsAny<string>(),
                 It.IsAny<DateTimeOffset>(),
-                It.IsAny<string>()
+                It.IsAny<string>(),
+                It.IsAny<bool>()
             );
 
             // act
@@ -34,9 +35,9 @@ namespace Superkatten.Katministratie.Domain.Tests.Entities
             var foundDate = DateTimeOffset.Now;
             var sut = new Superkat(
                 It.IsAny<int>(),
-                It.IsAny<string>(),
                 foundDate,
-                It.IsAny<string>()
+                It.IsAny<string>(),
+                It.IsAny<bool>()
             );
 
             var birthday = foundDate.AddDays(-10);
@@ -55,9 +56,9 @@ namespace Superkatten.Katministratie.Domain.Tests.Entities
             var foundDate = DateTimeOffset.Now;
             var sut = new Superkat(
                 It.IsAny<int>(),
-                It.IsAny<string>(),
                 foundDate,
-                It.IsAny<string>()
+                It.IsAny<string>(),
+                It.IsAny<bool>()
             );
 
             var birthday = foundDate.AddDays(10);

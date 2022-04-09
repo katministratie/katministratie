@@ -23,11 +23,12 @@ namespace Superkatten.Katministratie.Infrastructure.Tests.Mapper
             var birthday = today.AddDays(-1);
             var superkat = new Superkat(
                 SUPERKAT_NUMBER,
-                SUPERKAT_COLOR, 
                 today,
-                SUPERKAT_CATCH_LOCATION
+                SUPERKAT_CATCH_LOCATION,
+                false
             ).SetName(SUPERKAT_NAME)
-             .SetBirthday(birthday);
+             .SetBirthday(birthday)
+             .SetColor(SUPERKAT_COLOR);
             
 
             // act
@@ -44,8 +45,9 @@ namespace Superkatten.Katministratie.Infrastructure.Tests.Mapper
                     Name = SUPERKAT_NAME,
                     CatchLocation = SUPERKAT_CATCH_LOCATION,
                     FoundDate = today,
-                    Kleur = SUPERKAT_COLOR,
+                    SuperkatColor = SUPERKAT_COLOR,
                     Birthday = birthday,
+                    IsGoingRetour = true
                 });
 
         }
@@ -64,8 +66,9 @@ namespace Superkatten.Katministratie.Infrastructure.Tests.Mapper
                 Name = SUPERKAT_NAME,
                 CatchLocation = SUPERKAT_CATCH_LOCATION,
                 FoundDate = foundDate,
-                Kleur = SUPERKAT_COLOR,
+                SuperkatColor = SUPERKAT_COLOR,
                 Birthday = birthday,
+                IsGoingRetour = false
             };
 
             // act
@@ -77,12 +80,13 @@ namespace Superkatten.Katministratie.Infrastructure.Tests.Mapper
                 .BeEquivalentTo(
                     new Superkat(
                         SUPERKAT_NUMBER,
-                        SUPERKAT_COLOR,
                         foundDate,
-                        SUPERKAT_CATCH_LOCATION
+                        SUPERKAT_CATCH_LOCATION,
+                        false
                     )
                     .SetName(SUPERKAT_NAME)
                     .SetBirthday(birthday)
+                    .SetColor(SUPERKAT_COLOR)
                 );
         }
     }

@@ -9,6 +9,8 @@ namespace Superkatten.Katministratie.Application.Contracts
         public DateTimeOffset FoundDate { get; init; }
         public DateTimeOffset Birthday { get;init; }
         public string CatchLocation { get; init; } = string.Empty;
-        public string Kleur { get; init; } = string.Empty;
+        public string SuperkatColor { get; init; } = string.Empty;
+        public bool Reserved { get; init; } = false;
+        public bool IsGoingRetour { get; init; } = false;
     }
 }

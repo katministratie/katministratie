@@ -1,4 +1,6 @@
-﻿namespace Superkatten.Katministratie.Application.Mappers
+﻿using System;
+
+namespace Superkatten.Katministratie.Application.Mappers
 {
     public class SuperkattenMapper : ISuperkattenMapper
     {
@@ -11,20 +13,30 @@
                 FoundDate= superkat.FoundDate,
                 CatchLocation = superkat.CatchLocation,
                 Birthday = superkat.Birthday,
-                Kleur = superkat.Kleur,
+                Reserved = superkat.Reserved
             };
         }
 
-        public Domain.Entities.Superkat MapToDomain(Contracts.Superkat superkat)
+        public Domain.Entities.Superkat MapToDomain(Contracts.Superkat contractSuperkat)
         {
-            return new Domain.Entities.Superkat(
-                    number: superkat.Number,
-                    kleur: superkat.Kleur,
-                    foundDate: superkat.FoundDate,
-                    catchLocation: superkat.CatchLocation
-                )
-                .SetName(superkat.Name is null ? string.Empty : superkat.Name)
-                .SetBirthday(superkat.Birthday);
+            var superkat = new Domain.Entities.Superkat(
+                    number: contractSuperkat.Number,
+                    catchLocation: contractSuperkat.CatchLocation
+                );
+
+            superkat.SetName(superkat.Name is null ? string.Empty : superkat.Name);
+            superkat.SetReserved(contractSuperkat.Reserved);
+
+            var weeksOld = ConvertBirthdayToWeeksOld(contractSuperkat.Birthday);
+            superkat.SetWeeksOld(weeksOld);
+
+            return superkat;
+        }
+
+        private int ConvertBirthdayToWeeksOld(DateTimeOffset birthday)
+        {
+            var today = DateTimeOffset.Now;
+            return (int)(today - birthday).TotalDays / 7;
         }
     }
 }
