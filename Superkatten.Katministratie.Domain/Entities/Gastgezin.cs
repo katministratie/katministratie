@@ -9,11 +9,11 @@ namespace Superkatten.Katministratie.Domain.Entities
         [Key]
         public Guid Id { get; private set; }
         public string Name { get; private set; }
-        public string Address { get; private set; }
-        public string City { get; private set; }
-        public string Phone { get; private set; }
+        public string? Address { get; private set; }
+        public string? City { get; private set; }
+        public string? Phone { get; private set; }
 
-        public Gastgezin(string name, string address, string city, string phone)
+        public Gastgezin(string name, string? address, string? city, string? phone)
         {
             if (string.IsNullOrEmpty(name))
             {

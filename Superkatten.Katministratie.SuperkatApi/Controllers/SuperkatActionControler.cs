@@ -18,30 +18,16 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
 
         [HttpPut]
         [Route("reserve")]
-        public async Task Reserve([FromBody] int superkatNumber)
+        public async Task Reserve(int superkatNumber, [FromBody] bool reserve)
         {
-            try
-            {
-                await _service.ReserveAsync(superkatNumber);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error setting reserved; Message: ({ex.Message})");
-            }
+            await _service.ReserveAsync(superkatNumber, reserve);
         }
 
         [HttpPut]
         [Route("retour")]
-        public async Task GoRetour([FromBody] int superkatNumber)
+        public async Task GoRetour(int superkatNumber, [FromBody] bool retour)
         {
-            try
-            {
-                await _service.GoingRetourAsync(superkatNumber);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error setting retour; Message: ({ex.Message})");
-            }
+            await _service.GoingRetourAsync(superkatNumber, retour);
         }
     }
 }

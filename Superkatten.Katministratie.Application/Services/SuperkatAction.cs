@@ -21,12 +21,12 @@ namespace Superkatten.Katministratie.Application.Services
             _superkattenMapper = superkattenMapper;
         }
 
-        public Task GoingRetourAsync(int number)
+        public Task GoingRetourAsync(int superkatNumber, bool retour)
         {
             throw new System.NotImplementedException();
         }
 
-        public async Task ReserveAsync(int superkatNumber)
+        public async Task ReserveAsync(int superkatNumber, bool reserve)
         {
             throw new System.NotImplementedException();
         }

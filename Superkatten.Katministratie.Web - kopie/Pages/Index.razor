@@ -1,0 +1,92 @@
+﻿@page "/"
+@using Superkatten.Katministratie.Application.Contracts
+@using Superkatten.Katministratie.Web.Services
+@using Superkatten.Katministratie.Web.Components
+
+@inject NavigationManager _navigationManager
+@inject ISuperkattenListService _superkattenService
+
+<PageTitle>Superkatten</PageTitle>
+
+<h1>Superkatten</h1>
+
+<div>
+    <Row>
+        <div class="m-2">
+            <Button Type="@ButtonType.Primary" OnClick="OnCreateSuperkat">
+                Nieuwe kat
+            </Button>
+        </div>
+        <div class="m-2">
+            <Button Type="@ButtonType.Primary" >
+                Report
+            </Button>
+        </div>
+    </Row>
+</div>
+
+@if (!_superkatten.Any())
+{
+    <p>Geen superkatten in het systeem...</p>
+}
+else
+{
+
+    
+    <Divider Orientation="left" />
+
+    <div>
+        <Row>
+            <div class="p-2 ">
+            @foreach (var superkatEntry in Superkatten)
+            {
+                <div>
+                    <SuperkatComponent SuperkatContext=superkatEntry />
+                </div>
+                <Divider />
+            }
+            </div>
+        </Row>
+    </div>
+}
+
+@code {
+    public List<Superkat> _superkatten = new();
+    public List<Superkat> Superkatten => _superkatten;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //base.OnInitializedAsync();
+        await UpdateListAsync();
+    }
+    private async Task UpdateListAsync()
+    {
+        if (_superkattenService == null)
+        {
+            return;
+        }
+
+        var superkatten = await _superkattenService.GetAllSuperkattenAsync();
+        _superkatten = superkatten
+            .AsQueryable()
+            .OrderByDescending(sk => sk.Number)
+            .ToList();
+    }
+
+    private void OnCreateSuperkat()
+    {
+        _navigationManager.NavigateTo("CreateSuperkat");
+    }
+
+    private void OnShowSizeChange(PaginationEventArgs args)
+    {
+        var(current, pageSize) = args;
+        Console.WriteLine($"{current}, {pageSize}");
+    }
+
+    private void OnPageChange(PaginationEventArgs args)
+    {        
+        var(current, pageSize) = args;
+        Console.WriteLine($"{current}, {pageSize}");
+    }
+}

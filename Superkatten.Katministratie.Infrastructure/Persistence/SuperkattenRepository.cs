@@ -118,11 +118,17 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
 
         public async Task<int> GetSuperkatMaxNumberForGivenYearAsync(int year)
         {
-            //TODO: geen katten => exceptie
-            return await _context
+            var superkatten = await _context
                 .SuperKatten
                 .Where(s => s.FoundDate.Year == year)
-                .MaxAsync(s => s.Number);
+                .ToArrayAsync();
+
+            if (superkatten.Length == 0)
+            {
+                return 0;
+            }
+
+            return superkatten.Max(s => s.Number);
         }
     }
 }

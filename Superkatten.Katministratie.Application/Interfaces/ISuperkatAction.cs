@@ -4,7 +4,7 @@ namespace Superkatten.Katministratie.Application.Interfaces
 {
     public interface ISuperkatAction
     {
-        Task GoingRetourAsync(int number);
-        Task ReserveAsync(int superkatNumber);
+        Task GoingRetourAsync(int superkatNumber, bool reserve);
+        Task ReserveAsync(int superkatNumber, bool reserve);
     }
 }
