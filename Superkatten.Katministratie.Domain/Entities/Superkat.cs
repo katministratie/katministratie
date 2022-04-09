@@ -15,19 +15,20 @@ namespace Superkatten.Katministratie.Domain.Entities
 
         public Superkat(
             int number,
+            DateTimeOffset foundDate,
             string catchLocation
         )
         {
             Number = number;
-            FoundDate = DateTimeOffset.Now;
+            FoundDate = foundDate;
             CatchLocation = catchLocation;
         }
 
-        public void SetName(string name)
+        public void SetName(string? name)
         {
-            if (string.IsNullOrEmpty(name))
+            if (name is null)
             {
-                throw new DomainException("Name cannot be null or empty");
+                throw new DomainException("Name cannot be null");
             }
 
             Name = name;

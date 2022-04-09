@@ -20,11 +20,8 @@ namespace Superkatten.Katministratie.Infrastructure.Entities
         [Required]
         public string CatchLocation { get; set; } = string.Empty;
 
-        public string? SuperkatColor { get; set; } = string.Empty;
-
-        [Required]
-        public bool IsGoingRetour { get; set; } = false;
-
         public string? Name { get; set; } = String.Empty;
+
+        public bool Reserved { get; set; } = false;
     }
 }

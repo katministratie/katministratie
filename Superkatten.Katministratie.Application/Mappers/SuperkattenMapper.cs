@@ -21,10 +21,11 @@ namespace Superkatten.Katministratie.Application.Mappers
         {
             var superkat = new Domain.Entities.Superkat(
                     number: contractSuperkat.Number,
+                    foundDate: contractSuperkat.FoundDate,
                     catchLocation: contractSuperkat.CatchLocation
                 );
 
-            superkat.SetName(superkat.Name is null ? string.Empty : superkat.Name);
+            superkat.SetName(superkat.Name);
             superkat.SetReserved(contractSuperkat.Reserved);
 
             var weeksOld = ConvertBirthdayToWeeksOld(contractSuperkat.Birthday);

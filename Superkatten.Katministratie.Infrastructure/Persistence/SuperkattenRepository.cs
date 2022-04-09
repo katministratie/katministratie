@@ -109,6 +109,10 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
             }
 
             superkatDto.Name = superkat.Name;
+            superkatDto.Reserved = superkat.Reserved;
+            superkatDto.CatchLocation = superkat.CatchLocation;
+            superkatDto.Birthday = superkat.Birthday;
+            superkatDto.FoundDate = superkat.FoundDate;
 
             _context.Update(superkatDto);
             await _context.SaveChangesAsync();

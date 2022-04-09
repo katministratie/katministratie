@@ -20,10 +20,19 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
 
         public Superkat MapSuperkatDtoToDomain(SuperkatDto superkatDto)
         {
-            return new Superkat(
+            var superkat = new Superkat(
                 superkatDto.Number,
+                superkatDto.FoundDate,
                 superkatDto.CatchLocation
             );
+            superkat.SetName(superkatDto.Name);
+            superkat.SetReserved(superkatDto.Reserved);
+
+            var today = DateTimeOffset.Now;
+            var weeksOld = (int)(today - superkatDto.Birthday).TotalDays / 7;
+            superkat.SetWeeksOld(weeksOld);
+
+            return superkat;
         }
     }
 }

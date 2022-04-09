@@ -36,7 +36,12 @@ namespace Superkatten.Katministratie.Application.Services
 
             var today = DateTimeOffset.Now;
             var superkatMaxNumber = await _superkattenRepository.GetSuperkatMaxNumberForGivenYearAsync(today.Year);
-            var superkat = new Domain.Entities.Superkat(superkatMaxNumber + 1, createSuperkatParameters.CatchLocation);
+
+            var superkat = new Domain.Entities.Superkat(
+                superkatMaxNumber + 1, 
+                DateTimeOffset.Now, 
+                createSuperkatParameters.CatchLocation
+            );
             superkat.SetWeeksOld(createSuperkatParameters.WeeksOld);
 
             await _superkattenRepository.CreateSuperkatAsync(superkat);
@@ -73,10 +78,13 @@ namespace Superkatten.Katministratie.Application.Services
             }
 
             var superkat = await _superkattenRepository.GetSuperkatAsync(number);
-            var updatedSuperkat = new Domain.Entities.Superkat(number, updateSuperkatParameters.Name);
-            superkat.SetWeeksOld(updateSuperkatParameters.WeeksOld);
 
-            await _superkattenRepository.UpdateSuperkatAsync(superkat);
+            var updatedSuperkat = new Domain.Entities.Superkat(number, superkat.FoundDate, superkat.CatchLocation);
+            updatedSuperkat.SetReserved(superkat.Reserved);
+            updatedSuperkat.SetName(updateSuperkatParameters.Name);
+            updatedSuperkat.SetWeeksOld(updateSuperkatParameters.WeeksOld);
+
+            await _superkattenRepository.UpdateSuperkatAsync(updatedSuperkat);
 
             return _superkattenMapper.MapFromDomain(updatedSuperkat);
         }
