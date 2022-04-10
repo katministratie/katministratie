@@ -1,0 +1,19 @@
+﻿@using Superkatten.Katministratie.Application.Contracts
+
+<span class="material-icons">
+    @ActionIcon
+</span>
+
+@code {
+    [Parameter]
+    public string ActionImage { get; set; } = "images/superkat.jpg";
+    
+    [Parameter]
+    public string ActionName { get; set; } = "unknown";
+
+    [Parameter]
+    public string ActionIcon { get; set; } = "help";
+
+    [Parameter]
+    public EventCallback OnClickCallback { get; set; }
+}

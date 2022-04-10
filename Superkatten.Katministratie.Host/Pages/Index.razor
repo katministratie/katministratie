@@ -1,9 +1,81 @@
 ﻿@page "/"
+@using Superkatten.Katministratie.Application.Contracts
+@using Superkatten.Katministratie.Host.Components
+@using Superkatten.Katministratie.Web.Services
 
-<PageTitle>Index</PageTitle>
+@inject NavigationManager _navigationManager
+@inject ISuperkattenListService _superkattenService
 
-<h1>Hello, world!</h1>
+<PageTitle>Superkatten</PageTitle>
 
-Welcome to your new app.
+<h1>Superkatten</h1>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<div>
+    <Row>
+        <div class="m-2">
+            <Button Type="@ButtonType.Primary" OnClick="OnCreateSuperkat">
+                Nieuwe kat
+            </Button>
+        </div>
+        <div class="m-2">
+            <Button Type="@ButtonType.Primary" >
+                Report
+            </Button>
+        </div>
+    </Row>
+</div>
+
+@if (!_superkatten.Any())
+{
+    <p>Er zijn nog geen superkatten, voeg nieuwe katten toe via de knoppen hierboven</p>
+}
+else
+{    
+    <Divider Orientation="left" />
+
+    <div>
+        <Row>
+            <div class="p-2 ">
+            @foreach (var superkatEntry in Superkatten)
+            {
+                <div>
+                    <SuperkatComponent Context=superkatEntry />
+                </div>
+                <Divider />
+            }
+            </div>
+        </Row>
+    </div>
+}
+
+
+@code {
+
+    public List<Superkat> _superkatten = new();
+    public List<Superkat> Superkatten => _superkatten;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await UpdateListAsync();
+    }
+
+    private async Task UpdateListAsync()
+    {
+        if (_superkattenService == null)
+        {
+            return;
+        }
+
+        var superkatten = await _superkattenService.GetAllSuperkattenAsync();
+        _superkatten = superkatten
+            .AsQueryable()
+            .OrderByDescending(sk => sk.Number)
+            .ToList();
+    }
+
+    private void OnCreateSuperkat()
+    {
+        _navigationManager.NavigateTo("CreateSuperkat");
+    }
+}
