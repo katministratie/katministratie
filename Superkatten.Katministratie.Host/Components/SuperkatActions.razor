@@ -8,11 +8,22 @@
         <div class="col-2">
             @if(Context.Reserved)
             {
-                <SuperkatAction OnClickCallback="@ReserveSuperkat" TooltipText="Reserveer de kat" ActionIcon="favorite_border" />                
+                <SuperkatAction OnClickCallback="@ToggleReserve" TooltipText="Reserveer de kat" ActionIcon="favorite_border" />                
             }
             else
             {
-                <SuperkatAction OnClickCallback="@ReserveSuperkat" TooltipText="Maak reservatie ongedaan" ActionIcon="do_not_disturb" />
+                <SuperkatAction OnClickCallback="@ToggleReserve" TooltipText="Maak reservatie ongedaan" ActionIcon="do_not_disturb" />
+            }
+        </div>
+
+        <div class="col-2">
+            @if(Context.Retour)
+            {
+                <SuperkatAction OnClickCallback="@ToggleRetour" TooltipText="Kat gaat terug naar vanglocatie" ActionIcon="autorenew" />                
+            }
+            else
+            {
+                <SuperkatAction OnClickCallback="@ToggleRetour" TooltipText="Kat gaat het normale adoptieproces in" ActionIcon="arrow_forward" />
             }
         </div>
     </div>
@@ -22,12 +33,12 @@
     [Parameter]
     public Superkat Context { get; set; } = new();
 
-    private void ReserveSuperkat()
+    private void ToggleReserve()
     {
         _superkatActionService.ToggleReserveSuperkatAsync(Context.Number);
     }
 
-    private void SwitchGoingRetour()
+    private void ToggleRetour()
     {
         _superkatActionService.ToggleRetourSuperkatAsync(Context.Number);
     }

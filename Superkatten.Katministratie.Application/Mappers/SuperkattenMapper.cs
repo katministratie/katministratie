@@ -10,10 +10,11 @@ namespace Superkatten.Katministratie.Application.Mappers
             {
                 Number = superkat.Number,
                 Name = superkat.Name,
-                FoundDate= superkat.FoundDate,
+                FoundDate = superkat.FoundDate,
                 CatchLocation = superkat.CatchLocation,
                 Birthday = superkat.Birthday,
-                Reserved = superkat.Reserved
+                Reserved = superkat.Reserved,
+                Retour = superkat.Retour
             };
         }
 
@@ -27,6 +28,7 @@ namespace Superkatten.Katministratie.Application.Mappers
 
             superkat.SetName(superkat.Name);
             superkat.SetReserved(contractSuperkat.Reserved);
+            superkat.SetRetour(contractSuperkat.Retour);
 
             var weeksOld = ConvertBirthdayToWeeksOld(contractSuperkat.Birthday);
             superkat.SetWeeksOld(weeksOld);

@@ -12,6 +12,7 @@ namespace Superkatten.Katministratie.Domain.Entities
         public string? Name { get; private set; } = string.Empty;
         public DateTimeOffset Birthday { get; private set; }
         public bool Reserved { get; private set; }
+        public bool Retour { get; private set; }
 
         public Superkat(
             int number,
@@ -51,6 +52,11 @@ namespace Superkatten.Katministratie.Domain.Entities
         public void SetReserved(bool isReserved)
         {
             Reserved = isReserved;
+        }
+
+        public void SetRetour(bool isRetour)
+        {
+            Retour = isRetour;
         }
     }
 }

@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Superkatten.Katministratie.Application;
 using Superkatten.Katministratie.Infrastructure;
 
@@ -38,11 +37,7 @@ app.UseRouting();
 app.UseHttpsRedirection();
 app.MapControllers();
 
-app.UseAuthentication();
-app.UseAuthorization();
-//app.UseEndpoints(endpoints =>
-//{
-//    endpoints.MapControllers();
-//});
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 app.Run();

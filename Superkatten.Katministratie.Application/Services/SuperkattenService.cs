@@ -81,6 +81,7 @@ namespace Superkatten.Katministratie.Application.Services
 
             var updatedSuperkat = new Domain.Entities.Superkat(number, superkat.FoundDate, superkat.CatchLocation);
             updatedSuperkat.SetReserved(superkat.Reserved);
+            updatedSuperkat.SetRetour(superkat.Retour); 
             updatedSuperkat.SetName(updateSuperkatParameters.Name);
             updatedSuperkat.SetWeeksOld(updateSuperkatParameters.WeeksOld);
 
