@@ -13,24 +13,24 @@ namespace Superkatten.Katministratie.Web.Services
             _client = client;
         }
 
-        public async Task ReserveSuperkatAsync(int superkatNumber)
+        public async Task ToggleReserveSuperkatAsync(int superkatNumber)
         {
-            var uri = $"api/Superkat/SuperkatAction/Reserve";
+            var uri = $"api/SuperkatAction/ToggleReserve";
             var myContent = JsonSerializer.Serialize(superkatNumber);
             var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
             var byteContent = new ByteArrayContent(buffer);
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            await _client.PutAsync(uri, byteContent);
+            _ = await _client.PutAsync(uri, byteContent);
         }
 
-        public async Task RetourSuperkatAsync(int superkatNumber)
+        public async Task ToggleRetourSuperkatAsync(int superkatNumber)
         {
-            var uri = $"api/Superkat/SuperkatAction/Retour";
+            var uri = $"api/SuperkatAction/ToggleRetour";
             var myContent = JsonSerializer.Serialize(superkatNumber);
             var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
             var byteContent = new ByteArrayContent(buffer);
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            await _client.PutAsync(uri, byteContent);
+            _ = await _client.PutAsync(uri, byteContent);
         }
     }
 }

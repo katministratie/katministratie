@@ -2,7 +2,7 @@
 {
     public interface ISuperkatActionService
     {
-        public Task ReserveSuperkatAsync(int superkatNumber);
-        public Task RetourSuperkatAsync(int superkatNumber);
+        public Task ToggleReserveSuperkatAsync(int superkatNumber);
+        public Task ToggleRetourSuperkatAsync(int superkatNumber);
     }
 }

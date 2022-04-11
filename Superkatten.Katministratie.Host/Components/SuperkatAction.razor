@@ -1,18 +1,19 @@
 ﻿@using Superkatten.Katministratie.Application.Contracts
 
-<span class="material-icons">
-    @ActionIcon
-</span>
+<Button OnClick="ExecuteAction">
+    <span class="material-icons border">
+        @ActionIcon
+    </span>
+</Button>
 
 @code {
     [Parameter]
-    public string ActionImage { get; set; } = "images/superkat.jpg";
-    
-    [Parameter]
-    public string ActionName { get; set; } = "unknown";
+    public string ActionIcon { get; set; } = "help";
 
     [Parameter]
-    public string ActionIcon { get; set; } = "help";
+    public string TooltipText { get; set; } = "unknown";
+
+    public void ExecuteAction() => OnClickCallback.InvokeAsync();
 
     [Parameter]
     public EventCallback OnClickCallback { get; set; }

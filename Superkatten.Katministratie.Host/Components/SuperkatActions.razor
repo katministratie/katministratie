@@ -6,34 +6,14 @@
 <div class="container border">
     <div class="row">
         <div class="col-2">
-            @if(Context is not null && Context.Reserved)
+            @if(Context.Reserved)
             {
-                <SuperkatAction OnClickCallback="@ReserveSuperkat" ActionName="Reserve" ActionIcon="lock" />
+                <SuperkatAction OnClickCallback="@ReserveSuperkat" TooltipText="Reserveer de kat" ActionIcon="favorite_border" />                
             }
             else
             {
-                <span class="material-icons">no_encryption_gmailerrorred</span>  
+                <SuperkatAction OnClickCallback="@ReserveSuperkat" TooltipText="Maak reservatie ongedaan" ActionIcon="do_not_disturb" />
             }
-        </div>
-
-        <div class="col-2">
-            @if(Context is not null && Context.IsGoingRetour)
-            {
-                <SuperkatAction OnClickCallback="@SwitchGoingRetour" ActionName="Retour" ActionIcon="find_replace" />
-            }
-            else
-            {
-                <span class="material-icons">no_encryption_gmailerrorred</span>  
-            }
-        </div>
-
-
-        <div class="col-2">
-            <SuperkatAction OnClickCallback="@ReserveSuperkat" ActionName="D" ActionIcon="settings_input_antenna" />
-        </div>
-
-        <div class="col-2">
-            <SuperkatAction OnClickCallback="@ReserveSuperkat" ActionName="D" ActionIcon="dangerous" />
         </div>
     </div>
 </div>
@@ -44,11 +24,11 @@
 
     private void ReserveSuperkat()
     {
-        _superkatActionService.ReserveSuperkatAsync(Context.Number);
+        _superkatActionService.ToggleReserveSuperkatAsync(Context.Number);
     }
 
     private void SwitchGoingRetour()
     {
-        _superkatActionService.RetourSuperkatAsync(Context.Number);
+        _superkatActionService.ToggleRetourSuperkatAsync(Context.Number);
     }
 }

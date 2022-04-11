@@ -17,17 +17,17 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpPut]
-        [Route("Reserve")]
-        public async Task Reserve(int superkatNumber, [FromBody] bool reserve)
+        [Route("ToggleReserve")]
+        public async Task Reserve([FromBody] int superkatNumber)
         {
-            await _service.ReserveAsync(superkatNumber, reserve);
+            await _service.ToggleReserveAsync(superkatNumber);
         }
 
         [HttpPut]
-        [Route("Retour")]
-        public async Task GoRetour(int superkatNumber, [FromBody] bool retour)
+        [Route("ToggleRetour")]
+        public async Task GoRetour([FromBody] int superkatNumber)
         {
-            await _service.GoingRetourAsync(superkatNumber, retour);
+            await _service.ToggleRetourAsync(superkatNumber);
         }
     }
 }
