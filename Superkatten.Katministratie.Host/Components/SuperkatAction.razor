@@ -1,24 +1,21 @@
 ﻿@using Superkatten.Katministratie.Application.Contracts
 
 <div class="m-0 p-0">
-  <Button OnClick="ExecuteAction">
     <Tooltip Placement="@Placement.TopRight" Title="@TooltipText">
-      <span class="material-icons">
-          @ActionIcon
-      </span>
-      </Tooltip>
-  </Button>
+        <Image Src="@ActionIcon" Alt="@TooltipText" OnClick="@ExecuteAction" Preview="false" />
+    </Tooltip>
 </div>
 
 @code {
     [Parameter]
-    public string ActionIcon { get; set; } = "help";
+    public string ActionIcon { get; set; } = string.Empty;
 
     [Parameter]
-    public string TooltipText { get; set; } = "unknown";
-
-    public void ExecuteAction() => OnClickCallback.InvokeAsync();
+    public string TooltipText { get; set; } = string.Empty;
 
     [Parameter]
     public EventCallback OnClickCallback { get; set; }
+    
+
+    public void ExecuteAction() => OnClickCallback.InvokeAsync();
 }

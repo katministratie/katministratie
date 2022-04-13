@@ -18,6 +18,7 @@ builder.Services.AddScoped<HttpClient>(s =>
 {
     return new HttpClient { BaseAddress = new System.Uri(uriName) };
 });
+
 // Add the ANT design from https://antblazor.com/
 builder.Services.AddAntDesign();
 

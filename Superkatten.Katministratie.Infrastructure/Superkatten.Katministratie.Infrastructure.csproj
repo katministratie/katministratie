@@ -25,4 +25,8 @@
     <ProjectReference Include="..\Superkatten.Katministratie.Application\Superkatten.Katministratie.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

@@ -27,6 +27,7 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
             );
             superkat.SetName(superkatDto.Name);
             superkat.SetReserved(superkatDto.Reserved);
+            superkat.SetRetour(superkatDto.Retour);
 
             var today = DateTimeOffset.Now;
             var weeksOld = (int)(today - superkatDto.Birthday).TotalDays / 7;
