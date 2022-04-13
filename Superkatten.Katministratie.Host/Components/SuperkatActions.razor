@@ -5,18 +5,32 @@
 
 <div class="container">
     <div class="row">
-            <div class="col-4">
+            <div class="col-3">
                 <SuperkatAction                
                     OnClickCallback="@ToggleReserve" 
                     TooltipText="Reserveren van een kat" 
-                    ActionIcon="@(Superkat.Reserved ? "favorite_border" : "do_not_disturb")" />
+                    ActionIcon="@(Superkat.Reserved ? "note" : "")" />
             </div>
 
-            <div class="col-4">
+            <div class="col-3">
                 <SuperkatAction 
                 OnClickCallback="@ToggleRetour" 
                 TooltipText="Kat gaat terug naar vanglocatie" 
-                ActionIcon="@(Superkat.Retour ? "autorenew" : "arrow_forward")" />
+                ActionIcon="@(Superkat.Retour ? "undo" : "")" />
+            </div>
+
+            <div class="col-3">
+                <SuperkatAction 
+                OnClickCallback="@ToggleRetour" 
+                TooltipText="Kat gaat terug naar vanglocatie" 
+                ActionIcon="@(Superkat.Retour ? "undo" : "")" />
+            </div>
+
+            <div class="col-3">
+                <SuperkatAction 
+                OnClickCallback="@ToggleRetour" 
+                TooltipText="Kat gaat terug naar vanglocatie" 
+                ActionIcon="@(Superkat.Retour ? "undo" : "")" />
             </div>
     </div>
 </div>
