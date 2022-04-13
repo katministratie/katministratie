@@ -9,28 +9,14 @@
                 <SuperkatAction                
                     OnClickCallback="@ToggleReserve" 
                     TooltipText="Reserveren van een kat" 
-                    ActionIcon="@(Superkat.Reserved ? "note" : "")" />
+                    ActionIcon="@(Superkat.Reserved ? "published_with_changes" : "sync_alt")" />
             </div>
 
             <div class="col-3">
                 <SuperkatAction 
                 OnClickCallback="@ToggleRetour" 
                 TooltipText="Kat gaat terug naar vanglocatie" 
-                ActionIcon="@(Superkat.Retour ? "undo" : "")" />
-            </div>
-
-            <div class="col-3">
-                <SuperkatAction 
-                OnClickCallback="@ToggleRetour" 
-                TooltipText="Kat gaat terug naar vanglocatie" 
-                ActionIcon="@(Superkat.Retour ? "undo" : "")" />
-            </div>
-
-            <div class="col-3">
-                <SuperkatAction 
-                OnClickCallback="@ToggleRetour" 
-                TooltipText="Kat gaat terug naar vanglocatie" 
-                ActionIcon="@(Superkat.Retour ? "undo" : "")" />
+                ActionIcon="@(Superkat.Retour ? "undo" : "note")" />
             </div>
     </div>
 </div>
