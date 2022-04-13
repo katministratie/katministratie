@@ -17,14 +17,7 @@
         </div>
 
         <div class="col-2">
-            @if(Context.Retour)
-            {
-                <SuperkatAction OnClickCallback="@ToggleRetour" TooltipText="Kat gaat terug naar vanglocatie" ActionIcon="autorenew" />                
-            }
-            else
-            {
-                <SuperkatAction OnClickCallback="@ToggleRetour" TooltipText="Kat gaat het normale adoptieproces in" ActionIcon="arrow_forward" />
-            }
+                  <SuperkatAction OnClickCallback="@ToggleRetour" TooltipText="Kat gaat terug naar vanglocatie" ActionIcon="@(Context.Retour ? "autorenew" : "arrow_forward")" />                
         </div>
     </div>
 </div>
@@ -33,9 +26,20 @@
     [Parameter]
     public Superkat Context { get; set; } = new();
 
-    private void ToggleReserve()
+    [Parameter]
+    public EventCallback<Superkat> ContextChanged { get; set; }
+
+    private bool BusyWithAction = false;
+
+    private async Task ToggleReserve()
     {
-        _superkatActionService.ToggleReserveSuperkatAsync(Context.Number);
+        await _superkatActionService.ToggleReserveSuperkatAsync(Context.Number);
+        await ContextChanged.InvokeAsync(Context = new Superkat
+        {
+            Name = "Deze is veranderd",
+            Reserved = !Context.Reserved
+        });
+
     }
 
     private void ToggleRetour()

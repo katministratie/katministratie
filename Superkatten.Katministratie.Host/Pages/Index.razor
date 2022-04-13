@@ -27,7 +27,20 @@
 
 @if (!_superkatten.Any())
 {
-    <p>Er zijn nog geen superkatten, voeg nieuwe katten toe via de knoppen hierboven</p>
+    <div style="margin: 3rem auto; width: 20rem">
+      <div class="card">
+        <img src="images\superkat.jpg"
+             class="card-img-top"
+             alt="Phone" />
+        <div class="card-body">
+          <h5 class="card-title">Katministratie</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Ophalen katten</h6>
+          <p class="card-text">
+            Ophalen van de katten uit de database. Dit kan even duren...
+          </p>
+        </div>
+      </div>
+    </div>
 }
 else
 {    

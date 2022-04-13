@@ -54,7 +54,7 @@ namespace Superkatten.Katministratie.Web.Services
 
             var mylist = await JsonSerializer.DeserializeAsync<List<Superkat>>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
-            return mylist == null ? new() : mylist;
+            return mylist is null ? new() : mylist;
         }
     }
 }

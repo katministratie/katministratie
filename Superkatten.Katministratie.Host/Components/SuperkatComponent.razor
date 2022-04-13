@@ -1,25 +1,29 @@
 ﻿@using Superkatten.Katministratie.Application.Contracts
 @using Superkatten.Katministratie.Host.Components
 
-<div class="row shadow-sm p-1 mb-1 bg-body-rounded">
-    <div class="col-4">                       
-        <img class="img-thumbnail" src=".\Images\superkat.jpg" />
-        <p>Naam: @SuperkatName</p>
-        <p>Vanglocatie: @Context.CatchLocation</p>
-    </div>        
 
-    <div class="col-6">
-        <div class="row">
-            <div class="col">
-                <div class="">
-                    <div class="fs-1 px-2 text-end w3-highway-green text-white">
-                        @SuperkatDisplayableNumber
-                    </div>
-                    <SuperkatActions Context="@Context" />
-                </div>
-            </div>
+<div style="margin: 3rem auto; width: 40rem">
+  <div class="card">
+    <img src=".\images\superkat.jpg" style="height:50px" class="card-img-top img-thumbnail" alt="Photo" />
+    <div class="card-body">
+      <h5 class="card-title">@SuperkatDisplayableNumber</h5>
+      <h6 class="card-subtitle mb-2 text-muted">@Context.CatchLocation</h6>
+      <p class="card-text">
+        <div class="col-6">
+          <div class="row">
+              <div class="col">
+                  <div class="">
+                      <div class="fs-1 px-2 text-end w3-highway-green text-white">
+                          @SuperkatDisplayableNumber
+                      </div>
+                      <SuperkatActions @bind-Context="@Context" />
+                  </div>
+              </div>
+          </div>
         </div>
+      </p>
     </div>
+  </div>
 </div>
 
 
