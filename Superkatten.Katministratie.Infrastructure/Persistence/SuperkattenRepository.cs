@@ -109,6 +109,11 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
             }
 
             superkatDto.Name = superkat.Name;
+            superkatDto.Reserved = superkat.Reserved;
+            superkatDto.Retour = superkat.Retour;
+            superkatDto.CatchLocation = superkat.CatchLocation;
+            superkatDto.Birthday = superkat.Birthday;
+            superkatDto.FoundDate = superkat.FoundDate;
 
             _context.Update(superkatDto);
             await _context.SaveChangesAsync();
@@ -118,10 +123,17 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
 
         public async Task<int> GetSuperkatMaxNumberForGivenYearAsync(int year)
         {
-            return await _context
+            var superkatten = await _context
                 .SuperKatten
                 .Where(s => s.FoundDate.Year == year)
-                .MaxAsync(s => s.Number);
+                .ToArrayAsync();
+
+            if (superkatten.Length == 0)
+            {
+                return 0;
+            }
+
+            return superkatten.Max(s => s.Number);
         }
     }
 }

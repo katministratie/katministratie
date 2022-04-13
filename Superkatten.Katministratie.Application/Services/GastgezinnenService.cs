@@ -73,12 +73,17 @@ namespace Superkatten.Katministratie.Application.Services
             }
 
             var gastgezin = await _repository.GetGastgezinAsync(name);
+            if(gastgezin is null)
+            {
+                throw new ValidationException($"gastgezin {name} does not exsist");
+            }
 
-            var updatedGastgezin = gastgezin
-                .SetName(name)
-                .SetAddress(updateGastgezinParameters.Address)
-                .SetCity(updateGastgezinParameters.City)
-                .SetPhone(updateGastgezinParameters.Phone);
+            var updatedGastgezin = new Domain.Entities.Gastgezin(
+                name,
+                updateGastgezinParameters.Address,
+                updateGastgezinParameters.City,
+                updateGastgezinParameters.Phone
+            );
 
             await _repository.UpdateGastgezinAsync(name, updatedGastgezin);
 

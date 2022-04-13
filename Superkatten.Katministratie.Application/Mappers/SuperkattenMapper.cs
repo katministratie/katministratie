@@ -1,4 +1,6 @@
-﻿namespace Superkatten.Katministratie.Application.Mappers
+﻿using System;
+
+namespace Superkatten.Katministratie.Application.Mappers
 {
     public class SuperkattenMapper : ISuperkattenMapper
     {
@@ -8,23 +10,36 @@
             {
                 Number = superkat.Number,
                 Name = superkat.Name,
-                FoundDate= superkat.FoundDate,
+                FoundDate = superkat.FoundDate,
                 CatchLocation = superkat.CatchLocation,
                 Birthday = superkat.Birthday,
-                Kleur = superkat.Kleur,
+                Reserved = superkat.Reserved,
+                Retour = superkat.Retour
             };
         }
 
-        public Domain.Entities.Superkat MapToDomain(Contracts.Superkat superkat)
+        public Domain.Entities.Superkat MapToDomain(Contracts.Superkat contractSuperkat)
         {
-            return new Domain.Entities.Superkat(
-                    number: superkat.Number,
-                    kleur: superkat.Kleur,
-                    foundDate: superkat.FoundDate,
-                    catchLocation: superkat.CatchLocation
-                )
-                .SetName(superkat.Name is null ? string.Empty : superkat.Name)
-                .SetBirthday(superkat.Birthday);
+            var superkat = new Domain.Entities.Superkat(
+                    number: contractSuperkat.Number,
+                    foundDate: contractSuperkat.FoundDate,
+                    catchLocation: contractSuperkat.CatchLocation
+                );
+
+            superkat.SetName(superkat.Name);
+            superkat.SetReserved(contractSuperkat.Reserved);
+            superkat.SetRetour(contractSuperkat.Retour);
+
+            var weeksOld = ConvertBirthdayToWeeksOld(contractSuperkat.Birthday);
+            superkat.SetWeeksOld(weeksOld);
+
+            return superkat;
+        }
+
+        private int ConvertBirthdayToWeeksOld(DateTimeOffset birthday)
+        {
+            var today = DateTimeOffset.Now;
+            return (int)(today - birthday).TotalDays / 7;
         }
     }
 }

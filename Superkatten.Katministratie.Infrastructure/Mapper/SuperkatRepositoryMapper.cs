@@ -14,31 +14,25 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
                 Name = superkat.Name,
                 FoundDate = superkat.FoundDate,
                 CatchLocation = superkat.CatchLocation,
-                Kleur = MapFromDomainKleur(superkat.Kleur),
-                Birthday = superkat.Birthday
+                Birthday = superkat.Birthday,
             };
-        }
-
-        private string MapFromDomainKleur(string kleur)
-        {
-            return kleur;
         }
 
         public Superkat MapSuperkatDtoToDomain(SuperkatDto superkatDto)
         {
-            return new Superkat(
+            var superkat = new Superkat(
                 superkatDto.Number,
-                MapToDomainKleur(superkatDto.Kleur),
                 superkatDto.FoundDate,
                 superkatDto.CatchLocation
-                )
-                .SetBirthday(superkatDto.Birthday)
-                .SetName(superkatDto.Name);
-        }
+            );
+            superkat.SetName(superkatDto.Name);
+            superkat.SetReserved(superkatDto.Reserved);
 
-        private string MapToDomainKleur(string kleur)
-        {
-            return kleur;
+            var today = DateTimeOffset.Now;
+            var weeksOld = (int)(today - superkatDto.Birthday).TotalDays / 7;
+            superkat.SetWeeksOld(weeksOld);
+
+            return superkat;
         }
     }
 }

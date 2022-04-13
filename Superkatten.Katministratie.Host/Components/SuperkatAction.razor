@@ -1,0 +1,20 @@
+﻿@using Superkatten.Katministratie.Application.Contracts
+
+<Button OnClick="ExecuteAction">
+    <span class="material-icons border">
+        @ActionIcon
+    </span>
+</Button>
+
+@code {
+    [Parameter]
+    public string ActionIcon { get; set; } = "help";
+
+    [Parameter]
+    public string TooltipText { get; set; } = "unknown";
+
+    public void ExecuteAction() => OnClickCallback.InvokeAsync();
+
+    [Parameter]
+    public EventCallback OnClickCallback { get; set; }
+}

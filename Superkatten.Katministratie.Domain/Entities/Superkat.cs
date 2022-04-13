@@ -5,49 +5,58 @@ namespace Superkatten.Katministratie.Domain.Entities
 {
     public class Superkat
     {
+        public Guid Id { get; private set; }
         public int Number { get; private set; }
         public DateTimeOffset FoundDate { get; private set; }
         public string CatchLocation { get; private set; }
-        public string Kleur { get; private set; } = string.Empty;
         public string? Name { get; private set; } = string.Empty;
         public DateTimeOffset Birthday { get; private set; }
+        public bool Reserved { get; private set; }
+        public bool Retour { get; private set; }
 
         public Superkat(
             int number,
-            string kleur,
             DateTimeOffset foundDate,
             string catchLocation
         )
         {
             Number = number;
-            Kleur = kleur;
             FoundDate = foundDate;
             CatchLocation = catchLocation;
         }
 
-        public Superkat SetBirthday(DateTimeOffset birthday)
+        public void SetName(string? name)
         {
-            if (birthday >= FoundDate)
+            if (name is null)
             {
-                throw new DomainException($"Birthday '{birthday}' is larger or equal than founddate '{FoundDate}'");
+                throw new DomainException("Name cannot be null");
             }
 
-            if (Birthday != birthday)
-            {
-                Birthday = birthday;
-            }
-
-            return this;
+            Name = name;
         }
 
-        public Superkat SetName(string? name)
+        public void SetWeeksOld(int weeksOld)
         {
-            if (Name != name)
+            if (weeksOld <= 0)
             {
-                Name = name;
+                throw new DomainException($"Value {weeksOld} for parameter {nameof(weeksOld)} cannot be negative");
             }
 
-            return this;
+            var today = DateTimeOffset.Now;
+            var daysOld = 7 * weeksOld;
+            var birthDay = today.AddDays(-daysOld);
+
+            Birthday = birthDay;
+        }
+
+        public void SetReserved(bool isReserved)
+        {
+            Reserved = isReserved;
+        }
+
+        public void SetRetour(bool isRetour)
+        {
+            Retour = isRetour;
         }
     }
 }

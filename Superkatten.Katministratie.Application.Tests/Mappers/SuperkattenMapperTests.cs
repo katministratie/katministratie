@@ -20,7 +20,7 @@ namespace Superkatten.Katministratie.Application.Tests.Mappers
             var contractSuperkat = new Contracts.Superkat()
             {
                 Number = SUPERKAT_NUMBER,
-                Kleur = SUPERKAT_COLOR,
+                SuperkatColor = SUPERKAT_COLOR,
                 FoundDate = foundDate,
                 CatchLocation = SUPERKAT_CATCH_LOCATION,
                 Birthday = foundDate.AddDays(-1),
@@ -29,9 +29,9 @@ namespace Superkatten.Katministratie.Application.Tests.Mappers
 
             var expectedSuperkatInstance = new Superkat(
                     number: SUPERKAT_NUMBER,
-                    kleur: SUPERKAT_COLOR,
                     foundDate: foundDate,
-                    catchLocation: SUPERKAT_CATCH_LOCATION
+                    catchLocation: SUPERKAT_CATCH_LOCATION,
+                    isGoingRetour: false
                 );
             expectedSuperkatInstance.SetBirthday(foundDate.AddDays(-1));
 
@@ -52,9 +52,9 @@ namespace Superkatten.Katministratie.Application.Tests.Mappers
             var sut = new SuperkattenMapper();
             var superkat = new Superkat(
                 SUPERKAT_NUMBER,
-                SUPERKAT_COLOR,
                 foundDate,
-                SUPERKAT_CATCH_LOCATION
+                SUPERKAT_CATCH_LOCATION,
+                false
             );
             superkat.SetBirthday(foundDate.AddDays(-1));
 
@@ -64,7 +64,7 @@ namespace Superkatten.Katministratie.Application.Tests.Mappers
                 Name = string.Empty,
                 FoundDate = foundDate,
                 CatchLocation = SUPERKAT_CATCH_LOCATION,
-                Kleur = SUPERKAT_COLOR,
+                SuperkatColor = SUPERKAT_COLOR,
                 Birthday = foundDate.AddDays(-1)
             };
 

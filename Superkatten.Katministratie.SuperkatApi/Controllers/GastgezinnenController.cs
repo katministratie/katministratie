@@ -20,55 +20,25 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         [HttpGet]
         public async Task<IReadOnlyCollection<Gastgezin>?> GetAllGastgezinnen()
         {
-            try
-            {
-                return await _service.ReadAvailableGastgezinAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error reading available gastgezinnen; Message: ({ex.Message})");
-                return default;
-            }
+            return await _service.ReadAvailableGastgezinAsync();
         }
 
         [HttpPut]
         public async Task PutGastgezin(string name, [FromBody] CreateUpdateGastgezinParameters createGastgezinParameters)
         {
-            try
-            {
-                await _service.CreateGastgezinAsync(name, createGastgezinParameters);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error creating gastgezin; Message: ({ex.Message})");
-            }
+            await _service.CreateGastgezinAsync(name, createGastgezinParameters);
         }
 
         [HttpPost]
         public async Task PostGastgezin(string name, [FromBody] CreateUpdateGastgezinParameters updateGastgezinParameters)
         {
-            try
-            {
-                await _service.UpdateGastgezinAsync(name, updateGastgezinParameters);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error updating gastgezin {name}; Message: {ex.Message}");
-            }
+            await _service.UpdateGastgezinAsync(name, updateGastgezinParameters);
         }
 
         [HttpDelete]
         public async Task DeleteGastgezin(string name)
         {
-            try
-            {
-                await _service.DeleteGastgezinAsync(name);
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError($"Error deleting gastgezin {name}; Message: {ex.Message}");
-            }
+            await _service.DeleteGastgezinAsync(name);
         }
-
     }
 }

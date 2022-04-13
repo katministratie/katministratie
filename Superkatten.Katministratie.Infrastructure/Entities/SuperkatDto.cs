@@ -13,15 +13,16 @@ namespace Superkatten.Katministratie.Infrastructure.Entities
 
         [Required]
         public DateTimeOffset FoundDate { get; set; }
+
         [Required]
         public DateTimeOffset Birthday { get; set; }
 
         [Required]
         public string CatchLocation { get; set; } = string.Empty;
 
-        [Required]
-        public string Kleur { get; set; } = string.Empty;
-
         public string? Name { get; set; } = String.Empty;
+
+        public bool Reserved { get; set; } = false;
+        public bool Retour { get; set; } = false;
     }
 }
