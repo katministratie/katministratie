@@ -46,19 +46,14 @@ else
 {    
     <Divider Orientation="left" />
 
-    <div>
-        <Row>
-            <div class="p-2 ">
-            @foreach (var superkatEntry in Superkatten)
-            {
-                <div>
-                    <SuperkatComponent Context=superkatEntry />
-                </div>
-                <Divider />
-            }
-            </div>
-        </Row>
-    </div>
+    <Row>
+        <div class="p-2 ">
+        @foreach (var superkat in Superkatten)
+        {
+            <SuperkatComponent Superkat=superkat />
+        }
+        </div>
+    </Row>
 }
 
 

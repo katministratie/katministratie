@@ -9,22 +9,21 @@ namespace Superkatten.Katministratie.Application.Services
 {
     internal class SuperkatAction : ISuperkatAction
     {
-        public readonly ILogger<SuperkatAction> _logger;
-        public readonly ISuperkattenRepository _repository;
-        public readonly ISuperkattenMapper _superkattenMapper;
-        public SuperkatAction(
+        public readonly ILogger<SuperkatAction> Logger;
+        public readonly ISuperkattenRepository Repository;
+        public readonly ISuperkattenMapper SuperkattenMapper;        public SuperkatAction(
             ILogger<SuperkatAction> logger,
             ISuperkattenRepository superkattenRepository,
             ISuperkattenMapper superkattenMapper)
         {
-            _logger = logger;
-            _repository = superkattenRepository;
-            _superkattenMapper = superkattenMapper;
+            Logger = logger;
+            Repository = superkattenRepository;
+            SuperkattenMapper = superkattenMapper;
         }
 
         public async Task ToggleRetourAsync(int superkatNumber)
         {
-            var superkat = await _repository.GetSuperkatAsync(superkatNumber);
+            var superkat = await Repository.GetSuperkatAsync(superkatNumber);
 
             if (superkat is null)
             {
@@ -40,12 +39,12 @@ namespace Superkatten.Katministratie.Application.Services
 
             updatedSuperkat.SetRetour(!superkat.Retour);
 
-            await _repository.UpdateSuperkatAsync(updatedSuperkat);
+            await Repository.UpdateSuperkatAsync(updatedSuperkat);
         }
 
         public async Task ToggleReserveAsync(int superkatNumber)
         {
-            var superkat = await _repository.GetSuperkatAsync(superkatNumber);
+            var superkat = await Repository.GetSuperkatAsync(superkatNumber);
 
             if (superkat is null)
             {
@@ -60,7 +59,7 @@ namespace Superkatten.Katministratie.Application.Services
             
             updatedSuperkat.SetReserved(!superkat.Reserved);
 
-            await _repository.UpdateSuperkatAsync(updatedSuperkat);
+            await Repository.UpdateSuperkatAsync(updatedSuperkat);
         }
     }
 }

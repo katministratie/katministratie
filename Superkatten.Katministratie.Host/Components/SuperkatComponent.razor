@@ -1,27 +1,31 @@
 ﻿@using Superkatten.Katministratie.Application.Contracts
 @using Superkatten.Katministratie.Host.Components
 
-
-<div style="margin: 3rem auto; width: 40rem">
-  <div class="card">
-    <img src=".\images\superkat.jpg" style="height:50px" class="card-img-top img-thumbnail" alt="Photo" />
-    <div class="card-body">
-      <h5 class="card-title">@SuperkatDisplayableNumber</h5>
-      <h6 class="card-subtitle mb-2 text-muted">@Context.CatchLocation</h6>
-      <p class="card-text">
-        <div class="col-6">
-          <div class="row">
-              <div class="col">
-                  <div class="">
-                      <div class="fs-1 px-2 text-end w3-highway-green text-white">
-                          @SuperkatDisplayableNumber
-                      </div>
-                      <SuperkatActions @bind-Context="@Context" />
-                  </div>
-              </div>
-          </div>
+<div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-2">
+      <img src=".\images\superkat.jpg" class="img-fluid rounded-start" alt="...">
+    </div>
+    <div class="col-md-10">
+      <div class="card-body">
+        <h5 class="card-title bg-black text-white">@SuperkatDisplayableNumber</h5>
+        <div class="card-text">
+            @if (!string.IsNullOrEmpty(@Superkat.Name)) 
+            {
+                <div>Naam:</div> 
+            }
+            @Superkat.Name
+            <br />
+            Locatie: @Superkat.CatchLocation
+            <br />
+            @if (!string.IsNullOrEmpty(@Superkat.SuperkatColor)) 
+            { 
+                <div>Kleur:</div>
+            }
+            @Superkat.SuperkatColor
         </div>
-      </p>
+        <p class="card-text"><small class="text-muted"><SuperkatActions @bind-Superkat="@Superkat" /></small></p>
+      </div>
     </div>
   </div>
 </div>
@@ -29,23 +33,23 @@
 
 @code {
     [ParameterAttribute]
-    public Superkat Context { get; set; }
+    public Superkat Superkat { get; set; } = new();
 
     public string SuperkatName
     {
         get
         {
-            if (Context is null)
+            if (Superkat is null)
             {
                 return "onbekend";
             }
 
-            if (string.IsNullOrEmpty(Context?.Name))
+            if (string.IsNullOrEmpty(Superkat?.Name))
             {
                 return "geen naam";
             }
 
-            return Context.Name;
+            return Superkat.Name;
         }
     }
 
@@ -53,13 +57,13 @@
     {
         get
         { 
-            if (Context is null)
+            if (Superkat is null)
             {
                 return "?";
             }
 
-            var yearPart = Context.FoundDate.Year % 100;
-            return yearPart + "-" + Context?.Number.ToString("000");
+            var yearPart = Superkat.FoundDate.Year % 100;
+            return yearPart + "-" + Superkat?.Number.ToString("000");
         }
     }
 }

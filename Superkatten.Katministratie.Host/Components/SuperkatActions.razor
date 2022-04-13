@@ -3,47 +3,61 @@
 
 @inject ISuperkatActionService _superkatActionService
 
-<div class="container border">
+<div class="container">
     <div class="row">
-        <div class="col-2">
-            @if(Context.Reserved)
-            {
-                <SuperkatAction OnClickCallback="@ToggleReserve" TooltipText="Reserveer de kat" ActionIcon="favorite_border" />                
-            }
-            else
-            {
-                <SuperkatAction OnClickCallback="@ToggleReserve" TooltipText="Maak reservatie ongedaan" ActionIcon="do_not_disturb" />
-            }
-        </div>
+            <div class="col-4">
+                <SuperkatAction                
+                    OnClickCallback="@ToggleReserve" 
+                    TooltipText="Reserveren van een kat" 
+                    ActionIcon="@(Superkat.Reserved ? "favorite_border" : "do_not_disturb")" />
+            </div>
 
-        <div class="col-2">
-                  <SuperkatAction OnClickCallback="@ToggleRetour" TooltipText="Kat gaat terug naar vanglocatie" ActionIcon="@(Context.Retour ? "autorenew" : "arrow_forward")" />                
-        </div>
+            <div class="col-4">
+                <SuperkatAction 
+                OnClickCallback="@ToggleRetour" 
+                TooltipText="Kat gaat terug naar vanglocatie" 
+                ActionIcon="@(Superkat.Retour ? "autorenew" : "arrow_forward")" />
+            </div>
     </div>
 </div>
 
 @code {
     [Parameter]
-    public Superkat Context { get; set; } = new();
+    public Superkat Superkat { get; set; } = new();
 
     [Parameter]
-    public EventCallback<Superkat> ContextChanged { get; set; }
+    public EventCallback<Superkat> SuperkatChanged { get; set; }
 
-    private bool BusyWithAction = false;
+    private bool BusyWithAction = true;
 
     private async Task ToggleReserve()
     {
-        await _superkatActionService.ToggleReserveSuperkatAsync(Context.Number);
-        await ContextChanged.InvokeAsync(Context = new Superkat
-        {
-            Name = "Deze is veranderd",
-            Reserved = !Context.Reserved
-        });
-
+        BusyWithAction = true;
+        await _superkatActionService.ToggleReserveSuperkatAsync(Superkat.Number);
+        await UpdateSuperkat(!Superkat.Reserved, Superkat.Retour);
+        BusyWithAction = false;
     }
 
-    private void ToggleRetour()
+    private async Task ToggleRetour()
     {
-        _superkatActionService.ToggleRetourSuperkatAsync(Context.Number);
+        BusyWithAction = true;
+        await _superkatActionService.ToggleRetourSuperkatAsync(Superkat.Number);
+        await UpdateSuperkat(Superkat.Reserved, !Superkat.Retour);
+        BusyWithAction = false;
+    }
+
+    private async Task UpdateSuperkat(bool reserve, bool retour)
+    {
+        await SuperkatChanged.InvokeAsync(Superkat = new Superkat
+        {
+            Name = Superkat.Name,
+            Birthday = Superkat.Birthday,
+            CatchLocation = Superkat.CatchLocation,
+            FoundDate = Superkat.FoundDate,
+            Number = Superkat.Number,
+            SuperkatColor = Superkat.SuperkatColor,
+            Reserved = reserve,
+            Retour = retour
+        });
     }
 }

@@ -1,10 +1,14 @@
 ﻿@using Superkatten.Katministratie.Application.Contracts
 
-<Button OnClick="ExecuteAction">
-    <span class="material-icons border">
-        @ActionIcon
-    </span>
-</Button>
+<div class="m-0 p-0">
+  <Button OnClick="ExecuteAction">
+    <Tooltip Placement="@Placement.TopRight" Title="@TooltipText">
+      <span class="material-icons">
+          @ActionIcon
+      </span>
+      </Tooltip>
+  </Button>
+</div>
 
 @code {
     [Parameter]
