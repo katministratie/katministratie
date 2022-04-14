@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Superkatten.Katministratie.Application.Interfaces;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers
 {
+    [Authorize(Roles ="Administrator")]
     [Route("api/[Controller]")]
     [Controller]
     public class SuperkatActionController
