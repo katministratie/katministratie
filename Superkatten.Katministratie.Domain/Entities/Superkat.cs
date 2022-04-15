@@ -37,7 +37,7 @@ namespace Superkatten.Katministratie.Domain.Entities
 
         public void SetWeeksOld(int weeksOld)
         {
-            if (weeksOld <= 0)
+            if (weeksOld < 0)
             {
                 throw new DomainException($"Value {weeksOld} for parameter {nameof(weeksOld)} cannot be negative");
             }
