@@ -1,67 +1,32 @@
-using Microsoft.OpenApi.Models;
-using Superkatten.Katministratie.Application;
-using Superkatten.Katministratie.Application.Extentions;
-using Superkatten.Katministratie.Application.Services.Authentication;
-using Superkatten.Katministratie.Infrastructure;
+using Superkatten.Katministratie.SuperkatApi;
 
-const string SWAGGER_DOC_VERSION = "v1";
-const string SECURITY_DEFINITION_NAME = "ApiKeyAuth";
-
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-
-builder.Services.AddAuthentication(options =>
+public class Program
 {
-    options.DefaultAuthenticateScheme = ApiKeyOptions.DEFAULT_SCHEME;
-    options.DefaultChallengeScheme = ApiKeyOptions.DEFAULT_SCHEME;
-}).AddApiKeyAuthentication<ApiKeyValidator>();
+    public static void Main(string[] args)
+    {
+        CreateHostBuilder(args).Build().Run();
+    }
 
-// Basic authentication, see: https://www.c-sharpcorner.com/article/basic-authentication-in-swagger-open-api-net-5/
-builder.Services.AddSwaggerGen(options=>
-{
-    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Superkatten", Version = SWAGGER_DOC_VERSION });
-    options.AddSecurityDefinition(SECURITY_DEFINITION_NAME, new()
-    {
-        In = ParameterLocation.Header,
-        Name = ApiKeyOptions.DEFAULT_HEADER,
-        Type = SecuritySchemeType.ApiKey
-    });
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+        .ConfigureAppConfiguration(config =>
         {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = SECURITY_DEFINITION_NAME }
-            },
-            Array.Empty<string>()
-        }
-    });
-});
-
-builder.Services.AddAuthorization();
-
-builder.Services.AddApplicationServices();
-builder.Services.AddInfrastructure();
-
-var app = builder.Build();
-
-if (builder.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1"));
+            config.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
+        })
+        .UseDefaultServiceProvider(options => options.ValidateOnBuild = true)
+        .ConfigureWebHostDefaults(webBuilder =>
+        {
+            webBuilder.UseStartup<Startup>();
+        });
 }
-app.UseSwagger();
-app.UseSwaggerUI();
-app.UseRouting();
-app.UseHttpsRedirection();
-app.MapControllers();
-app.UseAuthentication();
-app.UseAuthorization();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
-app.Run();
+//var builder = WebApplication.CreateBuilder(args);
+//var app = builder.Build();
+//app.Run();
+
+
+
+
+
+
+
+

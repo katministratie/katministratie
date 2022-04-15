@@ -48,7 +48,7 @@ namespace Superkatten.Katministratie.Application.Services.Authentication
         {
             Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             Response.ContentType = "application/json";
-            /*var challenge = new ProblemDetails
+            var challenge = new ProblemDetails
             {
                 Title = nameof(HttpStatusCode.Unauthorized),
                 Detail = Request.Headers.ContainsKey(Options.ApiKeyHeader)
@@ -56,23 +56,22 @@ namespace Superkatten.Katministratie.Application.Services.Authentication
                     : $"The {Options.ApiKeyHeader} header is missing from the request",
                 Status = Response.StatusCode
             };
-            */
 
-            await Response.Body.WriteAsync(JsonSerializer.SerializeToUtf8Bytes("API key not valid"));
+            await Response.Body.WriteAsync(JsonSerializer.SerializeToUtf8Bytes(challenge));
         }
 
         protected async override Task HandleForbiddenAsync(AuthenticationProperties properties)
         {
-            /*Response.StatusCode = (int)HttpStatusCode.Forbidden;
+            Response.StatusCode = (int)HttpStatusCode.Forbidden;
             Response.ContentType = "application/json";
             var forbidden = new ProblemDetails
             {
                 Title = nameof(HttpStatusCode.Forbidden),
                 Detail = "Your API key does not grand you permission to this part of the application",
                 Status = Response.StatusCode
-            };*/
+            };
 
-            await Request.Body.WriteAsync(JsonSerializer.SerializeToUtf8Bytes("Forbidden to access this part"));
+            await Request.Body.WriteAsync(JsonSerializer.SerializeToUtf8Bytes(forbidden));
         }
     }
 }
