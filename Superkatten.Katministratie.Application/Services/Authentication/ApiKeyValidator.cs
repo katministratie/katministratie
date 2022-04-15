@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -33,21 +32,4 @@ public class ApiKeyValidator : IApiKeyValidator
     {
         return roles.Select(role => new Claim(ClaimTypes.Role, role));
     }
-}
-
-public class ApiKeyResult
-{
-    internal static ApiKeyResult Fail()
-    {
-        throw new NotImplementedException();
-    }
-
-    internal static ApiKeyResult Success(IEnumerable<Claim> enumerable)
-    {
-        throw new NotImplementedException();
-    }
-}
-
-public interface IApiKeyValidator
-{
 }
