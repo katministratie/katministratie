@@ -12,7 +12,7 @@ namespace Superkatten.Katministratie.Application
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<ApiKeyConfigurationSection>(configuration.GetSection("ApiKeys"));
+            services.Configure<ApiKeyConfigurationSection>(configuration.GetSection("AuthorisationApiKeys"));
 
             services.AddTransient<ISuperkatAction, SuperkatAction>();
             services.AddTransient<ISuperkattenService, SuperkattenService>();

@@ -3,6 +3,7 @@ using Superkatten.Katministratie.Application;
 using Superkatten.Katministratie.Application.Extentions;
 using Superkatten.Katministratie.Application.Services.Authentication;
 using Superkatten.Katministratie.Infrastructure;
+using System.Text.Json.Serialization;
 
 namespace Superkatten.Katministratie.SuperkatApi
 {
@@ -20,7 +21,11 @@ namespace Superkatten.Katministratie.SuperkatApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                });
             services.AddEndpointsApiExplorer();
             services.AddAuthentication(options =>
             {
