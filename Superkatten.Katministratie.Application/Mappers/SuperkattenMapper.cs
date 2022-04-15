@@ -24,22 +24,13 @@ namespace Superkatten.Katministratie.Application.Mappers
                     number: contractSuperkat.Number,
                     foundDate: contractSuperkat.FoundDate,
                     catchLocation: contractSuperkat.CatchLocation
-                );
-
-            superkat.SetName(superkat.Name);
-            superkat.SetReserved(contractSuperkat.Reserved);
-            superkat.SetRetour(contractSuperkat.Retour);
-
-            var weeksOld = ConvertBirthdayToWeeksOld(contractSuperkat.Birthday);
-            superkat.SetWeeksOld(weeksOld);
+                )
+                .WithName(contractSuperkat.Name)
+                .WithReserved(contractSuperkat.Reserved)
+                .WithRetour(contractSuperkat.Retour)
+                .WithBirthday(contractSuperkat.Birthday);
 
             return superkat;
-        }
-
-        private int ConvertBirthdayToWeeksOld(DateTimeOffset birthday)
-        {
-            var today = DateTimeOffset.Now;
-            return (int)(today - birthday).TotalDays / 7;
         }
     }
 }

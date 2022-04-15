@@ -1,69 +1,69 @@
 ﻿@page "/CreateSuperkat"
 
+@using Newtonsoft.Json
 @using Superkatten.Katministratie.Web.Services
 @using Superkatten.Katministratie.Application.Contracts;
 
 @inject NavigationManager NavigationManager
 @inject ISuperkattenListService _superkattenService
-
+@inject MessageService _message
 
 <PageTitle>Nieuwe superkat</PageTitle>
 
-<div class="container-fluid">
-    <Form Layout="FormLayout.Inline"
-          Model="@model"
-          LabelCol="GetFormLabelCol()"
-          WrapperCol="GetFormWrapperCol()"
-          OnFinish="OnOk" 
-          OnFinishFailed="OnCancel">
-        <FormItem Label="Vang locatie" >
-            <Input @bind-Value="@context.CatchLocation"/>
-        </FormItem>
-        <FormItem Label="Aantal weken oud">
-            <Input @bind-Value="context.WeeksOld">WeeksOld</Input>
-        </FormItem>
-        <FormItem WrapperColOffset="8" WrapperColSpan="16" Label="Retour">
-            <Switch @bind-Value="context.IsGoingRetour" />
-        </FormItem>
-        <FormItem WrapperColOffset="8" WrapperColSpan="16" Label="Stronghold gehad">
-            <Switch @bind-Value="context.HasStrongHold" />
-        </FormItem>
+<Button OnClick="@OnOk">Ok</Button>
+<Button OnClick="@OnOkAndNew">Nieuw</Button>
+<Button OnClick="@OnCancel">Cancel</Button>
 
-        <FormItem WrapperColOffset="8" WrapperColSpan="16">
-            <Button Type="@ButtonType.Primary" HtmlType="submit">
-                Submit
-            </Button>
-        </FormItem>
-    </Form>
-</div>
+<Input Placeholder="Voer vanglokatie in"  Size="@InputSize.Large" @bind-Value="@parameters.Location" >
+    <Prefix>
+        <Icon Type="border-inner" />
+    </Prefix>
+</Input>
+
+<Switch Size="@InputSize.Large" @bind-Checked="@parameters.Retour">
+    <CheckedChildrenTemplate>
+        <p>Gaan weer terug</p>
+    </CheckedChildrenTemplate>
+    <UnCheckedChildrenTemplate>
+        <p>Gaan adoptie proces in</p>
+    </UnCheckedChildrenTemplate>
+</Switch>
+
+<DatePicker TValue="DateTime?" ShowTime="@true" OnChange="OnChangeCatchDate" />
+<DatePicker TValue="DateTime?" ShowTime="@true" OnChange="OnChangeBirthDate" />
 
 @code 
 {
-    public class Model
+    private void OnChangeCatchDate(DateTimeChangedEventArgs args)
     {
-        public string CatchLocation { get; set; } = string.Empty;
-        public bool IsGoingRetour { get; set; } = false;
-        public bool HasStrongHold { get; set; } = false;
-        public int WeeksOld { get; set; }
+        parameters.CatchDate = args.Date;
     }
 
-    private Model model = new Model();
-
-
-    public void OnChangeHasStronghold()
+    private void OnChangeBirthDate(DateTimeChangedEventArgs args)
     {
-        model.HasStrongHold = !model.HasStrongHold;
+        parameters.CatchDate = args.Date;
     }
+
+
+    private CreateSuperkatParameters parameters = 
+        new CreateSuperkatParameters()
+        {
+            Location = string.Empty,
+            Retour = false,
+            Birthday = DateTime.UtcNow,
+            CatchDate = DateTime.UtcNow
+        };
 
     public async Task OnOk()
     {
-        var parameters = new CreateSuperkatParameters()
-            {
-                CatchLocation = model.CatchLocation,
-                WeeksOld = model.WeeksOld,
-            };
-        await _superkattenService.CreateSuperkatAsync(parameters);
+        await StoreSuperkat();
         NavigationManager.NavigateTo("/");
+    }
+
+    public async Task OnOkAndNew()
+    {
+        await StoreSuperkat();
+        await _message.Success("Voer de volgende superkat in", 3);
     }
 
     public void OnCancel()
@@ -71,13 +71,9 @@
         NavigationManager.NavigateTo("/");
     }
 
-    private ColLayoutParam GetFormLabelCol()
+    private async Task StoreSuperkat()
     {
-        return null;
-    }
-
-    private ColLayoutParam GetFormWrapperCol()
-    {
-        return null;
+        await _superkattenService.CreateSuperkatAsync(parameters);
+        await _message.Success("Superkat is opgeslagen", 3);        
     }
 }

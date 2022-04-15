@@ -25,7 +25,7 @@ namespace Superkatten.Katministratie.Domain.Entities
             CatchLocation = catchLocation;
         }
 
-        public void SetName(string? name)
+        public Superkat WithName(string? name)
         {
             if (name is null)
             {
@@ -33,30 +33,29 @@ namespace Superkatten.Katministratie.Domain.Entities
             }
 
             Name = name;
+
+            return this;
         }
 
-        public void SetWeeksOld(int weeksOld)
+        public Superkat WithBirthday(DateTimeOffset birthday)
         {
-            if (weeksOld <= 0)
-            {
-                throw new DomainException($"Value {weeksOld} for parameter {nameof(weeksOld)} cannot be negative");
-            }
+            Birthday = birthday;
 
-            var today = DateTimeOffset.Now;
-            var daysOld = 7 * weeksOld;
-            var birthDay = today.AddDays(-daysOld);
-
-            Birthday = birthDay;
+            return this;
         }
 
-        public void SetReserved(bool isReserved)
+        public Superkat WithReserved(bool isReserved)
         {
             Reserved = isReserved;
+
+            return this;
         }
 
-        public void SetRetour(bool isRetour)
+        public Superkat WithRetour(bool isRetour)
         {
             Retour = isRetour;
-        }
+
+            return this;
+         }
     }
 }

@@ -11,8 +11,8 @@ public class AuthenticationManager
     {
         IDictionary<string, string> _users = new Dictionary<string, string>
         {
-            { "Johan", "Johan" },
-            { "Peter", "Peter" }
+            { "Johan", "test" },
+            { "Peter", "0000" }
         };
 
         private readonly string _tokenKey;

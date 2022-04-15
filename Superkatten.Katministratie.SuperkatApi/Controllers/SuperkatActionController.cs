@@ -4,9 +4,9 @@ using Superkatten.Katministratie.Application.Interfaces;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers
 {
-    [Authorize(Roles ="Administrator")]
+    [Authorize]
     [Route("api/[Controller]")]
-    [Controller]
+    [ApiController]
     public class SuperkatActionController
     {
         private readonly ISuperkatAction _service;
