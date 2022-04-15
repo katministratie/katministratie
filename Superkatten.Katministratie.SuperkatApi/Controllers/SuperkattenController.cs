@@ -24,21 +24,18 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
             return await _service.ReadAvailableSUperkattenAsync();
         }
 
-        [Authorize(Roles = "Administrator")]
         [HttpPut]
         public async Task PutSuperkat([FromBody] CreateSuperkatParameters newSuperkatParameters)
         {
             await _service.CreateSuperkatAsync(newSuperkatParameters);
         }
 
-        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task PostSuperkat(int number, [FromBody] UpdateSuperkatParameters updateSuperkatParameters)
         {
             await _service.UpdateSuperkatAsync(number, updateSuperkatParameters);
         }
 
-        [Authorize(Roles = "Administrator")]
         [HttpDelete]
         public async Task DeleteSuperkat(int number)
         {

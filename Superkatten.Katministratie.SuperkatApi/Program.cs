@@ -19,9 +19,6 @@ public class Program
             webBuilder.UseStartup<Startup>();
         });
 }
-//var builder = WebApplication.CreateBuilder(args);
-//var app = builder.Build();
-//app.Run();
 
 
 
