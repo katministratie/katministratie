@@ -1,29 +1,43 @@
-using Superkatten.Katministratie.SuperkatApi;
+﻿using Superkatten.Katministratie.Application;
+using Superkatten.Katministratie.Infrastructure;
 
-public class Program
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(config =>
 {
-    public static void Main(string[] args)
+    config.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
     {
-        CreateHostBuilder(args).Build().Run();
-    }
+        Title = "Superkatten.Katministratie.SuperkatApi",
+        Version = "v1"
+    });
+});
+builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructure();
 
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-        .ConfigureAppConfiguration(config =>
-        {
-            config.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
-        })
-        .UseDefaultServiceProvider(options => options.ValidateOnBuild = true)
-        .ConfigureWebHostDefaults(webBuilder =>
-        {
-            webBuilder.UseStartup<Startup>();
-        });
+var app = builder.Build();
+
+app.UseCors(cors => cors
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true)
+    .AllowCredentials()
+    );
+if (builder.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ch20Ex01 v1"));
 }
+app.UseSwagger();
+app.UseSwaggerUI();
+app.UseRouting();
+app.UseHttpsRedirection();
+app.MapControllers();
 
+//app.UseAuthentication();
+//app.UseAuthorization();
 
-
-
-
-
-
+app.Run();
 
