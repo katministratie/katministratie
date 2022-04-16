@@ -39,11 +39,12 @@ namespace Superkatten.Katministratie.Domain.Entities
 
         public Superkat WithBirthday(DateTimeOffset birthday)
         {
-            if (weeksOld < 0)
+            if (birthday > FoundDate)
             {
-                throw new DomainException($"Value {weeksOld} for parameter {nameof(weeksOld)} cannot be negative");
+                throw new DomainException($"Parameter {nameof(Birthday)} with value {birthday} cannot be greater than the {nameof(FoundDate)} with value {FoundDate}");
             }
 
+            Birthday = birthday;
             
             return this;
         }

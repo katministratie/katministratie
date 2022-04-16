@@ -11,18 +11,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
-builder.Services.AddAuthentication(options =>
+/*builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = ApiKeyOptions.DEFAULT_SCHEME;
     options.DefaultChallengeScheme = ApiKeyOptions.DEFAULT_SCHEME;
 }).AddApiKeyAuthentication<ApiKeyValidator>();
-
+*/
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "Superkatten", Version = SWAGGER_DOC_VERSION });
-    options.AddSecurityDefinition(SECURITY_DEFINITION_NAME, new()
+    /*options.AddSecurityDefinition(SECURITY_DEFINITION_NAME, new()
     {
         In = ParameterLocation.Header,
         Name = ApiKeyOptions.DEFAULT_HEADER,
@@ -37,9 +37,9 @@ builder.Services.AddSwaggerGen(options =>
             },
             Array.Empty<string>()
         }
-    });
+    });*/
 });
-builder.Services.AddAuthorization();
+//builder.Services.AddAuthorization();
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddInfrastructure();
 
@@ -62,6 +62,6 @@ app.UseRouting();
 app.UseHttpsRedirection();
 app.MapControllers();
 
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
 app.Run();

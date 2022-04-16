@@ -7,33 +7,80 @@
 @inject NavigationManager NavigationManager
 @inject ISuperkattenListService _superkattenService
 @inject MessageService _message
+@inject NotificationService _notice
 
 <PageTitle>Nieuwe superkat</PageTitle>
 
-<Button OnClick="@OnOk">Ok</Button>
-<Button OnClick="@OnOkAndNew">Nieuw</Button>
-<Button OnClick="@OnCancel">Cancel</Button>
+<Row Class="mb-2">
+    <Col Class="m-3">
+        <Button Disabled="@ValidCatchLocation" OnClick="@OnOk">Ok</Button>
+    </Col>
+    <Col Class="m-3">
+        <Button Disabled="@ValidCatchLocation" OnClick="@OnOkAndNew">Nieuw</Button>
+    </Col>
+    <Col Class="m-3">
+        <Button OnClick="@OnCancel">Cancel</Button>
+    </Col>
+</Row>
 
-<Input Placeholder="Voer vanglokatie in"  Size="@InputSize.Large" @bind-Value="@parameters.Location" >
-    <Prefix>
-        <Icon Type="border-inner" />
-    </Prefix>
-</Input>
+<Row Class="mb-2">
+    <Input Placeholder="Voer vanglokatie in"  Size="@InputSize.Large" @bind-Value="@parameters.Location" >
+        <Prefix>
+            <Icon Type="border-inner" />
+        </Prefix>
+    </Input>
+</Row>
 
-<Switch Size="@InputSize.Large" @bind-Checked="@parameters.Retour">
-    <CheckedChildrenTemplate>
-        <p>Gaan weer terug</p>
-    </CheckedChildrenTemplate>
-    <UnCheckedChildrenTemplate>
-        <p>Gaan adoptie proces in</p>
-    </UnCheckedChildrenTemplate>
-</Switch>
+<Row Class="mb-2">
+    <Title Level="4">
+        Waar gaat de kat naartoe: 
+        <Switch Disabled="@ValidCatchLocation" Size="@InputSize.Large" @bind-Checked="@parameters.Retour">
+            <CheckedChildrenTemplate>
+                <p>Gaan weer terug</p>
+            </CheckedChildrenTemplate>
+            <UnCheckedChildrenTemplate>
+                <p>Gaan adoptie proces in</p>
+            </UnCheckedChildrenTemplate>
+        </Switch>
+    </Title>
+</Row>
 
-<DatePicker TValue="DateTime?" ShowTime="@true" OnChange="OnChangeCatchDate" />
-<DatePicker TValue="DateTime?" ShowTime="@true" OnChange="OnChangeBirthDate" />
+<Row Class="mb-2">
+    <Col Class="col-2 border">
+        <Title Level="4">Vangdatum:</Title>
+        <br />
+        <div class="pb-2">
+            <DatePicker Disabled="@ValidCatchLocation" 
+                Bordered="@false" 
+                TValue="DateTime?" 
+                Picker="@DatePickerType.Date" 
+                OnChange="OnChangeCatchDate" 
+                DefaultValue="@InitialDateTimeNow" 
+                Placeholder="@VangdatumText"/>
+        </div>
+    </Col>
 
+    <Col Class="col-2 border">
+        <Title Level="4">Geboortedatum:</Title>
+        <br />
+        <div class="pb-2">
+            <DatePicker Disabled="@ValidCatchLocation" 
+                Bordered="@false" 
+                TValue="DateTime?" 
+                Picker="@DatePickerType.Date" 
+                OnChange="OnChangeBirthDate" 
+                DefaultValue="@InitialDateTimeNow" 
+                Placeholder="@GeboortedatumText"/>
+        </div>
+    </Col>
+</Row>
 @code 
 {
+    private string VangdatumText { get; init; } = "Vangdatum";
+    private string GeboortedatumText { get; init; } = "Geboortedatum";
+    private DateTime InitialDateTimeNow => DateTime.UtcNow;
+    private bool ValidCatchLocation => string.IsNullOrWhiteSpace(parameters.Location);
+
     private void OnChangeCatchDate(DateTimeChangedEventArgs args)
     {
         parameters.CatchDate = args.Date;
@@ -63,7 +110,7 @@
     public async Task OnOkAndNew()
     {
         await StoreSuperkat();
-        await _message.Success("Voer de volgende superkat in", 3);
+        await _message.Success("Voer de volgende superkat in", 2);
     }
 
     public void OnCancel()
@@ -74,6 +121,6 @@
     private async Task StoreSuperkat()
     {
         await _superkattenService.CreateSuperkatAsync(parameters);
-        await _message.Success("Superkat is opgeslagen", 3);        
+        await _message.Success("Superkat is opgeslagen", 1);        
     }
 }

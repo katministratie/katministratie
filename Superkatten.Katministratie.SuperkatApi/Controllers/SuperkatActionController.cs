@@ -6,7 +6,6 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
 {
     [Route("api/[Controller]")]
     [ApiController]
-    [Authorize(Roles = "Administrator")]
     public class SuperkatActionController
     {
         private readonly ISuperkatAction _service;

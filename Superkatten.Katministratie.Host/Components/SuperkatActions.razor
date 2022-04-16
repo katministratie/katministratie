@@ -31,7 +31,7 @@
     [Parameter]
     public EventCallback<Superkat> SuperkatChanged { get; set; }
 
-    private bool BusyWithAction = true;
+    private bool BusyWithAction = false;
 
     private async Task ToggleReserve()
     {
