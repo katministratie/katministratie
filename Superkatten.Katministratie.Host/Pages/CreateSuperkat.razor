@@ -11,15 +11,15 @@
 
 <PageTitle>Nieuwe superkat</PageTitle>
 
-<Row Class="mb-2">
-    <Col Class="m-3">
-        <Button Disabled="@ValidCatchLocation" OnClick="@OnOk">Ok</Button>
+<Row Class="mb-4">
+    <Col Class="m-4">
+        <Button Block="@true" Disabled="@ValidCatchLocation" OnClick="@OnOk">Ok</Button>
     </Col>
-    <Col Class="m-3">
-        <Button Disabled="@ValidCatchLocation" OnClick="@OnOkAndNew">Nieuw</Button>
+    <Col Class="m-4">
+        <Button Block="@true" Disabled="@ValidCatchLocation" OnClick="@OnOkAndNew">Nieuwe kat</Button>
     </Col>
-    <Col Class="m-3">
-        <Button OnClick="@OnCancel">Cancel</Button>
+    <Col Class="m-4">
+        <Button Block="@true" OnClick="@OnCancel">Terug</Button>
     </Col>
 </Row>
 
@@ -33,20 +33,20 @@
 
 <Row Class="mb-2">
     <Title Level="4">
-        Waar gaat de kat naartoe: 
-        <Switch Disabled="@ValidCatchLocation" Size="@InputSize.Large" @bind-Checked="@parameters.Retour">
+        Waar gaat de kat naartoe:
+        <Switch Disabled="@ValidCatchLocation" @bind-Checked="@parameters.Retour">
             <CheckedChildrenTemplate>
-                <p>Gaan weer terug</p>
+                <Title Level="4">Gaan weer terug</Title>
             </CheckedChildrenTemplate>
             <UnCheckedChildrenTemplate>
-                <p>Gaan adoptie proces in</p>
+                <Title Level="4">Gaan adoptie proces in</Title>
             </UnCheckedChildrenTemplate>
         </Switch>
     </Title>
 </Row>
 
-<Row Class="mb-2">
-    <Col Class="col-2 border">
+<Row Class="mb-6">
+    <Col Class="col-6 border">
         <Title Level="4">Vangdatum:</Title>
         <br />
         <div class="pb-2">
@@ -60,7 +60,7 @@
         </div>
     </Col>
 
-    <Col Class="col-2 border">
+    <Col Class="col-6 border">
         <Title Level="4">Geboortedatum:</Title>
         <br />
         <div class="pb-2">
