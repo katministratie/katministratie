@@ -1,33 +1,23 @@
 ﻿@using Superkatten.Katministratie.Application.Contracts
 @using Superkatten.Katministratie.Host.Components
 
-<div class="card mb-1">
-  <div class="row">
-    <div class="col-md-2 align-content-center">
-      <img src=".\images\superkat.jpg" class="img-fluid rounded-start" alt="...">
-    </div>
-    <div class="col-md-10">
-      <div class="card-body">
-        <h5 class="card-title bg-black text-white">@SuperkatDisplayableNumber</h5>
-        <div class="card-text">
-            @if (!string.IsNullOrEmpty(@Superkat.Name)) 
-            {
-                <div>Naam:</div> 
-            }
-            @Superkat.Name
-            <br />
+<div class="container-fluid">
+  <Row>
+    <Col class="col-lg-4 col-md-4 col-sm-4 align-content-center">
+        <Image Width="100px" Src=".\images\superkat.jpg" />
+    </Col>
+    <Col class="col-lg-8 col-md-8 col-sm-8">
+      <div class="m-1">
+        <h5 class="m-1 bg-black text-white">@SuperkatDisplayableNumber</h5>
+        <div class="m-1">
             Locatie: @Superkat.CatchLocation
-            <br />
-            @if (!string.IsNullOrEmpty(@Superkat.SuperkatColor)) 
-            { 
-                <div>Kleur:</div>
-            }
-            @Superkat.SuperkatColor
         </div>
-        <p class="card-text"><small class="text-muted"><SuperkatActions @bind-Superkat="@Superkat" /></small></p>
+        <div class="m-1">
+            <SuperkatActions @bind-Superkat="@Superkat" />
+        </div>
       </div>
-    </div>
-  </div>
+    </Col>
+  </Row>
 </div>
 
 
@@ -35,35 +25,5 @@
     [ParameterAttribute]
     public Superkat Superkat { get; set; } = new();
 
-    public string SuperkatName
-    {
-        get
-        {
-            if (Superkat is null)
-            {
-                return "onbekend";
-            }
-
-            if (string.IsNullOrEmpty(Superkat?.Name))
-            {
-                return "geen naam";
-            }
-
-            return Superkat.Name;
-        }
-    }
-
-    public string SuperkatDisplayableNumber 
-    {
-        get
-        { 
-            if (Superkat is null)
-            {
-                return "?";
-            }
-
-            var yearPart = Superkat.FoundDate.Year % 100;
-            return yearPart + "-" + Superkat?.Number.ToString("000");
-        }
-    }
+    public string SuperkatDisplayableNumber => Superkat.DisplayableNumber;
 }

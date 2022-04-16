@@ -15,6 +15,7 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
                 FoundDate = superkat.FoundDate,
                 CatchLocation = superkat.CatchLocation,
                 Birthday = superkat.Birthday,
+                HokNumber = superkat.HokNumber,
             };
         }
 
@@ -28,7 +29,8 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
                 .WithName(superkatDto.Name)
                 .WithReserved(superkatDto.Reserved)
                 .WithRetour(superkatDto.Retour)
-                .WithBirthday(superkatDto.Birthday);
+                .WithBirthday(superkatDto.Birthday)
+                .WithHokNumber(superkatDto.HokNumber);
 
             return superkat;
         }

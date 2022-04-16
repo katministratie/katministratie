@@ -48,7 +48,8 @@ namespace Superkatten.Katministratie.Application.Services
                 createSuperkatParameters.Location
                 )
                 .WithBirthday(createSuperkatParameters.Birthday)
-                .WithRetour(createSuperkatParameters.Retour);
+                .WithRetour(createSuperkatParameters.Retour)
+                .WithHokNumber(createSuperkatParameters.HokNumber);
 
             await _superkattenRepository.CreateSuperkatAsync(superkat);
 

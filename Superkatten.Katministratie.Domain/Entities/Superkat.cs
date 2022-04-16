@@ -13,6 +13,7 @@ namespace Superkatten.Katministratie.Domain.Entities
         public DateTimeOffset Birthday { get; private set; }
         public bool Reserved { get; private set; }
         public bool Retour { get; private set; }
+        public int HokNumber { get; private set; }
 
         public Superkat(
             int number,
@@ -61,6 +62,18 @@ namespace Superkatten.Katministratie.Domain.Entities
             Retour = isRetour;
 
             return this;
-         }
+        }
+
+        public Superkat WithHokNumber(int hokNumber)
+        {
+            if (hokNumber < 0)
+            {
+                throw new DomainException($"HokNumber {hokNumber} cannot be negative");
+            }
+
+            HokNumber = hokNumber;
+
+            return this;
+        }
     }
 }

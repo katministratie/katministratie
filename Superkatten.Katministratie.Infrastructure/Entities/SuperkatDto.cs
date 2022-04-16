@@ -23,6 +23,9 @@ namespace Superkatten.Katministratie.Infrastructure.Entities
         public string? Name { get; set; } = String.Empty;
 
         public bool Reserved { get; set; } = false;
+        
         public bool Retour { get; set; } = false;
+
+        public int HokNumber { get; set; }
     }
 }

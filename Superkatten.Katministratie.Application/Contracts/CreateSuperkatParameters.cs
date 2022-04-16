@@ -7,6 +7,7 @@ namespace Superkatten.Katministratie.Application.Contracts
         public string Location { get; set; } = string.Empty;
         public DateTimeOffset Birthday { get; set; }
         public DateTimeOffset CatchDate{ get; set; }
-        public bool Retour { get; set; } = false;
+        public bool Retour { get; set; }
+        public int HokNumber { get; set; }
     }
 }

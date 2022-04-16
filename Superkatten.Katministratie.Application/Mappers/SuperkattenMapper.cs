@@ -14,7 +14,8 @@ namespace Superkatten.Katministratie.Application.Mappers
                 CatchLocation = superkat.CatchLocation,
                 Birthday = superkat.Birthday,
                 Reserved = superkat.Reserved,
-                Retour = superkat.Retour
+                Retour = superkat.Retour,
+                HokNumber = superkat.HokNumber
             };
         }
 
@@ -28,7 +29,8 @@ namespace Superkatten.Katministratie.Application.Mappers
                 .WithName(contractSuperkat.Name)
                 .WithReserved(contractSuperkat.Reserved)
                 .WithRetour(contractSuperkat.Retour)
-                .WithBirthday(contractSuperkat.Birthday);
+                .WithBirthday(contractSuperkat.Birthday)
+                .WithHokNumber(contractSuperkat.HokNumber);
 
             return superkat;
         }

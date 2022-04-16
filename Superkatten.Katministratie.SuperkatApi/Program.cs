@@ -5,7 +5,7 @@ using Superkatten.Katministratie.Application.Services.Authentication;
 using Superkatten.Katministratie.Infrastructure;
 
 const string SWAGGER_DOC_VERSION = "v1";
-const string SECURITY_DEFINITION_NAME = "ApiKeyAuth";
+//const string SECURITY_DEFINITION_NAME = "ApiKeyAuth";
 
 var builder = WebApplication.CreateBuilder(args);
 

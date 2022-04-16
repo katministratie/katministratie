@@ -114,6 +114,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
             superkatDto.CatchLocation = superkat.CatchLocation;
             superkatDto.Birthday = superkat.Birthday;
             superkatDto.FoundDate = superkat.FoundDate;
+            superkatDto.HokNumber = superkat.HokNumber;
 
             _context.Update(superkatDto);
             await _context.SaveChangesAsync();
