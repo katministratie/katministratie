@@ -29,9 +29,14 @@ namespace Superkatten.Katministratie.Application.Services
 
         public async Task<Superkat> CreateSuperkatAsync(CreateSuperkatParameters createSuperkatParameters)
         {
-            if (string.IsNullOrEmpty(createSuperkatParameters.CatchLocation))
+            if (string.IsNullOrEmpty(createSuperkatParameters.Location))
             {
                 throw new ValidationException($"Superkat location is empty");
+            }
+
+            if (createSuperkatParameters.CatchDate < createSuperkatParameters.Birthday)
+            {
+                throw new ValidationException($"Not possible to catch the cat before it is born");
             }
 
             var today = DateTimeOffset.Now;
@@ -39,10 +44,11 @@ namespace Superkatten.Katministratie.Application.Services
 
             var superkat = new Domain.Entities.Superkat(
                 superkatMaxNumber + 1, 
-                DateTimeOffset.Now, 
-                createSuperkatParameters.CatchLocation
-            );
-            superkat.SetWeeksOld(createSuperkatParameters.WeeksOld);
+                createSuperkatParameters.CatchDate, 
+                createSuperkatParameters.Location
+                )
+                .WithBirthday(createSuperkatParameters.Birthday)
+                .WithRetour(createSuperkatParameters.Retour);
 
             await _superkattenRepository.CreateSuperkatAsync(superkat);
 
@@ -79,11 +85,15 @@ namespace Superkatten.Katministratie.Application.Services
 
             var superkat = await _superkattenRepository.GetSuperkatAsync(number);
 
-            var updatedSuperkat = new Domain.Entities.Superkat(number, superkat.FoundDate, superkat.CatchLocation);
-            updatedSuperkat.SetReserved(superkat.Reserved);
-            updatedSuperkat.SetRetour(superkat.Retour); 
-            updatedSuperkat.SetName(updateSuperkatParameters.Name);
-            updatedSuperkat.SetWeeksOld(updateSuperkatParameters.WeeksOld);
+            var updatedSuperkat = new Domain.Entities.Superkat(
+                number, 
+                superkat.FoundDate, 
+                superkat.CatchLocation
+                )
+                .WithReserved(superkat.Reserved)
+                .WithRetour(superkat.Retour)
+                .WithName(updateSuperkatParameters.Name)
+                .WithBirthday(updateSuperkatParameters.Birthday);
 
             await _superkattenRepository.UpdateSuperkatAsync(updatedSuperkat);
 

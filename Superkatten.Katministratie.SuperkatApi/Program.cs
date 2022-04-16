@@ -1,20 +1,46 @@
+﻿using Microsoft.OpenApi.Models;
 using Superkatten.Katministratie.Application;
+using Superkatten.Katministratie.Application.Extentions;
+using Superkatten.Katministratie.Application.Services.Authentication;
 using Superkatten.Katministratie.Infrastructure;
+
+const string SWAGGER_DOC_VERSION = "v1";
+const string SECURITY_DEFINITION_NAME = "ApiKeyAuth";
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = ApiKeyOptions.DEFAULT_SCHEME;
+    options.DefaultChallengeScheme = ApiKeyOptions.DEFAULT_SCHEME;
+}).AddApiKeyAuthentication<ApiKeyValidator>();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(config =>
+builder.Services.AddSwaggerGen(options =>
 {
-    config.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Superkatten", Version = SWAGGER_DOC_VERSION });
+    options.AddSecurityDefinition(SECURITY_DEFINITION_NAME, new()
     {
-        Title = "Superkatten.Katministratie.SuperkatApi",
-        Version = "v1"
+        In = ParameterLocation.Header,
+        Name = ApiKeyOptions.DEFAULT_HEADER,
+        Type = SecuritySchemeType.ApiKey
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = SECURITY_DEFINITION_NAME }
+            },
+            Array.Empty<string>()
+        }
     });
 });
-builder.Services.AddApplicationServices();
+builder.Services.AddAuthorization();
+builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddInfrastructure();
 
 var app = builder.Build();
@@ -36,7 +62,6 @@ app.UseRouting();
 app.UseHttpsRedirection();
 app.MapControllers();
 
-//app.UseAuthentication();
-//app.UseAuthorization();
-
+app.UseAuthentication();
+app.UseAuthorization();
 app.Run();

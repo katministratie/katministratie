@@ -30,14 +30,14 @@ namespace Superkatten.Katministratie.Application.Services
                 throw new ApplicationException($"Superkat with number {superkatNumber} is unknown.");
             }
 
-            var updatedSuperkat = new Domain.Entities.Superkat(superkatNumber, superkat.FoundDate, superkat.CatchLocation);
-            updatedSuperkat.SetName(superkat.Name);
-            updatedSuperkat.SetReserved(superkat.Reserved);
-            var today = DateTimeOffset.Now;
-            var weeksOld = (int)((today - superkat.Birthday).TotalDays / 7);
-            updatedSuperkat.SetWeeksOld(weeksOld);
-
-            updatedSuperkat.SetRetour(!superkat.Retour);
+            var updatedSuperkat = new Domain.Entities.Superkat(
+                superkatNumber, 
+                superkat.FoundDate, 
+                superkat.CatchLocation
+                ).WithName(superkat.Name)
+                .WithBirthday(superkat.Birthday)
+                .WithReserved(superkat.Reserved)
+                .WithRetour(!superkat.Retour);
 
             await Repository.UpdateSuperkatAsync(updatedSuperkat);
         }
@@ -51,13 +51,14 @@ namespace Superkatten.Katministratie.Application.Services
                 throw new ApplicationException($"Superkat with number {superkatNumber} is unknown.");
             }
 
-            var updatedSuperkat = new Domain.Entities.Superkat(superkatNumber, superkat.FoundDate, superkat.CatchLocation);
-            updatedSuperkat.SetName(superkat.Name);
-            var today = DateTimeOffset.Now;
-            var weeksOld = (int)((today - superkat.Birthday).TotalDays / 7);  
-            updatedSuperkat.SetWeeksOld(weeksOld);
-            
-            updatedSuperkat.SetReserved(!superkat.Reserved);
+            var updatedSuperkat = new Domain.Entities.Superkat(
+                superkatNumber, 
+                superkat.FoundDate, 
+                superkat.CatchLocation
+                ).WithName(superkat.Name)
+                .WithBirthday(superkat.Birthday)
+                .WithRetour(superkat.Retour)
+                .WithReserved(!superkat.Reserved);
 
             await Repository.UpdateSuperkatAsync(updatedSuperkat);
         }

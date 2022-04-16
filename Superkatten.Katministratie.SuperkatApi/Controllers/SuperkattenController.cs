@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Superkatten.Katministratie.Application.Contracts;
 using Superkatten.Katministratie.Application.Interfaces;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers
 {
     [Route("api/[controller]")]
-    [Controller]
+    [ApiController]
     public class SuperkattenController
     {
         private readonly ISuperkattenService _service;

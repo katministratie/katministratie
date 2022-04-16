@@ -24,14 +24,11 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
                 superkatDto.Number,
                 superkatDto.FoundDate,
                 superkatDto.CatchLocation
-            );
-            superkat.SetName(superkatDto.Name);
-            superkat.SetReserved(superkatDto.Reserved);
-            superkat.SetRetour(superkatDto.Retour);
-
-            var today = DateTimeOffset.Now;
-            var weeksOld = (int)(today - superkatDto.Birthday).TotalDays / 7;
-            superkat.SetWeeksOld(weeksOld);
+                )
+                .WithName(superkatDto.Name)
+                .WithReserved(superkatDto.Reserved)
+                .WithRetour(superkatDto.Retour)
+                .WithBirthday(superkatDto.Birthday);
 
             return superkat;
         }

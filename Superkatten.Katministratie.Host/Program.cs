@@ -13,6 +13,7 @@ builder.Services.AddTransient<ISuperkatActionService, SuperkatActionService>();
 
 // When localhost: https://localhost:7171
 // Use configuration appsettings or other config file
+// Schemes: https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/understanding-http-authentication
 const string uriName = "https://katministratie.azurewebsites.net/";
 builder.Services.AddScoped<HttpClient>(s =>
 {

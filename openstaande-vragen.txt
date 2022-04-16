@@ -1,0 +1,1 @@
+In de ApiKeyHandler gebruiken we ProblemDetails maar als ik de nuget van MS importeer dan krijgen we conflicten ?

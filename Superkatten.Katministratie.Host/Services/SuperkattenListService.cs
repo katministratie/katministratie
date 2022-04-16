@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Superkatten.Katministratie.Application.Contracts;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 
 namespace Superkatten.Katministratie.Web.Services
