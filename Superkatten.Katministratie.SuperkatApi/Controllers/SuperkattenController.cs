@@ -25,9 +25,9 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpPut]
-        public async Task PutSuperkat([FromBody] CreateSuperkatParameters newSuperkatParameters)
+        public async Task<Superkat> PutSuperkat([FromBody] CreateSuperkatParameters newSuperkatParameters)
         {
-            await _service.CreateSuperkatAsync(newSuperkatParameters);
+            return await _service.CreateSuperkatAsync(newSuperkatParameters);
         }
 
         [HttpPost]

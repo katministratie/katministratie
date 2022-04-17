@@ -6,7 +6,7 @@ namespace Superkatten.Katministratie.Web.Services
     {
         public Task<List<Superkat>> GetAllSuperkattenAsync();
         public Task<Superkat> GetSuperkatAsync(int superkatNumber);
-        public Task CreateSuperkatAsync(CreateSuperkatParameters newSuperkat);
+        public Task<Superkat?> CreateSuperkatAsync(CreateSuperkatParameters newSuperkat);
         public Task UpdateSuperkatAsync(int superkatNumber, UpdateSuperkatParameters updateSuperkat);
         public Task DeleteSuperkatAsync(int superkatNumber);
     }

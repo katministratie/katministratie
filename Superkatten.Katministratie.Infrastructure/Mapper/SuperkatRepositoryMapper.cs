@@ -16,6 +16,8 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
                 CatchLocation = superkat.CatchLocation,
                 Birthday = superkat.Birthday,
                 HokNumber = superkat.HokNumber,
+                Retour = superkat.Retour,
+                Reserved = superkat.Reserved,
             };
         }
 

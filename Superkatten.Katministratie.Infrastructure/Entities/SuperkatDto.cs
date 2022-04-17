@@ -20,11 +20,11 @@ namespace Superkatten.Katministratie.Infrastructure.Entities
         [Required]
         public string CatchLocation { get; set; } = string.Empty;
 
-        public string? Name { get; set; } = String.Empty;
+        public string? Name { get; set; } = string.Empty;
 
-        public bool Reserved { get; set; } = false;
-        
-        public bool Retour { get; set; } = false;
+        public bool Reserved { get; set; }
+
+        public bool Retour { get; set; }
 
         public int HokNumber { get; set; }
     }

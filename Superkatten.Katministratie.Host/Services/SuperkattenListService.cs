@@ -15,14 +15,17 @@ namespace Superkatten.Katministratie.Web.Services
             _client = client;
         }
 
-        public async Task CreateSuperkatAsync([FromBody] CreateSuperkatParameters newSuperkat)
+        public async Task<Superkat?> CreateSuperkatAsync([FromBody] CreateSuperkatParameters newSuperkat)
         {
             var uri = $"api/Superkatten";
             var myContent = JsonSerializer.Serialize(newSuperkat);
             var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
             var byteContent = new ByteArrayContent(buffer);
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            await _client.PutAsync(uri, byteContent);
+            var Responce = await _client.PutAsync(uri, byteContent);
+            var test = await Responce.Content.ReadAsStringAsync();
+            var superkat = JsonSerializer.Deserialize<Superkat>(test);
+            return superkat;
         }
 
         public async Task UpdateSuperkatAsync(int superkatNumber, [FromBody] UpdateSuperkatParameters updateSuperkat)

@@ -118,7 +118,7 @@
     public async Task OnOkAndNew()
     {
         await StoreSuperkat();
-        await _message.Success("Voer de volgende superkat in", 2);
+        await _message.Warning("Voer de volgende superkat in", 2);
     }
 
     public void OnCancel()
@@ -128,7 +128,7 @@
 
     private async Task StoreSuperkat()
     {
-        await _superkattenService.CreateSuperkatAsync(parameters);
-        await _message.Success("Superkat is opgeslagen", 1);        
+        var superkat = await _superkattenService.CreateSuperkatAsync(parameters);
+        await _message.Success($"Superkat is opgeslagen onder nummer {superkat.DisplayableNumber}", 3);        
     }
 }
