@@ -24,8 +24,10 @@ namespace Superkatten.Katministratie.Web.Services
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var Responce = await _client.PutAsync(uri, byteContent);
             var test = await Responce.Content.ReadAsStringAsync();
-            var superkat = JsonSerializer.Deserialize<Superkat>(test);
-            return superkat;
+
+            return string.IsNullOrWhiteSpace(test)
+                ? null
+                : JsonSerializer.Deserialize<Superkat>(test);
         }
 
         public async Task UpdateSuperkatAsync(int superkatNumber, [FromBody] UpdateSuperkatParameters updateSuperkat)
