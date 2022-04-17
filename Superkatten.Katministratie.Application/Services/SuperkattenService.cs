@@ -43,8 +43,8 @@ namespace Superkatten.Katministratie.Application.Services
             var superkatMaxNumber = await _superkattenRepository.GetSuperkatMaxNumberForGivenYearAsync(today.Year);
 
             var superkat = new Domain.Entities.Superkat(
-                superkatMaxNumber + 1, 
-                createSuperkatParameters.CatchDate, 
+                superkatMaxNumber + 1,
+                createSuperkatParameters.CatchDate,
                 createSuperkatParameters.Location
                 )
                 .WithBirthday(createSuperkatParameters.Birthday)

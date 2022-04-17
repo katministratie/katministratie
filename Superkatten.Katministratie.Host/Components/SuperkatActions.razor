@@ -5,22 +5,19 @@
 
 <div class="container">
     <div class="row">
-        @if (!BusyWithAction)
-        {
-            <div class="col-3">
-                <SuperkatAction                
-                    OnClickCallback="@ToggleReserve" 
-                    TooltipText="Reserveren van een kat" 
-                    ActionIcon="@(Superkat.Reserved ? "./images/actions/isreserved.jpg" : "./images/actions/notreserved.jpg")" />
-            </div>
+        <div class="col-3">
+            <SuperkatAction
+                OnClickCallback="@ToggleReserve" 
+                TooltipText="Reserveren van een kat" 
+                ActionIcon="@(Superkat.Reserved ? "./images/actions/isreserved.jpg" : "./images/actions/notreserved.jpg")" />
+        </div>
 
-            <div class="col-3">
-                <SuperkatAction 
-                OnClickCallback="@ToggleRetour" 
-                TooltipText="Kat gaat terug naar vanglocatie" 
-                ActionIcon="@(Superkat.Retour ? "./images/actions/isretour.jpg" : "./images/actions/notretour.jpg")" />
-            </div>
-        }
+        <div class="col-3">
+            <SuperkatAction 
+            OnClickCallback="@ToggleRetour" 
+            TooltipText="Kat gaat terug naar vanglocatie" 
+            ActionIcon="@(Superkat.Retour ? "./images/actions/isretour.jpg" : "./images/actions/notretour.jpg")" />
+        </div>
     </div>
 </div>
 
