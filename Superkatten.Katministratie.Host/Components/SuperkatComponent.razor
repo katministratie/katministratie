@@ -1,28 +1,22 @@
 ﻿@using Superkatten.Katministratie.Application.Entities
 @using Superkatten.Katministratie.Host.Components
 
-<div class="container-fluid">
-  <Row>
-    <Col class="col-lg-4 col-md-4 col-sm-4 align-content-center">
+<Row Class="mb-2 border">
+    <Col class="col-xl-1 col-lg-1 col-md-3 col-4 align-content-center">
         <Image Width="100px" Src=".\images\superkat.jpg" />
     </Col>
-    <Col class="col-lg-8 col-md-8 col-sm-8">
-      <div class="m-1">
-        <h5 class="m-1 bg-black text-white">@SuperkatDisplayableNumber</h5>
-        <div class="m-1">
-            Locatie: @Superkat.CatchLocation
+    <Col class="col-xl-11 col-lg-11 col-md-9 col-8">
+        <h5 class="p-1 bg-black text-white">@SuperkatDisplayableNumber</h5>
+        <div class="mb-2">
+            <div class="mb-0">Locatie: @Superkat.CatchLocation</div>
+            <div class="mb-0">Area: @Superkat.Area</div>
+            <div class="mb-0">Hok: @Superkat.CageNumber</div>
         </div>
-        <div class="m-1">
-            <p>Area: @Superkat.Area</p>
-            <p>Hok: @Superkat.CageNumber</p>
-        </div>
-        <div class="m-1">
+        <div class="mb-0 pt-1">
             <SuperkatActions @bind-Superkat="@Superkat" />
         </div>
-      </div>
     </Col>
-  </Row>
-</div>
+</Row>
 
 
 @code {

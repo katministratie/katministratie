@@ -11,15 +11,13 @@
 
 <h1>Superkatten</h1>
 
-<div>
-    <Row>
-        <div class="m-2">
-            <Button Type="@ButtonType.Primary" OnClick="OnCreateSuperkat">
-                Nieuwe kat
-            </Button>
-        </div>
-    </Row>
-</div>
+<Row>
+    <div class="m-2">
+        <Button Type="@ButtonType.Primary" OnClick="OnCreateSuperkat">
+            Nieuwe kat
+        </Button>
+    </div>
+</Row>
 
 @if (!_superkatten.Any())
 {
@@ -42,14 +40,10 @@ else
 {    
     <Divider Orientation="left" />
 
-    <Row>
-        <div class="p-2 ">
-        @foreach (var superkat in Superkatten)
-        {
-            <SuperkatComponent Superkat=superkat />
-        }
-        </div>
-    </Row>
+    @foreach (var superkat in Superkatten)
+    {
+        <SuperkatComponent Superkat=superkat />
+    }
 }
 
 
