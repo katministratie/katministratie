@@ -17,8 +17,8 @@ builder.Services.AddTransient<ISuperkatActionService, SuperkatActionService>();
 // Schemes: https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/understanding-http-authentication
 
 
-const string uriName = "https://katministratie.azurewebsites.net/";
-//const string uriName = "https://localhost:7171";
+//const string uriName = "https://katministratie.azurewebsites.net/";
+const string uriName = "https://localhost:7171";
 builder.Services.AddScoped<HttpClient>(s =>
 {
     return new HttpClient { BaseAddress = new System.Uri(uriName) };

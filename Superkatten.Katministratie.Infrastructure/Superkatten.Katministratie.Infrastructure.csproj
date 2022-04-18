@@ -22,11 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Superkatten.Katministratie.Application\Superkatten.Katministratie.Application.csproj" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\Superkatten.Katministratie.Domain\Superkatten.Katministratie.Domain.csproj" />
   </ItemGroup>
 
 </Project>

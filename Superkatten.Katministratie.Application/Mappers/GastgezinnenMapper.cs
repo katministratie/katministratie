@@ -1,26 +1,18 @@
-﻿namespace Superkatten.Katministratie.Application.Mappers
+﻿using Superkatten.Katministratie.Application.Entities;
+
+namespace Superkatten.Katministratie.Application.Mappers
 {
-    internal class GastgezinnenMapper : IGastgezinnenMapper
+    public class GastgezinnenMapper : IGastgezinnenMapper
     {
-        public Contracts.Gastgezin MapFromDomain(Domain.Entities.Gastgezin superkat)
+        public Gastgezin MapFromDomain(Domain.Entities.Gastgezin superkat)
         {
-            return new Contracts.Gastgezin
+            return new Gastgezin
             {
                 Name = superkat.Name,
                 Address = superkat?.Address,
                 City = superkat?.City,
                 Phone = superkat?.Phone,
             };
-        }
-
-        public Domain.Entities.Gastgezin MapToDomain(Contracts.Gastgezin superkat)
-        {
-            return new Domain.Entities.Gastgezin(
-                superkat.Name,
-                superkat.Address,
-                superkat.City,
-                superkat.Phone
-                );
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using Superkatten.Katministratie.Application.Contracts;
+using Superkatten.Katministratie.Application.Entities;
 using Superkatten.Katministratie.Application.Exceptions;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;

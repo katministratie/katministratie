@@ -7,73 +7,75 @@ namespace Superkatten.Katministratie.Domain.Entities
     {
         public Guid Id { get; private set; }
         public int Number { get; private set; }
-        public DateTimeOffset FoundDate { get; private set; }
+        public DateTimeOffset Birthday { get; private set; }
+        public DateTimeOffset CatchDate { get; private set; }
         public string CatchLocation { get; private set; }
         public string? Name { get; private set; } = string.Empty;
-        public DateTimeOffset Birthday { get; private set; }
         public bool Reserved { get; private set; }
         public bool Retour { get; private set; }
-        public int HokNumber { get; private set; }
+        public CatArea Area { get; private set; } = CatArea.Unknown;
+        public int? CageNumber { get; private set; }
+        public CatBehaviour Behaviour { get; private set; } = CatBehaviour.Unknown;
 
         public Superkat(
-            int number,
-            DateTimeOffset foundDate,
+            Guid id,
+            DateTimeOffset catchDate,
             string catchLocation
         )
         {
-            Number = number;
-            FoundDate = foundDate;
+            Id = id;
+            CatchDate = catchDate;
             CatchLocation = catchLocation;
         }
 
-        public Superkat WithName(string? name)
+        public void SetNumber(int number)
         {
-            if (name is null)
+            if (number < 0)
             {
-                throw new DomainException("Name cannot be null");
+                throw new DomainException($"Negative number {number} is not allowed");
             }
 
-            Name = name;
-
-            return this;
+            Number = number;
         }
 
-        public Superkat WithBirthday(DateTimeOffset birthday)
+        public void SetBirthday(DateTimeOffset birthday)
         {
-            if (birthday > FoundDate)
-            {
-                throw new DomainException($"Parameter {nameof(Birthday)} with value {birthday} cannot be greater than the {nameof(FoundDate)} with value {FoundDate}");
-            }
-
             Birthday = birthday;
-            
-            return this;
         }
 
-        public Superkat WithReserved(bool isReserved)
+        public void SetName(string name)
         {
-            Reserved = isReserved;
-
-            return this;
+            Name = name;
         }
 
-        public Superkat WithRetour(bool isRetour)
+        public void SetBehaviour(CatBehaviour catBehaviour)
         {
-            Retour = isRetour;
-
-            return this;
+            Behaviour = catBehaviour;
         }
 
-        public Superkat WithHokNumber(int hokNumber)
+        public void SetRetour(bool retour)
         {
-            if (hokNumber < 0)
+            Retour = retour;
+        }
+
+        public void SetReserved(bool reserved)
+        {
+            Reserved = reserved;
+        }
+
+        public void SetArea(CatArea area)
+        {
+            Area = area;
+        }
+
+        public void SetCageNumber(int? cageNumber)
+        {
+            if (cageNumber < 0)
             {
-                throw new DomainException($"HokNumber {hokNumber} cannot be negative");
+                throw new DomainException($"Cagenumber {cageNumber} cannot be less than zero");
             }
 
-            HokNumber = hokNumber;
-
-            return this;
+            CageNumber = cageNumber;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@using Superkatten.Katministratie.Application.Contracts
+﻿@using Superkatten.Katministratie.Application.Entities
 @using Superkatten.Katministratie.Host.Components
 
 <div class="container-fluid">
@@ -13,7 +13,8 @@
             Locatie: @Superkat.CatchLocation
         </div>
         <div class="m-1">
-            Hok: @Superkat.HokNumber
+            <p>Area: @Superkat.Area</p>
+            <p>Hok: @Superkat.CageNumber</p>
         </div>
         <div class="m-1">
             <SuperkatActions @bind-Superkat="@Superkat" />

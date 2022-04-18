@@ -9,58 +9,32 @@ namespace Superkatten.Katministratie.Application.Services
 {
     internal class SuperkatAction : ISuperkatAction
     {
-        public readonly ILogger<SuperkatAction> Logger;
-        public readonly ISuperkattenRepository Repository;
-        public readonly ISuperkattenMapper SuperkattenMapper;        public SuperkatAction(
+        public readonly ILogger<SuperkatAction> _logger;
+        public readonly ISuperkattenRepository _repository;
+        public readonly ISuperkattenMapper _superkattenMapper;        
+        
+        public SuperkatAction(
             ILogger<SuperkatAction> logger,
             ISuperkattenRepository superkattenRepository,
             ISuperkattenMapper superkattenMapper)
         {
-            Logger = logger;
-            Repository = superkattenRepository;
-            SuperkattenMapper = superkattenMapper;
+            _logger = logger;
+            _repository = superkattenRepository;
+            _superkattenMapper = superkattenMapper;
         }
 
-        public async Task ToggleRetourAsync(int superkatNumber)
+        public async Task ToggleRetourAsync(Guid id)
         {
-            var superkat = await Repository.GetSuperkatAsync(superkatNumber);
-
-            if (superkat is null)
-            {
-                throw new ApplicationException($"Superkat with number {superkatNumber} is unknown.");
-            }
-
-            var updatedSuperkat = new Domain.Entities.Superkat(
-                superkatNumber, 
-                superkat.FoundDate, 
-                superkat.CatchLocation
-                ).WithName(superkat.Name)
-                .WithBirthday(superkat.Birthday)
-                .WithReserved(superkat.Reserved)
-                .WithRetour(!superkat.Retour);
-
-            await Repository.UpdateSuperkatAsync(updatedSuperkat);
+            var superkat = await _repository.GetSuperkatAsync(id);            
+            superkat.SetRetour(!superkat.Retour);
+            await _repository.UpdateSuperkatAsync(superkat);
         }
 
-        public async Task ToggleReserveAsync(int superkatNumber)
+        public async Task ToggleReserveAsync(Guid id)
         {
-            var superkat = await Repository.GetSuperkatAsync(superkatNumber);
-
-            if (superkat is null)
-            {
-                throw new ApplicationException($"Superkat with number {superkatNumber} is unknown.");
-            }
-
-            var updatedSuperkat = new Domain.Entities.Superkat(
-                superkatNumber, 
-                superkat.FoundDate, 
-                superkat.CatchLocation
-                ).WithName(superkat.Name)
-                .WithBirthday(superkat.Birthday)
-                .WithRetour(superkat.Retour)
-                .WithReserved(!superkat.Reserved);
-
-            await Repository.UpdateSuperkatAsync(updatedSuperkat);
+            var superkat = await _repository.GetSuperkatAsync(id);
+            superkat.SetReserved(!superkat.Reserved);
+            await _repository.UpdateSuperkatAsync(superkat);
         }
     }
 }

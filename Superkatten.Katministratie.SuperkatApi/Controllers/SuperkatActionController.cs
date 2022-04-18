@@ -19,16 +19,16 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
 
         [HttpPut]
         [Route("ToggleReserve")]
-        public async Task ToggleReserve([FromBody] int superkatNumber)
+        public async Task ToggleReserve([FromBody] Guid id)
         {
-            await _service.ToggleReserveAsync(superkatNumber);
+            await _service.ToggleReserveAsync(id);
         }
 
         [HttpPut]
         [Route("ToggleRetour")]
-        public async Task ToggleRetour([FromBody] int superkatNumber)
+        public async Task ToggleRetour([FromBody] Guid id)
         {
-            await _service.ToggleRetourAsync(superkatNumber);
+            await _service.ToggleRetourAsync(id);
         }
     }
 }

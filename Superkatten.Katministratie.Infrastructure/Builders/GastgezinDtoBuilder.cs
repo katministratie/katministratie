@@ -6,7 +6,7 @@ namespace Superkatten.Katministratie.Infrastructure.Builders
 {
     public class GastgezinDtoBuilder
     {
-        private int _id { get; set; }
+        private Guid _id { get; set; }
         private string _name { get; set; } = string.Empty;
         private string _address { get; set; } = string.Empty;
         private string _city { get; set; } = string.Empty;
@@ -14,7 +14,7 @@ namespace Superkatten.Katministratie.Infrastructure.Builders
 
         private List<SuperkatDto> _superkatten { get; set; } = new List<SuperkatDto>();
 
-        public GastgezinDtoBuilder WithId(int id) { _id = id; return this; }
+        public GastgezinDtoBuilder WithId(Guid id) { _id = id; return this; }
         public GastgezinDtoBuilder WithName(string name) { _name = name; return this; }
         public GastgezinDtoBuilder WithAddress(string address) { _address = address; return this; }
         public GastgezinDtoBuilder WithCity(string city) { _city = city; return this; }

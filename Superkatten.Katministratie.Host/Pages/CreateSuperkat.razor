@@ -1,8 +1,7 @@
 ﻿@page "/CreateSuperkat"
 
-@using Newtonsoft.Json
+@using Superkatten.Katministratie.Application.Entities
 @using Superkatten.Katministratie.Web.Services
-@using Superkatten.Katministratie.Application.Contracts;
 
 @inject NavigationManager NavigationManager
 @inject ISuperkattenListService _superkattenService
@@ -26,7 +25,7 @@
 <Row Class="mb-2">
     <Col Class="col-6">
         <Title Level="6">Locatie: </Title>
-        <Input Placeholder="Voer vanglokatie in"  Size="@InputSize.Large" @bind-Value="@parameters.Location" >
+        <Input Placeholder="Voer vanglokatie in"  Size="@InputSize.Large" @bind-Value="@parameters.CatchLocation" >
             <Prefix>
                 <Icon Type="border-inner" />
             </Prefix>
@@ -38,7 +37,7 @@
             Disabled="@ValidCatchLocation" 
             DefaultValue="1" 
             Size="@InputSize.Large" 
-            @bind-Value="@parameters.HokNumber"/>    
+            @bind-Value="@parameters.CageNumber"/>    
     </Col>
 </Row>
 
@@ -86,7 +85,7 @@
     private string VangdatumText { get; init; } = "Vangdatum";
     private string GeboortedatumText { get; init; } = "Geboortedatum";
     private DateTime InitialDateTimeNow => DateTime.UtcNow;
-    private bool ValidCatchLocation => string.IsNullOrWhiteSpace(parameters.Location);
+    private bool ValidCatchLocation => string.IsNullOrWhiteSpace(parameters.CatchLocation);
 
     private void OnChangeCatchDate(DateTimeChangedEventArgs args)
     {
@@ -99,15 +98,17 @@
     }
 
 
-    private CreateSuperkatParameters parameters = 
+    private CreateSuperkatParameters parameters =
         new CreateSuperkatParameters()
-        {
-            Location = string.Empty,
-            Retour = false,
-            Birthday = DateTime.UtcNow,
-            CatchDate = DateTime.UtcNow,
-            HokNumber = 0
-        };
+            {
+                CatchDate = DateTime.UtcNow,
+                CatchLocation = string.Empty,
+                Birthday = DateTime.UtcNow,
+                Area = Domain.Entities.CatArea.Unknown,
+                CageNumber = null,
+                Behaviour = Domain.Entities.CatBehaviour.Unknown,
+                Retour = false
+            };
 
     public async Task OnOk()
     {
@@ -133,6 +134,7 @@
         {
             await _message.Error($"Fout bij het opslaan van de nieuwe superkat.", 3);            
         }
+
         await _message.Success($"Superkat is opgeslagen onder nummer {superkat.DisplayableNumber}", 3);        
     }
 }

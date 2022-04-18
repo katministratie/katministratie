@@ -1,38 +1,25 @@
-﻿using System;
+﻿using Superkatten.Katministratie.Application.Entities;
 
 namespace Superkatten.Katministratie.Application.Mappers
 {
     public class SuperkattenMapper : ISuperkattenMapper
     {
-        public Contracts.Superkat MapFromDomain(Domain.Entities.Superkat superkat)
+        public Superkat MapFromDomain(Domain.Entities.Superkat superkat)
         {
-            return new Contracts.Superkat
+            return new Superkat
             {
+                Id = superkat.Id,
                 Number = superkat.Number,
                 Name = superkat.Name,
-                FoundDate = superkat.FoundDate,
+                CatchDate = superkat.CatchDate,
                 CatchLocation = superkat.CatchLocation,
                 Birthday = superkat.Birthday,
                 Reserved = superkat.Reserved,
                 Retour = superkat.Retour,
-                HokNumber = superkat.HokNumber
+                Area = superkat.Area,
+                CageNumber = superkat.CageNumber,
+                Behaviour = superkat.Behaviour,
             };
-        }
-
-        public Domain.Entities.Superkat MapToDomain(Contracts.Superkat contractSuperkat)
-        {
-            var superkat = new Domain.Entities.Superkat(
-                    number: contractSuperkat.Number,
-                    foundDate: contractSuperkat.FoundDate,
-                    catchLocation: contractSuperkat.CatchLocation
-                )
-                .WithName(contractSuperkat.Name)
-                .WithReserved(contractSuperkat.Reserved)
-                .WithRetour(contractSuperkat.Retour)
-                .WithBirthday(contractSuperkat.Birthday)
-                .WithHokNumber(contractSuperkat.HokNumber);
-
-            return superkat;
         }
     }
 }

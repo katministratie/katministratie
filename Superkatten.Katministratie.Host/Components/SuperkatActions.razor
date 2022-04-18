@@ -1,5 +1,5 @@
-﻿@using Superkatten.Katministratie.Application.Contracts
-@using Superkatten.Katministratie.Web.Services
+﻿@using Superkatten.Katministratie.Web.Services
+@using Superkatten.Katministratie.Application.Entities
 
 @inject ISuperkatActionService _superkatActionService
 
@@ -53,11 +53,12 @@
             Name = Superkat.Name,
             Birthday = Superkat.Birthday,
             CatchLocation = Superkat.CatchLocation,
-            FoundDate = Superkat.FoundDate,
+            CatchDate = Superkat.CatchDate,
             Number = Superkat.Number,
-            SuperkatColor = Superkat.SuperkatColor,
             Reserved = reserve,
-            Retour = retour
+            Retour = retour,
+            Area = Superkat.Area,
+            CageNumber = Superkat.CageNumber
         });
     }
 }

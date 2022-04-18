@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Superkatten.Katministratie.Application.Contracts;
+using Superkatten.Katministratie.Application.Entities;
 using Superkatten.Katministratie.Application.Interfaces;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers
@@ -21,7 +21,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         [HttpGet]
         public async Task<IReadOnlyCollection<Superkat>> GetAllSuperkatten()
         {
-            return await _service.ReadAvailableSUperkattenAsync();
+            return await _service.ReadAvailableSuperkattenAsync();
         }
 
         [HttpPut]
@@ -31,15 +31,15 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpPost]
-        public async Task PostSuperkat(int number, [FromBody] UpdateSuperkatParameters updateSuperkatParameters)
+        public async Task PostSuperkat([FromBody] UpdateSuperkatParameters updateSuperkatParameters)
         {
-            await _service.UpdateSuperkatAsync(number, updateSuperkatParameters);
+            await _service.UpdateSuperkatAsync(updateSuperkatParameters);
         }
 
         [HttpDelete]
-        public async Task DeleteSuperkat(int number)
+        public async Task DeleteSuperkat(Guid id)
         {
-            await _service.DeleteSuperkatAsync(number);
+            await _service.DeleteSuperkatAsync(id);
         }
     }
 }

@@ -20,6 +20,7 @@ namespace Superkatten.Katministratie.Domain.Entities
                 throw new DomainException($"{nameof(Name)} should not be null or empty");
             }
 
+            Id = Guid.NewGuid();
             Name = name;
             Address = address;
             City = city;

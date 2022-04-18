@@ -1,4 +1,4 @@
-﻿namespace Superkatten.Katministratie.Application.Contracts
+﻿namespace Superkatten.Katministratie.Application.Entities
 {
     public class Gastgezin
     {

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Superkatten.Katministratie.Application.Contracts;
+using Superkatten.Katministratie.Application.Entities;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -19,15 +19,17 @@ namespace Superkatten.Katministratie.Web.Services
         {
             var uri = $"api/Superkatten";
             var myContent = JsonSerializer.Serialize(newSuperkat);
-            var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+            var buffer = Encoding.UTF8.GetBytes(myContent);
             var byteContent = new ByteArrayContent(buffer);
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var Responce = await _client.PutAsync(uri, byteContent);
-            var test = await Responce.Content.ReadAsStringAsync();
 
-            return string.IsNullOrWhiteSpace(test)
+            var Responce = await _client.PutAsync(uri, byteContent);
+
+            var stream = await Responce.Content.ReadAsStreamAsync();
+
+            return stream is null
                 ? null
-                : JsonSerializer.Deserialize<Superkat>(test);
+                : await JsonSerializer.DeserializeAsync<Superkat>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
         public async Task UpdateSuperkatAsync(int superkatNumber, [FromBody] UpdateSuperkatParameters updateSuperkat)
@@ -37,7 +39,9 @@ namespace Superkatten.Katministratie.Web.Services
             var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
             var byteContent = new ByteArrayContent(buffer);
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
             _ = await _client.PostAsync(uri, byteContent);
+
         }
 
         public async Task DeleteSuperkatAsync(int superkatNumber)

@@ -1,4 +1,4 @@
-﻿using Superkatten.Katministratie.Application.Contracts;
+﻿using Superkatten.Katministratie.Application.Entities;
 
 namespace Superkatten.Katministratie.Web.Services
 {

@@ -1,6 +1,7 @@
 ﻿using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Infrastructure.Entities;
 using System;
+using System.ComponentModel;
 
 namespace Superkatten.Katministratie.Infrastructure.Mapper
 {
@@ -10,31 +11,55 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
         {
             return new SuperkatDto
             {
+                Id = superkat.Id,
                 Number = superkat.Number,
                 Name = superkat.Name,
-                FoundDate = superkat.FoundDate,
+                CatchDate = superkat.CatchDate,
                 CatchLocation = superkat.CatchLocation,
                 Birthday = superkat.Birthday,
-                HokNumber = superkat.HokNumber,
+                Area = (int)superkat.Area,
+                CageNumber = superkat.CageNumber,
                 Retour = superkat.Retour,
                 Reserved = superkat.Reserved,
+                Behaviour = (int)superkat.Behaviour
             };
         }
 
         public Superkat MapSuperkatDtoToDomain(SuperkatDto superkatDto)
         {
             var superkat = new Superkat(
-                superkatDto.Number,
-                superkatDto.FoundDate,
-                superkatDto.CatchLocation
-                )
-                .WithName(superkatDto.Name)
-                .WithReserved(superkatDto.Reserved)
-                .WithRetour(superkatDto.Retour)
-                .WithBirthday(superkatDto.Birthday)
-                .WithHokNumber(superkatDto.HokNumber);
-
+                superkatDto.Id,
+                superkatDto.CatchDate,
+                superkatDto.CatchLocation);
+            superkat.SetNumber(superkatDto.Number);
+            superkat.SetName(superkatDto.Name ?? string.Empty);
+            superkat.SetReserved(superkatDto.Reserved);
+            superkat.SetArea(MapToDomainArea(superkatDto.Area));
+            superkat.SetCageNumber(superkatDto.CageNumber);
+            superkat.SetRetour(superkatDto.Retour);
+            superkat.SetBehaviour(MapToDomainBehaviour(superkatDto.Behaviour));
+            superkat.SetBirthday(superkatDto.Birthday);
             return superkat;
+        }
+
+        private CatBehaviour MapToDomainBehaviour(int behaviour)
+        {
+            if (!Enum.IsDefined(typeof(CatBehaviour), behaviour))
+            {
+                throw new InvalidEnumArgumentException(nameof(CatBehaviour), behaviour, typeof(CatBehaviour));
+            }
+
+            return (CatBehaviour)behaviour;
+        }
+
+        private CatArea MapToDomainArea(int area)
+        {
+            if (!Enum.IsDefined(typeof(CatArea), area)) 
+            {
+                throw new InvalidEnumArgumentException(nameof(CatArea), area, typeof(CatArea));
+            }
+
+            return (CatArea)area;
         }
     }
 }
