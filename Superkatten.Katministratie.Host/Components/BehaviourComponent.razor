@@ -1,0 +1,38 @@
+﻿@using Superkatten.Katministratie.Application.Entities
+@using Superkatten.Katministratie.Domain.Entities
+
+<Image Src="@BehaviourIconName" Alt="@TooltipText" Preview="false" />
+
+@code {
+    [ParameterAttribute]
+    public CatBehaviour Behaviour{ get; set; }
+
+    public string TooltipText
+    {
+        get
+        {
+            switch (Behaviour)
+            {
+                case CatBehaviour.Unknown: return "Pas op gedrag niet bekend";
+                case CatBehaviour.Shy: return "Pas op dit is een schuwe kat";
+                case CatBehaviour.Social: return "Deze kan je aaien";
+                default: return "Pas op gedrag niet bekend";
+            }
+        }
+    }
+
+    public string BehaviourIconName
+    {
+        get
+        {
+            switch (Behaviour)
+            {
+                case CatBehaviour.Unknown: return "./images/gedrag/Onbekend.jpg";
+                case CatBehaviour.Shy: return "./images/gedrag/Schuw.jpg";
+                case CatBehaviour.Social: return "./images/gedrag/Sociaal.jpg";
+                default: return "./images/gedrag/Error.jpg";
+            }
+        }
+    }
+
+}
