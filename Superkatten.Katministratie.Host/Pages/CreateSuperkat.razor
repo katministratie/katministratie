@@ -22,18 +22,22 @@
     </Col>
 </Row>
 
+<Divider />
+
 <Row Class="mb-2">
-    <Col Class="col-6">
-        <Title Level="6">Locatie: </Title>
+    <Col Class="col-12">
         <Input Placeholder="Voer vanglokatie in"  Size="@InputSize.Large" @bind-Value="@parameters.CatchLocation" >
             <Prefix>
                 <Icon Type="border-inner" />
             </Prefix>
         </Input>
     </Col>
-    <Col Class="col-6">
-        <Title Level="6">Hok: </Title>
+
+    <Col Class="col-12">
+        Nummer van het hok: 
         <AntDesign.InputNumber 
+            Min="1"
+            Max="50"
             Disabled="@ValidCatchLocation" 
             DefaultValue="1" 
             Size="@InputSize.Large" 
@@ -41,43 +45,36 @@
     </Col>
 </Row>
 
-<Row Class="border mb-2">
+<Row Class="mb-3">
     <Col Class="col-12">
-        <Title Level="4">
-            Waar gaat de kat naartoe:
-            <Switch Disabled="@ValidCatchLocation" @bind-Checked="@parameters.Retour">
-                <CheckedChildrenTemplate>
-                    <Title Level="4">Gaan weer terug</Title>
-                </CheckedChildrenTemplate>
-                <UnCheckedChildrenTemplate>
-                    <Title Level="4">Gaan adoptie proces in</Title>
-                </UnCheckedChildrenTemplate>
-            </Switch>
-        </Title>
+        Kat gaat retour:
+        <Switch Disabled="@ValidCatchLocation" @bind-Checked="@parameters.Retour"></Switch>
     </Col>
 </Row>
 
-<Row>
-    <Col Class="col-6 border">
-        <Title Level="4">Vangdatum:</Title>
-            <DatePicker Disabled="@ValidCatchLocation" 
-                Bordered="@false" 
-                TValue="DateTime?" 
-                Picker="@DatePickerType.Date" 
-                OnChange="OnChangeCatchDate" 
-                DefaultValue="@InitialDateTimeNow" 
-                Placeholder="@VangdatumText"/>
+<Row Class="mb-3">
+    <Col Class="col-12">
+        Vangdatum: 
+        <DatePicker Disabled="@ValidCatchLocation" 
+            Bordered="@false" 
+            TValue="DateTime?" 
+            Picker="@DatePickerType.Date" 
+            OnChange="OnChangeCatchDate" 
+            DefaultValue="@InitialDateTimeNow" 
+            Placeholder="@VangdatumText"/>
     </Col>
+</Row>
 
-    <Col Class="col-6 border">
-        <Title Level="4">Geboortedatum:</Title>
-            <DatePicker Disabled="@ValidCatchLocation" 
-                Bordered="@false" 
-                TValue="DateTime?" 
-                Picker="@DatePickerType.Date" 
-                OnChange="OnChangeBirthDate" 
-                DefaultValue="@InitialDateTimeNow" 
-                Placeholder="@GeboortedatumText"/>
+<Row Class="mb-3">
+    <Col Class="col-12">
+        Geboortedatum:
+        <DatePicker Disabled="@ValidCatchLocation" 
+            Bordered="@false" 
+            TValue="DateTime?" 
+            Picker="@DatePickerType.Date" 
+            OnChange="OnChangeBirthDate" 
+            DefaultValue="@InitialDateTimeNow" 
+            Placeholder="@GeboortedatumText"/>
     </Col>
 </Row>
 @code 
