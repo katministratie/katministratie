@@ -1,11 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Superkatten.Katministratie.Infrastructure.Entities
 {
     public class SuperkatDto
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Required]
         public Guid Id { get; set; }
 
         [Required]
@@ -14,11 +17,11 @@ namespace Superkatten.Katministratie.Infrastructure.Entities
         [Required]
         public DateTimeOffset CatchDate { get; set; }
 
-        [Required]
-        public DateTimeOffset Birthday { get; set; }
 
         [Required]
         public string CatchLocation { get; set; } = string.Empty;
+
+        public DateTimeOffset Birthday { get; set; }
 
         public string? Name { get; set; }
 

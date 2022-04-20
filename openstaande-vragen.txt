@@ -1,1 +1,5 @@
 In de ApiKeyHandler gebruiken we ProblemDetails maar als ik de nuget van MS importeer dan krijgen we conflicten ?
+
+
+Database migration done with:
+PM> dotnet ef migrations --project Superkatten.Katministratie.Infrastructure --startup-project Superkatten.Katministratie.SuperkatApi add InitialCreate
