@@ -21,7 +21,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
             _logger = logger;
             _mapper = mapper;
             _context = context;
-            _context.Database.EnsureCreated();
+            _context.Database.Migrate();
         }
 
         public async Task CreateSuperkatAsync(Superkat superkat)

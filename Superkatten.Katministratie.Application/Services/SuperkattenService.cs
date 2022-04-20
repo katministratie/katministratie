@@ -48,6 +48,7 @@ namespace Superkatten.Katministratie.Application.Services
             superkat.SetCageNumber(createSuperkatParameters.CageNumber);
             superkat.SetBehaviour(createSuperkatParameters.Behaviour);
             superkat.SetRetour(createSuperkatParameters.Retour);
+            superkat.SetIsKitten(createSuperkatParameters.IsKitten);
             
             var uniqueCatNumber = await _superkattenRepository.GetSuperkatMaxNumberForGivenYearAsync(DateTimeOffset.Now.Year);
             superkat.SetNumber(uniqueCatNumber);

@@ -1,14 +1,16 @@
 ﻿using Microsoft.OpenApi.Models;
 using Superkatten.Katministratie.Application;
-using Superkatten.Katministratie.Application.Extentions;
-using Superkatten.Katministratie.Application.Services.Authentication;
 using Superkatten.Katministratie.Infrastructure;
+using Superkatten.Katministratie.Infrastructure.Persistence;
 
 const string SWAGGER_DOC_VERSION = "v1";
 //const string SECURITY_DEFINITION_NAME = "ApiKeyAuth";
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder
+    .Configuration
+    .AddEnvironmentVariables();
 
 // Add services to the container.
 /*builder.Services.AddAuthentication(options =>
@@ -41,7 +43,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 //builder.Services.AddAuthorization();
 builder.Services.AddApplicationServices(builder.Configuration);
-builder.Services.AddInfrastructure();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
@@ -61,6 +63,8 @@ app.UseSwaggerUI();
 app.UseRouting();
 app.UseHttpsRedirection();
 app.MapControllers();
+
+
 
 //app.UseAuthentication();
 //app.UseAuthorization();

@@ -21,7 +21,8 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
                 CageNumber = superkat.CageNumber,
                 Retour = superkat.Retour,
                 Reserved = superkat.Reserved,
-                Behaviour = (int)superkat.Behaviour
+                Behaviour = (int)superkat.Behaviour,
+                IsKitten = superkat.IsKitten,
             };
         }
 
@@ -39,6 +40,8 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
             superkat.SetRetour(superkatDto.Retour);
             superkat.SetBehaviour(MapToDomainBehaviour(superkatDto.Behaviour));
             superkat.SetBirthday(superkatDto.Birthday);
+            superkat.SetIsKitten(superkatDto.IsKitten);
+
             return superkat;
         }
 

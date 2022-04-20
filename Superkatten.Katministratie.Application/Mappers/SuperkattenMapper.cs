@@ -19,6 +19,7 @@ namespace Superkatten.Katministratie.Application.Mappers
                 Area = superkat.Area,
                 CageNumber = superkat.CageNumber,
                 Behaviour = superkat.Behaviour,
+                IsKitten = superkat.IsKitten,
             };
         }
     }

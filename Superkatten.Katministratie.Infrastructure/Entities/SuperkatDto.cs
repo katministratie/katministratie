@@ -34,5 +34,7 @@ namespace Superkatten.Katministratie.Infrastructure.Entities
         public int? CageNumber { get; set; }
 
         public int Behaviour { get; set; }
+
+        public bool IsKitten { get; set; }
     }
 }
