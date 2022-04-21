@@ -9,69 +9,34 @@
 
 <PageTitle>Superkatten</PageTitle>
 
-<h1>Superkatten</h1>
-
 <Row>
-    <div class="m-2">
-        <Button Type="@ButtonType.Primary" OnClick="OnCreateSuperkat">
-            Nieuwe kat
-        </Button>
-    </div>
+    <Col Class="col-2">
+        <Image Src="Images/superkat.jpg"></Image>
+    </Col>
+    <Col Class="col-10">
+        <h1>Superkatten katministratie</h1>
+    </Col>
 </Row>
 
-@if (!_superkatten.Any())
-{
-    <div style="margin: 3rem auto; width: 20rem">
-      <div class="card">
-        <img src="images\superkat.jpg"
-             class="card-img-top"
-             alt="Phone" />
-        <div class="card-body">
-          <h5 class="card-title">Katministratie</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Ophalen katten</h6>
-          <p class="card-text">
-            Ophalen van de katten uit de database. Dit kan even duren...
-          </p>
-        </div>
-      </div>
-    </div>
-}
-else
-{
-    @foreach (var superkat in Superkatten)
-    {
-        <SuperkatComponent Superkat=superkat />
-    }
-}
+<Row>
+    <Button Block="@true" OnClick="OnCreateSuperkat" Class="mb-2">
+        Nieuwe kat toevoegen
+    </Button>
 
+    <Button Block="@true" OnClick="OnShowOverview" Class="mb-2">
+        Overzicht katten
+    </Button>
+</Row>
 
 @code {
-
-    public List<Superkat> _superkatten = new();
-    public List<Superkat> Superkatten => _superkatten;
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        await UpdateListAsync();
-    }
-
-    private async Task UpdateListAsync()
-    {
-        if (_superkattenService == null)
-        {
-            return;
-        }
-
-        var superkatten = await _superkattenService.GetAllSuperkattenAsync();
-        _superkatten = superkatten
-            .AsQueryable()
-            .OrderByDescending(sk => sk.Number)
-            .ToList();
-    }
-
     private void OnCreateSuperkat()
     {
         _navigationManager.NavigateTo("CreateSuperkat");
     }
+
+    private void OnShowOverview()
+    {
+        _navigationManager.NavigateTo("Overview");
+    }
+
 }
