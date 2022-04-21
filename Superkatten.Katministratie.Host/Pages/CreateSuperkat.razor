@@ -54,6 +54,13 @@
 
 <Row Class="mb-3">
     <Col Class="col-12">
+        Kitten:
+        <Switch Disabled="@ValidCatchLocation" @bind-Checked="@parameters.IsKitten"></Switch>
+    </Col>
+</Row>
+
+<Row Class="mb-3">
+    <Col Class="col-12">
         Vangdatum: 
         <DatePicker Disabled="@ValidCatchLocation" 
             Bordered="@false" 
@@ -105,7 +112,8 @@
                 Area = Domain.Entities.CatArea.Unknown,
                 CageNumber = null,
                 Behaviour = Domain.Entities.CatBehaviour.Unknown,
-                Retour = false
+                Retour = false,
+                IsKitten = false
             };
 
     public async Task OnOk()
