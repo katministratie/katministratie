@@ -1,8 +1,7 @@
-﻿namespace Superkatten.Katministratie.Web.Services
+﻿namespace Superkatten.Katministratie.Host.Services;
+
+public interface ISuperkatActionService
 {
-    public interface ISuperkatActionService
-    {
-        public Task ToggleReserveSuperkatAsync(int superkatNumber);
-        public Task ToggleRetourSuperkatAsync(int superkatNumber);
-    }
+    public Task ToggleReserveSuperkatAsync(int superkatNumber);
+    public Task ToggleRetourSuperkatAsync(int superkatNumber);
 }

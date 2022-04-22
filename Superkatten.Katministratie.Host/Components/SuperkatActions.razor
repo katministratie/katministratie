@@ -1,4 +1,4 @@
-﻿@using Superkatten.Katministratie.Web.Services
+﻿@using Superkatten.Katministratie.Host.Services
 @using Superkatten.Katministratie.Application.Entities
 
 @inject ISuperkatActionService _superkatActionService
@@ -7,16 +7,14 @@
     <div class="row">
         <div class="col-3">
             <SuperkatAction
-                OnClickCallback="@ToggleReserve" 
-                TooltipText="Reserveren van een kat" 
+                OnClickCallback="@ToggleReserve"
                 ActionIcon="@(Superkat.Reserved ? "./images/actions/isreserved.jpg" : "./images/actions/notreserved.jpg")" />
         </div>
 
         <div class="col-3">
-            <SuperkatAction 
-            OnClickCallback="@ToggleRetour" 
-            TooltipText="Kat gaat terug naar vanglocatie" 
-            ActionIcon="@(Superkat.Retour ? "./images/actions/isretour.jpg" : "./images/actions/notretour.jpg")" />
+            <SuperkatAction
+                OnClickCallback="@ToggleRetour"
+                ActionIcon="@(Superkat.Retour ? "./images/actions/isretour.jpg" : "./images/actions/notretour.jpg")" />
         </div>
     </div>
 </div>
@@ -28,22 +26,18 @@
     [Parameter]
     public EventCallback<Superkat> SuperkatChanged { get; set; }
 
-    private bool BusyWithAction = false;
-
     private async Task ToggleReserve()
     {
-        BusyWithAction = true;
+        await Task.Delay(1000);
         await _superkatActionService.ToggleReserveSuperkatAsync(Superkat.Number);
         await UpdateSuperkat(!Superkat.Reserved, Superkat.Retour);
-        BusyWithAction = false;
     }
 
     private async Task ToggleRetour()
     {
-        BusyWithAction = true;
+        await Task.Delay(2000);
         await _superkatActionService.ToggleRetourSuperkatAsync(Superkat.Number);
         await UpdateSuperkat(Superkat.Reserved, !Superkat.Retour);
-        BusyWithAction = false;
     }
 
     private async Task UpdateSuperkat(bool reserve, bool retour)

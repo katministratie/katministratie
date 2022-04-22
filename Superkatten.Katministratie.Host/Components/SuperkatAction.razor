@@ -1,9 +1,7 @@
 ﻿@using Superkatten.Katministratie.Application.Entities
 
 <div class="m-0 p-0">
-    <Tooltip Placement="@Placement.TopRight" Title="@TooltipText">
-        <Image Src="@ActionIcon" Alt="@TooltipText" OnClick="@ExecuteAction" Preview="false" />
-    </Tooltip>
+    <Image Src="@ActionIcon" OnClick="@ExecuteAction" Preview="false" />
 </div>
 
 @code {
@@ -11,11 +9,14 @@
     public string ActionIcon { get; set; } = string.Empty;
 
     [Parameter]
-    public string TooltipText { get; set; } = string.Empty;
-
-    [Parameter]
     public EventCallback OnClickCallback { get; set; }
-    
 
-    public void ExecuteAction() => OnClickCallback.InvokeAsync();
+    private bool BusyWithAction = false;
+
+    public async void ExecuteAction() 
+    {
+        BusyWithAction = true;
+        await OnClickCallback.InvokeAsync();
+        BusyWithAction = false;
+    }
 }

@@ -1,0 +1,83 @@
+﻿@page "/OverviewGastgezinnen"
+
+@using Superkatten.Katministratie.Application.Entities
+@using Superkatten.Katministratie.Host.Components
+@using Superkatten.Katministratie.Host.Services;
+
+@inject NavigationManager _navigationManager
+@inject IGastgezinService _gastgezinnenService
+
+<PageTitle>Superkatten Gastgezinnen</PageTitle>
+
+<Row>
+    <Col Class="col-12">
+        <Button Block="@true" OnClick="@OnCreateGastgezin">Toevoegen gastgezin</Button>
+    </Col>
+</Row>
+
+<Row>
+    <Col Class="col-12">
+        <Button Block="@true" OnClick="@OnBackHome">Terug</Button>
+    </Col>
+</Row>
+
+@if (!_gastgezinnen.Any())
+{    
+    <div style="margin: 3rem auto; width: 20rem">
+        <div class="card">
+        <img src="images\superkat.jpg"
+                class="card-img-top"
+                alt="Phone" />
+        <div class="card-body">
+            <h5 class="card-title">Katministratie</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Ophalen gastgezinnen</h6>
+            <p class="card-text">
+            Nog geen gastgezinnen zijn aangemeld
+            </p>
+        </div>
+        </div>
+    </div>
+}
+else
+{
+    @foreach (var gastgezin in Gastgezinnen)
+    {
+        <GastgezinComponent Gastgezin=gastgezin />
+    }    
+}
+
+@code {
+
+    public List<Gastgezin> _gastgezinnen = new();
+    public List<Gastgezin> Gastgezinnen => _gastgezinnen;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await UpdateListAsync();
+    }
+
+    private async Task UpdateListAsync()
+    {
+        if (_gastgezinnenService == null)
+        {
+            return;
+        }
+
+        var gastgezinnen = await _gastgezinnenService.GetAllGastgezinAsync();
+        _gastgezinnen  = gastgezinnen 
+            .AsQueryable()
+            .OrderByDescending(item => item.Name)
+            .ToList();
+    }
+
+    private void OnBackHome()
+    {
+        _navigationManager.NavigateTo("");
+    }
+
+    public void OnCreateGastgezin()
+    {
+        _navigationManager.NavigateTo("CreateGastgezin");
+    }
+}

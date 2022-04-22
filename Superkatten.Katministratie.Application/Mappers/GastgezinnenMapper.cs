@@ -8,10 +8,11 @@ namespace Superkatten.Katministratie.Application.Mappers
         {
             return new Gastgezin
             {
+                Id = superkat.Id,
                 Name = superkat.Name,
                 Address = superkat?.Address,
                 City = superkat?.City,
-                Phone = superkat?.Phone,
+                Phone = superkat?.Phone
             };
         }
     }

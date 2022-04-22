@@ -25,7 +25,6 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
 
         public async Task<Gastgezin> CreateGastgezinAsync(Gastgezin createGastgezin)
         {
-            var name = createGastgezin.Name;
             var existingGastgezinCount = await _context
                 .Gastgezinnen
                 .CountAsync(gg => gg.Name == createGastgezin.Name);

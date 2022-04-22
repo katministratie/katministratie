@@ -1,7 +1,7 @@
 ﻿@page "/"
 
 @using Superkatten.Katministratie.Host.Components
-@using Superkatten.Katministratie.Web.Services
+@using Superkatten.Katministratie.Host.Services
 @using Superkatten.Katministratie.Application.Entities
 
 @inject NavigationManager _navigationManager
@@ -23,8 +23,12 @@
         Nieuwe kat toevoegen
     </Button>
 
-    <Button Block="@true" OnClick="OnShowOverview" Class="mb-2">
-        Overzicht katten
+    <Button Block="@true" OnClick="OnShowOverviewSuperkatten" Class="mb-2">
+        Lijst katten
+    </Button>
+    
+    <Button Block="@true" OnClick="OnShowOverviewGastgezinnen" Class="mb-2">
+        Lijst gastgezinnen
     </Button>
 </Row>
 
@@ -34,9 +38,13 @@
         _navigationManager.NavigateTo("CreateSuperkat");
     }
 
-    private void OnShowOverview()
+    private void OnShowOverviewSuperkatten()
     {
-        _navigationManager.NavigateTo("Overview");
+        _navigationManager.NavigateTo("OverviewSuperkatten");
     }
 
+    private void OnShowOverviewGastgezinnen()
+    {
+        _navigationManager.NavigateTo("OverviewGastgezinnen");
+    }
 }

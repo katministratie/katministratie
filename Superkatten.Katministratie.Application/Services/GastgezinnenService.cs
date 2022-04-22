@@ -4,6 +4,7 @@ using Superkatten.Katministratie.Application.Exceptions;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
 using Superkatten.Katministratie.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ namespace Superkatten.Katministratie.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<Gastgezin> CreateGastgezinAsync(string name, CreateUpdateGastgezinParameters createGastgezinParameters)
+        public async Task<Gastgezin> CreateGastgezinAsync(string name, CreateOrUpdateGastgezinParameters createGastgezinParameters)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -33,6 +34,7 @@ namespace Superkatten.Katministratie.Application.Services
             }
 
             var gastgezin= new Domain.Entities.Gastgezin(
+                Guid.NewGuid(),
                 name,
                 createGastgezinParameters.Address,
                 createGastgezinParameters.City,
@@ -65,7 +67,7 @@ namespace Superkatten.Katministratie.Application.Services
             return _mapper.MapFromDomain(gastgezin);
         }
 
-        public async Task<Gastgezin> UpdateGastgezinAsync(string name, CreateUpdateGastgezinParameters updateGastgezinParameters)
+        public async Task<Gastgezin> UpdateGastgezinAsync(string name, CreateOrUpdateGastgezinParameters updateGastgezinParameters)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -79,6 +81,7 @@ namespace Superkatten.Katministratie.Application.Services
             }
 
             var updatedGastgezin = new Domain.Entities.Gastgezin(
+                gastgezin.Id,
                 name,
                 updateGastgezinParameters.Address,
                 updateGastgezinParameters.City,

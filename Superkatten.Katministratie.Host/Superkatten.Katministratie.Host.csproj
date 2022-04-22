@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Superkatten.Katministratie.Application\Superkatten.Katministratie.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\gastgezin\" />
+  </ItemGroup>
+
 </Project>

@@ -1,7 +1,7 @@
 ﻿@page "/CreateSuperkat"
 
 @using Superkatten.Katministratie.Application.Entities
-@using Superkatten.Katministratie.Web.Services
+@using Superkatten.Katministratie.Host.Services
 
 @inject NavigationManager NavigationManager
 @inject ISuperkattenListService _superkattenService
@@ -138,7 +138,8 @@
         var superkat = await _superkattenService.CreateSuperkatAsync(parameters);
         if (superkat is null)
         {
-            await _message.Error($"Fout bij het opslaan van de nieuwe superkat.", 3);            
+            await _message.Error($"Fout bij het opslaan van de nieuwe superkat.", 3);
+            return;
         }
 
         await _message.Success($"Superkat is opgeslagen onder nummer {superkat.DisplayableNumber}", 3);        

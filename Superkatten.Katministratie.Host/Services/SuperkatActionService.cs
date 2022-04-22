@@ -2,7 +2,7 @@
 using System.Text.Json;
 
 
-namespace Superkatten.Katministratie.Web.Services
+namespace Superkatten.Katministratie.Host.Services
 {
     public class SuperkatActionService : ISuperkatActionService
     {

@@ -1,0 +1,19 @@
+﻿@page "/EditGastgezin"
+
+@inject NavigationManager NavigationManager
+
+<h3>EditGastgezin</h3>
+
+<Row>
+    <Col Class="col-12">
+        <Button Block="@true" OnClick="@OnCancel">Terug</Button>
+    </Col>
+</Row>
+
+@code {
+    
+    public void OnCancel()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}

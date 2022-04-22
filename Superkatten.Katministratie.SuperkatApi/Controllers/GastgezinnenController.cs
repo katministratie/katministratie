@@ -25,13 +25,13 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpPut]
-        public async Task PutGastgezin(string name, [FromBody] CreateUpdateGastgezinParameters createGastgezinParameters)
+        public async Task<Gastgezin> PutGastgezin(string name, [FromBody] CreateOrUpdateGastgezinParameters createGastgezinParameters)
         {
-            await _service.CreateGastgezinAsync(name, createGastgezinParameters);
+            return await _service.CreateGastgezinAsync(name, createGastgezinParameters);
         }
 
         [HttpPost]
-        public async Task PostGastgezin(string name, [FromBody] CreateUpdateGastgezinParameters updateGastgezinParameters)
+        public async Task PostGastgezin(string name, [FromBody] CreateOrUpdateGastgezinParameters updateGastgezinParameters)
         {
             await _service.UpdateGastgezinAsync(name, updateGastgezinParameters);
         }

@@ -13,14 +13,14 @@ namespace Superkatten.Katministratie.Domain.Entities
         public string? City { get; private set; }
         public string? Phone { get; private set; }
 
-        public Gastgezin(string name, string? address, string? city, string? phone)
+        public Gastgezin(Guid id, string name, string? address, string? city, string? phone)
         {
             if (string.IsNullOrEmpty(name))
             {
                 throw new DomainException($"{nameof(Name)} should not be null or empty");
             }
 
-            Id = Guid.NewGuid();
+            Id = id;
             Name = name;
             Address = address;
             City = city;

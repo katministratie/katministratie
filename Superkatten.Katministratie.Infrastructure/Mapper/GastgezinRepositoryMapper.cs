@@ -9,6 +9,7 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
         {
             return new GastgezinDto
             {
+                Id = gastgezin.Id,
                 Name = gastgezin.Name,
                 Address = gastgezin.Address,
                 City = gastgezin.City,
@@ -19,6 +20,7 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
         public Gastgezin MapGastgezinDtoToDomain(GastgezinDto gastgezinDto)
         {
             return new Gastgezin(
+                gastgezinDto.Id,
                 gastgezinDto.Name,
                 gastgezinDto.Address,
                 gastgezinDto.City,

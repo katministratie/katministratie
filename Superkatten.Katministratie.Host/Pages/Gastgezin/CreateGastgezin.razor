@@ -1,0 +1,52 @@
+﻿@page "/CreateGastgezin"
+
+@using Superkatten.Katministratie.Application.Entities
+@using Superkatten.Katministratie.Host.Services
+
+@inject NavigationManager NavigationManager
+@inject IGastgezinService _gastgezinService
+@inject MessageService _message
+
+<h3>Aanmaken van een gastgezin</h3>
+
+<Row>
+    <Col Class="col-12">
+        <Button Block="@true" OnClick="@OnCancel">Toevoegen gastgezin</Button>
+    </Col>
+</Row>
+
+
+
+@code {
+    private CreateOrUpdateGastgezinParameters parameters =
+                    new CreateOrUpdateGastgezinParameters()
+                    {
+                        Name = string.Empty,
+                        Address = string.Empty,
+                        City = string.Empty,
+                        Phone = string.Empty
+                    };
+
+    public async Task OnOk()
+    {
+        await StoreGastgezin();
+        NavigationManager.NavigateTo("/");
+    }
+
+    public void OnCancel()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+    private async Task StoreGastgezin()
+    {
+        var gastgezin = await _gastgezinService.CreateGastgezinAsync(parameters);
+        if (gastgezin is null)
+        {
+            await _message.Error($"Fout bij het opslaan van een nieuw gastgezin.", 3);
+            return;
+        }
+
+        await _message.Success($"Gastgezin {gastgezin.Name} is opgeslagen.", 3);        
+    }
+}
