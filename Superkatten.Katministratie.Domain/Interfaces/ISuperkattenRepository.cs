@@ -7,7 +7,7 @@ namespace Superkatten.Katministratie.Domain.Interfaces
 {
     public interface ISuperkattenRepository
     {
-        Task CreateSuperkatAsync(Superkat superkat);
+        Task<Superkat> CreateSuperkatAsync(Superkat superkat);
         Task<Superkat> GetSuperkatAsync(Guid id);
         Task DeleteSuperkatAsync(Guid id);
         Task UpdateSuperkatAsync(Superkat superkat);

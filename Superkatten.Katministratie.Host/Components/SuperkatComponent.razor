@@ -6,7 +6,27 @@
         <Image Width="100px" Src=".\images\superkat.jpg" />
     </Col>
     <Col class="col-xl-11 col-lg-11 col-md-9 col-8">
-        <h5 class="p-1 bg-black text-white"><BehaviourComponent Behaviour="@Superkat.Behaviour" />  @SuperkatDisplayableNumber</h5>
+        <h5 class="p-1 bg-black text-white"><BehaviourComponent Behaviour="@Superkat.Behaviour" />
+            <span>
+                @SuperkatDisplayableNumber
+            </span>
+            <span>
+                @switch(Superkat.Gender)
+                {
+                    case Domain.Entities.Gender.Unknown:
+                        <small class="text-muted">(Onbekend)</small>
+                        break;
+    
+                    case Domain.Entities.Gender.Molly:
+                        <small class="text-muted">(Poes)</small>
+                        break;
+
+                    case Domain.Entities.Gender.Tomcat:
+                        <small class="text-muted">(Kater)</small>
+                        break;
+                }
+            </span>
+        </h5>
         <div class="mb-2">
             <div class="mb-0">Locatie: @Superkat.CatchLocation</div>
             <div class="mb-0">Area: @Superkat.Area</div>

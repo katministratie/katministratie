@@ -1,6 +1,7 @@
 ﻿@page "/CreateSuperkat"
 
 @using Superkatten.Katministratie.Application.Entities
+@using Superkatten.Katministratie.Domain.Entities
 @using Superkatten.Katministratie.Host.Services
 
 @inject NavigationManager NavigationManager
@@ -58,7 +59,7 @@
     <Col Class="col-12">
         <Row Class="">
             <Col Class="me-2">
-                Kitten:
+                Is een kitten:
             </Col>
 
             <Col Class="me-2">
@@ -68,11 +69,11 @@
             <Col Class="me-2">
                 @if (@parameters.IsKitten)
                 {
-                    <p>Weeks:</p>
+                    <p>Weken oud:</p>
                 }
                 else
                 {
-                    <p>Years:</p>
+                    <p>Jaren oud:</p>
                 }
             </Col>
             <Col>
@@ -87,8 +88,15 @@
     </Col>
 </Row>
 
-
-
+<Row Class="mb-2">
+    <Col Class="col-12">
+        <RadioGroup @bind-Value="@parameters.Gender">
+        <Radio RadioButton Value="@(Gender.Molly)">Poes</Radio>
+        <Radio RadioButton Value="@(Gender.Tomcat)">Kater</Radio>
+        <Radio RadioButton Value="@(Gender.Unknown)">Onbekend</Radio>
+    </RadioGroup>
+    </Col>
+</Row>
 
 <Row Class="mb-2">
     <Col Class="col-12">
@@ -122,7 +130,6 @@
         parameters.CatchDate = args.Date;
     }
 
-
     private CreateSuperkatParameters parameters =
         new CreateSuperkatParameters()
             {
@@ -132,7 +139,8 @@
                 CageNumber = null,
                 Behaviour = Domain.Entities.CatBehaviour.Unknown,
                 Retour = false,
-                IsKitten = false
+                IsKitten = true,
+                Gender = Gender.Unknown
             };
 
     public async Task OnOk()

@@ -23,6 +23,7 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
                 Reserved = superkat.Reserved,
                 Behaviour = (int)superkat.Behaviour,
                 IsKitten = superkat.IsKitten,
+                Gender = (int)superkat.Gender,
             };
         }
 
@@ -41,10 +42,19 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
             superkat.SetBehaviour(MapToDomainBehaviour(superkatDto.Behaviour));
             superkat.SetBirthday(superkatDto.Birthday);
             superkat.SetIsKitten(superkatDto.IsKitten);
+            superkat.SetGender(MapToDomanGender(superkatDto.Gender));
 
             return superkat;
         }
+        private Gender MapToDomanGender(int gender)
+        {
+            if (!Enum.IsDefined(typeof(Gender), gender))
+            {
+                throw new InvalidEnumArgumentException(nameof(Gender), gender, typeof(Gender));
+            }
 
+            return (Gender)gender;
+        }
         private CatBehaviour MapToDomainBehaviour(int behaviour)
         {
             if (!Enum.IsDefined(typeof(CatBehaviour), behaviour))

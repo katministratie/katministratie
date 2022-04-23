@@ -24,7 +24,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
             _context.Database.Migrate();
         }
 
-        public async Task CreateSuperkatAsync(Superkat superkat)
+        public async Task<Superkat> CreateSuperkatAsync(Superkat superkat)
         {
             var isAvailable = await _context
                 .SuperKatten
@@ -40,15 +40,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
             await _context.SuperKatten.AddAsync(superkatDto);
             await _context.SaveChangesAsync();
 
-            var addedSuperkat = await _context
-                .SuperKatten
-                .Where(s => s.Number == superkatDto.Number)
-                .FirstOrDefaultAsync();
-
-            if (addedSuperkat is null)
-            {
-                throw new DatabaseException($"Error adding superkat number '{superkat.Number}'");
-            }
+            return await GetSuperkatAsync(superkatDto.Id);
         }
 
         public async Task DeleteSuperkatAsync(Guid id)

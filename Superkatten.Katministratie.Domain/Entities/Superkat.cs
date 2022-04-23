@@ -16,7 +16,8 @@ namespace Superkatten.Katministratie.Domain.Entities
         public CatArea Area { get; private set; } = CatArea.Unknown;
         public int? CageNumber { get; private set; }
         public CatBehaviour Behaviour { get; private set; } = CatBehaviour.Unknown;
-        public bool IsKitten { get; set; }
+        public bool IsKitten { get; private set; } = true;
+        public Gender Gender { get; private set; } = Gender.Unknown;
 
         public Superkat(
             Guid id,
@@ -82,6 +83,10 @@ namespace Superkatten.Katministratie.Domain.Entities
         public void SetIsKitten(bool isKitten)
         {
             IsKitten = isKitten;
+        }
+        public void SetGender(Gender gender)
+        {
+            Gender = gender;
         }
     }
 }

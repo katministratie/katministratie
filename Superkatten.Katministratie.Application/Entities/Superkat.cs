@@ -17,6 +17,7 @@ namespace Superkatten.Katministratie.Application.Entities
         public int? CageNumber { get; init; }
         public CatBehaviour Behaviour { get; init; } = CatBehaviour.Unknown;
         public bool IsKitten { get; init; }
+        public Gender Gender { get; init; }
 
         public string DisplayableNumber
         {

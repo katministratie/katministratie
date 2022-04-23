@@ -36,5 +36,6 @@ namespace Superkatten.Katministratie.Infrastructure.Entities
         public int Behaviour { get; set; }
 
         public bool IsKitten { get; set; }
+        public int Gender { get; set; }
     }
 }

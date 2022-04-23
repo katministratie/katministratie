@@ -51,6 +51,7 @@ namespace Superkatten.Katministratie.Application.Services
             superkat.SetBehaviour(createSuperkatParameters.Behaviour);
             superkat.SetRetour(createSuperkatParameters.Retour);
             superkat.SetIsKitten(createSuperkatParameters.IsKitten);
+            superkat.SetGender(createSuperkatParameters.Gender);
 
             var estimatedWeeksOld = createSuperkatParameters.IsKitten
                 ? createSuperkatParameters.EstimatedWeeksOld
@@ -63,9 +64,9 @@ namespace Superkatten.Katministratie.Application.Services
             var uniqueCatNumber = await _superkattenRepository.GetSuperkatMaxNumberForGivenYearAsync(DateTimeOffset.Now.Year);
             superkat.SetNumber(uniqueCatNumber);
 
-            await _superkattenRepository.CreateSuperkatAsync(superkat);
+            var createdSuperkat = await _superkattenRepository.CreateSuperkatAsync(superkat);
 
-            return _superkattenMapper.MapFromDomain(superkat);
+            return _superkattenMapper.MapFromDomain(createdSuperkat);
         }
 
         public async Task DeleteSuperkatAsync(Guid id)

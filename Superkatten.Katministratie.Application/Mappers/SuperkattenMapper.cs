@@ -20,6 +20,7 @@ namespace Superkatten.Katministratie.Application.Mappers
                 CageNumber = superkat.CageNumber,
                 Behaviour = superkat.Behaviour,
                 IsKitten = superkat.IsKitten,
+                Gender = superkat.Gender,
             };
         }
     }
