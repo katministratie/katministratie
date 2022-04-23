@@ -26,16 +26,16 @@ namespace Superkatten.Katministratie.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<Gastgezin> CreateGastgezinAsync(string name, CreateOrUpdateGastgezinParameters createGastgezinParameters)
+        public async Task<Gastgezin> CreateGastgezinAsync(CreateOrUpdateGastgezinParameters createGastgezinParameters)
         {
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(createGastgezinParameters.Name))
             {
                 throw new ValidationException("Gastgezin name is invalid");
             }
 
             var gastgezin= new Domain.Entities.Gastgezin(
                 Guid.NewGuid(),
-                name,
+                createGastgezinParameters.Name,
                 createGastgezinParameters.Address,
                 createGastgezinParameters.City,
                 createGastgezinParameters.Phone
@@ -67,28 +67,28 @@ namespace Superkatten.Katministratie.Application.Services
             return _mapper.MapFromDomain(gastgezin);
         }
 
-        public async Task<Gastgezin> UpdateGastgezinAsync(string name, CreateOrUpdateGastgezinParameters updateGastgezinParameters)
+        public async Task<Gastgezin> UpdateGastgezinAsync(CreateOrUpdateGastgezinParameters updateGastgezinParameters)
         {
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(updateGastgezinParameters.Name))
             {
                 throw new ValidationException($"Gastgezin name is empty");
             }
 
-            var gastgezin = await _repository.GetGastgezinAsync(name);
+            var gastgezin = await _repository.GetGastgezinAsync(updateGastgezinParameters.Name);
             if(gastgezin is null)
             {
-                throw new ValidationException($"gastgezin {name} does not exsist");
+                throw new ValidationException($"gastgezin {updateGastgezinParameters.Name} does not exsist");
             }
 
             var updatedGastgezin = new Domain.Entities.Gastgezin(
                 gastgezin.Id,
-                name,
+                updateGastgezinParameters.Name,
                 updateGastgezinParameters.Address,
                 updateGastgezinParameters.City,
                 updateGastgezinParameters.Phone
             );
 
-            await _repository.UpdateGastgezinAsync(name, updatedGastgezin);
+            await _repository.UpdateGastgezinAsync(updateGastgezinParameters.Name, updatedGastgezin);
 
             return _mapper.MapFromDomain(updatedGastgezin);
         }

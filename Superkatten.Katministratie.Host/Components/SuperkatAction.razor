@@ -1,7 +1,7 @@
 ﻿@using Superkatten.Katministratie.Application.Entities
 
 <div class="m-0 p-0">
-    <Image Src="@ActionIcon" OnClick="@ExecuteAction" Preview="false" />
+    <Image Src="@ActionIcon"  OnClick="@ExecuteAction" Preview="false" />
 </div>
 
 @code {
@@ -11,12 +11,8 @@
     [Parameter]
     public EventCallback OnClickCallback { get; set; }
 
-    private bool BusyWithAction = false;
-
     public async void ExecuteAction() 
     {
-        BusyWithAction = true;
         await OnClickCallback.InvokeAsync();
-        BusyWithAction = false;
     }
 }
