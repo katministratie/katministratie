@@ -8,13 +8,19 @@
         <div class="col-3">
             <SuperkatAction
                 OnClickCallback="@ToggleReserve"
-                ActionIcon="@(Superkat.Reserved ? "./images/actions/isreserved.jpg" : "./images/actions/notreserved.jpg")" />
+                ActionIcon="@(Superkat.Reserved ? "./images/actions/briefcase.svg" : "./images/actions/briefcase-fill.svg")" />
         </div>
 
         <div class="col-3">
             <SuperkatAction
                 OnClickCallback="@ToggleRetour"
-                ActionIcon="@(Superkat.Retour ? "./images/actions/isretour.jpg" : "./images/actions/notretour.jpg")" />
+                ActionIcon="@(Superkat.Retour ? "./images/actions/arrow-down-up.svg" : "./images/actions/arrow-down-up.svg")" />
+        </div>
+
+        <div class="col-3">
+            <SuperkatAction
+                OnClickCallback="@CreateSuperkatCard"
+                ActionIcon="@(Superkat.Retour ? "./images/actions/printer.svg" : "./images/actions/printer.svg")" />
         </div>
     </div>
 </div>
@@ -28,16 +34,19 @@
 
     private async Task ToggleReserve()
     {
-        await Task.Delay(1000);
         await _superkatActionService.ToggleReserveSuperkatAsync(Superkat.Number);
         await UpdateSuperkat(!Superkat.Reserved, Superkat.Retour);
     }
 
     private async Task ToggleRetour()
     {
-        await Task.Delay(2000);
         await _superkatActionService.ToggleRetourSuperkatAsync(Superkat.Number);
         await UpdateSuperkat(Superkat.Reserved, !Superkat.Retour);
+    }
+
+    private async Task CreateSuperkatCard()
+    {
+        await _superkatActionService.CreateSuperkatCard(Superkat.Id);
     }
 
     private async Task UpdateSuperkat(bool reserve, bool retour)

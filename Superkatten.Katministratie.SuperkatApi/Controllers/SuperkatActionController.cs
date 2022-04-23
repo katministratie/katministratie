@@ -30,5 +30,12 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         {
             await _service.ToggleRetourAsync(id);
         }
+
+        [HttpPut]
+        [Route("CreateSuperkatCard")]
+        public async Task CreateSuperkatCard(Guid id)
+        {
+            await _service.CreateSuperkatCard(id);
+        }
     }
 }

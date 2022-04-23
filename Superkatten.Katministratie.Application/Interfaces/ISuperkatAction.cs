@@ -7,5 +7,6 @@ namespace Superkatten.Katministratie.Application.Interfaces
     {
         Task ToggleRetourAsync(Guid id );
         Task ToggleReserveAsync(Guid id);
+        Task CreateSuperkatCard(Guid id);
     }
 }
