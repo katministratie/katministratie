@@ -32,7 +32,9 @@
             </Prefix>
         </Input>
     </Col>
-
+</Row>
+    
+<Row Class="mb-2">
     <Col Class="col-12">
         Nummer van het hok: 
         <AntDesign.InputNumber 
@@ -45,21 +47,50 @@
     </Col>
 </Row>
 
-<Row Class="mb-3">
+<Row Class="mb-2">
     <Col Class="col-12">
         Kat gaat retour:
         <Switch Disabled="@ValidCatchLocation" @bind-Checked="@parameters.Retour"></Switch>
     </Col>
 </Row>
 
-<Row Class="mb-3">
+<Row Class="mb-2">
     <Col Class="col-12">
-        Kitten:
-        <Switch Disabled="@ValidCatchLocation" @bind-Checked="@parameters.IsKitten"></Switch>
+        <Row Class="">
+            <Col Class="me-2">
+                Kitten:
+            </Col>
+
+            <Col Class="me-2">
+                <Switch Disabled="@ValidCatchLocation" @bind-Checked="@parameters.IsKitten"></Switch>
+            </Col>
+        
+            <Col Class="me-2">
+                @if (@parameters.IsKitten)
+                {
+                    <p>Weeks:</p>
+                }
+                else
+                {
+                    <p>Years:</p>
+                }
+            </Col>
+            <Col>
+                <AntDesign.InputNumber 
+                    Min="1"
+                    Disabled="@ValidCatchLocation" 
+                    DefaultValue="1" 
+                    Size="@InputSize.Small" 
+                    @bind-Value="@parameters.EstimatedWeeksOld"/>
+            </Col>
+        </Row>
     </Col>
 </Row>
 
-<Row Class="mb-3">
+
+
+
+<Row Class="mb-2">
     <Col Class="col-12">
         Vangdatum: 
         <DatePicker Disabled="@ValidCatchLocation" 
@@ -72,24 +103,13 @@
     </Col>
 </Row>
 
-<Row Class="mb-3">
-    <Col Class="col-12">
-        Geboortedatum:
-        <DatePicker Disabled="@ValidCatchLocation" 
-            Bordered="@false" 
-            TValue="DateTime?" 
-            Picker="@DatePickerType.Date" 
-            OnChange="OnChangeBirthDate" 
-            DefaultValue="@InitialDateTimeNow" 
-            Placeholder="@GeboortedatumText"/>
-    </Col>
-</Row>
 
 @code 
 {
     private string VangdatumText { get; init; } = "Vangdatum";
     private string GeboortedatumText { get; init; } = "Geboortedatum";
     private DateTime InitialDateTimeNow => DateTime.UtcNow;
+
     private bool ValidCatchLocation => string.IsNullOrWhiteSpace(parameters.CatchLocation);
 
     private void OnChangeCatchDate(DateTimeChangedEventArgs args)
@@ -108,7 +128,6 @@
             {
                 CatchDate = DateTime.UtcNow,
                 CatchLocation = string.Empty,
-                Birthday = DateTime.UtcNow,
                 Area = Domain.Entities.CatArea.Unknown,
                 CageNumber = null,
                 Behaviour = Domain.Entities.CatBehaviour.Unknown,

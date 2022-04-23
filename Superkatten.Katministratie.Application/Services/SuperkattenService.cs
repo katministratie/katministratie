@@ -13,6 +13,9 @@ namespace Superkatten.Katministratie.Application.Services
 {
     public class SuperkattenService : ISuperkattenService
     {
+        private const int WEEKS_IN_ONE_YEAR = 52;
+        public const int DAY_IN_ONE_WEEK = 7;
+
         public readonly ILogger<SuperkattenService> _logger;
         public readonly ISuperkattenRepository _superkattenRepository;
         public readonly ISuperkattenMapper _superkattenMapper;
@@ -43,13 +46,20 @@ namespace Superkatten.Katministratie.Application.Services
                 Guid.NewGuid(),
                 createSuperkatParameters.CatchDate,
                 createSuperkatParameters.CatchLocation);
-            superkat.SetBirthday(createSuperkatParameters.Birthday);
             superkat.SetArea(createSuperkatParameters.Area);
             superkat.SetCageNumber(createSuperkatParameters.CageNumber);
             superkat.SetBehaviour(createSuperkatParameters.Behaviour);
             superkat.SetRetour(createSuperkatParameters.Retour);
             superkat.SetIsKitten(createSuperkatParameters.IsKitten);
-            
+
+            var estimatedWeeksOld = createSuperkatParameters.IsKitten
+                ? createSuperkatParameters.EstimatedWeeksOld
+                : WEEKS_IN_ONE_YEAR * createSuperkatParameters.EstimatedWeeksOld;
+
+            var catchDate = createSuperkatParameters.CatchDate;
+            var estimatedBirthday = catchDate.AddDays(-DAY_IN_ONE_WEEK * estimatedWeeksOld);
+            superkat.SetBirthday(estimatedBirthday);
+
             var uniqueCatNumber = await _superkattenRepository.GetSuperkatMaxNumberForGivenYearAsync(DateTimeOffset.Now.Year);
             superkat.SetNumber(uniqueCatNumber);
 
