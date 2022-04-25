@@ -27,14 +27,13 @@
                 ActionIcon="@(Superkat.Retour ? "./images/actions/arrow-down-up.svg" : "./images/actions/arrow-down-up.svg")" />
         </div>
 
-        @if (Printers.Count > 0)
-        {
-            <div class="col-3">
-                <SuperkatAction
-                OnClickCallback="@CreateSuperkatCard"
-                ActionIcon="@(Superkat.Retour ? "./images/actions/printer.svg" : "./images/actions/printer.svg")" />
-            </div>
-        }
+        
+        <div class="col-3">
+            <SuperkatAction
+            OnClickCallback="@CreateSuperkatCard"
+            ActionIcon="@(Superkat.Retour ? "./images/actions/printer.svg" : "./images/actions/printer.svg")" />
+        </div>
+        
     </div>
 </div>
 
@@ -59,10 +58,17 @@
 
     private async Task CreateSuperkatCard()
     { 
-        _modelTitle = "Kies een printer uit:";
-        _modelVisible = true;
-        await _superkatActionService.CreateSuperkatCard(Superkat.Id);
-       
+        if (Printers.Count > 0)
+        {
+            _modelTitle = "Kies een printer uit:";
+            _modelVisible = true;
+            await _superkatActionService.CreateSuperkatCard(Superkat.Id);
+        }
+        else
+        {
+            _modelTitle = "Geen printers gevonden";
+            _modelVisible = true;
+        }
     }
 
     private async Task UpdateSuperkat(bool reserve, bool retour)
