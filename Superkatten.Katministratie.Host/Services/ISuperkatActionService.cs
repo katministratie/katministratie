@@ -4,5 +4,5 @@ public interface ISuperkatActionService
 {
     public Task ToggleReserveSuperkatAsync(int superkatNumber);
     public Task ToggleRetourSuperkatAsync(int superkatNumber);
-    public Task CreateSuperkatCard(Guid id);
+    public Task CreateSuperkatCardAsync(Guid id);
 }

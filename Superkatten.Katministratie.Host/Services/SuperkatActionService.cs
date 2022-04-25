@@ -33,7 +33,7 @@ namespace Superkatten.Katministratie.Host.Services
             _ = await _client.PutAsync(uri, byteContent);
         }
 
-        public async Task CreateSuperkatCard(Guid id)
+        public async Task CreateSuperkatCardAsync(Guid id)
         {
             var uri = $"api/SuperkatAction/CreateSuperkatCard?id={id}";
             _ = await _client.PutAsync(uri, null);
