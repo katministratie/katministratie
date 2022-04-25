@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using Superkatten.Katministratie.Application.CageCard;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
-using Superkatten.Katministratie.Application.PdfGenerator;
 using Superkatten.Katministratie.Domain.Interfaces;
 using System;
 using System.Threading.Tasks;
@@ -13,18 +13,18 @@ namespace Superkatten.Katministratie.Application.Services
         public readonly ILogger<SuperkatAction> _logger;
         public readonly ISuperkattenRepository _repository;
         public readonly ISuperkattenMapper _superkattenMapper;
-        public readonly ISuperkatCardPdfGenerator _pdfGenerator;
+        public readonly ISuperkatCageCard _cageCardGenerator;
 
         public SuperkatAction(
             ILogger<SuperkatAction> logger,
             ISuperkattenRepository superkattenRepository,
             ISuperkattenMapper superkattenMapper,
-            ISuperkatCardPdfGenerator pdfGenerator)
+            ISuperkatCageCard cageCardGenerator)
         {
             _logger = logger;
             _repository = superkattenRepository;
             _superkattenMapper = superkattenMapper;
-            _pdfGenerator = pdfGenerator;
+            _cageCardGenerator = cageCardGenerator;
         }
 
         public async Task ToggleRetourAsync(Guid id)
@@ -43,7 +43,7 @@ namespace Superkatten.Katministratie.Application.Services
 
         public async Task CreateSuperkatCard(Guid id)
         {
-            await _pdfGenerator.CreateSuperkatCardAsync(id);
+            await _cageCardGenerator.CreateCageCardAsync(id);            
         }
     }
 }

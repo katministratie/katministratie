@@ -1,7 +1,17 @@
 ﻿@using Superkatten.Katministratie.Host.Services
 @using Superkatten.Katministratie.Application.Entities
+@using Superkatten.Katministratie.Infrastructure.Entities;
 
+@inject NavigationManager _navigationManager
 @inject ISuperkatActionService _superkatActionService
+@inject IPrinterService _printerService;
+
+<Modal Title="@_modelTitle"
+       Visible="@_modelVisible"
+       OnOk="@HandleOk"
+       OnCancel="@HandleCancel">
+        @childContent
+</Modal>
 
 <div class="container">
     <div class="row">
@@ -17,11 +27,14 @@
                 ActionIcon="@(Superkat.Retour ? "./images/actions/arrow-down-up.svg" : "./images/actions/arrow-down-up.svg")" />
         </div>
 
-        <div class="col-3">
-            <SuperkatAction
+        @if (Printers.Count > 0)
+        {
+            <div class="col-3">
+                <SuperkatAction
                 OnClickCallback="@CreateSuperkatCard"
                 ActionIcon="@(Superkat.Retour ? "./images/actions/printer.svg" : "./images/actions/printer.svg")" />
-        </div>
+            </div>
+        }
     </div>
 </div>
 
@@ -45,8 +58,11 @@
     }
 
     private async Task CreateSuperkatCard()
-    {
+    { 
+        _modelTitle = "Kies een printer uit:";
+        _modelVisible = true;
         await _superkatActionService.CreateSuperkatCard(Superkat.Id);
+       
     }
 
     private async Task UpdateSuperkat(bool reserve, bool retour)
@@ -63,5 +79,52 @@
             Area = Superkat.Area,
             CageNumber = Superkat.CageNumber
         });
+    }
+
+
+
+    bool _modelVisible = false;
+    string _modelTitle = "BasicModal";
+
+    private void HandleOk(MouseEventArgs e)
+    {
+        Console.WriteLine(e);
+        _modelVisible = false;
+    }
+
+    private void HandleCancel(MouseEventArgs e)
+    {
+        Console.WriteLine(e);
+        _modelVisible = false;
+    }
+    
+    private RenderFragment childContent { get; set; }
+
+    private List<Printer> Printers { get; set; } = new();
+
+    private RenderFragment AddPrinterList() => builder =>
+    {
+        @foreach (var printer in Printers)
+        {
+            builder.OpenElement(2, "Button");
+            builder.AddAttribute(2, "Block");
+            builder.AddAttribute(2, "OnClick", SelectPrinter);
+            builder.AddContent(2, printer.Name);
+            builder.CloseElement();
+            builder.OpenElement(3, "br");
+            builder.CloseElement();
+        }
+    };
+
+    private void SelectPrinter()
+    {
+        
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        Printers = await _printerService.GetPrintersAsync();
+        childContent = AddPrinterList();
     }
 }

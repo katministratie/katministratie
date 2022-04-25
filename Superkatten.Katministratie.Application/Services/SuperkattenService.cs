@@ -95,7 +95,7 @@ namespace Superkatten.Katministratie.Application.Services
             var superkat = await _superkattenRepository.GetSuperkatAsync(updateSuperkatParameters.Id);
             if (superkat is null)
             {
-                throw new ApplicationException($"Superkat cannot be found for id {updateSuperkatParameters.Id}");
+                throw new ServiceException($"Superkat cannot be found for id {updateSuperkatParameters.Id}");
             }
 
             superkat.SetName(updateSuperkatParameters.Name);

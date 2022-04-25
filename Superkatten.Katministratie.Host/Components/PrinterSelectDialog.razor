@@ -1,0 +1,50 @@
+﻿@using Superkatten.Katministratie.Infrastructure.Entities;
+@using Superkatten.Katministratie.Host.Services;
+
+<h3>Selecteer printer</h3>
+
+
+@inject IPrinterService _printerService;
+
+<Popover ContentTemplate="@childContent" Title="Selecteer printer">
+    <Button type="primary">Hover me</Button>
+</Popover>
+
+@code {
+
+/*
+<Row Class="mb-2">
+    <Col Class="col-12">
+        <Button Block="@true" OnClick="@OnBackHome">Terug</Button>
+    </Col>
+</Row>
+*/
+
+private List<Printer> Printers { get; set; } = new();
+
+    private RenderFragment AddPrinterList() => builder =>
+    {
+        @foreach (var printer in Printers)
+        {
+            builder.OpenElement(2, "Button");
+            builder.AddAttribute(3, "Block");
+            builder.AddAttribute(3, "OnClick", SelectPrinter);
+            builder.AddContent(1, printer.Name);
+            builder.CloseElement();
+        }
+    };
+
+    private void SelectPrinter()
+    {
+        
+    }
+
+    private RenderFragment childContent { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        Printers = await _printerService.GetPrintersAsync();
+        childContent = AddPrinterList();
+    }
+}

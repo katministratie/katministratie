@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Superkatten.Katministratie.Application.CageCard;
 using Superkatten.Katministratie.Application.Configuration;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
-using Superkatten.Katministratie.Application.PdfGenerator;
 using Superkatten.Katministratie.Application.Services;
 using Superkatten.Katministratie.Application.Services.Authentication;
 
@@ -21,7 +21,9 @@ namespace Superkatten.Katministratie.Application
             services.AddTransient<IGastgezinnenService, GastgezinnenService>();
             services.AddTransient<IGastgezinnenMapper, GastgezinnenMapper>();
             services.AddTransient<IApiKeyRegistry, ApiKeyRegistry>();
-            services.AddTransient<ISuperkatCardPdfGenerator, SuperkatCardPdfGenerator>();
+            services.AddTransient<ISuperkatCageCard, SuperkatCageCard>();
+            services.AddTransient<ICageCardComposer, CageCardComposer>();
+
             return services;
         }
     }

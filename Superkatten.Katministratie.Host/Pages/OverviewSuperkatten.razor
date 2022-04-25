@@ -26,7 +26,7 @@
           <h5 class="card-title">Katministratie</h5>
           <h6 class="card-subtitle mb-2 text-muted">Zoeken superkatten</h6>
           <p class="card-text">
-            NOg geen superkatten gevonden
+            Moment...
           </p>
         </div>
       </div>
@@ -38,16 +38,23 @@ else
     {
         <SuperkatComponent Superkat=superkat />
     }
+
+    @if (ShowPrinterDialog)
+    {
+        <PrinterSelectDialog />
+    }
 }
 
 
 @code {
-
     public List<Superkat> _superkatten = new();
     public List<Superkat> Superkatten => _superkatten;
 
+    private bool ShowPrinterDialog { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
+        ShowPrinterDialog = true;
         await base.OnInitializedAsync();
         await UpdateListAsync();
     }

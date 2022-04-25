@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Superkatten.Katministratie.Domain.Interfaces;
 using Superkatten.Katministratie.Infrastructure.Mapper;
 using Superkatten.Katministratie.Infrastructure.Persistence;
+using Superkatten.Katministratie.Infrastructure.Printing;
 
 namespace Superkatten.Katministratie.Infrastructure
 {
@@ -21,6 +22,8 @@ namespace Superkatten.Katministratie.Infrastructure
             services.AddTransient<ISuperkatRepositoryMapper, SuperkatRepositoryMapper>();
             services.AddTransient<IGastgezinnenRepository, GastgezinnenRepository>();
             services.AddTransient<IGastgezinRepositoryMapper, GastgezinRepositoryMapper>();
+
+            services.AddTransient<IPrinterRepository, PrinterRepository>();
 
             return services;
         }

@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace Superkatten.Katministratie.Application.Exceptions
+namespace Superkatten.Katministratie.Application.Exceptions;
+
+public class ValidationException : Exception
 {
-    public class ValidationException : Exception
+    public ValidationException(string? message) : base(message)
     {
-        public ValidationException(string? message) : base(message)
-        {
-        }
     }
 }
