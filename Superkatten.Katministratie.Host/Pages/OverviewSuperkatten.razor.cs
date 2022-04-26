@@ -8,15 +8,13 @@ public partial class OverviewSuperkatten
 {
     [Inject]
     private ISuperkattenListService _superkattenService { get; set; }
-
-    public List<Superkat> _superkatten = new();
-    public List<Superkat> Superkatten => _superkatten;
-
-    private bool ShowPrinterDialog { get; set; }
+    public string LoadingInfoMessage { get; private set; }
+    private List<Superkat> Superkatten { get; set; } = new();
+    private bool ShowPrinterDialog { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
-        ShowPrinterDialog = true;
+        LoadingInfoMessage = "Inlezen van alle superkatten";
         await UpdateListAsync();
     }
 
@@ -28,7 +26,19 @@ public partial class OverviewSuperkatten
         }
 
         var superkatten = await _superkattenService.GetAllSuperkattenAsync();
-        _superkatten = superkatten
+        if (superkatten == null)
+        {
+            LoadingInfoMessage = "Iets ging fout met inlezen.";
+            return;
+        }
+        
+        if (superkatten?.Count == 0)
+        {
+            LoadingInfoMessage = "Geen superkatten beschikbaar.";
+            return;
+        }
+
+        Superkatten = superkatten
             .AsQueryable()
             .OrderByDescending(sk => sk.Number)
             .ToList();

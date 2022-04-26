@@ -18,9 +18,9 @@
     </Col>
 </Row>
 
-@if (!_superkatten.Any())
+@if (!Superkatten.Any())
 {
-    <IsLoadingMessage InfoTitle="Superkatten." InfoMessage="Geen superkatten in de database."/>
+    <IsLoadingMessage InfoTitle="Superkatten." InfoMessage="@LoadingInfoMessage"/>
 }
 else
 {
