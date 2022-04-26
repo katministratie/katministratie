@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "apis1": {
+      "apiEndpoint": "https://katministratieapimanagement.azure-api.net/v1",
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/KatministratieApiManagement/apis/superkattenapi",
       "type": "apis.azure"
     }

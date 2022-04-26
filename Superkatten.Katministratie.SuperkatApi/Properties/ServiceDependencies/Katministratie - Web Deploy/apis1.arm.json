@@ -96,7 +96,7 @@
               "type": "Microsoft.ApiManagement/service/apis",
               "name": "KatministratieApiManagement/superkattenapi",
               "properties": {
-                "displayName": "Superkatten.Katministratie.SuperkatApi",
+                "displayName": "Superkatten",
                 "apiRevision": "1",
                 "description": null,
                 "subscriptionRequired": true,
