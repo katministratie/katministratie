@@ -1,13 +1,16 @@
 ﻿@page "/OverviewSuperkatten"
 
-@using Superkatten.Katministratie.Application.Entities
-@using Superkatten.Katministratie.Host.Components
-@using Superkatten.Katministratie.Host.Services
+@using Superkatten.Katministratie.Host.Components;
 
-@inject NavigationManager _navigationManager
-@inject ISuperkattenListService _superkattenService
+@inject NavigationManager _navigationManager;
 
 <PageTitle>Superkatten</PageTitle>
+
+@if(Superkatten is null)
+{
+    <IsLoadingMessage InfoTitle="Initialisatie." InfoMessage="Inlezen data..."/>
+    return;
+}
 
 <Row Class="mb-2">
     <Col Class="col-12">
@@ -17,20 +20,7 @@
 
 @if (!_superkatten.Any())
 {
-    <div style="margin: 3rem auto; width: 20rem">
-      <div class="card">
-        <img src="images\superkat.jpg"
-             class="card-img-top"
-             alt="Phone" />
-        <div class="card-body">
-          <h5 class="card-title">Katministratie</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Zoeken superkatten</h6>
-          <p class="card-text">
-            Moment...
-          </p>
-        </div>
-      </div>
-    </div>
+    <IsLoadingMessage InfoTitle="Superkatten." InfoMessage="Geen superkatten in de database."/>
 }
 else
 {
@@ -42,39 +32,5 @@ else
     @if (ShowPrinterDialog)
     {
         <PrinterSelectDialog />
-    }
-}
-
-
-@code {
-    public List<Superkat> _superkatten = new();
-    public List<Superkat> Superkatten => _superkatten;
-
-    private bool ShowPrinterDialog { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        ShowPrinterDialog = true;
-        await base.OnInitializedAsync();
-        await UpdateListAsync();
-    }
-
-    private async Task UpdateListAsync()
-    {
-        if (_superkattenService == null)
-        {
-            return;
-        }
-
-        var superkatten = await _superkattenService.GetAllSuperkattenAsync();
-        _superkatten = superkatten
-            .AsQueryable()
-            .OrderByDescending(sk => sk.Number)
-            .ToList();
-    }
-
-    private void OnBackHome()
-    {
-        _navigationManager.NavigateTo("");
     }
 }
