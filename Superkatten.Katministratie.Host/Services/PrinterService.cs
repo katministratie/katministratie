@@ -1,4 +1,6 @@
-﻿using Superkatten.Katministratie.Infrastructure.Entities;
+﻿using Superkatten.Katministratie.Domain.Contracts;
+using Superkatten.Katministratie.Infrastructure.Entities;
+using System.Net.Http.Json;
 using System.Text.Json;
 
 namespace Superkatten.Katministratie.Host.Services
@@ -14,13 +16,13 @@ namespace Superkatten.Katministratie.Host.Services
 
         public async Task<List<Printer>> GetPrintersAsync()
         {
-            var stream = await _client.GetStreamAsync($"api/Environment/Printers");
+            var stream = await _client.GetStreamAsync($"api/Printers");
 
-            var mylist = await JsonSerializer.DeserializeAsync<List<Printer>>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+            var printers = await JsonSerializer.DeserializeAsync<List<Printer>>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
-            return mylist is null
+            return printers is null
                 ? new()
-                : mylist;
+                : printers;
         }
     }
 }

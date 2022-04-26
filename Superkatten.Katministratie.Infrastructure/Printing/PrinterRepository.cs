@@ -25,9 +25,11 @@ public class PrinterRepository : IPrinterRepository
             {
                 continue;
             }
-
-            var printer = new Printer(printerName.ToString());
-            Printers.Add(printer);
+            if (printerName is not null)
+            {
+                var printer = new Printer(printerName.ToString());
+                Printers.Add(printer);
+            }
         }
 
         return Printers;

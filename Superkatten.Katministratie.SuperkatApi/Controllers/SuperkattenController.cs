@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Superkatten.Katministratie.Application.Entities;
 using Superkatten.Katministratie.Application.Interfaces;
 

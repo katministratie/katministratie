@@ -4,6 +4,11 @@
 @inject NavigationManager _navigationManager
 @inject IGastgezinService _gastgezinService
 
+@if(Gastgezin is null)
+{
+    return;
+}
+
 <Row Class="mb-2 border">
     <Col class="col-xl-1 col-lg-1 col-md-3 col-4 align-content-center">
         <Image Width="100px" Src=".\images\superkat.jpg" />

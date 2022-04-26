@@ -1,5 +1,6 @@
 ﻿@using Superkatten.Katministratie.Application.Entities
 @using Superkatten.Katministratie.Host.Components
+@using Superkatten.Katministratie.Infrastructure.Entities
 
 <Row Class="mb-2 border">
     <Col class="col-xl-1 col-lg-1 col-md-3 col-4 align-content-center">
@@ -33,7 +34,7 @@
             <div class="mb-0">Hok: @Superkat.CageNumber</div>
         </div>
         <div class="mb-0 pt-1">
-            <SuperkatActions @bind-Superkat="@Superkat" />
+            <SuperkatActions @bind-Superkat="@Superkat"/>
         </div>
     </Col>
 </Row>

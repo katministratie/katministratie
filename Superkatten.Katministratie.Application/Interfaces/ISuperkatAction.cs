@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Superkatten.Katministratie.Domain.Contracts;
+using System;
 using System.Threading.Tasks;
 
 namespace Superkatten.Katministratie.Application.Interfaces
@@ -7,6 +8,6 @@ namespace Superkatten.Katministratie.Application.Interfaces
     {
         Task ToggleRetourAsync(Guid id );
         Task ToggleReserveAsync(Guid id);
-        Task CreateSuperkatCard(Guid id);
+        Task PrintSuperkatCageCardAsync(SuperkatCageCardPrintParameters parameters);
     }
 }

@@ -1,8 +1,10 @@
-﻿namespace Superkatten.Katministratie.Host.Services;
+﻿using Superkatten.Katministratie.Domain.Contracts;
+
+namespace Superkatten.Katministratie.Host.Services;
 
 public interface ISuperkatActionService
 {
-    public Task ToggleReserveSuperkatAsync(int superkatNumber);
-    public Task ToggleRetourSuperkatAsync(int superkatNumber);
-    public Task CreateSuperkatCardAsync(Guid id);
+    Task ToggleReserveSuperkatAsync(int superkatNumber);
+    Task ToggleRetourSuperkatAsync(int superkatNumber);
+    Task PrintSuperkatCageCardAsync(SuperkatCageCardPrintParameters parameters);
 }

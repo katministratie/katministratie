@@ -5,5 +5,5 @@ namespace Superkatten.Katministratie.Application.CageCard;
 public interface ICageCardComposer
 {
     DocumentMetadata GetMetadata();
-    void Compose(Superkat superkat);
+    string Compose(Superkat superkat);
 }

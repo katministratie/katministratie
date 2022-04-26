@@ -1,4 +1,5 @@
-﻿@using Superkatten.Katministratie.Host.Services
+﻿@using Superkatten.Katministratie.Domain.Contracts
+@using Superkatten.Katministratie.Host.Services
 @using Superkatten.Katministratie.Application.Entities
 @using Superkatten.Katministratie.Infrastructure.Entities;
 
@@ -19,26 +20,19 @@
                 OnClickCallback="@ToggleRetour"
                 ActionIcon="@(Superkat.Retour ? "./images/actions/arrow-down-up.svg" : "./images/actions/arrow-down-up.svg")" />
         </div>
-
         
         <div class="col-3">
             <SuperkatAction
-            OnClickCallback="@CreateSuperkatCard"
-            ActionIcon="@(Superkat.Retour ? "./images/actions/printer.svg" : "./images/actions/printer.svg")" />
-        </div>
-        
+            OnClickCallback="@ShowPrinterSelectDialog"
+            ActionIcon="./images/actions/printer.svg" />
+        </div>        
     </div>
 </div>
 
-<Modal Title="@_modelTitle"
-       Visible="@_modelVisible"
-       OnOk="@HandleOk"
-       OnCancel="@HandleCancel">
-        @foreach(var printer in Printers)
-        {
-            <Button OnClick="() => { PrintAt(printer.Name); }">@printer.Name</Button>
-        }
-</Modal>
+<PrinterSelectDialog
+    IsVisible="@PrinterDialogVisible" 
+    OnPrint="async (string printername) => { await PrintSuperkatCageCardAsync(printername); }"
+    OnClose="() => { PrinterDialogVisible = false; }" />
 
 @code {
     [Parameter]
@@ -46,6 +40,8 @@
 
     [Parameter]
     public EventCallback<Superkat> SuperkatChanged { get; set; }
+
+    private bool PrinterDialogVisible { get; set; } = false;
 
     private async Task ToggleReserve()
     {
@@ -59,18 +55,19 @@
         await UpdateSuperkat(Superkat.Reserved, !Superkat.Retour);
     }
 
-    private async Task CreateSuperkatCard()
+    private void ShowPrinterSelectDialog()
     {
-        if (Printers.Count > 0)
+        PrinterDialogVisible = true;
+    }
+
+    private async Task PrintSuperkatCageCardAsync(string printername)
+    {
+        var parameters = new SuperkatCageCardPrintParameters
         {
-            _modelTitle = "Kies een printer uit:";
-            _modelVisible = true;
-        }
-        else
-        {
-            _modelTitle = "Geen printers gevonden";
-            _modelVisible = true;
-        }
+            Id = Superkat.Id,
+            PrinterName = printername
+        };
+        await _superkatActionService.PrintSuperkatCageCardAsync(parameters);
     }
 
     private async Task UpdateSuperkat(bool reserve, bool retour)
@@ -87,36 +84,5 @@
             Area = Superkat.Area,
             CageNumber = Superkat.CageNumber
         });
-    }
-
-
-
-    bool _modelVisible = false;
-    string _modelTitle = "BasicModal";
-    string _selectedPrinter = string.Empty;
-
-    private async Task HandleOk(MouseEventArgs e)
-    {
-        await _superkatActionService.CreateSuperkatCardAsync(Superkat.Id);
-        // print at selectedprinter
-        _modelVisible = false;
-    }
-
-    private void HandleCancel(MouseEventArgs e)
-    {
-        Console.WriteLine(e);
-        _modelVisible = false;
-    }
-
-    private List<Printer> Printers { get; set; } = new();
-
-    private void PrintAt(string printerName)
-    {
-        _selectedPrinter = printerName;
-    }
-
-    protected async override Task OnInitializedAsync()
-    {
-        Printers = await _printerService.GetPrintersAsync();
-    }
+    }    
 }

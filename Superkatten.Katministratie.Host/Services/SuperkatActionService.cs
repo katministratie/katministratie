@@ -1,4 +1,6 @@
-﻿using System.Net.Http.Headers;
+﻿using Superkatten.Katministratie.Domain.Contracts;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text.Json;
 
 
@@ -33,10 +35,9 @@ namespace Superkatten.Katministratie.Host.Services
             _ = await _client.PutAsync(uri, byteContent);
         }
 
-        public async Task CreateSuperkatCardAsync(Guid id)
+        public async Task PrintSuperkatCageCardAsync(SuperkatCageCardPrintParameters parameters)
         {
-            var uri = $"api/SuperkatAction/CreateSuperkatCard?id={id}";
-            _ = await _client.PutAsync(uri, null);
+            await _client.PutAsJsonAsync($"api/SuperkatAction/PrintSuperkatCageCard", parameters);
         }
     }
 }

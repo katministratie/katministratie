@@ -1,10 +1,13 @@
 ﻿using Superkatten.Katministratie.Application.Interfaces;
+using Superkatten.Katministratie.Application.Printing;
 using System;
 using System.Threading.Tasks;
 
 namespace Superkatten.Katministratie.Application.CageCard;
 public class SuperkatCageCard : ISuperkatCageCard
 {
+    private const string FILENAME = "cagecard.pdf";
+
     private readonly ISuperkattenService _superkatService;
     private readonly ICageCardComposer _cageCardComposer;
 
@@ -14,9 +17,9 @@ public class SuperkatCageCard : ISuperkatCageCard
         _cageCardComposer = cageCardComposer;
     }
 
-    public async Task CreateCageCardAsync(Guid id)
+    public async Task<string> CreateCageCardAsync(Guid id)
     {
         var superkat = await _superkatService.ReadSuperkatAsync(id);
-        _cageCardComposer.Compose(superkat);
+        return _cageCardComposer.Compose(superkat);
     }
 }

@@ -9,15 +9,17 @@ namespace Superkatten.Katministratie.Application.CageCard;
 
 public class CageCardComposer : ICageCardComposer
 {
+    private const string FILENAME_CAGECARD = "catCard.pdf";
     private Superkat? _superkat;
     public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
 
-    public void Compose(Superkat superkat)
+    public string Compose(Superkat superkat)
     {
-        var fileName = "catCard.pdf";
         _superkat = superkat;
         var document = Document.Create(Handler);
-        document.GeneratePdf(fileName);
+        document.GeneratePdf(FILENAME_CAGECARD);
+
+        return FILENAME_CAGECARD;
     }
 
     private void Handler(IDocumentContainer documentContainer)

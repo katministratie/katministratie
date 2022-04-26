@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Superkatten.Katministratie.Application.Interfaces;
+using Superkatten.Katministratie.Application.Printing;
+using Superkatten.Katministratie.Domain.Contracts;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers
 {
@@ -8,12 +9,14 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
     [ApiController]
     public class SuperkatActionController
     {
-        private readonly ISuperkatAction _service;
+        private readonly ISuperkatAction _actionService;
         private readonly ILogger<SuperkattenController> _logger;
 
-        public SuperkatActionController(ISuperkatAction service, ILogger<SuperkattenController> logger)
+        public SuperkatActionController(
+            ISuperkatAction service, 
+            ILogger<SuperkattenController> logger)
         {
-            _service = service;
+            _actionService = service;
             _logger = logger;
         }
 
@@ -21,21 +24,21 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         [Route("ToggleReserve")]
         public async Task ToggleReserve([FromBody] Guid id)
         {
-            await _service.ToggleReserveAsync(id);
+            await _actionService.ToggleReserveAsync(id);
         }
 
         [HttpPut]
         [Route("ToggleRetour")]
         public async Task ToggleRetour([FromBody] Guid id)
         {
-            await _service.ToggleRetourAsync(id);
+            await _actionService.ToggleRetourAsync(id);
         }
 
         [HttpPut]
-        [Route("CreateSuperkatCard")]
-        public async Task CreateSuperkatCard(Guid id)
+        [Route("PrintSuperkatCageCard")]
+        public async Task PrintSuperkatCageCard(SuperkatCageCardPrintParameters parameters)
         {
-            await _service.CreateSuperkatCard(id);
+            await _actionService.PrintSuperkatCageCardAsync(parameters);
         }
     }
 }

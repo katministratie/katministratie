@@ -20,4 +20,10 @@
     <ProjectReference Include="..\Superkatten.Katministratie.Infrastructure\Superkatten.Katministratie.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="PDFtoPrinter.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
