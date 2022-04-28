@@ -1,8 +1,7 @@
 ﻿@page "/CreateSuperkat"
 
-@using Superkatten.Katministratie.Application.Entities
-@using Superkatten.Katministratie.Domain.Entities
 @using Superkatten.Katministratie.Host.Services
+@using Superkatten.Katministratie.Host.Entities
 
 @inject NavigationManager NavigationManager
 @inject ISuperkattenListService _superkattenService
@@ -135,9 +134,9 @@
             {
                 CatchDate = DateTime.UtcNow,
                 CatchLocation = string.Empty,
-                Area = Domain.Entities.CatArea.Unknown,
+                Area = CatArea.Unknown,
                 CageNumber = null,
-                Behaviour = Domain.Entities.CatBehaviour.Unknown,
+                Behaviour = CatBehaviour.Unknown,
                 Retour = false,
                 IsKitten = true,
                 Gender = Gender.Unknown

@@ -17,7 +17,7 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
                 CatchDate = superkat.CatchDate,
                 CatchLocation = superkat.CatchLocation,
                 Birthday = superkat.Birthday,
-                Area = (int)superkat.Area,
+                Area = (int)superkat.CatArea,
                 CageNumber = superkat.CageNumber,
                 Retour = superkat.Retour,
                 Reserved = superkat.Reserved,

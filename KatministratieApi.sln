@@ -28,8 +28,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Superkatten.Katministratie.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Superkatten.Katministratie.Host", "Superkatten.Katministratie.Host\Superkatten.Katministratie.Host.csproj", "{651A84D0-7770-4CFB-858E-EB7694FB344B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entities", "Entities", "{85A88BE8-B482-4A66-BF56-B0F413514D1D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,7 +64,6 @@ Global
 		{E7D305C8-3930-4321-9C82-562374A5D2EA} = {A60B41D9-C0AA-4199-93FD-D75C76A6FBB9}
 		{FEB9FF25-F3F2-4702-9F27-795E1B03474C} = {13C5D956-DFDB-4EB1-9121-B09549829396}
 		{651A84D0-7770-4CFB-858E-EB7694FB344B} = {A60B41D9-C0AA-4199-93FD-D75C76A6FBB9}
-		{85A88BE8-B482-4A66-BF56-B0F413514D1D} = {A60B41D9-C0AA-4199-93FD-D75C76A6FBB9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CC434EE0-E851-4CBB-BF31-23462A9160ED}

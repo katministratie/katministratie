@@ -1,5 +1,5 @@
 ﻿using QuestPDF.Drawing;
-using Superkatten.Katministratie.Application.Entities;
+using Superkatten.Katministratie.Domain.Entities;
 
 namespace Superkatten.Katministratie.Application.CageCard;
 public interface ICageCardComposer

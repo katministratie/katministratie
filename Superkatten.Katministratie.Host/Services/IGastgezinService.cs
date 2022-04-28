@@ -1,4 +1,4 @@
-﻿using Superkatten.Katministratie.Application.Entities;
+﻿using Superkatten.Katministratie.Host.Entities;
 
 namespace Superkatten.Katministratie.Host.Services;
 

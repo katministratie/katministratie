@@ -50,7 +50,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
                 .Where(s => s.Id == id)
                 .FirstAsync();
 
-            if (superkatDto == null)
+            if (superkatDto is null)
             {
                 throw new DatabaseException($"No superkat found in the database with id {id}");
             }
@@ -77,7 +77,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
                 .Where(s => s.Id == id)
                 .FirstOrDefaultAsync();
 
-            if (superkatDto == null)
+            if (superkatDto is null)
             {
                 throw new DatabaseException($"No superkat found in the database with id {id}");
             }

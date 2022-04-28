@@ -1,4 +1,5 @@
 ﻿using Superkatten.Katministratie.Application.Entities;
+using Superkatten.Katministratie.Domain.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

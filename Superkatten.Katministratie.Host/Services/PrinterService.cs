@@ -1,6 +1,4 @@
-﻿using Superkatten.Katministratie.Domain.Contracts;
-using Superkatten.Katministratie.Infrastructure.Entities;
-using System.Net.Http.Json;
+﻿using Superkatten.Katministratie.Host.Entities;
 using System.Text.Json;
 
 namespace Superkatten.Katministratie.Host.Services

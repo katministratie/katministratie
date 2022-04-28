@@ -2,7 +2,7 @@
 using Superkatten.Katministratie.Application.Entities;
 using Superkatten.Katministratie.Application.Exceptions;
 using Superkatten.Katministratie.Application.Interfaces;
-using Superkatten.Katministratie.Application.Mappers;
+using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -15,15 +15,12 @@ namespace Superkatten.Katministratie.Application.Services
     {
         public readonly ILogger<GastgezinnenService> _logger;
         public readonly IGastgezinnenRepository _repository;
-        public readonly IGastgezinnenMapper _mapper;
         public GastgezinnenService(
             ILogger<GastgezinnenService> logger,
-            IGastgezinnenRepository repository,
-            IGastgezinnenMapper mapper)
+            IGastgezinnenRepository repository)
         {
             _logger = logger;
             _repository = repository;
-            _mapper = mapper;
         }
 
         public async Task<Gastgezin> CreateGastgezinAsync(CreateOrUpdateGastgezinParameters createGastgezinParameters)
@@ -33,7 +30,7 @@ namespace Superkatten.Katministratie.Application.Services
                 throw new ValidationException("Gastgezin name is invalid");
             }
 
-            var gastgezin= new Domain.Entities.Gastgezin(
+            var gastgezin= new Gastgezin(
                 Guid.NewGuid(),
                 createGastgezinParameters.Name,
                 createGastgezinParameters.Address,
@@ -43,7 +40,7 @@ namespace Superkatten.Katministratie.Application.Services
 
             await _repository.CreateGastgezinAsync(gastgezin);
 
-            return _mapper.MapFromDomain(gastgezin);
+            return gastgezin;
         }
 
         public async Task DeleteGastgezinAsync(string name)
@@ -54,17 +51,13 @@ namespace Superkatten.Katministratie.Application.Services
         public async Task<IReadOnlyCollection<Gastgezin>> ReadAvailableGastgezinAsync()
         {
             var gastgezinnen = await _repository.GetGastgezinnenAsync();
-
-            return gastgezinnen
-                .Select(gastgezin => _mapper.MapFromDomain(gastgezin))
-                .ToList();
+            return gastgezinnen.ToList();
         }
 
         public async Task<Gastgezin> ReadGastgezinAsync(string name)
         {
             var gastgezin = await _repository.GetGastgezinAsync(name);
-
-            return _mapper.MapFromDomain(gastgezin);
+            return gastgezin;
         }
 
         public async Task<Gastgezin> UpdateGastgezinAsync(CreateOrUpdateGastgezinParameters updateGastgezinParameters)
@@ -80,7 +73,7 @@ namespace Superkatten.Katministratie.Application.Services
                 throw new ValidationException($"gastgezin {updateGastgezinParameters.Name} does not exsist");
             }
 
-            var updatedGastgezin = new Domain.Entities.Gastgezin(
+            var updatedGastgezin = new Gastgezin(
                 gastgezin.Id,
                 updateGastgezinParameters.Name,
                 updateGastgezinParameters.Address,
@@ -90,7 +83,7 @@ namespace Superkatten.Katministratie.Application.Services
 
             await _repository.UpdateGastgezinAsync(updateGastgezinParameters.Name, updatedGastgezin);
 
-            return _mapper.MapFromDomain(updatedGastgezin);
+            return updatedGastgezin;
         }
     }
 }

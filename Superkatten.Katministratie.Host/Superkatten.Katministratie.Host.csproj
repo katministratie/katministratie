@@ -14,9 +14,4 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Superkatten.Katministratie.Application\Superkatten.Katministratie.Application.csproj" />
-    <ProjectReference Include="..\Superkatten.Katministratie.Infrastructure\Superkatten.Katministratie.Infrastructure.csproj" />
-  </ItemGroup>
-
 </Project>

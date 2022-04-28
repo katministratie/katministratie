@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Superkatten.Katministratie.Application.CageCard;
 using Superkatten.Katministratie.Application.Interfaces;
-using Superkatten.Katministratie.Application.Mappers;
 using Superkatten.Katministratie.Application.Printing;
 using Superkatten.Katministratie.Domain.Contracts;
 using Superkatten.Katministratie.Domain.Interfaces;
@@ -14,20 +13,17 @@ namespace Superkatten.Katministratie.Application.Services
     {
         public readonly ILogger<SuperkatAction> _logger;
         public readonly ISuperkattenRepository _repository;
-        public readonly ISuperkattenMapper _superkattenMapper;
         public readonly ISuperkatCageCard _cageCardGenerator;
         private readonly IPrinterService _printerService;
 
         public SuperkatAction(
             ILogger<SuperkatAction> logger,
             ISuperkattenRepository superkattenRepository,
-            ISuperkattenMapper superkattenMapper,
             ISuperkatCageCard cageCardGenerator,
             IPrinterService printerService)
         {
             _logger = logger;
             _repository = superkattenRepository;
-            _superkattenMapper = superkattenMapper;
             _cageCardGenerator = cageCardGenerator;
             _printerService = printerService;
         }

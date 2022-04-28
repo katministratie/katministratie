@@ -1,8 +1,6 @@
 ﻿using QuestPDF.Fluent;
-using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using Superkatten.Katministratie.Application.Entities;
-using System;
+using Superkatten.Katministratie.Domain.Entities;
 
 namespace Superkatten.Katministratie.Application.CageCard
 {

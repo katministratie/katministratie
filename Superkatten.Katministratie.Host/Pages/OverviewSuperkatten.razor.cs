@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Superkatten.Katministratie.Application.Entities;
+using Superkatten.Katministratie.Host.Entities;
 using Superkatten.Katministratie.Host.Services;
 
 namespace Superkatten.Katministratie.Host.Pages;
@@ -7,8 +7,8 @@ namespace Superkatten.Katministratie.Host.Pages;
 public partial class OverviewSuperkatten
 {
     [Inject]
-    private ISuperkattenListService _superkattenService { get; set; }
-    public string LoadingInfoMessage { get; private set; }
+    private ISuperkattenListService? _superkattenService { get; set; }
+    public string LoadingInfoMessage { get; private set; } = string.Empty;
     private List<Superkat> Superkatten { get; set; } = new();
     private bool ShowPrinterDialog { get; set; } = false;
 
@@ -20,13 +20,13 @@ public partial class OverviewSuperkatten
 
     private async Task UpdateListAsync()
     {
-        if (_superkattenService == null)
+        if (_superkattenService is null)
         {
             return;
         }
 
         var superkatten = await _superkattenService.GetAllSuperkattenAsync();
-        if (superkatten == null)
+        if (superkatten is null)
         {
             LoadingInfoMessage = "Iets ging fout met inlezen.";
             return;
@@ -38,7 +38,7 @@ public partial class OverviewSuperkatten
             return;
         }
 
-        Superkatten = superkatten
+        Superkatten = superkatten!
             .AsQueryable()
             .OrderByDescending(sk => sk.Number)
             .ToList();

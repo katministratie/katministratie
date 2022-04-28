@@ -1,4 +1,4 @@
-﻿using Superkatten.Katministratie.Application.Entities;
+﻿using Superkatten.Katministratie.Host.Entities;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;

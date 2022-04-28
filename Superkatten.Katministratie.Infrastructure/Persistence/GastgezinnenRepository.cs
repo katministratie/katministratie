@@ -59,7 +59,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
                 .Where(gg => gg.Name == name)
                 .FirstAsync();
 
-            if (gastgezinDto == null)
+            if (gastgezinDto is null)
             {
                 throw new DatabaseException($"No gastgezin found in the database with name '{name}'");
             }
@@ -86,7 +86,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
                 .Where(gg => gg.Name == name)
                 .FirstOrDefaultAsync();
 
-            if (gastgezinDto == null)
+            if (gastgezinDto is null)
             {
                 throw new DatabaseException($"No gastgezin found in the database with name '{name}'");
             }
@@ -101,7 +101,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
                 .Where(gg => gg.Name == name)
                 .FirstAsync();
 
-            if (gastgezinDto== null)
+            if (gastgezinDto is null)
             {
                 throw new DatabaseException($"No gastgezin found in the database with name '{name}'");
             }

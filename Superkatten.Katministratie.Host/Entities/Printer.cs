@@ -1,4 +1,4 @@
-﻿namespace Superkatten.Katministratie.Infrastructure.Entities
+﻿namespace Superkatten.Katministratie.Host.Entities
 {
     public class Printer
     {

@@ -1,8 +1,8 @@
 ﻿@page "/OverviewGastgezinnen"
 
-@using Superkatten.Katministratie.Application.Entities
 @using Superkatten.Katministratie.Host.Components
 @using Superkatten.Katministratie.Host.Services;
+@using Superkatten.Katministratie.Host.Entities;
 
 @inject NavigationManager _navigationManager
 @inject IGastgezinService _gastgezinnenService
@@ -59,7 +59,7 @@ else
 
     private async Task UpdateListAsync()
     {
-        if (_gastgezinnenService == null)
+        if (_gastgezinnenService is null)
         {
             return;
         }

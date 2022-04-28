@@ -13,7 +13,7 @@ namespace Superkatten.Katministratie.Domain.Entities
         public string? Name { get; private set; } = string.Empty;
         public bool Reserved { get; private set; }
         public bool Retour { get; private set; }
-        public CatArea Area { get; private set; } = CatArea.Unknown;
+        public CatArea CatArea { get; private set; } = CatArea.Unknown;
         public int? CageNumber { get; private set; }
         public CatBehaviour Behaviour { get; private set; } = CatBehaviour.Unknown;
         public bool IsKitten { get; private set; } = true;
@@ -67,7 +67,7 @@ namespace Superkatten.Katministratie.Domain.Entities
 
         public void SetArea(CatArea area)
         {
-            Area = area;
+            CatArea = area;
         }
 
         public void SetCageNumber(int? cageNumber)

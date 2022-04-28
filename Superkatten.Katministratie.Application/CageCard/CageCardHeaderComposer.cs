@@ -1,7 +1,7 @@
 ﻿using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using Superkatten.Katministratie.Application.Entities;
+using Superkatten.Katministratie.Domain.Entities;
 
 namespace Superkatten.Katministratie.Application.CageCard
 {
@@ -28,7 +28,7 @@ namespace Superkatten.Katministratie.Application.CageCard
                     .Border(1)
                     .Column(column =>
                     {
-                        column.Item().AlignMiddle().AlignCenter().Text($"{_superkat.DisplayableNumber}").Style(titleStyle);
+                        column.Item().AlignMiddle().AlignCenter().Text($"{_superkat.CatchDate.Year}{_superkat.Number}").Style(titleStyle);
                     });
 
                 row.RelativeItem()
@@ -47,7 +47,7 @@ namespace Superkatten.Katministratie.Application.CageCard
                         column.Item().AlignMiddle().AlignCenter().Text($"{_superkat.CatchLocation}").Style(titleStyle);
                     });
 
-                if (_superkat.Area == Domain.Entities.CatArea.Unknown)
+                if (_superkat.CatArea == CatArea.Unknown)
                 {
                     row.RelativeItem()
                         .Border(1)
