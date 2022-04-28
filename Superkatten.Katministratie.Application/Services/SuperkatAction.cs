@@ -45,7 +45,7 @@ namespace Superkatten.Katministratie.Application.Services
         public async Task PrintSuperkatCageCardAsync(SuperkatCageCardPrintParameters parameters)
         {
             var filename = await _cageCardGenerator.CreateCageCardAsync(parameters.Id);
-            await _printerService.PrintPdfAsync(filename, parameters.PrinterName);
+            //            await _printerService.PrintPdfAsync(filename, parameters.PrinterName);
         }
     }
 }

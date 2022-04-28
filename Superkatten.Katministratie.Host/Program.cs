@@ -11,11 +11,15 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 // Add the dialogbox
 builder.Services.AddBlazoredModal();
 
+//See: https://github.com/Append-IT/Blazor.Printing
+//builder.Services.AddScoped<IPrintingService, PrintingService>();
+
 // Add services
 builder.Services.AddTransient<ISuperkattenListService, SuperkattenListService>();
 builder.Services.AddTransient<ISuperkatActionService, SuperkatActionService>();
 builder.Services.AddTransient<IGastgezinService, GastgezinService>();
-builder.Services.AddTransient<IPrinterService, PrinterService>();
+
+builder.Services.AddScoped<IPrinterService, PrinterService>();
 
 // When localhost: https://localhost:7171
 // When azure: https://katministratie.azurewebsites.net/

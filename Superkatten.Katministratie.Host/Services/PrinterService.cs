@@ -7,6 +7,8 @@ namespace Superkatten.Katministratie.Host.Services
     {
         private readonly HttpClient _client;
 
+        public event EventHandler<Guid> OnPrintSuperkatCageCard;
+
         public PrinterService(HttpClient client)
         {
             _client = client;
@@ -21,6 +23,11 @@ namespace Superkatten.Katministratie.Host.Services
             return printers is null
                 ? new()
                 : printers;
+        }
+
+        public void PrintCageCard(Guid superkatId)
+        {
+            OnPrintSuperkatCageCard?.Invoke(null, superkatId);
         }
     }
 }

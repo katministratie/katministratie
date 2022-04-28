@@ -18,21 +18,21 @@ namespace Superkatten.Katministratie.Host.Services
         public async Task ToggleReserveSuperkatAsync(int superkatNumber)
         {
             var uri = $"api/SuperkatAction/ToggleReserve";
-            var myContent = JsonSerializer.Serialize(superkatNumber);
-            var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
-            var byteContent = new ByteArrayContent(buffer);
-            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            _ = await _client.PutAsync(uri, byteContent);
+            //var myContent = JsonSerializer.Serialize(superkatNumber);
+            //var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+            //var byteContent = new ByteArrayContent(buffer);
+            //byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            _ = await _client.PutAsJsonAsync(uri, superkatNumber);
         }
 
         public async Task ToggleRetourSuperkatAsync(int superkatNumber)
         {
             var uri = $"api/SuperkatAction/ToggleRetour";
-            var myContent = JsonSerializer.Serialize(superkatNumber);
-            var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
-            var byteContent = new ByteArrayContent(buffer);
-            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            _ = await _client.PutAsync(uri, byteContent);
+            //var myContent = JsonSerializer.Serialize(superkatNumber);
+            //var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+            //var byteContent = new ByteArrayContent(buffer);
+            //byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            _ = await _client.PutAsJsonAsync(uri, superkatNumber);
         }
 
         public async Task PrintSuperkatCageCardAsync(SuperkatCageCardPrintParameters parameters)

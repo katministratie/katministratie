@@ -3,7 +3,7 @@
 
 @inject NavigationManager _navigationManager
 @inject ISuperkatActionService _superkatActionService
-@inject IPrinterService _printerService;
+@inject IPrinterService _printingService;
 
 <div class="container">
     <div class="row">
@@ -21,16 +21,11 @@
         
         <div class="col-3">
             <SuperkatAction
-            OnClickCallback="@ShowPrinterSelectDialog"
+            OnClickCallback="@PrintSuperkatCageCard"
             ActionIcon="./images/actions/printer.svg" />
         </div>        
     </div>
 </div>
-
-<PrinterSelectDialog
-    IsVisible="@PrinterDialogVisible" 
-    OnPrint="async (string printername) => { await PrintSuperkatCageCardAsync(printername); }"
-    OnClose="() => { PrinterDialogVisible = false; }" />
 
 @code {
     [Parameter]
@@ -38,8 +33,6 @@
 
     [Parameter]
     public EventCallback<Superkat> SuperkatChanged { get; set; }
-
-    private bool PrinterDialogVisible { get; set; } = false;
 
     private async Task ToggleReserve()
     {
@@ -51,21 +44,6 @@
     {
         await _superkatActionService.ToggleRetourSuperkatAsync(Superkat.Number);
         await UpdateSuperkat(Superkat.Reserved, !Superkat.Retour);
-    }
-
-    private void ShowPrinterSelectDialog()
-    {
-        PrinterDialogVisible = true;
-    }
-
-    private async Task PrintSuperkatCageCardAsync(string printername)
-    {
-        var parameters = new SuperkatCageCardPrintParameters
-        {
-            Id = Superkat.Id,
-            PrinterName = printername
-        };
-        await _superkatActionService.PrintSuperkatCageCardAsync(parameters);
     }
 
     private async Task UpdateSuperkat(bool reserve, bool retour)
@@ -82,5 +60,11 @@
             CatArea = Superkat.CatArea,
             CageNumber = Superkat.CageNumber
         });
-    }    
+    }   
+
+    public Task PrintSuperkatCageCard()
+    {
+        _printingService.PrintCageCard(Superkat.Id);
+        return Task.CompletedTask;
+    }
 }

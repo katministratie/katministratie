@@ -33,14 +33,14 @@
             <div class="mb-0">Hok: @Superkat.CageNumber</div>
         </div>
         <div class="mb-0 pt-1">
-            <SuperkatActions @bind-Superkat="@Superkat"/>
+            <SuperkatActions @bind-Superkat="@Superkat" />
         </div>
     </Col>
 </Row>
 
 
 @code {
-    [ParameterAttribute]
+    [Parameter]
     public Superkat Superkat { get; set; } = new();
 
     public string SuperkatDisplayableNumber => Superkat.DisplayableNumber;

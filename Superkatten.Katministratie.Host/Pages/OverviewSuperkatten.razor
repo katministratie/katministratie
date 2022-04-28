@@ -1,8 +1,11 @@
 ﻿@page "/OverviewSuperkatten"
 
 @using Superkatten.Katministratie.Host.Components;
+@using Superkatten.Katministratie.Host.Services
 
 @inject NavigationManager _navigationManager;
+@inject IPrinterService _printerService;
+@inject ISuperkatActionService _superkatActionService;
 
 <PageTitle>Superkatten</PageTitle>
 
@@ -29,8 +32,11 @@ else
         <SuperkatComponent Superkat=superkat />
     }
 
-    @if (ShowPrinterDialog)
-    {
-        <PrinterSelectDialog />
-    }
+    //@if (PrinterDialogVisible)
+    //{
+        <PrinterSelectDialog
+            IsVisible="PrinterDialogVisible" 
+            OnPrint="async (printername) => { await Print(printername); }"
+            OnClose="OnClose" />
+    //}
 }
