@@ -3,7 +3,7 @@
 @inject IPrinterService _printerService;
 
 <Modal Title="@ModelTitle"
-       @bind-IsVisible="@IsVisible"
+       Visible="@IsVisible"
        OnOk="@HandleOk"
        OnCancel="@HandleCancel">
        @foreach(var printer in _printers)

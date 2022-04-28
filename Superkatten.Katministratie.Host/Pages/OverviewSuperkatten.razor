@@ -32,11 +32,8 @@ else
         <SuperkatComponent Superkat=superkat />
     }
 
-    //@if (PrinterDialogVisible)
-    //{
-        <PrinterSelectDialog
-            IsVisible="PrinterDialogVisible" 
-            OnPrint="async (printername) => { await Print(printername); }"
-            OnClose="OnClose" />
-    //}
+    <PrinterSelectDialog
+        @bind-IsVisible="PrinterDialogVisible" 
+        OnPrint="async (printername) => { await Print(printername); }" />
+
 }
