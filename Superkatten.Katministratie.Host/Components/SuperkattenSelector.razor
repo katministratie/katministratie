@@ -1,0 +1,41 @@
+﻿@using Superkatten.Katministratie.Host.Services
+
+<div class="container">
+
+    <Row>
+        <Col Class="col-3">
+            <Dropdown>
+                <Overlay>
+                    <Menu>
+                        @foreach(var superkat in AvailableSuperkatten)
+                        {
+                            <MenuItem>
+                                <Button OnClick="() => { SelectSuperkat(superkat.Id); }">@superkat.DisplayableNumber</Button>
+                            </MenuItem>
+                        }
+                    </Menu>
+                </Overlay>
+                <ChildContent>
+                    <a class="ant-dropdown-link" @onclick:preventDefault>
+                        Selecteerbare katten <Icon Type="down" />
+                    </a>
+                </ChildContent>
+            </Dropdown>
+        </Col>
+        <Col Class="col-3">
+            Selected: @_selectedSuperkatId
+        </Col>
+        <Col Class="col-6">
+            <Button Block="true" OnClick="@AddSuperkatToSelection">Toevoegen</Button>
+        </Col>
+    </Row>
+
+    <Row>
+        @foreach(var selectedSuperkat in SelectedSuperkatten)
+        {
+            @_selectedSuperkatId
+            <br />
+        }
+    </Row>
+
+</div>

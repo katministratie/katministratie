@@ -29,6 +29,10 @@
     <Button Block="@true" OnClick="OnShowOverviewGastgezinnen" Class="mb-2">
         Lijst gastgezinnen
     </Button>
+
+    <Button Block="@true" OnClick="OnSelectSuperkatForGastgezin" Class="mb-2">
+        Superkat naar gastgezin
+    </Button>
 </Row>
 
 @code {
@@ -45,5 +49,10 @@
     private void OnShowOverviewGastgezinnen()
     {
         _navigationManager.NavigateTo("OverviewGastgezinnen");
+    }
+
+    private void OnSelectSuperkatForGastgezin()
+    {
+        _navigationManager.NavigateTo("SelectSuperkatForGastgezin");
     }
 }

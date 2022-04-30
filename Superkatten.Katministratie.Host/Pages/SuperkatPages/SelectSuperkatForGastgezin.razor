@@ -1,0 +1,15 @@
+﻿@page "/SelectSuperkatForGastgezin"
+
+@using Superkatten.Katministratie.Host.Components
+
+@inject NavigationManager _navigationManager
+
+<h3>SelectSuperkatForGastgezin</h3>
+
+<Row Class="mb-2">
+    <Col Class="col-12">
+        <Button Block="@true" OnClick="@OnBackHome">Terug</Button>
+    </Col>
+</Row>
+
+<SuperkattenSelector />
