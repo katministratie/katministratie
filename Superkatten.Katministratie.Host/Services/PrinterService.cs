@@ -1,5 +1,5 @@
 ﻿using Superkatten.Katministratie.Host.Entities;
-using System.Net.Http.Json;
+using System.Drawing.Printing;
 
 namespace Superkatten.Katministratie.Host.Services
 {
@@ -14,14 +14,21 @@ namespace Superkatten.Katministratie.Host.Services
             _client = client;
         }
 
-        public async Task<List<Printer>> GetPrintersAsync()
-        {
-            var uri = "api/Printers";
-            var printers = await _client.GetFromJsonAsync< List<Printer>>(uri);
+        public List<Printer> Printers { get; set; } = new List<Printer>();
 
-            return printers is null
-                ? new()
-                : printers;
+        public List<Printer> GetPrinters()
+        {
+            Printers.Clear();
+
+#pragma warning disable CA1416 // Validate platform compatibility
+            for (int i = 0; i < PrinterSettings.InstalledPrinters.Count; i++)
+            {
+                string printerName = PrinterSettings.InstalledPrinters[i];
+                Printers.Add(new Printer(printerName));
+            }
+#pragma warning restore CA1416 // Validate platform compatibility
+
+            return Printers;
         }
 
         public void PrintCageCard(Guid superkatId)

@@ -19,6 +19,7 @@ public partial class OverviewSuperkatten
     {
         LoadingInfoMessage = "Inlezen van alle superkatten";
         await UpdateListAsync();
+
         _printerService.OnPrintSuperkatCageCard += OnShowPrintingDialog;
     }
 

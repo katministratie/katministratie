@@ -23,9 +23,9 @@ public partial class PrinterSelectDialog
     private string _selectedPrinter = string.Empty;
 
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        _printers = await _printerService.GetPrintersAsync();
+        _printers = _printerService.GetPrinters();
     }
 
 
