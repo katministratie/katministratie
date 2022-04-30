@@ -4,6 +4,7 @@ using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Domain.Interfaces;
 using Superkatten.Katministratie.Infrastructure.Exceptions;
 using Superkatten.Katministratie.Infrastructure.Mapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -52,16 +53,16 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
             return _mapper.MapGastgezinDtoToDomain(addedGastgezin);
         }
 
-        public async Task DeleteGastgezinAsync(string name)
+        public async Task DeleteGastgezinAsync(Guid id)
         {
             var gastgezinDto = await _context
                 .Gastgezinnen
-                .Where(gg => gg.Name == name)
+                .Where(gg => gg.Id == id)
                 .FirstAsync();
 
             if (gastgezinDto is null)
             {
-                throw new DatabaseException($"No gastgezin found in the database with name '{name}'");
+                throw new DatabaseException($"No gastgezin found in the database with id '{id}'");
             }
 
             _context.Gastgezinnen.Remove(gastgezinDto);
@@ -79,31 +80,31 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
                 .ToList();
         }
 
-        public async Task<Gastgezin> GetGastgezinAsync(string name)
+        public async Task<Gastgezin> GetGastgezinAsync(Guid id)
         {
             var gastgezinDto = await _context
                 .Gastgezinnen
-                .Where(gg => gg.Name == name)
+                .Where(gg => gg.Id == id)
                 .FirstOrDefaultAsync();
 
             if (gastgezinDto is null)
             {
-                throw new DatabaseException($"No gastgezin found in the database with name '{name}'");
+                throw new DatabaseException($"No gastgezin found in the database with id '{id}'");
             }
 
             return _mapper.MapGastgezinDtoToDomain(gastgezinDto);
         }
 
-        public async Task<Gastgezin> UpdateGastgezinAsync(string name, Gastgezin gastgezin)
+        public async Task<Gastgezin> UpdateGastgezinAsync(Guid id, Gastgezin gastgezin)
         {
             var gastgezinDto = await _context
                 .Gastgezinnen
-                .Where(gg => gg.Name == name)
+                .Where(gg => gg.Id == id)
                 .FirstAsync();
 
             if (gastgezinDto is null)
             {
-                throw new DatabaseException($"No gastgezin found in the database with name '{name}'");
+                throw new DatabaseException($"No gastgezin found in the database with id '{id}'");
             }
 
             gastgezinDto.Name = gastgezin.Name;

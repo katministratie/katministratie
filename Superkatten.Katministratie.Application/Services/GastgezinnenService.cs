@@ -43,9 +43,9 @@ namespace Superkatten.Katministratie.Application.Services
             return gastgezin;
         }
 
-        public async Task DeleteGastgezinAsync(string name)
+        public async Task DeleteGastgezinAsync(Guid id)
         {
-            await _repository.DeleteGastgezinAsync(name);
+            await _repository.DeleteGastgezinAsync(id);
         }
 
         public async Task<IReadOnlyCollection<Gastgezin>> ReadAvailableGastgezinAsync()
@@ -54,20 +54,14 @@ namespace Superkatten.Katministratie.Application.Services
             return gastgezinnen.ToList();
         }
 
-        public async Task<Gastgezin> ReadGastgezinAsync(string name)
-        {
-            var gastgezin = await _repository.GetGastgezinAsync(name);
-            return gastgezin;
-        }
-
-        public async Task<Gastgezin> UpdateGastgezinAsync(CreateOrUpdateGastgezinParameters updateGastgezinParameters)
+        public async Task<Gastgezin> UpdateGastgezinAsync(Guid id, CreateOrUpdateGastgezinParameters updateGastgezinParameters)
         {
             if (string.IsNullOrEmpty(updateGastgezinParameters.Name))
             {
                 throw new ValidationException($"Gastgezin name is empty");
             }
 
-            var gastgezin = await _repository.GetGastgezinAsync(updateGastgezinParameters.Name);
+            var gastgezin = await _repository.GetGastgezinAsync(id);
             if(gastgezin is null)
             {
                 throw new ValidationException($"gastgezin {updateGastgezinParameters.Name} does not exsist");
@@ -81,7 +75,7 @@ namespace Superkatten.Katministratie.Application.Services
                 updateGastgezinParameters.Phone
             );
 
-            await _repository.UpdateGastgezinAsync(updateGastgezinParameters.Name, updatedGastgezin);
+            await _repository.UpdateGastgezinAsync(id, updatedGastgezin);
 
             return updatedGastgezin;
         }

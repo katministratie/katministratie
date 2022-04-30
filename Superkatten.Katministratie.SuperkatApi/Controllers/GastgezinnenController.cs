@@ -32,15 +32,15 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpPost]
-        public async Task PostGastgezin([FromBody] CreateOrUpdateGastgezinParameters updateGastgezinParameters)
+        public async Task PostGastgezin(Guid id, [FromBody] CreateOrUpdateGastgezinParameters updateGastgezinParameters)
         {
-            await _service.UpdateGastgezinAsync(updateGastgezinParameters);
+            await _service.UpdateGastgezinAsync(id, updateGastgezinParameters);
         }
 
         [HttpDelete]
-        public async Task DeleteGastgezin(string name)
+        public async Task DeleteGastgezin(Guid id)
         {
-            await _service.DeleteGastgezinAsync(name);
+            await _service.DeleteGastgezinAsync(id);
         }
     }
 }
