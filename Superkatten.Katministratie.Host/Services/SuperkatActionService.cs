@@ -1,7 +1,5 @@
 ﻿using Superkatten.Katministratie.Host.Entities;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Text.Json;
 
 
 namespace Superkatten.Katministratie.Host.Services

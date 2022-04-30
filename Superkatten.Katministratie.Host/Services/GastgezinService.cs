@@ -1,7 +1,6 @@
 ﻿using Superkatten.Katministratie.Host.Api;
 using Superkatten.Katministratie.Host.Entities;
-using System.Net.Http.Headers;
-using System.Text;
+using System.Net.Http.Json;
 using System.Text.Json;
 
 namespace Superkatten.Katministratie.Host.Services;
@@ -16,13 +15,8 @@ public class GastgezinService : IGastgezinService
     }
     public async Task<Gastgezin?> CreateGastgezinAsync(CreateOrUpdateGastgezinParameters newGastgezinParameters)
     {
-        var uri = $"api/Gastgezinnen";
-        var myContent = JsonSerializer.Serialize(newGastgezinParameters);
-        var buffer = Encoding.UTF8.GetBytes(myContent);
-        var byteContent = new ByteArrayContent(buffer);
-        byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-        var Responce = await _client.PutAsync(uri, byteContent);
+        var uri = "api/Gastgezinnen";
+        var Responce = await _client.PutAsJsonAsync(uri, newGastgezinParameters);
 
         var stream = await Responce.Content.ReadAsStreamAsync();
 
@@ -51,12 +45,11 @@ public class GastgezinService : IGastgezinService
         
     public async Task<List<Gastgezin>> GetAllGastgezinAsync()
     {
-        var stream = await _client.GetStreamAsync($"api/gastgezinnen");
+        var uri = "api/Gastgezinnen";
+        var gastgezinnen = await _client.GetFromJsonAsync<List<Gastgezin>>(uri);
 
-        var mylist = await JsonSerializer.DeserializeAsync<List<Gastgezin>>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-
-        return mylist is null 
+        return gastgezinnen is null 
             ? new() 
-            : mylist;
+            : gastgezinnen;
     }
 }

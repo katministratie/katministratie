@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Superkatten.Katministratie.Host.Api;
 using Superkatten.Katministratie.Host.Entities;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Text;
 using System.Text.Json;
 
 namespace Superkatten.Katministratie.Host.Services;
@@ -20,11 +18,6 @@ public class SuperkattenListService : ISuperkattenListService
     public async Task<Superkat?> CreateSuperkatAsync([FromBody] CreateSuperkatParameters newSuperkat)
     {
         var uri = $"api/Superkatten";
-        /*var myContent = JsonSerializer.Serialize(newSuperkat);
-        var buffer = Encoding.UTF8.GetBytes(myContent);
-        var byteContent = new ByteArrayContent(buffer);
-        byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-        var Responce = await _client.PutAsync(uri, byteContent);*/
         var Responce = await _client.PutAsJsonAsync(uri, newSuperkat);
 
         var stream = await Responce.Content.ReadAsStreamAsync();
@@ -61,12 +54,11 @@ public class SuperkattenListService : ISuperkattenListService
 
     public async Task<List<Superkat>> GetAllSuperkattenAsync()
     {
-        var stream = await _client.GetStreamAsync($"api/superkatten");
+        var uri = "api/Superkatten";
+        var superkatten = await _client.GetFromJsonAsync<List<Superkat>>(uri);
 
-        var mylist = await JsonSerializer.DeserializeAsync<List<Superkat>>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-
-        return mylist is null 
+        return superkatten is null 
             ? new() 
-            : mylist;
+            : superkatten;
     }
 }

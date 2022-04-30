@@ -1,5 +1,5 @@
 ﻿using Superkatten.Katministratie.Host.Entities;
-using System.Text.Json;
+using System.Net.Http.Json;
 
 namespace Superkatten.Katministratie.Host.Services
 {
@@ -7,7 +7,7 @@ namespace Superkatten.Katministratie.Host.Services
     {
         private readonly HttpClient _client;
 
-        public event EventHandler<Guid> OnPrintSuperkatCageCard;
+        public event EventHandler<Guid>? OnPrintSuperkatCageCard;
 
         public PrinterService(HttpClient client)
         {
@@ -16,9 +16,8 @@ namespace Superkatten.Katministratie.Host.Services
 
         public async Task<List<Printer>> GetPrintersAsync()
         {
-            var stream = await _client.GetStreamAsync($"api/Printers");
-
-            var printers = await JsonSerializer.DeserializeAsync<List<Printer>>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+            var uri = "api/Printers";
+            var printers = await _client.GetFromJsonAsync< List<Printer>>(uri);
 
             return printers is null
                 ? new()
