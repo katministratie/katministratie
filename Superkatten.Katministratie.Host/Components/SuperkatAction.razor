@@ -1,16 +1,5 @@
 ﻿<div class="m-0 p-0">
-    <Image Src="@ActionIcon"  OnClick="@ExecuteAction" Preview="false" />
+    
+    <Image Height="30px" Width="30px" Src="@ActionIcon" OnClick="@ExecuteAction" Preview="false" />
+    
 </div>
-
-@code {
-    [Parameter]
-    public string ActionIcon { get; set; } = string.Empty;
-
-    [Parameter]
-    public EventCallback OnClickCallback { get; set; }
-
-    public async void ExecuteAction() 
-    {
-        await OnClickCallback.InvokeAsync();
-    }
-}

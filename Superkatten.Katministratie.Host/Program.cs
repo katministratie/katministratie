@@ -1,4 +1,3 @@
-using Blazored.Modal;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Superkatten.Katministratie.Host;
@@ -7,9 +6,6 @@ using Superkatten.Katministratie.Host.Services;
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
-
-// Add the dialogbox
-builder.Services.AddBlazoredModal();
 
 //See: https://github.com/Append-IT/Blazor.Printing
 //builder.Services.AddScoped<IPrintingService, PrintingService>();
@@ -23,8 +19,6 @@ builder.Services.AddScoped<IPrinterService, PrinterService>();
 
 // When localhost: https://localhost:7171
 // When azure: https://katministratie.azurewebsites.net/
-// Use configuration appsettings or other config file
-// Schemes: https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/understanding-http-authentication
 
 builder.Services.AddScoped<HttpClient>(s =>
 {
@@ -39,3 +33,8 @@ builder.Services.AddScoped<HttpClient>(s =>
 builder.Services.AddAntDesign();
 
 await builder.Build().RunAsync();
+
+
+//
+// Use configuration appsettings or other config file
+// Schemes: https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/understanding-http-authentication

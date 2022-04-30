@@ -2,28 +2,24 @@
 using Superkatten.Katministratie.Host.Entities;
 using Superkatten.Katministratie.Host.Services;
 
-namespace Superkatten.Katministratie.Host.Pages;
+namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 
 public partial class OverviewSuperkatten
 {
     [Inject]
     private ISuperkattenListService? _superkattenService { get; set; }
+
     public string LoadingInfoMessage { get; private set; } = string.Empty;
     private List<Superkat> Superkatten { get; set; } = new();
-    public bool PrinterDialogVisible { get; set; } = true;
+    public bool PrinterDialogVisible { get; set; } = false;
+
+    private Guid _selectedSuperkatId;
 
     protected override async Task OnInitializedAsync()
     {
         LoadingInfoMessage = "Inlezen van alle superkatten";
         await UpdateListAsync();
         _printerService.OnPrintSuperkatCageCard += OnShowPrintingDialog;
-    }
-
-    private Guid _selectedSuperkatId;
-    private void OnShowPrintingDialog(object? sender, Guid superkatId)
-    {
-        _selectedSuperkatId = superkatId;
-        PrinterDialogVisible = true;
     }
 
     private async Task UpdateListAsync()
@@ -39,7 +35,7 @@ public partial class OverviewSuperkatten
             LoadingInfoMessage = "Iets ging fout met inlezen.";
             return;
         }
-        
+
         if (superkatten?.Count == 0)
         {
             LoadingInfoMessage = "Geen superkatten beschikbaar.";
@@ -55,6 +51,12 @@ public partial class OverviewSuperkatten
     private void OnBackHome()
     {
         _navigationManager.NavigateTo("");
+    }
+
+    private void OnShowPrintingDialog(object? sender, Guid superkatId)
+    {
+        _selectedSuperkatId = superkatId;
+        PrinterDialogVisible = true;
     }
 
     private async Task Print(string printername)

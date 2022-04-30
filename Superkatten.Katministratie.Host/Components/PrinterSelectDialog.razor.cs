@@ -6,18 +6,10 @@ namespace Superkatten.Katministratie.Host.Components;
 public partial class PrinterSelectDialog
 {
     [Parameter]
-    public bool IsVisible 
-    { 
-        get; 
-        set; 
-    }
+    public bool IsVisible { get; set; }
 
     [Parameter]
-    public EventCallback<bool> IsVisibleChanged 
-    { 
-        get; 
-        set; 
-    }
+    public EventCallback<bool> IsVisibleChanged { get; set; }
 
     [Parameter]
     public string ModelTitle { get; set; } = string.Empty;
@@ -26,9 +18,16 @@ public partial class PrinterSelectDialog
     public EventCallback<string> OnPrint { get; set; }
 
 
-    private List<Printer>? _printers = new();
+    private List<Printer> _printers = new();
 
     private string _selectedPrinter = string.Empty;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        _printers = await _printerService.GetPrintersAsync();
+    }
+
 
     public void SelectPrinter(string printerName)
     {
@@ -41,13 +40,8 @@ public partial class PrinterSelectDialog
         IsVisible = false;
     }
 
-    public async Task HandleCancel()
+    public void HandleCancel()
     {
         IsVisible = false;
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        _printers = await _printerService.GetPrintersAsync();
     }
 }

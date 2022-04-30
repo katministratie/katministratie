@@ -17,6 +17,7 @@ namespace Superkatten.Katministratie.Infrastructure
                 .UseSqlServer(cs)
                 //.UseInMemoryDatabase("superkattendb")
                 .EnableDetailedErrors()
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
             );
             services.AddTransient<ISuperkattenRepository, SuperkattenRepository>();
             services.AddTransient<ISuperkatRepositoryMapper, SuperkatRepositoryMapper>();

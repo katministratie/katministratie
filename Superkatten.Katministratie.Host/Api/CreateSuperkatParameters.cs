@@ -1,4 +1,6 @@
-﻿namespace Superkatten.Katministratie.Host.Entities
+﻿using Superkatten.Katministratie.Host.Entities;
+
+namespace Superkatten.Katministratie.Host.Api
 {
     public class CreateSuperkatParameters
     {

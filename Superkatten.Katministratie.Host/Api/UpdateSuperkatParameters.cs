@@ -1,4 +1,4 @@
-﻿namespace Superkatten.Katministratie.Host.Entities
+﻿namespace Superkatten.Katministratie.Host.Api
 {
     public class UpdateSuperkatParameters
     {
