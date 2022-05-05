@@ -23,9 +23,9 @@ builder.Services.AddSingleton<IPrinterService, PrinterService>();
 builder.Services.AddScoped<HttpClient>(s =>
 {
 //#if DEBUG
-    return new HttpClient { BaseAddress = new System.Uri("https://localhost:7171") };
+//    return new HttpClient { BaseAddress = new System.Uri("https://localhost:7171") };
 //#else
-//    return new HttpClient { BaseAddress = new System.Uri("https://katministratie.azurewebsites.net/") };
+    return new HttpClient { BaseAddress = new System.Uri("https://katministratie.azurewebsites.net/") };
 //#endif
     });
 

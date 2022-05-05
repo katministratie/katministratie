@@ -24,6 +24,7 @@
             {
                 <Button OnClick="@OnEdit">Edit</Button>
                 <Button OnClick="@OnDelete">Delete</Button>
+                <Button OnClick="@OnAddSuperkat">Toewijzen kat</Button>
             }
         </h5>
         @if (!_editModeEnabled)
@@ -104,5 +105,10 @@
     private void OnFinishFailed(EditContext editContext)
     {
         _editModeEnabled = false;
+    }
+
+    private void OnAddSuperkat()
+    {
+        _navigationManager.NavigateTo("SelectSuperkatForGastgezin");
     }
 }

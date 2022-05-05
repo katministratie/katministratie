@@ -9,14 +9,16 @@ public partial class SuperkattenSelector
     [Inject]
     private ISuperkattenListService? _superkattenService { get; set; }
 
-    private List<Superkat> AvailableSuperkatten { get; set; } = new List<Superkat>();
+    [Parameter]
+    public Gastgezin Gastgezin { get; set; }
 
     [Parameter]
+    public EventCallback GastgezinChanged { get; set; }
+
+
+    private List<Superkat> AvailableSuperkatten { get; set; } = new List<Superkat>();
+
     public List<Superkat> SelectedSuperkatten { get; set; } = new List<Superkat>();
-
-
-    public Guid _selectedSuperkatId { get; set; }
-
 
     protected async override Task OnInitializedAsync()
     {
@@ -31,7 +33,7 @@ public partial class SuperkattenSelector
             return;
         }
 
-        if (superkatten?.Count == 0)
+        if (superkatten.Count == 0)
         {
             return;
         }
@@ -42,22 +44,15 @@ public partial class SuperkattenSelector
             .ToList();
     }
 
-    private void SelectSuperkat(Guid selectedSuperkatId)
+    private void AddSuperkatToSelection(Superkat superkat)
     {
-        _selectedSuperkatId = selectedSuperkatId;
-    }
-
-    private void AddSuperkatToSelection()
-    {
-        if (_selectedSuperkatId == Guid.Empty)
-        {
-        }
-
-        var superkat = AvailableSuperkatten
-            .Where(s => s.Id == _selectedSuperkatId)
-            .FirstOrDefault();
-
         AvailableSuperkatten.Remove(superkat);
         SelectedSuperkatten.Add(superkat);
+    }
+
+    private void RemoveSuperkatFromSelection(Superkat superkat)
+    {
+        AvailableSuperkatten.Add(superkat);
+        SelectedSuperkatten.Remove(superkat);
     }
 }
