@@ -10,12 +10,10 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
     public class SuperkattenController
     {
         private readonly ISuperkattenService _service;
-        private readonly ILogger<SuperkattenController> _logger;
 
-        public SuperkattenController(ISuperkattenService service, ILogger<SuperkattenController> logger)
+        public SuperkattenController(ISuperkattenService service)
         {
             _service = service;
-            _logger = logger;
         }
 
         [HttpGet]

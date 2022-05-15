@@ -28,6 +28,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Superkatten.Katministratie.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Superkatten.Katministratie.Host", "Superkatten.Katministratie.Host\Superkatten.Katministratie.Host.csproj", "{651A84D0-7770-4CFB-858E-EB7694FB344B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contract", "Contract", "{DF55ACD0-27DA-44ED-8E77-D8AEAC692829}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Superkatten.Katministratie.Contract", "Superkatten.Katministratie.Contract\Superkatten.Katministratie.Contract.csproj", "{CC26F031-0BDB-4C9A-88BD-EB2CC2C31091}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +58,10 @@ Global
 		{651A84D0-7770-4CFB-858E-EB7694FB344B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{651A84D0-7770-4CFB-858E-EB7694FB344B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{651A84D0-7770-4CFB-858E-EB7694FB344B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC26F031-0BDB-4C9A-88BD-EB2CC2C31091}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC26F031-0BDB-4C9A-88BD-EB2CC2C31091}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC26F031-0BDB-4C9A-88BD-EB2CC2C31091}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC26F031-0BDB-4C9A-88BD-EB2CC2C31091}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +72,7 @@ Global
 		{E7D305C8-3930-4321-9C82-562374A5D2EA} = {A60B41D9-C0AA-4199-93FD-D75C76A6FBB9}
 		{FEB9FF25-F3F2-4702-9F27-795E1B03474C} = {13C5D956-DFDB-4EB1-9121-B09549829396}
 		{651A84D0-7770-4CFB-858E-EB7694FB344B} = {A60B41D9-C0AA-4199-93FD-D75C76A6FBB9}
+		{CC26F031-0BDB-4C9A-88BD-EB2CC2C31091} = {DF55ACD0-27DA-44ED-8E77-D8AEAC692829}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CC434EE0-E851-4CBB-BF31-23462A9160ED}

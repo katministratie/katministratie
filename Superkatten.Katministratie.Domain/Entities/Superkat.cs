@@ -5,7 +5,7 @@ namespace Superkatten.Katministratie.Domain.Entities
 {
     public class Superkat
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get; init; }
         public int Number { get; private set; }
         public DateTimeOffset Birthday { get; private set; }
         public DateTimeOffset CatchDate { get; private set; }
@@ -20,24 +20,15 @@ namespace Superkatten.Katministratie.Domain.Entities
         public Gender Gender { get; private set; } = Gender.Unknown;
 
         public Superkat(
-            Guid id,
+            int number,
             DateTimeOffset catchDate,
             string catchLocation
         )
         {
-            Id = id;
+            Id = Guid.NewGuid();
+            Number = number;
             CatchDate = catchDate;
             CatchLocation = catchLocation;
-        }
-
-        public void SetNumber(int number)
-        {
-            if (number < 0)
-            {
-                throw new DomainException($"Negative number {number} is not allowed");
-            }
-
-            Number = number;
         }
 
         public void SetBirthday(DateTimeOffset birthday)

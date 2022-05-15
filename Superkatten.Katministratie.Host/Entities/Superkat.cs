@@ -12,6 +12,7 @@
         public string Name { get; set; } = string.Empty;
         public Gender Gender { get; set; } = Gender.Unknown;
         public CatBehaviour Behaviour { get; set; } = CatBehaviour.Unknown;
+        public bool IsKitten { get; set; }
         public int CageNumber { set; get; }
         public CatArea CatArea { get; set; }
         public string DisplayableNumber

@@ -1,6 +1,6 @@
 ﻿@page "/OverviewGastgezinnen"
 
-@using Superkatten.Katministratie.Host.Components
+@using Superkatten.Katministratie.Host.Components.GastgezinComponents;
 @using Superkatten.Katministratie.Host.Services;
 @using Superkatten.Katministratie.Host.Entities;
 
@@ -44,6 +44,6 @@ else
 {
     @foreach (var gastgezin in Gastgezinnen)
     {
-        <GastgezinComponent _gastgezin=gastgezin />
+        <GastgezinComponent Gastgezin=gastgezin />
     }    
 }

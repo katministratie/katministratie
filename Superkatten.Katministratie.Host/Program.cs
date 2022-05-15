@@ -15,18 +15,18 @@ builder.Services.AddTransient<ISuperkattenListService, SuperkattenListService>()
 builder.Services.AddTransient<ISuperkatActionService, SuperkatActionService>();
 builder.Services.AddTransient<IGastgezinService, GastgezinService>();
 
-builder.Services.AddSingleton<IPrinterService, PrinterService>();
+builder.Services.AddTransient<IPrinterService, PrinterService>();
 
 // When localhost: https://localhost:7171
 // When azure: https://katministratie.azurewebsites.net/
 
-builder.Services.AddScoped<HttpClient>(s =>
+builder.Services.AddTransient<HttpClient>(s =>
 {
-//#if DEBUG
-//    return new HttpClient { BaseAddress = new System.Uri("https://localhost:7171") };
-//#else
+#if DEBUG
+    return new HttpClient { BaseAddress = new System.Uri("https://localhost:7171") };
+#else
     return new HttpClient { BaseAddress = new System.Uri("https://katministratie.azurewebsites.net/") };
-//#endif
+#endif
     });
 
 // Add the ANT design from https://antblazor.com/

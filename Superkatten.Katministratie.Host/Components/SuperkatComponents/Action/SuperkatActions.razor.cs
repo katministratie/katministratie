@@ -1,12 +1,11 @@
 ﻿
 using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Host.Entities;
-using Superkatten.Katministratie.Host.Services;
 
-namespace Superkatten.Katministratie.Host.Components;
+namespace Superkatten.Katministratie.Host.Components.SuperkatComponents.Action;
 
 public partial class SuperkatActions
-{ 
+{
     [Parameter]
     public Superkat Superkat { get; set; } = new();
 
@@ -40,7 +39,7 @@ public partial class SuperkatActions
             CatArea = Superkat.CatArea,
             CageNumber = Superkat.CageNumber
         });
-    }   
+    }
 
     public Task PrintSuperkatCageCard()
     {

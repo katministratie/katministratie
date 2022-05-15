@@ -1,0 +1,16 @@
+﻿@using Superkatten.Katministratie.Host.Entities;
+
+@if (Superkat is null)
+{
+    <div class="mb-0">details unknown</div>
+    return;
+}
+
+<div class="mb-0">Locatie: @Superkat.CatchLocation</div>
+<div class="mb-0">Area: @Superkat.CatArea</div>
+<div class="mb-0">Hok: @Superkat.CageNumber</div>
+
+@code {
+    [Parameter]
+    public Superkat? Superkat { get; set; }
+}

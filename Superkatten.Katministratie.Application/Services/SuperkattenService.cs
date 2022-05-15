@@ -39,8 +39,10 @@ namespace Superkatten.Katministratie.Application.Services
             //    throw new ValidationException($"Not possible to catch the cat before it is born");
             //}
 
+            var uniqueCatNumber = await _superkattenRepository.GetSuperkatMaxNumberForGivenYearAsync(DateTimeOffset.Now.Year);
+            
             var superkat = new Superkat(
-                Guid.NewGuid(),
+                uniqueCatNumber,
                 createSuperkatParameters.CatchDate,
                 createSuperkatParameters.CatchLocation);
 
@@ -58,9 +60,6 @@ namespace Superkatten.Katministratie.Application.Services
             var catchDate = createSuperkatParameters.CatchDate;
             var estimatedBirthday = catchDate.AddDays(-DAY_IN_ONE_WEEK * estimatedWeeksOld);
             superkat.SetBirthday(estimatedBirthday);
-
-            var uniqueCatNumber = await _superkattenRepository.GetSuperkatMaxNumberForGivenYearAsync(DateTimeOffset.Now.Year);
-            superkat.SetNumber(uniqueCatNumber);
 
             var createdSuperkat = await _superkattenRepository.CreateSuperkatAsync(superkat);
 

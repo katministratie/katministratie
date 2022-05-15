@@ -1,0 +1,80 @@
+﻿@using Superkatten.Katministratie.Contract
+@using Superkatten.Katministratie.Host.Services
+@using Superkatten.Katministratie.Host.Entities
+@using System.Diagnostics;
+@using System.ComponentModel.DataAnnotations
+@using System.Text.Json
+
+@inject NavigationManager _navigationManager
+@inject IGastgezinService _gastgezinService
+
+@if(Gastgezin is null)
+{
+    return;
+}
+
+<Row Class="mb-2 border">
+    <Col class="col-xl-1 col-lg-1 col-md-3 col-4 align-content-center">
+        <Image Width="100px" Src=".\images\superkat.jpg" />
+    </Col>
+    <Col class="col-xl-11 col-lg-11 col-md-9 col-8">
+        <h5 class="p-1 bg-black text-white">
+            <span class="material-icons">face</span>
+            @if (_editMode == GastgezinEditMode.DisplayDetailsOnly)
+            {
+                <Button OnClick="@OnEdit">Edit</Button>
+                <Button OnClick="@OnDelete">Delete</Button>
+                <Button OnClick="@OnAssignSuperkat">Katten</Button>
+            }
+        </h5>
+
+        @switch(_editMode)
+        {
+            case GastgezinEditMode.DisplayDetailsOnly:
+                <div class="mb-2">
+                    <GastgezinDetailsComponent Gastgezin="@Gastgezin" />
+                </div>
+                break;
+
+            case GastgezinEditMode.AssignSuperkatten:
+                <SuperkattenSelector Gastgezin="@Gastgezin" OnFinishEdit="@OnFinishEdit"/>
+                break;
+
+            case GastgezinEditMode.EditGastgezinNaw:
+                <GastgezinEditComponent Gastgezin="@Gastgezin" OnFinishEdit="@OnFinishEdit" />
+                break;
+        }
+    </Col>
+</Row>
+
+@code {
+    [Parameter]
+    public Gastgezin Gastgezin { get; set; } = new();
+
+    private GastgezinEditMode _editMode = GastgezinEditMode.DisplayDetailsOnly;
+
+    public void OnAdd()
+    {
+        _navigationManager.NavigateTo("CreateGastgezin");
+    }
+
+    public async Task OnDelete()
+    {
+        await _gastgezinService.DeleteGastgezinAsync(Gastgezin.Id);
+    }
+
+    public void OnEdit()
+    {
+        _editMode = GastgezinEditMode.EditGastgezinNaw;
+    }
+
+    private void OnAssignSuperkat()
+    {
+        _editMode = GastgezinEditMode.AssignSuperkatten;
+    }  
+
+    public void OnFinishEdit()
+    {
+        _editMode = GastgezinEditMode.DisplayDetailsOnly;
+    }
+}

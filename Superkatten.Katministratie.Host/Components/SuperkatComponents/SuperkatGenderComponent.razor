@@ -1,0 +1,21 @@
+﻿@using Superkatten.Katministratie.Host.Entities;
+
+@switch(Gender)
+{
+    case Gender.Unknown:
+        <small class="text-muted">(Onbekend)</small>
+        break;
+    
+    case Gender.Molly:
+        <small class="text-muted">(Poes)</small>
+        break;
+
+    case Gender.Tomcat:
+        <small class="text-muted">(Kater)</small>
+        break;
+}
+
+@code {
+    [Parameter]
+    public Gender Gender { get; set; }
+}

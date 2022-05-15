@@ -1,6 +1,7 @@
 ﻿@page "/OverviewSuperkatten"
 
-@using Superkatten.Katministratie.Host.Components;
+@using Superkatten.Katministratie.Host.Components
+@using Superkatten.Katministratie.Host.Components.SuperkatComponents
 @using Superkatten.Katministratie.Host.Services
 
 @inject NavigationManager _navigationManager;
@@ -35,7 +36,7 @@ else
     @if (PrinterDialogVisible)
     {
         <PrinterSelectDialog
-            @bind-IsVisible="PrinterDialogVisible" 
+            @bind-IsVisible="@PrinterDialogVisible" 
             OnPrint="async (printername) => { await Print(printername); }" />
     }
 }

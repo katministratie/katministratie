@@ -30,10 +30,12 @@ namespace Superkatten.Katministratie.Infrastructure.Mapper
         public Superkat MapSuperkatDtoToDomain(SuperkatDto superkatDto)
         {
             var superkat = new Superkat(
-                superkatDto.Id,
+                superkatDto.Number,
                 superkatDto.CatchDate,
-                superkatDto.CatchLocation);
-            superkat.SetNumber(superkatDto.Number);
+                superkatDto.CatchLocation)
+            {
+                Id = superkatDto.Id
+            };
             superkat.SetName(superkatDto.Name ?? string.Empty);
             superkat.SetReserved(superkatDto.Reserved);
             superkat.SetArea(MapToDomainArea(superkatDto.Area));

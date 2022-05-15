@@ -1,6 +1,10 @@
 ﻿@using Superkatten.Katministratie.Host.Services
+@using Superkatten.Katministratie.Host.Entities;
 
 <div class="container">
+
+    <Button OnClick="@OnClose">Close</Button>
+
     <Row>
         <p>Hieruit kan je selecteren</p>
         <Col Class="col-12">
@@ -13,12 +17,12 @@
     </Row>
     
     <Divider />
-
+    
     <p>Geselecteerde katten</p>
     <Row>
         <Col Class="col-12">
             
-            @foreach(var superkat in SelectedSuperkatten)
+            @foreach(var superkat in Gastgezin.Superkatten)
             {
                 <Button Class="btn btn-primary" OnClick="() => RemoveSuperkatFromSelection(superkat)">@superkat.DisplayableNumber</Button>
             }

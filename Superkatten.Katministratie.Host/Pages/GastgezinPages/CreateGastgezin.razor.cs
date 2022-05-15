@@ -1,5 +1,4 @@
-﻿
-using Superkatten.Katministratie.Host.Api;
+﻿using Superkatten.Katministratie.Contract;
 
 namespace Superkatten.Katministratie.Host.Pages.GastgezinPages;
 

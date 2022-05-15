@@ -1,0 +1,11 @@
+﻿@using Superkatten.Katministratie.Host.Entities;
+
+<div>@Gastgezin.Name</div>
+<div>@Gastgezin.Address"</div>
+<div>@Gastgezin.City</div>
+<div>@Gastgezin.Phone"></div>
+
+@code {
+    [Parameter]
+    public Gastgezin Gastgezin { get; set; }
+}

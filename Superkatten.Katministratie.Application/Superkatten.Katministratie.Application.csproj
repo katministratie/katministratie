@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Superkatten.Katministratie.Contract\Superkatten.Katministratie.Contract.csproj" />
     <ProjectReference Include="..\Superkatten.Katministratie.Domain\Superkatten.Katministratie.Domain.csproj" />
     <ProjectReference Include="..\Superkatten.Katministratie.Infrastructure\Superkatten.Katministratie.Infrastructure.csproj" />
   </ItemGroup>

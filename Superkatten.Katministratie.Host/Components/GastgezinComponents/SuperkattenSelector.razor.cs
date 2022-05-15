@@ -2,32 +2,30 @@
 using Superkatten.Katministratie.Host.Entities;
 using Superkatten.Katministratie.Host.Services;
 
-namespace Superkatten.Katministratie.Host.Components;
+namespace Superkatten.Katministratie.Host.Components.GastgezinComponents;
 
 public partial class SuperkattenSelector
 {
     [Inject]
-    private ISuperkattenListService? _superkattenService { get; set; }
+    private ISuperkattenListService? SuperkattenService { get; set; }
 
     [Parameter]
-    public Gastgezin Gastgezin { get; set; }
+    public Gastgezin? Gastgezin { get; set; }
 
     [Parameter]
-    public EventCallback GastgezinChanged { get; set; }
+    public EventCallback OnFinishEdit { get; set; }
 
 
     private List<Superkat> AvailableSuperkatten { get; set; } = new List<Superkat>();
 
-    public List<Superkat> SelectedSuperkatten { get; set; } = new List<Superkat>();
-
     protected async override Task OnInitializedAsync()
     {
-        if (_superkattenService is null)
+        if (SuperkattenService is null)
         {
             return;
         }
 
-        var superkatten = await _superkattenService.GetAllSuperkattenAsync();
+        var superkatten = await SuperkattenService.GetAllSuperkattenAsync();
         if (superkatten is null)
         {
             return;
@@ -47,12 +45,17 @@ public partial class SuperkattenSelector
     private void AddSuperkatToSelection(Superkat superkat)
     {
         AvailableSuperkatten.Remove(superkat);
-        SelectedSuperkatten.Add(superkat);
+        Gastgezin?.Superkatten.Add(superkat);
     }
 
     private void RemoveSuperkatFromSelection(Superkat superkat)
     {
         AvailableSuperkatten.Add(superkat);
-        SelectedSuperkatten.Remove(superkat);
+        Gastgezin?.Superkatten.Remove(superkat);
+    }
+
+    private async Task OnClose()
+    {
+        await OnFinishEdit.InvokeAsync();
     }
 }

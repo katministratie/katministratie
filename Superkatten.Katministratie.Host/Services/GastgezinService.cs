@@ -1,4 +1,4 @@
-﻿using Superkatten.Katministratie.Host.Api;
+﻿using Superkatten.Katministratie.Contract;
 using Superkatten.Katministratie.Host.Entities;
 using System.Net.Http.Json;
 using System.Text.Json;
