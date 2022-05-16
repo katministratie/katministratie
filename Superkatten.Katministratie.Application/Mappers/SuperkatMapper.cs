@@ -7,7 +7,7 @@ namespace Superkatten.Katministratie.Application.Mappers
 {
     public class SuperkatMapper : ISuperkatMapper
     {
-        public contractEntities.Superkat MapToContract(Superkat createdSuperkat)
+        public contractEntities.Superkat MapDomainToContract(Superkat createdSuperkat)
         {
             return new contractEntities.Superkat
             {
@@ -27,7 +27,7 @@ namespace Superkatten.Katministratie.Application.Mappers
             };
         }
 
-        public contractEntities.CatBehaviour MapToContract(CatBehaviour behaviour)
+        private static contractEntities.CatBehaviour MapToContract(CatBehaviour behaviour)
         {
             return behaviour switch
             {
@@ -38,7 +38,7 @@ namespace Superkatten.Katministratie.Application.Mappers
             };
         }
 
-        public contractEntities.CatArea MapToContract(CatArea catArea)
+        private static contractEntities.CatArea MapToContract(CatArea catArea)
         {
             return catArea switch
             {
@@ -49,7 +49,7 @@ namespace Superkatten.Katministratie.Application.Mappers
             };
         }
         
-        public contractEntities.Gender MapToContract(Gender gender)
+        private static contractEntities.Gender MapToContract(Gender gender)
         {
             return gender switch
             {
@@ -61,21 +61,21 @@ namespace Superkatten.Katministratie.Application.Mappers
         }
 
 
-        public Superkat MapToDomain(contractEntities.Superkat contractSuperkat)
+        public Superkat MapContractToDomain(contractEntities.Superkat contractSuperkat)
         {
             var superkat = new Superkat(contractSuperkat.Number, contractSuperkat.CatchDate, contractSuperkat.CatchLocation);
-            superkat.SetArea(MapToDomain(contractSuperkat.CatArea));
-            superkat.SetBehaviour(MapToDomain(contractSuperkat.Behaviour));
+            superkat.SetArea(MapContractToDomain(contractSuperkat.CatArea));
+            superkat.SetBehaviour(MapContractToDomain(contractSuperkat.Behaviour));
             superkat.SetBirthday(contractSuperkat.Birthday);
             superkat.SetCageNumber(contractSuperkat.CageNumber);
-            superkat.SetGender(MapToDomain(contractSuperkat.Gender));
+            superkat.SetGender(MapContractToDomain(contractSuperkat.Gender));
             superkat.SetIsKitten(contractSuperkat.IsKitten);
             superkat.SetName(contractSuperkat.Name ?? string.Empty);
 
             return superkat;
         }
 
-        public CatArea MapToDomain(contractEntities.CatArea area)
+        public CatArea MapContractToDomain(contractEntities.CatArea area)
         {
             return area switch
             {
@@ -86,7 +86,7 @@ namespace Superkatten.Katministratie.Application.Mappers
             };
         }
 
-        public CatBehaviour MapToDomain(contractEntities.CatBehaviour behaviour)
+        public CatBehaviour MapContractToDomain(contractEntities.CatBehaviour behaviour)
         {
             return behaviour switch
             {
@@ -97,7 +97,7 @@ namespace Superkatten.Katministratie.Application.Mappers
             };
         }
 
-        public Gender MapToDomain(contractEntities.Gender gender)
+        public Gender MapContractToDomain(contractEntities.Gender gender)
         {
             return gender switch
             {

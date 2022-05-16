@@ -8,7 +8,7 @@ namespace Superkatten.Katministratie.Host.Services
         public Task<List<Superkat>> GetAllSuperkattenAsync();
         public Task<Superkat> GetSuperkatAsync(Guid id);
         public Task<Superkat?> CreateSuperkatAsync(CreateSuperkatParameters newSuperkat);
-        public Task UpdateSuperkatAsync(Guid id, UpdateSuperkatParameters updateSuperkat);
+        public Task<Superkat?> UpdateSuperkatAsync(Guid id, UpdateSuperkatParameters updateSuperkat);
         public Task DeleteSuperkatAsync(Guid id);
     }
 }

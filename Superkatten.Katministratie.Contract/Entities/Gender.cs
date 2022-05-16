@@ -1,9 +1,8 @@
-﻿namespace Superkatten.Katministratie.Contract.Entities
+﻿namespace Superkatten.Katministratie.Contract.Entities;
+
+public enum Gender
 {
-    public enum Gender
-    {
-        Unknown,
-        Molly,  // female
-        Tomcat  // male
-    }
+    Unknown,
+    Molly,  // female
+    Tomcat  // male
 }

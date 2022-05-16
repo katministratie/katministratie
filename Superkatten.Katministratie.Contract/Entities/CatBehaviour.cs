@@ -1,9 +1,8 @@
-﻿namespace Superkatten.Katministratie.Contract.Entities
+﻿namespace Superkatten.Katministratie.Contract.Entities;
+
+public enum CatBehaviour
 {
-    public enum CatBehaviour
-    {
-        Social,
-        Unknown,
-        Shy
-    }
+    Social,
+    Unknown,
+    Shy
 }

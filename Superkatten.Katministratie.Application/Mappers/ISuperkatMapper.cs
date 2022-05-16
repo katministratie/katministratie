@@ -1,16 +1,20 @@
 ﻿using Superkatten.Katministratie.Domain.Entities;
 
-using contractEntitiess = Superkatten.Katministratie.Contract.Entities;
+using ContractEntitiess = Superkatten.Katministratie.Contract.Entities;
 
 namespace Superkatten.Katministratie.Application.Mappers
 {
     public interface ISuperkatMapper
     {
-        Superkat MapToDomain(contractEntitiess.Superkat superkat);
-        CatArea MapToDomain(contractEntitiess.CatArea area);
-        CatBehaviour MapToDomain(contractEntitiess.CatBehaviour behaviour);
-        Gender MapToDomain(contractEntitiess.Gender gender);
+        Superkat MapContractToDomain(ContractEntitiess.Superkat superkat);
 
-        contractEntitiess.Superkat MapToContract(Superkat createdSuperkat);
+        ContractEntitiess.Superkat MapDomainToContract(Superkat createdSuperkat);
+
+
+        CatArea MapContractToDomain(ContractEntitiess.CatArea area);
+
+        CatBehaviour MapContractToDomain(ContractEntitiess.CatBehaviour behaviour);
+
+        Gender MapContractToDomain(ContractEntitiess.Gender gender);
     }
 }

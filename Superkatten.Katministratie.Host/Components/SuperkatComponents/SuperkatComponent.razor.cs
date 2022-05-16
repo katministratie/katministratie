@@ -7,7 +7,7 @@ namespace Superkatten.Katministratie.Host.Components.SuperkatComponents;
 public partial class SuperkatComponent
 {
     [Parameter]
-    public Superkat Superkat { get; set; }
+    public Superkat? Superkat { get; set; }
 
     public string SuperkatDisplayableNumber => Superkat!.DisplayableNumber;
 }

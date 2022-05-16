@@ -7,10 +7,10 @@ namespace Superkatten.Katministratie.Domain.Entities
     {
         public Guid Id { get; init; }
         public int Number { get; private set; }
-        public DateTimeOffset Birthday { get; private set; }
-        public DateTimeOffset CatchDate { get; private set; }
+        public DateTime Birthday { get; private set; }
+        public DateTime CatchDate { get; private set; }
         public string CatchLocation { get; private set; }
-        public string? Name { get; private set; } = string.Empty;
+        public string Name { get; private set; } = string.Empty;
         public bool Reserved { get; private set; }
         public bool Retour { get; private set; }
         public CatArea CatArea { get; private set; } = CatArea.Unknown;
@@ -21,7 +21,7 @@ namespace Superkatten.Katministratie.Domain.Entities
 
         public Superkat(
             int number,
-            DateTimeOffset catchDate,
+            DateTime catchDate,
             string catchLocation
         )
         {
@@ -31,7 +31,7 @@ namespace Superkatten.Katministratie.Domain.Entities
             CatchLocation = catchLocation;
         }
 
-        public void SetBirthday(DateTimeOffset birthday)
+        public void SetBirthday(DateTime birthday)
         {
             Birthday = birthday;
         }

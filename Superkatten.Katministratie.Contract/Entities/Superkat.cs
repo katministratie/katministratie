@@ -1,19 +1,18 @@
-﻿namespace Superkatten.Katministratie.Contract.Entities
+﻿namespace Superkatten.Katministratie.Contract.Entities;
+
+public class Superkat
 {
-    public class Superkat
-    {
-        public Guid Id { get; set; }
-        public int Number { get; set; }
-        public DateTimeOffset Birthday { get; set; }
-        public DateTimeOffset CatchDate { get; set; }
-        public string CatchLocation { get; set; } = String.Empty;
-        public string? Name { get; set; }
-        public bool Reserved { get; set; }
-        public bool Retour { get; set; }
-        public CatArea CatArea { get; set; }
-        public int? CageNumber { get; set; }
-        public CatBehaviour Behaviour { get; set; }
-        public bool IsKitten { get; set; } = true;
-        public Gender Gender { get; set; }
-    }
+    public Guid Id { get; init; }
+    public int Number { get; init; }
+    public DateTime Birthday { get; init; }
+    public DateTime CatchDate { get; init; }
+    public string CatchLocation { get; init; } = string.Empty;
+    public string Name { get; init; } = string.Empty;
+    public bool Reserved { get; init; }
+    public bool Retour { get; init; }
+    public CatArea CatArea { get; init; }
+    public int? CageNumber { get; init; }
+    public CatBehaviour Behaviour { get; init; }
+    public bool IsKitten { get; init; } = true;
+    public Gender Gender { get; set; }
 }

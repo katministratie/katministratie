@@ -9,14 +9,10 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
     public class SuperkatActionController
     {
         private readonly ISuperkatAction _actionService;
-        private readonly ILogger<SuperkattenController> _logger;
 
-        public SuperkatActionController(
-            ISuperkatAction service, 
-            ILogger<SuperkattenController> logger)
+        public SuperkatActionController(ISuperkatAction service)
         {
             _actionService = service;
-            _logger = logger;
         }
 
         [HttpPut]

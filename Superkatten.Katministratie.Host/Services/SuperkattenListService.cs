@@ -10,32 +10,35 @@ public class SuperkattenListService : ISuperkattenListService
 {
     private readonly HttpClient _client;
 
+
     public SuperkattenListService(HttpClient client)
     {
         _client = client;
     }
 
+
     public async Task<Superkat?> CreateSuperkatAsync([FromBody] CreateSuperkatParameters newSuperkat)
     {
         var uri = $"api/Superkatten";
-        var Responce = await _client.PutAsJsonAsync(uri, newSuperkat);
+        var Response = await _client.PutAsJsonAsync(uri, newSuperkat);
 
-        var stream = await Responce.Content.ReadAsStreamAsync();
+        var stream = await Response.Content.ReadAsStreamAsync();
 
         return stream is null
             ? null
             : await JsonSerializer.DeserializeAsync<Superkat>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
     }
 
-    public async Task UpdateSuperkatAsync(Guid id, [FromBody] UpdateSuperkatParameters updateSuperkat)
+    public async Task<Superkat?> UpdateSuperkatAsync(Guid id, [FromBody] UpdateSuperkatParameters updateSuperkat)
     {
-       /* var uri = $"api/Superkatten?Id={superkatNumber}";
-        var myContent = JsonSerializer.Serialize(updateSuperkat); 
-        var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
-        var byteContent = new ByteArrayContent(buffer);
-        byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+        var uri = $"api/Superkatten?Id={id}";
+        var response = await _client.PostAsJsonAsync(uri, updateSuperkat);
 
-        _ = await _client.PostAsync(uri, byteContent);*/
+        var stream = await response.Content.ReadAsStreamAsync();
+
+        return stream is null
+                ? null
+                : await JsonSerializer.DeserializeAsync<Superkat>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
     }
 
     public async Task DeleteSuperkatAsync(Guid id)

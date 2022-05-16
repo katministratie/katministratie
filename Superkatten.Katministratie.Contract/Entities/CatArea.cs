@@ -1,9 +1,8 @@
-﻿namespace Superkatten.Katministratie.Contract.Entities
+﻿namespace Superkatten.Katministratie.Contract.Entities;
+
+public enum CatArea
 {
-    public enum CatArea
-    {
-        Unknown,
-        SmallCage,
-        LargeCage
-    }
+    Unknown,
+    SmallCage,
+    LargeCage
 }

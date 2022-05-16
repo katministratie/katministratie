@@ -1,8 +1,14 @@
 ﻿@using Superkatten.Katministratie.Host.Services
 @using Superkatten.Katministratie.Host.Entities;
 
+@if (Gastgezin is null)
+{
 <div class="container">
+    ...
+</div>    
+}
 
+<div class="container">
     <Button OnClick="@OnClose">Close</Button>
 
     <Row>
@@ -29,5 +35,4 @@
 
         </Col>
     </Row>
-
 </div>

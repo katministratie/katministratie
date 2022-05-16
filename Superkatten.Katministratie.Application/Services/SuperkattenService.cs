@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using Superkatten.Katministratie.Application.Entities;
 using Superkatten.Katministratie.Application.Exceptions;
 using Superkatten.Katministratie.Application.Interfaces;
+using Superkatten.Katministratie.Application.Mappers;
+using Superkatten.Katministratie.Contract;
 using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Domain.Interfaces;
 using System;
@@ -18,13 +19,16 @@ namespace Superkatten.Katministratie.Application.Services
 
         public readonly ILogger<SuperkattenService> _logger;
         public readonly ISuperkattenRepository _superkattenRepository;
+        private readonly ISuperkatMapper _mapper;
 
         public SuperkattenService(
             ILogger<SuperkattenService> logger,
-            ISuperkattenRepository superkattenRepository)
+            ISuperkattenRepository superkattenRepository,
+            ISuperkatMapper mapper)
         {
             _logger = logger;
             _superkattenRepository = superkattenRepository;
+            _mapper = mapper;
         }
 
         public async Task<Superkat> CreateSuperkatAsync(CreateSuperkatParameters createSuperkatParameters)
@@ -46,12 +50,12 @@ namespace Superkatten.Katministratie.Application.Services
                 createSuperkatParameters.CatchDate,
                 createSuperkatParameters.CatchLocation);
 
-            superkat.SetArea(createSuperkatParameters.Area);
             superkat.SetCageNumber(createSuperkatParameters.CageNumber);
-            superkat.SetBehaviour(createSuperkatParameters.Behaviour);
             superkat.SetRetour(createSuperkatParameters.Retour);
             superkat.SetIsKitten(createSuperkatParameters.IsKitten);
-            superkat.SetGender(createSuperkatParameters.Gender);
+            superkat.SetBehaviour(_mapper.MapContractToDomain(createSuperkatParameters.Behaviour));
+            superkat.SetArea(_mapper.MapContractToDomain(createSuperkatParameters.CatArea));
+            superkat.SetGender(_mapper.MapContractToDomain(createSuperkatParameters.Gender));
 
             var estimatedWeeksOld = createSuperkatParameters.IsKitten
                 ? createSuperkatParameters.EstimatedWeeksOld

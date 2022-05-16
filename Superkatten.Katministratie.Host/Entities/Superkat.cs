@@ -13,15 +13,8 @@
         public Gender Gender { get; set; } = Gender.Unknown;
         public CatBehaviour Behaviour { get; set; } = CatBehaviour.Unknown;
         public bool IsKitten { get; set; }
-        public int CageNumber { set; get; }
+        public int? CageNumber { set; get; }
         public CatArea CatArea { get; set; }
-        public string DisplayableNumber
-        {
-            get
-            {
-                var yearPart = CatchDate.Year % 100;
-                return yearPart + "-" + Number.ToString("000");
-            }
-        }
+        public string DisplayableNumber => CatchDate.Year % 100 + "-" + Number.ToString("000");
     }
 }
