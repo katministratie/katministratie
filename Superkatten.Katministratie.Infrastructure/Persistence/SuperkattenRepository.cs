@@ -35,7 +35,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
                 throw new DatabaseException($"A {nameof(Superkat)} found in the database with id {superkat.Id}");
             }
             
-            var superkatDto = _mapper.MapDomainToSuperkatDto(superkat);
+            var superkatDto = _mapper.MapDomainToRepository(superkat);
 
             await _context.SuperKatten.AddAsync(superkatDto);
             await _context.SaveChangesAsync();
@@ -66,7 +66,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
                 .ToListAsync();
 
             return superkatten
-                .Select(_mapper.MapSuperkatDtoToDomain)
+                .Select(_mapper.MapRepositoryToDomain)
                 .ToList();
         }
 
@@ -82,7 +82,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
                 throw new DatabaseException($"No superkat found in the database with id {id}");
             }
 
-            return _mapper.MapSuperkatDtoToDomain(superkatDto);
+            return _mapper.MapRepositoryToDomain(superkatDto);
         }
 
         public async Task UpdateSuperkatAsync(Superkat superkat)
@@ -96,7 +96,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
                 throw new DatabaseException($"No superkat found in the database with id {superkat.Id}");
             }
 
-            var superkatDto = _mapper.MapDomainToSuperkatDto(superkat);
+            var superkatDto = _mapper.MapDomainToRepository(superkat);
 
             _context.Update(superkatDto);
             await _context.SaveChangesAsync();

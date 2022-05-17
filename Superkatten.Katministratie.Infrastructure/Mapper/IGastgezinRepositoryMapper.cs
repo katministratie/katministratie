@@ -1,11 +1,10 @@
 ﻿using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Infrastructure.Entities;
 
-namespace Superkatten.Katministratie.Infrastructure.Mapper
+namespace Superkatten.Katministratie.Infrastructure.Mapper;
+
+public interface IGastgezinRepositoryMapper
 {
-    public interface IGastgezinRepositoryMapper
-    {
-        public GastgezinDto MapDomainToGastgezinDto(Gastgezin superkat);
-        public Gastgezin MapGastgezinDtoToDomain(GastgezinDto superkatDto);
-    }
+    public GastgezinDto MapDomainToRepository(Gastgezin superkat);
+    public Gastgezin MapRepositoryToDomain(GastgezinDto superkatDto);
 }

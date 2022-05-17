@@ -28,7 +28,7 @@
     <Row>
         <Col Class="col-12">
             
-            @foreach(var superkat in Gastgezin.Superkatten)
+            @foreach(var superkat in Gastgezin!.Superkatten)
             {
                 <Button Class="btn btn-primary" OnClick="() => RemoveSuperkatFromSelection(superkat)">@superkat.DisplayableNumber</Button>
             }

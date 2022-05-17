@@ -3,78 +3,77 @@ using Superkatten.Katministratie.Infrastructure.Entities;
 using System;
 using System.ComponentModel;
 
-namespace Superkatten.Katministratie.Infrastructure.Mapper
+namespace Superkatten.Katministratie.Infrastructure.Mapper;
+
+public class SuperkatRepositoryMapper : ISuperkatRepositoryMapper
 {
-    public class SuperkatRepositoryMapper : ISuperkatRepositoryMapper
+    public SuperkatDto MapDomainToRepository(Superkat superkat)
     {
-        public SuperkatDto MapDomainToSuperkatDto(Superkat superkat)
+        return new SuperkatDto
         {
-            return new SuperkatDto
-            {
-                Id = superkat.Id,
-                Number = superkat.Number,
-                Name = superkat.Name,
-                CatchDate = superkat.CatchDate,
-                CatchLocation = superkat.CatchLocation,
-                Birthday = superkat.Birthday,
-                Area = (int)superkat.CatArea,
-                CageNumber = superkat.CageNumber,
-                Retour = superkat.Retour,
-                Reserved = superkat.Reserved,
-                Behaviour = (int)superkat.Behaviour,
-                IsKitten = superkat.IsKitten,
-                Gender = (int)superkat.Gender,
-            };
+            Id = superkat.Id,
+            Number = superkat.Number,
+            Name = superkat.Name,
+            CatchDate = superkat.CatchDate,
+            CatchLocation = superkat.CatchLocation,
+            Birthday = superkat.Birthday,
+            Area = (int)superkat.CatArea,
+            CageNumber = superkat.CageNumber,
+            Retour = superkat.Retour,
+            Reserved = superkat.Reserved,
+            Behaviour = (int)superkat.Behaviour,
+            IsKitten = superkat.IsKitten,
+            Gender = (int)superkat.Gender,
+        };
+    }
+
+    public Superkat MapRepositoryToDomain(SuperkatDto superkatDto)
+    {
+        var superkat = new Superkat(
+            superkatDto.Number,
+            superkatDto.CatchDate,
+            superkatDto.CatchLocation)
+        {
+            Id = superkatDto.Id
+        };
+        superkat.SetName(superkatDto.Name ?? string.Empty);
+        superkat.SetReserved(superkatDto.Reserved);
+        superkat.SetArea(MapToDomainArea(superkatDto.Area));
+        superkat.SetCageNumber(superkatDto.CageNumber);
+        superkat.SetRetour(superkatDto.Retour);
+        superkat.SetBehaviour(MapToDomainBehaviour(superkatDto.Behaviour));
+        superkat.SetBirthday(superkatDto.Birthday);
+        superkat.SetIsKitten(superkatDto.IsKitten);
+        superkat.SetGender(MapToDomanGender(superkatDto.Gender));
+
+        return superkat;
+    }
+    private Gender MapToDomanGender(int gender)
+    {
+        if (!Enum.IsDefined(typeof(Gender), gender))
+        {
+            throw new InvalidEnumArgumentException(nameof(Gender), gender, typeof(Gender));
         }
 
-        public Superkat MapSuperkatDtoToDomain(SuperkatDto superkatDto)
+        return (Gender)gender;
+    }
+    private CatBehaviour MapToDomainBehaviour(int behaviour)
+    {
+        if (!Enum.IsDefined(typeof(CatBehaviour), behaviour))
         {
-            var superkat = new Superkat(
-                superkatDto.Number,
-                superkatDto.CatchDate,
-                superkatDto.CatchLocation)
-            {
-                Id = superkatDto.Id
-            };
-            superkat.SetName(superkatDto.Name ?? string.Empty);
-            superkat.SetReserved(superkatDto.Reserved);
-            superkat.SetArea(MapToDomainArea(superkatDto.Area));
-            superkat.SetCageNumber(superkatDto.CageNumber);
-            superkat.SetRetour(superkatDto.Retour);
-            superkat.SetBehaviour(MapToDomainBehaviour(superkatDto.Behaviour));
-            superkat.SetBirthday(superkatDto.Birthday);
-            superkat.SetIsKitten(superkatDto.IsKitten);
-            superkat.SetGender(MapToDomanGender(superkatDto.Gender));
-
-            return superkat;
-        }
-        private Gender MapToDomanGender(int gender)
-        {
-            if (!Enum.IsDefined(typeof(Gender), gender))
-            {
-                throw new InvalidEnumArgumentException(nameof(Gender), gender, typeof(Gender));
-            }
-
-            return (Gender)gender;
-        }
-        private CatBehaviour MapToDomainBehaviour(int behaviour)
-        {
-            if (!Enum.IsDefined(typeof(CatBehaviour), behaviour))
-            {
-                throw new InvalidEnumArgumentException(nameof(CatBehaviour), behaviour, typeof(CatBehaviour));
-            }
-
-            return (CatBehaviour)behaviour;
+            throw new InvalidEnumArgumentException(nameof(CatBehaviour), behaviour, typeof(CatBehaviour));
         }
 
-        private CatArea MapToDomainArea(int area)
-        {
-            if (!Enum.IsDefined(typeof(CatArea), area)) 
-            {
-                throw new InvalidEnumArgumentException(nameof(CatArea), area, typeof(CatArea));
-            }
+        return (CatBehaviour)behaviour;
+    }
 
-            return (CatArea)area;
+    private CatArea MapToDomainArea(int area)
+    {
+        if (!Enum.IsDefined(typeof(CatArea), area)) 
+        {
+            throw new InvalidEnumArgumentException(nameof(CatArea), area, typeof(CatArea));
         }
+
+        return (CatArea)area;
     }
 }

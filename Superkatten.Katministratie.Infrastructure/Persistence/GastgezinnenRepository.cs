@@ -35,7 +35,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
                 throw new DatabaseException($"A gastgezin found in the database with name '{createGastgezin.Name}'");
             }
 
-            var gastgezinDto = _mapper.MapDomainToGastgezinDto(createGastgezin);
+            var gastgezinDto = _mapper.MapDomainToRepository(createGastgezin);
 
             await _context.Gastgezinnen.AddAsync(gastgezinDto);
             await _context.SaveChangesAsync();
@@ -50,7 +50,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
                 throw new DatabaseException($"Error adding gastgezin '{createGastgezin.Name}'");
             }
 
-            return _mapper.MapGastgezinDtoToDomain(addedGastgezin);
+            return _mapper.MapRepositoryToDomain(addedGastgezin);
         }
 
         public async Task DeleteGastgezinAsync(Guid id)
@@ -76,7 +76,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
                 .ToListAsync();
 
             return gastgezinnen
-                .Select(_mapper.MapGastgezinDtoToDomain)
+                .Select(_mapper.MapRepositoryToDomain)
                 .ToList();
         }
 
@@ -92,7 +92,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
                 throw new DatabaseException($"No gastgezin found in the database with id '{id}'");
             }
 
-            return _mapper.MapGastgezinDtoToDomain(gastgezinDto);
+            return _mapper.MapRepositoryToDomain(gastgezinDto);
         }
 
         public async Task<Gastgezin> UpdateGastgezinAsync(Guid id, Gastgezin gastgezin)
@@ -115,7 +115,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
             _context.Update(gastgezinDto);
             await _context.SaveChangesAsync();
 
-            return _mapper.MapGastgezinDtoToDomain(gastgezinDto);
+            return _mapper.MapRepositoryToDomain(gastgezinDto);
         }
     }
 }

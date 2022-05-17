@@ -1,26 +1,21 @@
-﻿@using Superkatten.Katministratie.Contract
-@using Superkatten.Katministratie.Host.Entities;
-@using Superkatten.Katministratie.Host.Services
-
-@inject IGastgezinService _gastgezinService
-
-if (Gastgezin is null)
+﻿if (Gastgezin is null)
 {
+    <div>...</div>
     return;
 }
 
-<Form class="mb-2" OnFinish="@OnFinish" OnFinishFailed="@OnFinishFailed"  Model="@Gastgezin" >
+<Form class="mb-2" OnFinish="@OnFinish" OnFinishFailed="@OnFinishFailed"  Model="@modelData" >
     <FormItem Label="Naam">
-        <Input @bind-Value="@context?.Name"/>
+        <Input @bind-Value="@context.Name"/>
     </FormItem>
     <FormItem Label="Adres">
-        <Input @bind-Value="@context?.Address"/>
+        <Input @bind-Value="@context.Address"/>
     </FormItem>
     <FormItem Label="Woonplaats">
-        <Input @bind-Value="@context?.City"/>
+        <Input @bind-Value="@context.City"/>
     </FormItem>
     <FormItem Label="Telefoon">
-        <Input @bind-Value="@context?.Phone"/>
+        <Input @bind-Value="@context.Phone"/>
     </FormItem>
     <FormItem WrapperColOffset="8" WrapperColSpan="16">
         <Button Type="@ButtonType.Primary" HtmlType="submit">
@@ -28,41 +23,3 @@ if (Gastgezin is null)
         </Button>
     </FormItem>
 </Form>
-
-@code {
-    [Parameter]
-    public Gastgezin Gastgezin { get; set; }
-
-    [Parameter]
-    public EventCallback OnFinishEdit { get; set; }
-
-    private async Task OnFinish(EditContext editContext)
-    {
-        Gastgezin = (Gastgezin)editContext.Model;
-        UpdateGastgezin();
-        await OnFinishEdit.InvokeAsync();
-    }
-
-    private async Task OnFinishFailed(EditContext editContext)
-    {
-        await OnFinishEdit.InvokeAsync();
-    }
-
-    private void UpdateGastgezin()
-    {
-        if (Gastgezin is null)
-        {
-            throw new Exception("Internal error; geen gastgezin meegegeven tijdens opslaan.");
-        }
-
-        var updateGastgezinParameters = new CreateOrUpdateGastgezinParameters()
-            {
-                Name = Gastgezin.Name,
-                Address = Gastgezin.Address!,
-                City = Gastgezin.City!,
-                Phone = Gastgezin.Phone!
-            };
-
-        _gastgezinService.UpdateGastgezinAsync(Gastgezin.Id, updateGastgezinParameters);
-    }
-}

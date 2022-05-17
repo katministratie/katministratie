@@ -1,4 +1,4 @@
-﻿namespace Superkatten.Katministratie.Host.Components.GastgezinComponents
+﻿namespace Superkatten.Katministratie.Host.Entities
 {
     public enum GastgezinEditMode
     {

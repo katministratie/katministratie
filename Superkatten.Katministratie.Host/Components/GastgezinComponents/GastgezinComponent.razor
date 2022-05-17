@@ -1,15 +1,8 @@
-﻿@using Superkatten.Katministratie.Contract
-@using Superkatten.Katministratie.Host.Services
-@using Superkatten.Katministratie.Host.Entities
-@using System.Diagnostics;
-@using System.ComponentModel.DataAnnotations
-@using System.Text.Json
-
-@inject NavigationManager _navigationManager
-@inject IGastgezinService _gastgezinService
+﻿@using Superkatten.Katministratie.Host.Entities
 
 @if(Gastgezin is null)
 {
+    <Row Class="mb-2 border">...</Row>
     return;
 }
 
@@ -46,35 +39,3 @@
         }
     </Col>
 </Row>
-
-@code {
-    [Parameter]
-    public Gastgezin Gastgezin { get; set; } = new();
-
-    private GastgezinEditMode _editMode = GastgezinEditMode.DisplayDetailsOnly;
-
-    public void OnAdd()
-    {
-        _navigationManager.NavigateTo("CreateGastgezin");
-    }
-
-    public async Task OnDelete()
-    {
-        await _gastgezinService.DeleteGastgezinAsync(Gastgezin.Id);
-    }
-
-    public void OnEdit()
-    {
-        _editMode = GastgezinEditMode.EditGastgezinNaw;
-    }
-
-    private void OnAssignSuperkat()
-    {
-        _editMode = GastgezinEditMode.AssignSuperkatten;
-    }  
-
-    public void OnFinishEdit()
-    {
-        _editMode = GastgezinEditMode.DisplayDetailsOnly;
-    }
-}
