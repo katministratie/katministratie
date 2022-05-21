@@ -15,13 +15,18 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
     {
         private readonly ILogger<GastgezinnenRepository> _logger;
         private readonly SuperkattenDbContext _context;
-        private readonly IGastgezinRepositoryMapper _mapper;
-        public GastgezinnenRepository(ILogger<GastgezinnenRepository> logger, SuperkattenDbContext context, IGastgezinRepositoryMapper mapper)
+        private readonly IGastgezinRepositoryMapper _gastgezinMapper;
+        private readonly ISuperkatRepositoryMapper _superkatMapper;
+        public GastgezinnenRepository(
+            ILogger<GastgezinnenRepository> logger, 
+            SuperkattenDbContext context, 
+            IGastgezinRepositoryMapper gastgezinMapper,
+            ISuperkatRepositoryMapper superkatMapper)
         {
             _logger = logger;
-            _mapper = mapper;
+            _gastgezinMapper = gastgezinMapper;
+            _superkatMapper = superkatMapper;
             _context = context;
-            _context.Database.Migrate();
         }
 
         public async Task<Gastgezin> CreateGastgezinAsync(Gastgezin createGastgezin)
@@ -35,7 +40,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
                 throw new DatabaseException($"A gastgezin found in the database with name '{createGastgezin.Name}'");
             }
 
-            var gastgezinDto = _mapper.MapDomainToRepository(createGastgezin);
+            var gastgezinDto = _gastgezinMapper.MapDomainToRepository(createGastgezin);
 
             await _context.Gastgezinnen.AddAsync(gastgezinDto);
             await _context.SaveChangesAsync();
@@ -50,7 +55,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
                 throw new DatabaseException($"Error adding gastgezin '{createGastgezin.Name}'");
             }
 
-            return _mapper.MapRepositoryToDomain(addedGastgezin);
+            return _gastgezinMapper.MapRepositoryToDomain(addedGastgezin);
         }
 
         public async Task DeleteGastgezinAsync(Guid id)
@@ -73,10 +78,11 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
         {
             var gastgezinnen = await _context
                 .Gastgezinnen
+                .Include(gg => gg.Superkatten)
                 .ToListAsync();
 
             return gastgezinnen
-                .Select(_mapper.MapRepositoryToDomain)
+                .Select(_gastgezinMapper.MapRepositoryToDomain)
                 .ToList();
         }
 
@@ -84,6 +90,7 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
         {
             var gastgezinDto = await _context
                 .Gastgezinnen
+                .Include(gg => gg.Superkatten)
                 .Where(gg => gg.Id == id)
                 .FirstOrDefaultAsync();
 
@@ -92,14 +99,14 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
                 throw new DatabaseException($"No gastgezin found in the database with id '{id}'");
             }
 
-            return _mapper.MapRepositoryToDomain(gastgezinDto);
+            return _gastgezinMapper.MapRepositoryToDomain(gastgezinDto);
         }
 
         public async Task<Gastgezin> UpdateGastgezinAsync(Guid id, Gastgezin gastgezin)
         {
             var gastgezinDto = await _context
                 .Gastgezinnen
-                .Where(gg => gg.Id == id)
+                .Where(o => o.Id == id)
                 .FirstAsync();
 
             if (gastgezinDto is null)
@@ -111,11 +118,29 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
             gastgezinDto.Address = gastgezin.Address;
             gastgezinDto.City = gastgezin.City;
             gastgezinDto.Phone = gastgezin.Phone;
+            gastgezinDto.Superkatten = GetIntersection(
+                _context.SuperKatten.ToList(), 
+                gastgezin.Superkatten);
+           
+            _context.Gastgezinnen.Update(gastgezinDto);
+            _ = await _context.SaveChangesAsync();
 
-            _context.Update(gastgezinDto);
-            await _context.SaveChangesAsync();
+            return _gastgezinMapper.MapRepositoryToDomain(gastgezinDto);
+        }
 
-            return _mapper.MapRepositoryToDomain(gastgezinDto);
+        private List<Entities.SuperkatDto> GetIntersection(List<Entities.SuperkatDto> availableSuperkatten, List<Superkat> superkatten)
+        {
+            var list = new List<Entities.SuperkatDto>();
+
+            foreach (var superkat in superkatten)
+            {
+                var result = availableSuperkatten.FirstOrDefault(s => s.Id == superkat.Id);
+                if (result is not null)
+                {
+                    list.Add(result);
+                }
+            }
+            return list;
         }
     }
 }

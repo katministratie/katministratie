@@ -16,12 +16,15 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
         private readonly ILogger<SuperkattenRepository> _logger;
         private readonly SuperkattenDbContext _context;
         private readonly ISuperkatRepositoryMapper _mapper;
-        public SuperkattenRepository(ILogger<SuperkattenRepository> logger, SuperkattenDbContext context, ISuperkatRepositoryMapper mapper)
+        public SuperkattenRepository(
+            ILogger<SuperkattenRepository> logger, 
+            SuperkattenDbContext context, 
+            ISuperkatRepositoryMapper mapper
+        )
         {
             _logger = logger;
             _mapper = mapper;
             _context = context;
-            _context.Database.Migrate();
         }
 
         public async Task<Superkat> CreateSuperkatAsync(Superkat superkat)
@@ -69,6 +72,23 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence
                 .Select(_mapper.MapRepositoryToDomain)
                 .ToList();
         }
+
+        public async Task<IReadOnlyCollection<Superkat>> GetNotAssignedSuperkattenAsync()
+        {
+            var superkatten = await _context
+                .SuperKatten
+                .Where(x => !_context
+                            .Gastgezinnen
+                            .Any(g => g.Superkatten.Contains(x))
+                )
+                .ToListAsync();
+
+            return superkatten
+                .Select(_mapper.MapRepositoryToDomain)
+                .ToList();
+        }
+
+
 
         public async Task<Superkat> GetSuperkatAsync(Guid id)
         {

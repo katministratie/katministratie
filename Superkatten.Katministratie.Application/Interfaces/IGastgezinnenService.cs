@@ -8,8 +8,9 @@ namespace Superkatten.Katministratie.Application.Interfaces
 {
     public interface IGastgezinnenService
     {
-        Task<Gastgezin> CreateGastgezinAsync(CreateOrUpdateGastgezinParameters createGastgezinDto);
-        Task<Gastgezin> UpdateGastgezinAsync(Guid id, CreateOrUpdateGastgezinParameters updateGastgezinDto);
+        Task<Gastgezin> CreateGastgezinAsync(CreateOrUpdateNawGastgezinParameters createGastgezinDtoParameters);
+        Task<Gastgezin> UpdateGastgezinAsync(Guid id, CreateOrUpdateGastgezinParameters updateGastgezinParameters);
+        Task<Gastgezin> UpdateGastgezinAsync(Guid id, CreateOrUpdateNawGastgezinParameters updateGastgezinParameters);
         Task DeleteGastgezinAsync(Guid id);
         Task<IReadOnlyCollection<Gastgezin>> ReadAvailableGastgezinAsync();
     }

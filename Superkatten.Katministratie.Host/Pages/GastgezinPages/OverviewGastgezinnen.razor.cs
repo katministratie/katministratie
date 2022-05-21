@@ -10,7 +10,6 @@ public partial class OverviewGastgezinnen
 
     protected override async Task OnInitializedAsync()
     {
-        await base.OnInitializedAsync();
         await UpdateListAsync();
     }
 

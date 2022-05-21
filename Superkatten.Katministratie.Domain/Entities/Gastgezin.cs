@@ -16,7 +16,7 @@ public class Gastgezin
 
     public List<Superkat> Superkatten { get; private set; } = new();
 
-    public Gastgezin(Guid id, string name, string? address, string? city, string? phone)
+    public Gastgezin(Guid id, string name, string? address, string? city, string? phone, List<Superkat> superkatten)
     {
         if (string.IsNullOrEmpty(name))
         {
@@ -28,5 +28,6 @@ public class Gastgezin
         Address = address;
         City = city;
         Phone = phone;
+        Superkatten = superkatten;
     }
 }

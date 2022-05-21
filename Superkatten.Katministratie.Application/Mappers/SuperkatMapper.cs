@@ -63,7 +63,12 @@ namespace Superkatten.Katministratie.Application.Mappers
 
         public Superkat MapContractToDomain(contractEntities.Superkat contractSuperkat)
         {
-            var superkat = new Superkat(contractSuperkat.Number, contractSuperkat.CatchDate, contractSuperkat.CatchLocation);
+            var superkat = new Superkat(
+                contractSuperkat.Number,
+                contractSuperkat.CatchDate,
+                contractSuperkat.CatchLocation)
+            { Id = contractSuperkat.Id };
+
             superkat.SetArea(MapContractToDomain(contractSuperkat.CatArea));
             superkat.SetBehaviour(MapContractToDomain(contractSuperkat.Behaviour));
             superkat.SetBirthday(contractSuperkat.Birthday);

@@ -15,7 +15,6 @@ namespace Superkatten.Katministratie.Infrastructure
             services.AddDbContext<SuperkattenDbContext>(opt => opt
                 .UseSqlServer(cs)
                 .EnableDetailedErrors()
-                //.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
             );
             services.AddTransient<ISuperkattenRepository, SuperkattenRepository>();
             services.AddTransient<ISuperkatRepositoryMapper, SuperkatRepositoryMapper>();

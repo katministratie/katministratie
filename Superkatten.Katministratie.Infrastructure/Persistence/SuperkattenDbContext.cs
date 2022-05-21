@@ -10,6 +10,5 @@ public class SuperkattenDbContext : DbContext
 
     public SuperkattenDbContext(DbContextOptions<SuperkattenDbContext> options) : base(options)
     {
-        
     }
 }

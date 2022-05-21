@@ -17,7 +17,6 @@ namespace Superkatten.Katministratie.Infrastructure.Entities
         [Required]
         public DateTime CatchDate { get; set; }
 
-
         [Required]
         public string CatchLocation { get; set; } = string.Empty;
 

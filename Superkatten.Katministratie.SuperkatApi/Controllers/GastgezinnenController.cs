@@ -31,16 +31,24 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpPut]
-        public async Task<ContractEntities.Gastgezin> PutGastgezin([FromBody] CreateOrUpdateGastgezinParameters createGastgezinParameters)
+        public async Task<ContractEntities.Gastgezin> PutGastgezin([FromBody] CreateOrUpdateNawGastgezinParameters createGastgezinParameters)
         {
             var gastgezin = await _service.CreateGastgezinAsync(createGastgezinParameters);
             return _mapper.MapDomainToContract(gastgezin);
         }
 
         [HttpPost]
+        [Route("AssignSuperkatten")]
         public async Task<ContractEntities.Gastgezin> PostGastgezin(Guid id, [FromBody] CreateOrUpdateGastgezinParameters updateGastgezinParameters)
         {
             var gastgezin =  await _service.UpdateGastgezinAsync(id, updateGastgezinParameters);
+            return _mapper.MapDomainToContract(gastgezin);
+        }
+
+        [HttpPost]
+        public async Task<ContractEntities.Gastgezin> PostGastgezin(Guid id, [FromBody] CreateOrUpdateNawGastgezinParameters updateGastgezinParameters)
+        {
+            var gastgezin = await _service.UpdateGastgezinAsync(id, updateGastgezinParameters);
             return _mapper.MapDomainToContract(gastgezin);
         }
 

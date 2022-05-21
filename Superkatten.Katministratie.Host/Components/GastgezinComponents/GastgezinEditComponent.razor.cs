@@ -3,23 +3,11 @@ using Microsoft.AspNetCore.Components.Forms;
 using Superkatten.Katministratie.Contract;
 using Superkatten.Katministratie.Host.Entities;
 using Superkatten.Katministratie.Host.Services;
-using System.ComponentModel.DataAnnotations;
 
 namespace Superkatten.Katministratie.Host.Components.GastgezinComponents;
 
-public class Model
-{
-    [Required]
-    public string Name { get; set; } = string.Empty;
-    public string Address { get; set; } = string.Empty;
-    public string City { get; set; } = string.Empty;
-    public string Phone { get; set; } = string.Empty;
-}
-
 public partial class GastgezinEditComponent
 {
-    private Model modelData = new Model();
-
     [Parameter]
     public Gastgezin? Gastgezin { get; set; }
 
@@ -48,12 +36,12 @@ public partial class GastgezinEditComponent
             throw new Exception("Internal error; geen gastgezin meegegeven tijdens opslaan.");
         }
 
-        var updateGastgezinParameters = new CreateOrUpdateGastgezinParameters()
+        var updateGastgezinParameters = new CreateOrUpdateNawGastgezinParameters()
         {
-            Name = modelData.Name,
-            Address = modelData.Address,
-            City = modelData.City,
-            Phone = modelData.Phone
+            Name = Gastgezin.Name,
+            Address = Gastgezin.Address,
+            City = Gastgezin.City,
+            Phone = Gastgezin.Phone
         };
 
         _gastgezinService!.UpdateGastgezinAsync(Gastgezin.Id, updateGastgezinParameters);

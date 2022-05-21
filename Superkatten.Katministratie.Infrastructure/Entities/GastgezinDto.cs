@@ -14,14 +14,11 @@ namespace Superkatten.Katministratie.Infrastructure.Entities
         [Required, StringLength(50)]
         public string Name { get; set; } = string.Empty;
 
-        [Required, StringLength(50)]
-        public string? Address { get; set; } = string.Empty;
+        public string? Address { get; set; }
 
-        [Required, StringLength(50)]
-        public string? City { get; set; } = string.Empty;
+        public string? City { get; set; }
 
-        [Required, StringLength(15)]
-        public string? Phone { get; set; } = string.Empty;
+        public string? Phone { get; set; }
 
         [Required]
         public List<SuperkatDto> Superkatten { get; set; } = new List<SuperkatDto>();

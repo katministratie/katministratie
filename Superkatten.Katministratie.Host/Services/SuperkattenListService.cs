@@ -64,4 +64,14 @@ public class SuperkattenListService : ISuperkattenListService
             ? new() 
             : superkatten;
     }
+
+    public async Task<List<Superkat>> GetAllNotAssignedSuperkattenAsync()
+    {
+        var uri = "api/Superkatten/NotAssigned";
+        var superkatten = await _client.GetFromJsonAsync<List<Superkat>>(uri);
+
+        return superkatten is null
+            ? new()
+            : superkatten;
+    }
 }

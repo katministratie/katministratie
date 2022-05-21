@@ -40,8 +40,8 @@ public class GastgezinRepositoryMapper : IGastgezinRepositoryMapper
             gastgezinDto.Name,
             gastgezinDto.Address,
             gastgezinDto.City,
-            gastgezinDto.Phone);
-        gastgezin.Superkatten.AddRange(superkatten);
+            gastgezinDto.Phone,
+            superkatten);
 
         return gastgezin;
     }

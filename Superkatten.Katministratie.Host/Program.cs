@@ -1,19 +1,19 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Superkatten.Katministratie.Host;
+using Superkatten.Katministratie.Host.Mappers;
 using Superkatten.Katministratie.Host.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-//See: https://github.com/Append-IT/Blazor.Printing
-//builder.Services.AddScoped<IPrintingService, PrintingService>();
-
 // Add services
 builder.Services.AddTransient<ISuperkattenListService, SuperkattenListService>();
 builder.Services.AddTransient<ISuperkatActionService, SuperkatActionService>();
 builder.Services.AddTransient<IGastgezinService, GastgezinService>();
+builder.Services.AddTransient<IGastgezinMapper, GastgezinMapper>();
+builder.Services.AddTransient<ISuperkatMapper, SuperkatMapper>();
 
 builder.Services.AddTransient<IPrinterService, PrinterService>();
 

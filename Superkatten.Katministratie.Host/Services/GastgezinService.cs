@@ -17,7 +17,19 @@ public class GastgezinService : IGastgezinService
         _client = client;
         _mapper = mapper;
     }
-    
+
+
+    public async Task<Gastgezin?> CreateGastgezinAsync(CreateOrUpdateNawGastgezinParameters newGastgezinParameters)
+    {
+        var uri = "api/Gastgezinnen";
+        var response = await _client.PutAsJsonAsync(uri, newGastgezinParameters);
+
+        var stream = await response.Content.ReadAsStreamAsync();
+
+        return stream is null
+            ? null
+            : await JsonSerializer.DeserializeAsync<Gastgezin>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+    }
 
     public async Task<Gastgezin?> CreateGastgezinAsync(CreateOrUpdateGastgezinParameters newGastgezinParameters)
     {
@@ -30,10 +42,22 @@ public class GastgezinService : IGastgezinService
             ? null
             : await JsonSerializer.DeserializeAsync<Gastgezin>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
     }
-    
-    public async Task<Gastgezin?> UpdateGastgezinAsync(Guid id, CreateOrUpdateGastgezinParameters updateGastgezinParameters)
+
+    public async Task<Gastgezin?> UpdateGastgezinAsync(Guid id, CreateOrUpdateNawGastgezinParameters updateNawGastgezinParameters)
     {
         var uri = $"api/Gastgezinnen?Id={id}";
+        var response = await _client.PostAsJsonAsync(uri, updateNawGastgezinParameters);
+
+        var stream = await response.Content.ReadAsStreamAsync();
+
+        return stream is null
+            ? null
+            : await JsonSerializer.DeserializeAsync<Gastgezin>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+    }
+
+    public async Task<Gastgezin?> UpdateGastgezinAsync(Guid id, CreateOrUpdateGastgezinParameters updateGastgezinParameters)
+    {
+        var uri = $"api/Gastgezinnen/AssignSuperkatten?Id={id}";
         var response = await _client.PostAsJsonAsync(uri, updateGastgezinParameters);
 
         var stream = await response.Content.ReadAsStreamAsync();
@@ -42,7 +66,7 @@ public class GastgezinService : IGastgezinService
             ? null
             : await JsonSerializer.DeserializeAsync<Gastgezin>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
     }
-    
+
     public async Task DeleteGastgezinAsync(Guid id)
     {
         var uri = $"api/Gastgezinnen?Id={id}";

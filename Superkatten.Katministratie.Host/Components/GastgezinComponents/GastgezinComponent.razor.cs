@@ -15,7 +15,7 @@ public partial class GastgezinComponent
     private GastgezinEditMode _editMode = GastgezinEditMode.DisplayDetailsOnly;
 
     [Parameter]
-    public Gastgezin Gastgezin { get; set; } = new();
+    public Gastgezin? Gastgezin { get; set; }
 
 
     private void OnAdd()

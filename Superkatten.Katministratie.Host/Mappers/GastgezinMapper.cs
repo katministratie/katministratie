@@ -6,6 +6,13 @@ namespace Superkatten.Katministratie.Host.Mappers
 {
     public class GastgezinMapper : IGastgezinMapper
     {
+        private readonly ISuperkatMapper _superkatMapper;
+
+        public GastgezinMapper(ISuperkatMapper superkatMapper)
+        {
+            _superkatMapper = superkatMapper;
+        }
+
         public Gastgezin MapContractToHost(ContractEntities.Gastgezin gastgezin)
         {
             return new Gastgezin
@@ -14,7 +21,11 @@ namespace Superkatten.Katministratie.Host.Mappers
                 Name = gastgezin.Name,
                 Address = gastgezin.Address,
                 City = gastgezin.City,
-                Phone = gastgezin.Phone
+                Phone = gastgezin.Phone,
+                Superkatten = gastgezin
+                    .Superkatten
+                    .Select(_superkatMapper.MapContractToHost)
+                    .ToList()
             };
         }
 
@@ -26,7 +37,11 @@ namespace Superkatten.Katministratie.Host.Mappers
                 Name = gastgezin.Name,
                 Address = gastgezin.Address,
                 City = gastgezin.City,
-                Phone = gastgezin.Phone
+                Phone = gastgezin.Phone,
+                Superkatten = gastgezin
+                    .Superkatten
+                    .Select(_superkatMapper.MapHostToContract)
+                    .ToList()
             };
         }
     }

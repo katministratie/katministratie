@@ -12,6 +12,7 @@ namespace Superkatten.Katministratie.Domain.Interfaces
         Task DeleteSuperkatAsync(Guid id);
         Task UpdateSuperkatAsync(Superkat superkat);
         Task<IReadOnlyCollection<Superkat>> GetAvailableSuperkattenAsync();
+        Task<IReadOnlyCollection<Superkat>> GetNotAssignedSuperkattenAsync();
         Task<int> GetSuperkatMaxNumberForGivenYearAsync(int year);
     }
 }

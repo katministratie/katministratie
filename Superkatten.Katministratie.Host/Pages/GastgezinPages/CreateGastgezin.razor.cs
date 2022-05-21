@@ -22,12 +22,12 @@ public partial class CreateGastgezin
 
     private async Task StoreGastgezin()
     {
-        var createGastgezin = new CreateOrUpdateGastgezinParameters
+        var createGastgezin = new CreateOrUpdateNawGastgezinParameters
         {
-            Name = string.Empty,
-            Address = string.Empty,
-            City = string.Empty,
-            Phone = string.Empty
+            Name = parameters.Name,
+            Address = parameters.Address,
+            City = parameters.City,
+            Phone = parameters.Phone
         };
 
         var gastgezin = await _gastgezinService.CreateGastgezinAsync(createGastgezin);

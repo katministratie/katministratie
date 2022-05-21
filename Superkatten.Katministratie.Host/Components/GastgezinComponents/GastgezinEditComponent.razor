@@ -1,10 +1,10 @@
-﻿if (Gastgezin is null)
+﻿@if (Gastgezin is null)
 {
-    <div>...</div>
+    <div>unknown</div>
     return;
 }
 
-<Form class="mb-2" OnFinish="@OnFinish" OnFinishFailed="@OnFinishFailed"  Model="@modelData" >
+<Form class="mb-2" OnFinish="@OnFinish" OnFinishFailed="@OnFinishFailed"  Model="@Gastgezin" >
     <FormItem Label="Naam">
         <Input @bind-Value="@context.Name"/>
     </FormItem>
@@ -19,7 +19,7 @@
     </FormItem>
     <FormItem WrapperColOffset="8" WrapperColSpan="16">
         <Button Type="@ButtonType.Primary" HtmlType="submit">
-            Submit
+            Ok
         </Button>
     </FormItem>
 </Form>

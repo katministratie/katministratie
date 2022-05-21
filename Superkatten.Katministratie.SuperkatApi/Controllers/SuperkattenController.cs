@@ -19,14 +19,24 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
             _mapper = mapper;
         }
 
-        /*[HttpGet]
+        [HttpGet]
         public async Task<IReadOnlyCollection<ContractEntities.Superkat>> GetAllSuperkatten()
         {
             var superkatten = await _service.ReadAvailableSuperkattenAsync();
             return superkatten
                 .Select(_mapper.MapDomainToContract)
                 .ToList();
-        }*/
+        }
+
+        [HttpGet]
+        [Route("NotAssigned")]
+        public async Task<IReadOnlyCollection<ContractEntities.Superkat>> GetAllNotAssignedSuperkatten()
+        {
+            var superkatten = await _service.ReadNotAssignedSuperkattenAsync();
+            return superkatten
+                .Select(_mapper.MapDomainToContract)
+                .ToList();
+        }
 
         [HttpPut]
         public async Task<ContractEntities.Superkat> PutSuperkat([FromBody] CreateSuperkatParameters newSuperkatParameters)

@@ -81,6 +81,12 @@ namespace Superkatten.Katministratie.Application.Services
             return superkatten.ToList();
         }
 
+        public async Task<IReadOnlyCollection<Superkat>> ReadNotAssignedSuperkattenAsync()
+        {
+            var superkatten = await _superkattenRepository.GetNotAssignedSuperkattenAsync();
+            return superkatten.ToList();
+        }
+
         public async Task<Superkat> ReadSuperkatAsync(Guid id)
         {
             var superkat = await _superkattenRepository.GetSuperkatAsync(id);
