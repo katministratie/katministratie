@@ -22,12 +22,9 @@ builder.Services.AddTransient<IPrinterService, PrinterService>();
 
 builder.Services.AddTransient<HttpClient>(s =>
 {
-#if DEBUG
-    return new HttpClient { BaseAddress = new System.Uri("https://localhost:7171") };
-#else
+    //return new HttpClient { BaseAddress = new System.Uri("https://localhost:7171") };
     return new HttpClient { BaseAddress = new System.Uri("https://katministratie.azurewebsites.net/") };
-#endif
-    });
+});
 
 // Add the ANT design from https://antblazor.com/
 builder.Services.AddAntDesign();
