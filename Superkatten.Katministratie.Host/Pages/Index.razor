@@ -22,16 +22,14 @@
         Nieuwe kat toevoegen
     </Button>
 
+    <Divider />
+
     <Button Block="@true" OnClick="OnShowOverviewSuperkatten" Class="mb-2">
         Lijst katten
     </Button>
     
     <Button Block="@true" OnClick="OnShowOverviewGastgezinnen" Class="mb-2">
         Lijst gastgezinnen
-    </Button>
-
-    <Button Block="@true" OnClick="OnSelectSuperkatForGastgezin" Class="mb-2">
-        Superkat naar gastgezin
     </Button>
 </Row>
 
@@ -49,10 +47,5 @@
     private void OnShowOverviewGastgezinnen()
     {
         _navigationManager.NavigateTo("OverviewGastgezinnen");
-    }
-
-    private void OnSelectSuperkatForGastgezin()
-    {
-        _navigationManager.NavigateTo("SelectSuperkatForGastgezin");
     }
 }

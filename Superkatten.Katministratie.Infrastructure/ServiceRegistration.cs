@@ -12,7 +12,8 @@ namespace Superkatten.Katministratie.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             var cs = "Server=tcp:katministratiedbserver.database.windows.net,1433;Initial Catalog=KatministratieDb;Persist Security Info=False;User ID=katministrator;Password=Superkatten4143vk.;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-            services.AddDbContext<SuperkattenDbContext>(opt => opt
+              
+            services.AddDbContext<SuperkattenDbContext>(option => option
                 .UseSqlServer(cs)
                 .EnableDetailedErrors()
             );
