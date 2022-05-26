@@ -19,4 +19,8 @@
     <ProjectReference Include="..\Superkatten.Katministratie.Application\Superkatten.Katministratie.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Authorisation\" />
+  </ItemGroup>
+
 </Project>

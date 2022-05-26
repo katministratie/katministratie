@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Superkatten.Katministratie.Application.Authenticate;
 using Superkatten.Katministratie.Application.CageCard;
 using Superkatten.Katministratie.Application.Configuration;
 using Superkatten.Katministratie.Application.Interfaces;
@@ -19,11 +20,11 @@ namespace Superkatten.Katministratie.Application
             services.AddTransient<ISuperkatAction, SuperkatAction>();
             services.AddTransient<ISuperkattenService, SuperkattenService>();
             services.AddTransient<IGastgezinnenService, GastgezinnenService>();
-            services.AddTransient<IApiKeyRegistry, ApiKeyRegistry>();
             services.AddTransient<ISuperkatCageCard, SuperkatCageCard>();
             services.AddTransient<ICageCardComposer, CageCardComposer>();
             services.AddTransient<ISuperkatMapper, SuperkatMapper>();
             services.AddTransient<IGastgezinMapper, GastgezinMapper>();
+            services.AddTransient<IUserAuthorisationMapper, UserAuthorisationMapper>();
 
             // See: https://github.com/svishnevsky/PDFtoPrinter
             services.AddTransient<IPrinterService, PrinterService>();
