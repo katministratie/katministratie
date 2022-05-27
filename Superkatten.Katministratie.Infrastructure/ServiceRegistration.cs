@@ -17,10 +17,12 @@ namespace Superkatten.Katministratie.Infrastructure
                 .UseSqlServer(cs)
                 .EnableDetailedErrors()
             );
+
             services.AddTransient<ISuperkattenRepository, SuperkattenRepository>();
             services.AddTransient<ISuperkatRepositoryMapper, SuperkatRepositoryMapper>();
             services.AddTransient<IGastgezinnenRepository, GastgezinnenRepository>();
             services.AddTransient<IGastgezinRepositoryMapper, GastgezinRepositoryMapper>();
+            services.AddTransient<IUserAuthorisationRepository, UserAuthorisationRepository>();
 
             return services;
         }

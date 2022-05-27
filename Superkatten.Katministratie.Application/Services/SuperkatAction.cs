@@ -2,7 +2,7 @@
 using Superkatten.Katministratie.Application.CageCard;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Printing;
-using Superkatten.Katministratie.Domain.Contracts;
+using Superkatten.Katministratie.Contract;
 using Superkatten.Katministratie.Domain.Interfaces;
 using System;
 using System.Threading.Tasks;

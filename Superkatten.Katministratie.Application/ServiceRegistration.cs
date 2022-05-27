@@ -7,7 +7,6 @@ using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
 using Superkatten.Katministratie.Application.Printing;
 using Superkatten.Katministratie.Application.Services;
-using Superkatten.Katministratie.Application.Services.Authentication;
 
 namespace Superkatten.Katministratie.Application
 {
@@ -25,6 +24,9 @@ namespace Superkatten.Katministratie.Application
             services.AddTransient<ISuperkatMapper, SuperkatMapper>();
             services.AddTransient<IGastgezinMapper, GastgezinMapper>();
             services.AddTransient<IUserAuthorisationMapper, UserAuthorisationMapper>();
+            
+            services.AddScoped<IJwtUtils, JwtUtils>();
+            services.AddScoped<IUserService, UserService>();
 
             // See: https://github.com/svishnevsky/PDFtoPrinter
             services.AddTransient<IPrinterService, PrinterService>();

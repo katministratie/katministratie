@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using Superkatten.Katministratie.Application.Authenticate;
 using Superkatten.Katministratie.Application.Configuration;
 using Superkatten.Katministratie.Application.Services;
-using Superkatten.Katministratie.Domain.Authenticate;
+using Superkatten.Katministratie.Contract.Authenticate;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers;
 
@@ -14,17 +14,12 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers;
 public class UsersController : ControllerBase
 {
     private IUserService _userService;
-    private IUserAuthorisationMapper _userAuthorisationMapper;
-    private readonly UserAuthorisationConfiguration _userAuthorisationConfiguration;
 
     public UsersController(
         IUserService userService,
-        IUserAuthorisationMapper userAuthorisationMapper,
-        IOptions<UserAuthorisationConfiguration> userAuthorisationConfiguration)
+        IUserAuthorisationMapper userAuthorisationMapper)
     {
         _userService = userService;
-        _userAuthorisationMapper = userAuthorisationMapper;
-        _userAuthorisationConfiguration = userAuthorisationConfiguration.Value;
     }
 
     [AllowAnonymous]

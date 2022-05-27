@@ -1,4 +1,6 @@
-﻿namespace Superkatten.Katministratie.Application.Authenticate;
+﻿using Superkatten.Katministratie.Domain.Entities;
+
+namespace Superkatten.Katministratie.Application.Authenticate;
 
 public interface IJwtUtils
 {

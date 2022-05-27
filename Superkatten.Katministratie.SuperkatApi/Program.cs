@@ -1,40 +1,43 @@
 ﻿using Microsoft.OpenApi.Models;
 using Superkatten.Katministratie.Application;
+using Superkatten.Katministratie.Application.Authenticate.Middleware;
 using Superkatten.Katministratie.Infrastructure;
 using Superkatten.Katministratie.Infrastructure.Persistence;
 
 const string SWAGGER_DOC_VERSION = "v1";
 var builder = WebApplication.CreateBuilder(args);
 
-builder
-    .Configuration
-    .AddEnvironmentVariables();
+//----------------------------------------------------------------------------------------------------------
+builder.Configuration.AddEnvironmentVariables();
 
-// Add services to the container.
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc(SWAGGER_DOC_VERSION, new OpenApiInfo { Title = "Superkatten", Version = SWAGGER_DOC_VERSION });
-});
+    // Add services to the container.
+    builder.Services.AddCors();
+    builder.Services.AddControllers();
+//    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen(options =>
+    {
+        options.SwaggerDoc(SWAGGER_DOC_VERSION, new OpenApiInfo { Title = "Superkatten", Version = SWAGGER_DOC_VERSION });
+    });
+    builder.Services.AddApplicationServices(builder.Configuration);
+    builder.Services.AddInfrastructure(builder.Configuration);
+}
 
-builder.Services.AddApplicationServices(builder.Configuration);
-builder.Services.AddInfrastructure(builder.Configuration);
-
+//----------------------------------------------------------------------------------------------------------
 var app = builder.Build();
 
 
-using (var serviceScope = app.Services.CreateScope())
+//----------------------------------------------------------------------------------------------------------
+using (var scope = app.Services.CreateScope())
 {
-    var context = serviceScope.ServiceProvider.GetRequiredService<SuperkattenDbContext>();
-    var result = context.Database.EnsureCreated();
-    Console.WriteLine($"Database created: {result}");
+    var dataContext = scope.ServiceProvider.GetRequiredService<SuperkattenDbContext>();
+    dataContext.Database.EnsureCreated();
 }
 
 app.UseCors(cors => cors
     .AllowAnyMethod()
     .AllowAnyHeader()
-    .SetIsOriginAllowed(origin => true)
+//    .SetIsOriginAllowed(origin => true)
     .AllowCredentials()
     );
 
@@ -45,7 +48,18 @@ if (builder.Environment.IsDevelopment())
 }
 app.UseSwagger();
 app.UseSwaggerUI();
+
+// global error handler
+app.UseMiddleware<ErrorHandlerMiddleware>();
+
+// custom jwt auth middleware
+app.UseMiddleware<JwtMiddleware>();
+
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseHttpsRedirection();
 app.MapControllers();
 

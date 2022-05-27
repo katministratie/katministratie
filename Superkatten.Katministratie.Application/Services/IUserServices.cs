@@ -1,4 +1,4 @@
-﻿using Superkatten.Katministratie.Domain.Authenticate;
+﻿using Superkatten.Katministratie.Contract.Authenticate;
 using Superkatten.Katministratie.Domain.Entities;
 using System.Collections.Generic;
 

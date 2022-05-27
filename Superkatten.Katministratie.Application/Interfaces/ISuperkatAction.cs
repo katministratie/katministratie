@@ -1,4 +1,4 @@
-﻿using Superkatten.Katministratie.Domain.Contracts;
+﻿using Superkatten.Katministratie.Contract;
 using System;
 using System.Threading.Tasks;
 

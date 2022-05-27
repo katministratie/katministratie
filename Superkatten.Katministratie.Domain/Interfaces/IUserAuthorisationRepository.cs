@@ -1,13 +1,13 @@
 ﻿using Superkatten.Katministratie.Domain.Entities;
 using System.Collections.Generic;
 
-namespace Superkatten.Katministratie.Application.Authenticate;
+namespace Superkatten.Katministratie.Domain.Interfaces;
 
 public interface IUserAuthorisationRepository
 {
     IReadOnlyCollection<User> GetAllUsers();
 
-    User GetUserByName(string userName);
+    User? GetUserByName(string userName);
 
     void StoreUser(User user);
 

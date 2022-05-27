@@ -1,4 +1,4 @@
-﻿namespace Superkatten.Katministratie.Domain.Contracts;
+﻿namespace Superkatten.Katministratie.Contract;
 
 public class SuperkatCageCardPrintParameters
 {

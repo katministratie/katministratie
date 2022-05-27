@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Superkatten.Katministratie.Application.Interfaces;
-using Superkatten.Katministratie.Domain.Contracts;
+using Superkatten.Katministratie.Contract;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers
 {
