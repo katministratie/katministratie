@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using Superkatten.Katministratie.Application.Authenticate;
-using Superkatten.Katministratie.Application.Configuration;
 using Superkatten.Katministratie.Application.Services;
 using Superkatten.Katministratie.Contract.Authenticate;
 

@@ -23,7 +23,7 @@ public class JwtMiddleware
             .Last();
 
         var userId = jwtUtils.ValidateToken(token ?? string.Empty);
-        if (userId != null)
+        if (userId is not null)
         {
             // attach user to context on successful jwt validation
             context.Items["User"] = userService.GetById(userId.Value);

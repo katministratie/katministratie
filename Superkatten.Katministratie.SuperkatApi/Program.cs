@@ -1,4 +1,5 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.OpenApi.Models;
 using Superkatten.Katministratie.Application;
 using Superkatten.Katministratie.Application.Authenticate.Middleware;
 using Superkatten.Katministratie.Infrastructure;
@@ -21,6 +22,7 @@ builder.Configuration.AddEnvironmentVariables();
     });
     builder.Services.AddApplicationServices(builder.Configuration);
     builder.Services.AddInfrastructure(builder.Configuration);
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
 }
 
 //----------------------------------------------------------------------------------------------------------
@@ -63,4 +65,4 @@ app.UseAuthorization();
 app.UseHttpsRedirection();
 app.MapControllers();
 
-app.Run();
+app.Run("https://localhost:4000");
