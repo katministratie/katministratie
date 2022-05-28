@@ -25,9 +25,10 @@ namespace Superkatten.Katministratie.Host.Services
             _ = await _client.PutAsJsonAsync(uri, superkatId);
         }
 
-        public async Task PrintSuperkatCageCardAsync(SuperkatCageCardPrintParameters parameters)
+        public async Task CreateSuperkatCageCardAsync(SuperkatCageCardPrintParameters parameters)
         {
-            await _client.PutAsJsonAsync($"api/SuperkatAction/PrintSuperkatCageCard", parameters);
+            var uri = "api/SuperkatAction/CreateSuperkatCageCard";
+            await _client.PutAsJsonAsync(uri, parameters);
         }
     }
 }

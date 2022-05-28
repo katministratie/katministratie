@@ -5,14 +5,14 @@ namespace Superkatten.Katministratie.Contract.Authenticate;
 public class RegisterRequest
 {
     [Required]
-    public string? FirstName { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     [Required]
-    public string? LastName { get; set; }
+    public string Email { get; set; } = string.Empty;
 
     [Required]
-    public string? Username { get; set; }
+    public string Username { get; set; } = string.Empty;
 
     [Required]
-    public string? Password { get; set; }
+    public string Password { get; set; } = string.Empty;
 }

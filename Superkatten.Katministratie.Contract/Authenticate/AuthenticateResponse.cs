@@ -3,8 +3,8 @@
 public class AuthenticateResponse
 {
     public int Id { get; init; }
-    public string? FirstName { get; init; }
-    public string? LastName { get; init; }
-    public string? Username { get; init; }
-    public string? Token { get; set; }
+    public string Name { get; init; } = string.Empty;
+    public string Email { get; init; } = string.Empty;
+    public string Username { get; init; } = string.Empty;
+    public string Token { get; set; } = string.Empty;
 }

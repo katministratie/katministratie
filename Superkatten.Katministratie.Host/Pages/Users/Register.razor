@@ -1,0 +1,97 @@
+﻿@page "/register"
+
+@using System.ComponentModel.DataAnnotations
+@using Superkatten.Katministratie.Host.Helpers
+@using Superkatten.Katministratie.Host.Services
+@using Superkatten.Katministratie.Host.Services.Authentication
+@using System.Diagnostics;
+
+@inject IAuthenticationService AuthenticationService
+@inject NavigationManager NavigationManager
+
+<div class="card">
+        <h4 class="card-header">Katministratie Login</h4>
+        <div class="card-body">
+            <EditForm Model="@model" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <div class="form-group">
+                    <label>Username</label>
+                    <InputText @bind-Value="model.Username" class="form-control" />
+                    <ValidationMessage For="@(() => model.Username)" />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <InputText @bind-Value="model.Password" type="password" class="form-control" />
+                    <ValidationMessage For="@(() => model.Password)" />
+                </div>
+                <div class="form-group">
+                    <label>Name</label>
+                    <InputText @bind-Value="model.Name" class="form-control" />
+                    <ValidationMessage For="@(() => model.Name)" />
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <InputText @bind-Value="model.Email"  type="email" class="form-control" />
+                    <ValidationMessage For="@(() => model.Email)" />
+                </div>
+                <button class="btn btn-primary">
+                    @if (loading) {
+                        <span class="spinner-border spinner-border-sm mr-1"></span>
+                    }
+                    Register
+                </button>
+                @if (!string.IsNullOrEmpty(error)) {
+                    <div class="alert alert-danger mt-3 mb-0">@error</div>
+                }
+            </EditForm>
+        </div>
+    </div>
+
+@code {
+    private Model model = new Model();
+    private bool loading;
+    private string error = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        // redirect to home if already logged in
+        if (AuthenticationService.User != null)
+        {
+            NavigationManager.NavigateTo("");
+        }
+    }
+
+    private async void HandleValidSubmit()
+    {
+        loading = true;
+        try
+        {
+            await AuthenticationService.RegisterAsync(model.Username, model.Password, model.Name, model.Email);
+            var returnUrl = NavigationManager.QueryString("returnUrl") ?? "";
+            NavigationManager.NavigateTo(returnUrl);
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+            StateHasChanged();
+        }
+
+        loading = false;
+    }
+
+    private class Model
+    {
+        [Required]
+        public string Username { get; set; } = string.Empty;
+
+        [Required]
+        public string Password { get; set; } = string.Empty;
+
+        [Required]
+        public string Name { get; set; } = string.Empty;
+
+        [Required]
+        public string Email{ get; set; } = string.Empty;
+
+    }
+}

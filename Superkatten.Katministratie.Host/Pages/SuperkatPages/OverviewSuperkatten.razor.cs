@@ -11,7 +11,6 @@ public partial class OverviewSuperkatten
 
     public string LoadingInfoMessage { get; private set; } = string.Empty;
     private List<Superkat> Superkatten { get; set; } = new();
-    public bool PrinterDialogVisible { get; set; } = false;
 
     private Guid _selectedSuperkatId;
 
@@ -19,8 +18,6 @@ public partial class OverviewSuperkatten
     {
         LoadingInfoMessage = "Inlezen van alle superkatten";
         await UpdateListAsync();
-
-        _printerService.OnPrintSuperkatCageCard += OnShowPrintingDialog;
     }
 
     private async Task UpdateListAsync()
@@ -54,12 +51,6 @@ public partial class OverviewSuperkatten
         _navigationManager.NavigateTo("");
     }
 
-    private void OnShowPrintingDialog(object? sender, Guid superkatId)
-    {
-        _selectedSuperkatId = superkatId;
-        PrinterDialogVisible = true;
-    }
-
     private async Task Print(string printername)
     {
         if (_selectedSuperkatId == Guid.Empty)
@@ -72,12 +63,6 @@ public partial class OverviewSuperkatten
             Id = _selectedSuperkatId,
             PrinterName = printername
         };
-        await _superkatActionService.PrintSuperkatCageCardAsync(parameters);
-        OnClose();
-    }
-
-    public void OnClose()
-    {
-        PrinterDialogVisible = false;
+        await _superkatActionService.CreateSuperkatCageCardAsync(parameters);
     }
 }

@@ -47,8 +47,8 @@ public class UserService : IUserService
         }
 
         // authentication successful
-        var response = _userAuthorisationMapper.MapToAuthenticateResponse(user);
-        response.Token = _jwtUtils.GenerateToken(user);
+        var token = _jwtUtils.GenerateToken(user);
+        var response = _userAuthorisationMapper.MapToAuthenticateResponse(user, token);
         return response;
     }
 

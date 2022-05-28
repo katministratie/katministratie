@@ -9,8 +9,8 @@ namespace Superkatten.Katministratie.Application.Authenticate
         {
             var user = new User
             {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
+                Name = model.Name,
+                Email = model.Email,
                 Username = model.Username,
                 PasswordHash = passwordHash
             };
@@ -23,22 +23,23 @@ namespace Superkatten.Katministratie.Application.Authenticate
             var user = new User
             {
                 Id = id,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
+                Name = model.Name,
+                Email = model.Email,
                 Username = model.Username,
                 PasswordHash = passwordHash
             };
             return user;
         }
 
-        public AuthenticateResponse MapToAuthenticateResponse(User user)
+        public AuthenticateResponse MapToAuthenticateResponse(User user, string token)
         {
             var authenticateResponse = new AuthenticateResponse
             {
                 Username = user.Username,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Id = user.Id
+                Name = user.Name,
+                Email = user.Email,
+                Id = user.Id,
+                Token = token
             };
             return authenticateResponse;
         }

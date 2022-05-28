@@ -10,13 +10,11 @@ public class SuperkattenListService : ISuperkattenListService
 {
     private readonly HttpClient _client;
 
-
     public SuperkattenListService(HttpClient client)
     {
         _client = client;
     }
-
-
+    
     public async Task<Superkat?> CreateSuperkatAsync([FromBody] CreateSuperkatParameters newSuperkat)
     {
         var uri = $"api/Superkatten";

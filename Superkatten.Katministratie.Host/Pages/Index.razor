@@ -2,9 +2,11 @@
 
 @using Superkatten.Katministratie.Host.Components
 @using Superkatten.Katministratie.Host.Services
+@using Superkatten.Katministratie.Host.Services.Authentication
 
 @inject NavigationManager _navigationManager
 @inject ISuperkattenListService _superkattenService
+@inject IAuthenticationService _authenticationService
 
 <PageTitle>Superkatten</PageTitle>
 
@@ -18,6 +20,23 @@
 </Row>
 
 <Row>
+    <Button Block="@true" OnClick="OnRegister" Class="mb-2">
+        Register
+    </Button>
+    
+    @if (!_authenticationService.IsAuthenticated)
+    {
+        <Button Block="@true" OnClick="OnLogin" Class="mb-2">
+            Login
+        </Button>
+    }
+    else
+    {
+        <Button Block="@true" OnClick="OnLogout" Class="mb-2">
+            Logout
+        </Button>
+    }
+
     <Button Block="@true" OnClick="OnCreateSuperkat" Class="mb-2">
         Nieuwe kat toevoegen
     </Button>
@@ -34,6 +53,21 @@
 </Row>
 
 @code {
+    private void OnRegister()
+    {
+        _navigationManager.NavigateTo("Register");
+    }
+
+    private void OnLogin()
+    {
+        _navigationManager.NavigateTo("Login");
+    }
+
+    private void OnLogout()
+    {
+        _navigationManager.NavigateTo("Logout");
+    }
+
     private void OnCreateSuperkat()
     {
         _navigationManager.NavigateTo("CreateSuperkat");

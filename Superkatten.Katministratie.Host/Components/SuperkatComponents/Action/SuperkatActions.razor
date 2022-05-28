@@ -3,7 +3,6 @@
 
 @inject NavigationManager _navigationManager
 @inject ISuperkatActionService _superkatActionService
-@inject IPrinterService _printingService
 
 <div class="container">
     <div class="row">
@@ -21,7 +20,7 @@
         
         <div class="col-3">
             <SuperkatAction
-            OnClickCallback="@PrintSuperkatCageCard"
+            OnClickCallback="@CreateSuperkatCageCard"
             ActionIcon="./images/actions/printer.svg" />
         </div>        
     </div>

@@ -41,9 +41,9 @@ public partial class SuperkatActions
         });
     }
 
-    public Task PrintSuperkatCageCard()
+    public Task CreateSuperkatCageCard()
     {
-        _printingService.PrintCageCard(Superkat.Id);
+        // TODO: create the card for download
         return Task.CompletedTask;
     }
 }

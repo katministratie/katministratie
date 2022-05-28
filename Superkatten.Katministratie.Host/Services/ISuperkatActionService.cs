@@ -6,5 +6,5 @@ public interface ISuperkatActionService
 {
     Task ToggleReserveSuperkatAsync(Guid superkatId);
     Task ToggleRetourSuperkatAsync(Guid superkatId);
-    Task PrintSuperkatCageCardAsync(SuperkatCageCardPrintParameters parameters);
+    Task CreateSuperkatCageCardAsync(SuperkatCageCardPrintParameters parameters);
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Superkatten.Katministratie.Application.CageCard;
 using Superkatten.Katministratie.Application.Interfaces;
-using Superkatten.Katministratie.Application.Printing;
 using Superkatten.Katministratie.Contract;
 using Superkatten.Katministratie.Domain.Interfaces;
 using System;
@@ -14,18 +13,15 @@ namespace Superkatten.Katministratie.Application.Services
         public readonly ILogger<SuperkatAction> _logger;
         public readonly ISuperkattenRepository _repository;
         public readonly ISuperkatCageCard _cageCardGenerator;
-        private readonly IPrinterService _printerService;
 
         public SuperkatAction(
             ILogger<SuperkatAction> logger,
             ISuperkattenRepository superkattenRepository,
-            ISuperkatCageCard cageCardGenerator,
-            IPrinterService printerService)
+            ISuperkatCageCard cageCardGenerator)
         {
             _logger = logger;
             _repository = superkattenRepository;
             _cageCardGenerator = cageCardGenerator;
-            _printerService = printerService;
         }
 
         public async Task ToggleRetourAsync(Guid id)
@@ -42,10 +38,9 @@ namespace Superkatten.Katministratie.Application.Services
             await _repository.UpdateSuperkatAsync(superkat);
         }
 
-        public async Task PrintSuperkatCageCardAsync(SuperkatCageCardPrintParameters parameters)
+        public async Task CreateSuperkatCageCardAsync(SuperkatCageCardPrintParameters parameters)
         {
-            var filename = await _cageCardGenerator.CreateCageCardAsync(parameters.Id);
-            //            await _printerService.PrintPdfAsync(filename, parameters.PrinterName);
+            _ = await _cageCardGenerator.CreateCageCardAsync(parameters.Id);
         }
     }
 }

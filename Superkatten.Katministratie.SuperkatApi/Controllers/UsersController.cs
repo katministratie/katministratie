@@ -1,21 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Superkatten.Katministratie.Application.Authenticate;
 using Superkatten.Katministratie.Application.Services;
 using Superkatten.Katministratie.Contract.Authenticate;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers;
 
-[Authorize]
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class UsersController : ControllerBase
 {
     private IUserService _userService;
 
-    public UsersController(
-        IUserService userService,
-        IUserAuthorisationMapper userAuthorisationMapper)
+    public UsersController(IUserService userService)
     {
         _userService = userService;
     }

@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Contract;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers
 {
+    [Authorize]
     [Route("api/[Controller]")]
     [ApiController]
     public class SuperkatActionController
@@ -30,10 +32,10 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpPut]
-        [Route("PrintSuperkatCageCard")]
-        public async Task PrintSuperkatCageCard(SuperkatCageCardPrintParameters parameters)
+        [Route("CreateSuperkatCageCard")]
+        public async Task CreateSuperkatCageCard(SuperkatCageCardPrintParameters parameters)
         {
-            await _actionService.PrintSuperkatCageCardAsync(parameters);
+            await _actionService.CreateSuperkatCageCardAsync(parameters);
         }
     }
 }

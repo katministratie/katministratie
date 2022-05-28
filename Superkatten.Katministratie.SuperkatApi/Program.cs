@@ -15,14 +15,14 @@ builder.Configuration.AddEnvironmentVariables();
     // Add services to the container.
     builder.Services.AddCors();
     builder.Services.AddControllers();
-//    builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen(options =>
     {
         options.SwaggerDoc(SWAGGER_DOC_VERSION, new OpenApiInfo { Title = "Superkatten", Version = SWAGGER_DOC_VERSION });
     });
     builder.Services.AddApplicationServices(builder.Configuration);
     builder.Services.AddInfrastructure(builder.Configuration);
-    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer();
 }
 
 //----------------------------------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ using (var scope = app.Services.CreateScope())
 app.UseCors(cors => cors
     .AllowAnyMethod()
     .AllowAnyHeader()
-//    .SetIsOriginAllowed(origin => true)
+    .SetIsOriginAllowed(origin => true)
     .AllowCredentials()
     );
 

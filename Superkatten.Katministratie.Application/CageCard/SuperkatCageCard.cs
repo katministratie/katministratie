@@ -1,5 +1,4 @@
 ﻿using Superkatten.Katministratie.Application.Interfaces;
-using Superkatten.Katministratie.Application.Printing;
 using System;
 using System.Threading.Tasks;
 

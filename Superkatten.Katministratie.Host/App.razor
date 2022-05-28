@@ -1,17 +1,19 @@
-﻿ <AntContainer />
+﻿ @inject NavigationManager NavigationManager
+ 
+ <AntContainer />
  
 <Router AppAssembly="@typeof(App).Assembly">
 
-<Found Context="routeData">
-    <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-    <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-</Found>
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
 
-<NotFound>
-    <PageTitle>Superkatten</PageTitle>
-    <LayoutView Layout="@typeof(MainLayout)">
-        <p role="alert">Sorry, We kunnen niets vinden op dit adres.</p>
-    </LayoutView>
-</NotFound>
+    <NotFound>
+        @{ 
+            // redirect to home page if not found
+            NavigationManager.NavigateTo(""); 
+        }
+    </NotFound>
 
 </Router>
