@@ -35,10 +35,15 @@ public class HttpService : IHttpService
         return await SendRequest<T>(request);
     }
 
-    public async Task<T> Post<T>(string uri, object value)
+    public async Task<T?> Post<T>(string uri, object? value)
     {
         var request = new HttpRequestMessage(HttpMethod.Post, uri);
-        request.Content = new StringContent(JsonSerializer.Serialize(value), Encoding.UTF8, "application/json");
+
+        if (value is not null)
+        {
+            request.Content = new StringContent(JsonSerializer.Serialize(value), Encoding.UTF8, "application/json");
+        }
+
         return await SendRequest<T>(request);
     }
 

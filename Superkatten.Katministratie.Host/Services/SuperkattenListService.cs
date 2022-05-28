@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Superkatten.Katministratie.Host.Api;
 using Superkatten.Katministratie.Host.Entities;
+using Superkatten.Katministratie.Host.Services.Authentication;
 using System.Net.Http.Json;
 using System.Text.Json;
 
@@ -9,10 +10,15 @@ namespace Superkatten.Katministratie.Host.Services;
 public class SuperkattenListService : ISuperkattenListService
 {
     private readonly HttpClient _client;
+    private readonly IHttpService _httpService;
 
-    public SuperkattenListService(HttpClient client)
+    public SuperkattenListService(
+        HttpClient client, 
+        IHttpService httpService
+    )
     {
         _client = client;
+        _httpService = httpService;
     }
     
     public async Task<Superkat?> CreateSuperkatAsync([FromBody] CreateSuperkatParameters newSuperkat)
@@ -56,7 +62,9 @@ public class SuperkattenListService : ISuperkattenListService
     public async Task<List<Superkat>> GetAllSuperkattenAsync()
     {
         var uri = "api/Superkatten";
-        var superkatten = await _client.GetFromJsonAsync<List<Superkat>>(uri);
+
+        //var superkatten = await _client.GetFromJsonAsync<List<Superkat>>(uri);
+        var superkatten = await _httpService.Post<List<Superkat>>(uri, null!);
 
         return superkatten is null 
             ? new() 

@@ -5,6 +5,7 @@ using Superkatten.Katministratie.Contract.Authenticate;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class UsersController : ControllerBase
