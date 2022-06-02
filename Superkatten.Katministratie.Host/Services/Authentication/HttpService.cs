@@ -29,21 +29,27 @@ public class HttpService : IHttpService
         _configuration = configuration;
     }
 
-    public async Task<T> Get<T>(string uri)
+    public async Task<T?> Get<T>(string uri)
     {
         var request = new HttpRequestMessage(HttpMethod.Get, uri);
         return await SendRequest<T>(request);
     }
 
-    public async Task<T?> Post<T>(string uri, object? value)
+    public async Task<T?> Post<T>(string uri, object value)
     {
         var request = new HttpRequestMessage(HttpMethod.Post, uri);
-
-        if (value is not null)
-        {
-            request.Content = new StringContent(JsonSerializer.Serialize(value), Encoding.UTF8, "application/json");
-        }
-
+        request.Content = new StringContent(JsonSerializer.Serialize(value), Encoding.UTF8, "application/json");
+        return await SendRequest<T>(request);
+    }
+    public async Task<T?> Post<T>(string uri)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Post, uri);
+        return await SendRequest<T>(request);
+    }
+    public async Task<T?> Put<T>(string uri, object value)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Put, uri);
+        request.Content = new StringContent(JsonSerializer.Serialize(value), Encoding.UTF8, "application/json");
         return await SendRequest<T>(request);
     }
 

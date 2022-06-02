@@ -16,11 +16,8 @@ public class JwtMiddleware
 
     public async Task Invoke(HttpContext context, IUserService userService, IJwtUtils jwtUtils)
     {
-        var token = context.Request
-            .Headers["Authorization"]
-            .FirstOrDefault()?
-            .Split(" ")
-            .Last();
+        var authorisationRequest = context.Request.Headers["Authorization"].FirstOrDefault();
+        var token = authorisationRequest?.Split(" ").Last();
 
         var userId = jwtUtils.ValidateToken(token ?? string.Empty);
         if (userId != null)

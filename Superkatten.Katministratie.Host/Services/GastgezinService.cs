@@ -1,6 +1,7 @@
 ﻿using Superkatten.Katministratie.Contract;
 using Superkatten.Katministratie.Host.Entities;
 using Superkatten.Katministratie.Host.Mappers;
+using Superkatten.Katministratie.Host.Services.Authentication;
 using System.Net.Http.Json;
 using System.Text.Json;
 using ContractEntities = Superkatten.Katministratie.Contract.Entities;
@@ -11,11 +12,17 @@ public class GastgezinService : IGastgezinService
 {
     private readonly HttpClient _client;
     private readonly IGastgezinMapper _mapper;
+    private readonly IHttpService _httpService;
 
-    public GastgezinService(HttpClient client, IGastgezinMapper mapper)
+    public GastgezinService(
+        HttpClient client,
+        IHttpService httpService,
+        IGastgezinMapper mapper
+    )
     {
         _client = client;
         _mapper = mapper;
+        _httpService = httpService;
     }
 
 
@@ -84,10 +91,12 @@ public class GastgezinService : IGastgezinService
     public async Task<List<Gastgezin>> GetAllGastgezinAsync()
     {
         var uri = "api/Gastgezinnen";
-        var gastgezinnen = await _client.GetFromJsonAsync<List<ContractEntities.Gastgezin>>(uri);
 
-        return gastgezinnen is null 
-            ? new() 
-            : gastgezinnen.Select(_mapper.MapContractToHost).ToList();
+        var gastgezinnen = await _httpService.Get<List<Gastgezin>>(uri);
+        //        var gastgezinnen = await _client.GetFromJsonAsync<List<ContractEntities.Gastgezin>>(uri);
+
+        return gastgezinnen is null
+            ? new()
+            : gastgezinnen; //.Select(_mapper.MapContractToHost).ToList();
     }
 }

@@ -51,11 +51,10 @@ if (builder.Environment.IsDevelopment())
 app.UseSwagger();
 app.UseSwaggerUI();
 
-// global error handler
-app.UseMiddleware<ErrorHandlerMiddleware>();
-
 // custom jwt auth middleware
 app.UseMiddleware<JwtMiddleware>();
+// global error handler
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseRouting();
 

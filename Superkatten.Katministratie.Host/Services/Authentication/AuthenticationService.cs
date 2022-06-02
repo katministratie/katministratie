@@ -10,8 +10,8 @@ namespace Superkatten.Katministratie.Host.Services.Authentication
         private readonly NavigationManager _navigationManager;
         private readonly ILocalStorageService _localStorageService;
 
-        public User? User { get; private set; } = null;
-        public bool IsAuthenticated => User is not null;
+        public User? User { get; private set; }
+        public bool IsAuthenticated => true; // User is not null;
 
         public AuthenticationService(
             IHttpService httpService,
@@ -37,11 +37,11 @@ namespace Superkatten.Katministratie.Host.Services.Authentication
             var result = await _httpService.Post<AuthenticateResponse>(uri, authenticateRequest);
             User = new User
             {
-                Name = result.Name,
-                Email = result.Email,
-                Username = result.Username,
-                Token = result.Token,
-                Id = result.Id
+                Name = result?.Name ?? string.Empty,
+                Email = result?.Email ?? string.Empty,
+                Username = result?.Username ?? string.Empty,
+                Token = result?.Token ?? string.Empty,
+                Id = result?.Id ?? -1
             };
 
             await _localStorageService.SetItem("user", User);

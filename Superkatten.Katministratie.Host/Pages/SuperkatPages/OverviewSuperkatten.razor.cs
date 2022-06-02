@@ -12,8 +12,6 @@ public partial class OverviewSuperkatten
     public string LoadingInfoMessage { get; private set; } = string.Empty;
     private List<Superkat> Superkatten { get; set; } = new();
 
-    private Guid _selectedSuperkatId;
-
     protected override async Task OnInitializedAsync()
     {
         LoadingInfoMessage = "Inlezen van alle superkatten";
@@ -51,18 +49,8 @@ public partial class OverviewSuperkatten
         _navigationManager.NavigateTo("");
     }
 
-    private async Task Print(string printername)
+    private Task Print(string printername)
     {
-        if (_selectedSuperkatId == Guid.Empty)
-        {
-            return;
-        }
-
-        var parameters = new SuperkatCageCardPrintParameters
-        {
-            Id = _selectedSuperkatId,
-            PrinterName = printername
-        };
-        await _superkatActionService.CreateSuperkatCageCardAsync(parameters);
+        return _superkatActionService.CreateSuperkatCageCardAsync(new());
     }
 }

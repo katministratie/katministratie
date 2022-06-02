@@ -24,10 +24,11 @@ builder.Services.AddTransient<HttpClient>(s =>
     //return new HttpClient { BaseAddress = new System.Uri("https://katministratie.azurewebsites.net/") };
 });
 
+
 // Add Scoped services
-builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-builder.Services.AddScoped<IHttpService, HttpService>();
-builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
+builder.Services.AddSingleton<IHttpService, HttpService>();
+builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
+builder.Services.AddSingleton<ILocalStorageService, LocalStorageService>();
 
 // Add the ANT design from https://antblazor.com/
 builder.Services.AddAntDesign();

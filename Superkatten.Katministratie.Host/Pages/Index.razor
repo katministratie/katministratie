@@ -24,6 +24,10 @@
         Register
     </Button>
     
+    <Button Block="@true" OnClick="OnLogin" Class="mb-2">
+            Login
+    </Button>
+
     @if (!_authenticationService.IsAuthenticated)
     {
         <Button Block="@true" OnClick="OnLogin" Class="mb-2">
@@ -35,21 +39,21 @@
         <Button Block="@true" OnClick="OnLogout" Class="mb-2">
             Logout
         </Button>
-    }
 
-    <Button Block="@true" OnClick="OnCreateSuperkat" Class="mb-2">
-        Nieuwe kat toevoegen
-    </Button>
+        <Button Block="@true" OnClick="OnCreateSuperkat" Class="mb-2">
+            Nieuwe kat toevoegen
+        </Button>
 
-    <Divider />
+        <Divider />
 
-    <Button Block="@true" OnClick="OnShowOverviewSuperkatten" Class="mb-2">
-        Lijst katten
-    </Button>
+        <Button Block="@true" OnClick="OnShowOverviewSuperkatten" Class="mb-2">
+            Lijst katten
+        </Button>
     
-    <Button Block="@true" OnClick="OnShowOverviewGastgezinnen" Class="mb-2">
-        Lijst gastgezinnen
-    </Button>
+        <Button Block="@true" OnClick="OnShowOverviewGastgezinnen" Class="mb-2">
+            Lijst gastgezinnen
+        </Button>
+    }
 </Row>
 
 @code {
