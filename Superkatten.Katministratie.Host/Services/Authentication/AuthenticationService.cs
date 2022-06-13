@@ -11,7 +11,7 @@ namespace Superkatten.Katministratie.Host.Services.Authentication
         private readonly ILocalStorageService _localStorageService;
 
         public User? User { get; private set; }
-        public bool IsAuthenticated => true; // User is not null;
+        public bool IsAuthenticated => User is not null;
 
         public AuthenticationService(
             IHttpService httpService,
@@ -26,7 +26,7 @@ namespace Superkatten.Katministratie.Host.Services.Authentication
 
         public async Task AuthenticateUserAsync(string username, string password)
         {
-            var uri = $"api/users/authenticate";
+            var uri = $"api/Users/authenticate";
             var authenticateRequest = new AuthenticateRequest
             {
                 Username = username,

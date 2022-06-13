@@ -20,16 +20,13 @@
 </Row>
 
 <Row>
-    <Button Block="@true" OnClick="OnRegister" Class="mb-2">
-        Register
-    </Button>
     
-    <Button Block="@true" OnClick="OnLogin" Class="mb-2">
-            Login
-    </Button>
-
     @if (!_authenticationService.IsAuthenticated)
     {
+        <Button Block="@true" OnClick="OnRegister" Class="mb-2">
+            Register
+        </Button>
+
         <Button Block="@true" OnClick="OnLogin" Class="mb-2">
             Login
         </Button>

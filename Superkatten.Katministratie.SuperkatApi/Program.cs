@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Superkatten.Katministratie.Application;
 using Superkatten.Katministratie.Application.Authenticate.Middleware;
+using Superkatten.Katministratie.Application.Configuration;
 using Superkatten.Katministratie.Infrastructure;
 using Superkatten.Katministratie.Infrastructure.Persistence;
+using System.Text;
 
 const string SWAGGER_DOC_VERSION = "v1";
 var builder = WebApplication.CreateBuilder(args);
@@ -18,11 +21,50 @@ builder.Configuration.AddEnvironmentVariables();
     builder.Services.AddSwaggerGen(options =>
     {
         options.SwaggerDoc(SWAGGER_DOC_VERSION, new OpenApiInfo { Title = "Superkatten", Version = SWAGGER_DOC_VERSION });
+        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+        {
+            Name = "Authorization",
+            Type = SecuritySchemeType.ApiKey,
+            Scheme = "Bearer",
+            BearerFormat = "JWT",
+            In = ParameterLocation.Header,
+            Description = "JWT Authorisation header using the bearer scheme. \r\n\r\n"
+        });
+        options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        { 
+            {
+                new OpenApiSecurityScheme {
+                    Reference = new OpenApiReference {
+                        Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                    }
+                },
+                new string[] {}
+            }
+        });
     });
     builder.Services.AddApplicationServices(builder.Configuration);
     builder.Services.AddInfrastructure(builder.Configuration);
-    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer();
+    //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    //    .AddJwtBearer();
+    builder.Services.AddAuthentication(options => {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+        // Adding Jwt Bearer
+        .AddJwtBearer(options => {
+            options.SaveToken = true;
+            options.RequireHttpsMetadata = false;
+            options.TokenValidationParameters = new TokenValidationParameters()
+            {
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidAudience = null,
+                ValidIssuer = null,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(UserAuthorisationConfiguration.Secret))
+            };
+        });
 }
 
 //----------------------------------------------------------------------------------------------------------
@@ -64,4 +106,4 @@ app.UseAuthorization();
 app.UseHttpsRedirection();
 app.MapControllers();
 
-app.Run("https://localhost:4000");
+app.Run();

@@ -21,7 +21,8 @@ public class LocalStorageService : ILocalStorageService
             return default;
         }
 
-        return JsonSerializer.Deserialize<T>(json);
+        var result = JsonSerializer.Deserialize<T>(json);
+        return result;
     }
 
     public async Task SetItem<T>(string key, T value)

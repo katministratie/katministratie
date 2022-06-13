@@ -1,6 +1,6 @@
 ﻿namespace Superkatten.Katministratie.Application.Configuration;
 
-public class UserAuthorisationConfiguration
+public static class UserAuthorisationConfiguration
 { 
-    public string Secret { get; set; } = "Default Superkatten Secret";
+    public static string Secret { get; set; } = "Default Superkatten Secret";
 }
