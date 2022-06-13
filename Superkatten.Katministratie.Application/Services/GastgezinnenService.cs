@@ -2,9 +2,9 @@
 using Superkatten.Katministratie.Application.Exceptions;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
-using Superkatten.Katministratie.Contract;
+using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Domain.Entities;
-using Superkatten.Katministratie.Domain.Interfaces;
+using Superkatten.Katministratie.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

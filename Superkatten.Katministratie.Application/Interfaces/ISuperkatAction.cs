@@ -1,4 +1,4 @@
-﻿using Superkatten.Katministratie.Contract;
+﻿using Superkatten.Katministratie.Contract.ApiInterface;
 using System;
 using System.Threading.Tasks;
 

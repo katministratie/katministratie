@@ -2,9 +2,9 @@
 using Superkatten.Katministratie.Application.Exceptions;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
-using Superkatten.Katministratie.Contract;
+using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Domain.Entities;
-using Superkatten.Katministratie.Domain.Interfaces;
+using Superkatten.Katministratie.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +17,8 @@ namespace Superkatten.Katministratie.Application.Services
         private const int WEEKS_IN_ONE_YEAR = 52;
         public const int DAY_IN_ONE_WEEK = 7;
 
-        public readonly ILogger<SuperkattenService> _logger;
-        public readonly ISuperkattenRepository _superkattenRepository;
+        private readonly ILogger<SuperkattenService> _logger;
+        private readonly ISuperkattenRepository _superkattenRepository;
         private readonly ISuperkatMapper _mapper;
 
         public SuperkattenService(

@@ -2,7 +2,7 @@
 using Superkatten.Katministratie.Application.Exceptions;
 using Superkatten.Katministratie.Contract.Authenticate;
 using Superkatten.Katministratie.Domain.Entities;
-using Superkatten.Katministratie.Domain.Interfaces;
+using Superkatten.Katministratie.Infrastructure.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using BcryptNet = BCrypt.Net.BCrypt;

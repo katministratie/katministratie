@@ -1,4 +1,4 @@
-﻿using Superkatten.Katministratie.Contract;
+﻿using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Domain.Entities;
 using System;
 using System.Collections.Generic;

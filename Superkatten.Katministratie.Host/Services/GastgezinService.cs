@@ -1,4 +1,4 @@
-﻿using Superkatten.Katministratie.Contract;
+﻿using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Host.Entities;
 using Superkatten.Katministratie.Host.Mappers;
 using Superkatten.Katministratie.Host.Services.Authentication;

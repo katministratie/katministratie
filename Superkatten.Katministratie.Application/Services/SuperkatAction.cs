@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Superkatten.Katministratie.Application.CageCard;
 using Superkatten.Katministratie.Application.Interfaces;
-using Superkatten.Katministratie.Contract;
-using Superkatten.Katministratie.Domain.Interfaces;
+using Superkatten.Katministratie.Contract.ApiInterface;
+using Superkatten.Katministratie.Infrastructure.Interfaces;
 using System;
 using System.Threading.Tasks;
 

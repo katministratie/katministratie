@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Superkatten.Katministratie.Domain.Entities;
-using Superkatten.Katministratie.Domain.Interfaces;
 using Superkatten.Katministratie.Infrastructure.Exceptions;
+using Superkatten.Katministratie.Infrastructure.Interfaces;
 using Superkatten.Katministratie.Infrastructure.Mapper;
 using System;
 using System.Collections.Generic;

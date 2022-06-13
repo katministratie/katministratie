@@ -9,6 +9,12 @@
 @inject IAuthenticationService AuthenticationService
 @inject NavigationManager NavigationManager
 
+<Row Class="mb-2">
+    <Col Class="col-12">
+        <Button Block="@true" OnClick="@OnBackHome">Terug</Button>
+    </Col>
+</Row>
+
 <div class="card">
         <h4 class="card-header">Katministratie Login</h4>
         <div class="card-body">
@@ -78,6 +84,11 @@
         }
 
         loading = false;
+    }
+
+    private void OnBackHome()
+    {
+        NavigationManager.NavigateTo("");
     }
 
     private class Model

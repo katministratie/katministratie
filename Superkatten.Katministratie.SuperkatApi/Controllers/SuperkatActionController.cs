@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Superkatten.Katministratie.Application.Interfaces;
-using Superkatten.Katministratie.Contract;
+using Superkatten.Katministratie.Contract.ApiInterface;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers
 {

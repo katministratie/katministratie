@@ -1,13 +1,14 @@
 ﻿using Superkatten.Katministratie.Contract;
+using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Host.Entities;
 
 namespace Superkatten.Katministratie.Host.Pages.GastgezinPages;
 
 public partial class CreateGastgezin
 {
-    private Gastgezin parameters = new();
+    public Gastgezin? Gastgezin { get; set; }
                     
-    private bool ValidName => string.IsNullOrWhiteSpace(parameters.Name);
+    private bool ValidName => string.IsNullOrWhiteSpace(Gastgezin?.Name);
 
     public async Task OnOk()
     {
@@ -22,12 +23,17 @@ public partial class CreateGastgezin
 
     private async Task StoreGastgezin()
     {
+        if (Gastgezin is null)
+        {
+            throw new Exception("No gastgezin to store");
+        }
+
         var createGastgezin = new CreateOrUpdateNawGastgezinParameters
         {
-            Name = parameters.Name,
-            Address = parameters.Address,
-            City = parameters.City,
-            Phone = parameters.Phone
+            Name = Gastgezin.Name,
+            Address = Gastgezin.Address,
+            City = Gastgezin.City,
+            Phone = Gastgezin.Phone
         };
 
         var gastgezin = await _gastgezinService.CreateGastgezinAsync(createGastgezin);

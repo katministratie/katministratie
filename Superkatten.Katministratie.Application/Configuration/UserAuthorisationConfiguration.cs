@@ -2,5 +2,5 @@
 
 public static class UserAuthorisationConfiguration
 { 
-    public static string Secret { get; set; } = "Default Superkatten Secret";
+    public static string Secret { get; set; } = "^%$@!#Superkatten!#@&^%$Secret*&^$#Key";
 }
