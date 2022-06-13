@@ -33,6 +33,13 @@ public class UsersController : ControllerBase
         return Ok(new { message = "Registration successful" });
     }
 
+    [HttpPost("enablestate")]
+    public IActionResult SetUserEnabledState(int id, bool enabledState)
+    {
+        _userService.SetUserEnabledState(id, enabledState);
+        return Ok(new { message = "Set user {id} enabled state to {isEnabled}" });
+    }
+
     [HttpGet]
     public IActionResult GetAll()
     {

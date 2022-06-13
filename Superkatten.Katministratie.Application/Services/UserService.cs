@@ -11,7 +11,7 @@ namespace Superkatten.Katministratie.Application.Services;
 
 public class UserService : IUserService
 {
-    private IJwtUtils _jwtUtils;
+    private readonly IJwtUtils _jwtUtils;
     private readonly IUserAuthorisationRepository _userAuthorisationRepository;
     private readonly IUserAuthorisationMapper _userAuthorisationMapper;
 
@@ -35,10 +35,14 @@ public class UserService : IUserService
         var user = _userAuthorisationRepository
             .GetUserByName(model.Username);
 
-        // validate
         if (user is null)
         {
             throw new AuthorisationException("Username is incorrect");
+        }
+
+        if (!user.IsEnabled)
+        {
+            throw new AuthorisationException("User is not enabled yet");
         }
 
         if (!BcryptNet.Verify(model.Password, user.PasswordHash))
@@ -57,16 +61,11 @@ public class UserService : IUserService
         return _userAuthorisationRepository.GetAllUsers();
     }
 
-    public User GetById(int id)
+    public User? GetById(int id)
     {
         var user = _userAuthorisationRepository
             .GetAllUsers()
             .FirstOrDefault(u => u.Id == id);
-        
-        if (user is null)
-        {
-            throw new AuthorisationException($"Username with id '{id}' is not found.");
-        }
 
         return user;
     }
@@ -128,5 +127,10 @@ public class UserService : IUserService
     public void Delete(int id)
     {
         _userAuthorisationRepository.DeleteUserById(id);
+    }
+
+    public void SetUserEnabledState(int id, bool enabled)
+    {
+        throw new System.NotImplementedException();
     }
 }
