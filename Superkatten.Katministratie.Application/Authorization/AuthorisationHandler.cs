@@ -20,9 +20,7 @@ internal class AuthorisationHandler : IAuthorizationHandler
 
     public Task HandleAsync(AuthorizationHandlerContext context)
     {
-        var userId = 0;
-        var userIdAsString = context.User.Claims.First(c => c.Type == "id").Value;
-        _ = int.TryParse(userIdAsString, out userId);
+        _ = int.TryParse(context.User.Claims.First(c => c.Type == "id").Value, out var userId);
         var user = _userAuthorisationRepository
             .GetAllUsers()
             .FirstOrDefault(u => u.Id == userId);

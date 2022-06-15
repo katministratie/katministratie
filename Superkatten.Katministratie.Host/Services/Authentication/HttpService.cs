@@ -57,9 +57,49 @@ public class HttpService : IHttpService
         return await SendRequest<T>(request);
     }
 
+    public async Task Delete(string uri)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Delete, uri);
+        await SendRequest(request);
+    }
+
     // helper methods
 
+    private async Task SendRequest(HttpRequestMessage request)
+    {
+        var response = await SendWithAutorisationHeader(request);
+        await CheckResponseForErrors(response);
+    }
+
     private async Task<T?> SendRequest<T>(HttpRequestMessage request)
+    {
+        var response = await SendWithAutorisationHeader(request);
+        await CheckResponseForErrors(response);
+
+        return await response.Content.ReadFromJsonAsync<T>();
+    }
+
+    private async Task CheckResponseForErrors(HttpResponseMessage response)
+    {
+        // auto logout on 401 response
+        if (response.StatusCode == HttpStatusCode.Unauthorized)
+        {
+            _navigationManager.NavigateTo("logout");
+            return;
+        }
+
+        // throw exception on error response
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+            throw new Exception(error is not null
+                ? error["message"]
+                : "Fatal error"
+            );
+        }
+    }
+
+    private async Task<HttpResponseMessage> SendWithAutorisationHeader(HttpRequestMessage request)
     {
         if (request.RequestUri is null)
         {
@@ -73,26 +113,6 @@ public class HttpService : IHttpService
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
         }
 
-        using var response = await _httpClient.SendAsync(request);
-
-        // auto logout on 401 response
-        if (response.StatusCode == HttpStatusCode.Unauthorized)
-        {
-            _navigationManager.NavigateTo("logout");
-            return default;
-        }
-
-        // throw exception on error response
-        if (!response.IsSuccessStatusCode)
-        {
-            var error = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
-            throw new Exception(error is not null 
-                ? error["message"] 
-                : "Fatal error"
-            );
-        }
-
-        var result = await response.Content.ReadFromJsonAsync<T>();
-        return result;
+        return await _httpClient.SendAsync(request);
     }
 }

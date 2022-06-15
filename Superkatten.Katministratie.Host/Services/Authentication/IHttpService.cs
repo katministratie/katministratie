@@ -6,4 +6,5 @@ public interface IHttpService
     Task<T?> Put<T>(string uri, object value);
     Task<T?> Post<T>(string uri);
     Task<T?> Post<T>(string uri, object value);
+    Task Delete(string uri);
 }

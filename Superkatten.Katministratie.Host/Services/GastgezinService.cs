@@ -29,55 +29,35 @@ public class GastgezinService : IGastgezinService
     public async Task<Gastgezin?> CreateGastgezinAsync(CreateOrUpdateNawGastgezinParameters newGastgezinParameters)
     {
         var uri = "api/Gastgezinnen";
-        var response = await _client.PutAsJsonAsync(uri, newGastgezinParameters);
-
-        var stream = await response.Content.ReadAsStreamAsync();
-
-        return stream is null
-            ? null
-            : await JsonSerializer.DeserializeAsync<Gastgezin>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+        var response = await _httpService.Put<Gastgezin>(uri, newGastgezinParameters);
+        return response;
     }
 
     public async Task<Gastgezin?> CreateGastgezinAsync(CreateOrUpdateGastgezinParameters newGastgezinParameters)
     {
         var uri = "api/Gastgezinnen";
-        var response = await _client.PutAsJsonAsync(uri, newGastgezinParameters);
-
-        var stream = await response.Content.ReadAsStreamAsync();
-
-        return stream is null
-            ? null
-            : await JsonSerializer.DeserializeAsync<Gastgezin>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+        var response = await _httpService.Put<Gastgezin>(uri, newGastgezinParameters);
+        return response;
     }
 
     public async Task<Gastgezin?> UpdateGastgezinAsync(Guid id, CreateOrUpdateNawGastgezinParameters updateNawGastgezinParameters)
     {
         var uri = $"api/Gastgezinnen?Id={id}";
-        var response = await _client.PostAsJsonAsync(uri, updateNawGastgezinParameters);
-
-        var stream = await response.Content.ReadAsStreamAsync();
-
-        return stream is null
-            ? null
-            : await JsonSerializer.DeserializeAsync<Gastgezin>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+        var response = await _httpService.Post<Gastgezin>(uri, updateNawGastgezinParameters);
+        return response;
     }
 
     public async Task<Gastgezin?> UpdateGastgezinAsync(Guid id, CreateOrUpdateGastgezinParameters updateGastgezinParameters)
     {
         var uri = $"api/Gastgezinnen/AssignSuperkatten?Id={id}";
-        var response = await _client.PostAsJsonAsync(uri, updateGastgezinParameters);
-
-        var stream = await response.Content.ReadAsStreamAsync();
-
-        return stream is null
-            ? null
-            : await JsonSerializer.DeserializeAsync<Gastgezin>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+        var response = await _httpService.Post<Gastgezin>(uri, updateGastgezinParameters); // TODO: change func to Async
+        return response;
     }
 
     public async Task DeleteGastgezinAsync(Guid id)
     {
         var uri = $"api/Gastgezinnen?Id={id}";
-        _ = await _client.DeleteAsync(uri);
+        await _httpService.Delete(uri);
     }
 
     public async Task<Gastgezin?> GetGastgezinAsync(Guid id)
@@ -91,9 +71,7 @@ public class GastgezinService : IGastgezinService
     public async Task<List<Gastgezin>> GetAllGastgezinAsync()
     {
         var uri = "api/Gastgezinnen";
-
         var gastgezinnen = await _httpService.Get<List<Gastgezin>>(uri);
-
         return gastgezinnen is null
             ? new()
             : gastgezinnen;

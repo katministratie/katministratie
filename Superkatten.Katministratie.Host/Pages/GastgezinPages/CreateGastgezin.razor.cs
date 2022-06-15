@@ -1,12 +1,11 @@
-﻿using Superkatten.Katministratie.Contract;
-using Superkatten.Katministratie.Contract.ApiInterface;
+﻿using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Host.Entities;
 
 namespace Superkatten.Katministratie.Host.Pages.GastgezinPages;
 
 public partial class CreateGastgezin
 {
-    public Gastgezin? Gastgezin { get; set; }
+    public Gastgezin? Gastgezin { get; set; } = new();
                     
     private bool ValidName => string.IsNullOrWhiteSpace(Gastgezin?.Name);
 
