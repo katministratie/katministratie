@@ -64,7 +64,7 @@ public class UserAuthorisationRepository : IUserAuthorisationRepository
 
         if (userDto is null)
         {
-            throw new DatabaseException($"user with name '{userName}' is unknwon in the database");
+            throw new DatabaseException($"user with name '{userName}' is unknown in the database");
         }
 
         return _userMapper.MapRepositoryToDomain(userDto);
