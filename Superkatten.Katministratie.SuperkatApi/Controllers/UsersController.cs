@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Superkatten.Katministratie.Application.Services;
 using Superkatten.Katministratie.Contract.Authenticate;
+using Superkatten.Katministratie.Domain.Entities;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers;
 
-[Authorize]
+[Authorize(Policy = SuperkattenPolicies.POLICY_ADMINISTRATOR)]
 [ApiController]
 [Route("api/[controller]")]
 public class UsersController : ControllerBase

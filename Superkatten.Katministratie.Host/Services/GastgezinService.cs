@@ -93,10 +93,9 @@ public class GastgezinService : IGastgezinService
         var uri = "api/Gastgezinnen";
 
         var gastgezinnen = await _httpService.Get<List<Gastgezin>>(uri);
-        //        var gastgezinnen = await _client.GetFromJsonAsync<List<ContractEntities.Gastgezin>>(uri);
 
         return gastgezinnen is null
             ? new()
-            : gastgezinnen; //.Select(_mapper.MapContractToHost).ToList();
+            : gastgezinnen;
     }
 }

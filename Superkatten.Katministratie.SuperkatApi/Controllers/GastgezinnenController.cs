@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
 using Superkatten.Katministratie.Contract.ApiInterface;
+using Superkatten.Katministratie.Domain.Entities;
 using ContractEntities = Superkatten.Katministratie.Contract.Entities;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = SuperkattenPolicies.POLICY_ADMINISTRATOR)]
     [Route("api/[controller]")]
     [ApiController]
     public class GastgezinnenController

@@ -4,6 +4,7 @@ using Microsoft.OpenApi.Models;
 using Superkatten.Katministratie.Application;
 using Superkatten.Katministratie.Application.Authenticate.Middleware;
 using Superkatten.Katministratie.Application.Configuration;
+using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Infrastructure;
 using Superkatten.Katministratie.Infrastructure.Persistence;
 using System.Text;
@@ -45,8 +46,7 @@ builder.Configuration.AddEnvironmentVariables();
     });
     builder.Services.AddApplicationServices(builder.Configuration);
     builder.Services.AddInfrastructure(builder.Configuration);
-    //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    //    .AddJwtBearer();
+
     builder.Services.AddAuthentication(options => {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -65,6 +65,22 @@ builder.Configuration.AddEnvironmentVariables();
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(UserAuthorisationConfiguration.Secret))
             };
         });
+
+    builder.Services.AddAuthorization(options =>
+    {
+        options.AddPolicy(SuperkattenPolicies.POLICY_ADMINISTRATOR, policy =>
+            policy.RequireRole(
+                PermissionEnum.CreateEditDeleteGastgezin.ToString(),
+                PermissionEnum.CreateEditDeleteSuperkatten.ToString(),
+                PermissionEnum.CreateEditDeleteUser.ToString(),
+                PermissionEnum.ViewOnly.ToString()
+            ));
+
+        options.AddPolicy(SuperkattenPolicies.POLICY_GASTGEZIN, policy =>
+            policy.RequireRole(
+                PermissionEnum.ViewOnly.ToString()
+            ));
+    });
 }
 
 //----------------------------------------------------------------------------------------------------------

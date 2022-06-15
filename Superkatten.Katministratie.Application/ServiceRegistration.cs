@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Superkatten.Katministratie.Application.Authenticate;
+using Superkatten.Katministratie.Application.Authorization;
 using Superkatten.Katministratie.Application.CageCard;
-using Superkatten.Katministratie.Application.Configuration;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
 using Superkatten.Katministratie.Application.Services;
@@ -24,6 +25,8 @@ namespace Superkatten.Katministratie.Application
             
             services.AddScoped<IJwtUtils, JwtUtils>();
             services.AddScoped<IUserService, UserService>();
+
+            services.AddTransient<IAuthorizationHandler, AuthorisationHandler>();
 
             return services;
         }

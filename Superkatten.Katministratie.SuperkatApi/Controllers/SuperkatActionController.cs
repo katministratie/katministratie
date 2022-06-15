@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Contract.ApiInterface;
+using Superkatten.Katministratie.Domain.Entities;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = SuperkattenPolicies.POLICY_ADMINISTRATOR)]
+    [Authorize(Policy = SuperkattenPolicies.POLICY_GASTGEZIN)]
     [Route("api/[Controller]")]
     [ApiController]
     public class SuperkatActionController

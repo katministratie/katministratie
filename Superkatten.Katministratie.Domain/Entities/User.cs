@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Superkatten.Katministratie.Domain.Entities;
 
@@ -8,7 +10,8 @@ public class User
     public string Name { get; init; } = string.Empty;
     public string Email { get; init; } = string.Empty;
     public string Username { get; init; } = string.Empty;
-    public bool IsEnabled { get; init; } = false;
+    public bool IsEnabled { get; init; } = true;  //TODO: default to false + way to enable ?
+    public IReadOnlyCollection<PermissionEnum> Permissions { get; init; } = Array.Empty<PermissionEnum>();
 
     [JsonIgnore]
     public string? PasswordHash { get; set; }

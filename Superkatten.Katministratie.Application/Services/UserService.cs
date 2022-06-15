@@ -63,11 +63,9 @@ public class UserService : IUserService
 
     public User? GetById(int id)
     {
-        var user = _userAuthorisationRepository
+        return _userAuthorisationRepository
             .GetAllUsers()
             .FirstOrDefault(u => u.Id == id);
-
-        return user;
     }
 
     public void Register(RegisterRequest model)
@@ -119,7 +117,7 @@ public class UserService : IUserService
             :BcryptNet.HashPassword(model.Password);
 
         // copy model to user and save
-        user = _userAuthorisationMapper.MapModelToUser(id, model, passwordHash);
+        user = _userAuthorisationMapper.MapToDomain(id, model, passwordHash);
 
         _userAuthorisationRepository.UpdateUser(user);
     }

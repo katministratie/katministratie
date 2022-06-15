@@ -24,6 +24,7 @@ namespace Superkatten.Katministratie.Infrastructure
             services.AddTransient<IGastgezinnenRepository, GastgezinnenRepository>();
             services.AddTransient<IGastgezinRepositoryMapper, GastgezinRepositoryMapper>();
             services.AddTransient<IUserAuthorisationRepository, UserAuthorisationRepository>();
+            services.AddTransient<IUserMapper, UserMapper>();
 
             return services;
         }
