@@ -44,11 +44,14 @@ internal class AuthorisationHandler : IAuthorizationHandler
                 if (permissionCount > 0)
                 {
                     context.Succeed(requirement);
-                    continue;
+                    return Task.CompletedTask;
                 }
             }
         }
 
+        context.Fail(
+            new AuthorizationFailureReason(this, "User is not authorized to use this function")
+        );
 
         return Task.CompletedTask;
     }
