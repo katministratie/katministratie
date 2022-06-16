@@ -57,6 +57,16 @@ public class HttpService : IHttpService
         return await SendRequest<T>(request);
     }
 
+    public async Task Put(string uri, object value)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Put, uri)
+        {
+            Content = new StringContent(JsonSerializer.Serialize(value), Encoding.UTF8, "application/json")
+        };
+
+        await SendRequest(request);
+    }
+
     public async Task Delete(string uri)
     {
         var request = new HttpRequestMessage(HttpMethod.Delete, uri);

@@ -13,7 +13,7 @@ public class SuperkattenListService : ISuperkattenListService
     private readonly IHttpService _httpService;
 
     public SuperkattenListService(
-        HttpClient client, 
+        HttpClient client,
         IHttpService httpService
     )
     {

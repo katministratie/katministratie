@@ -19,6 +19,7 @@ public class GastgezinMapper : IGastgezinMapper
             Name = gastgezin.Name,
             Address = gastgezin.Address,
             City = gastgezin.City,
+            Phone = gastgezin.Phone,
             Superkatten = superkatten
         };
     }

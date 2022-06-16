@@ -1,4 +1,5 @@
 ﻿using Superkatten.Katministratie.Host.Entities;
+using Superkatten.Katministratie.Host.Services.Authentication;
 using System.Net.Http.Json;
 
 
@@ -6,23 +7,23 @@ namespace Superkatten.Katministratie.Host.Services
 {
     public class SuperkatActionService : ISuperkatActionService
     {
-        private readonly HttpClient _client;
+        private readonly IHttpService _httpService;
 
-        public SuperkatActionService(HttpClient client)
+        public SuperkatActionService(IHttpService httpService)
         {
-            _client = client;
+            _httpService = httpService;
         }
 
-        public async Task ToggleReserveSuperkatAsync(Guid superkatId)
+        public Task ToggleReserveSuperkatAsync(Guid superkatId)
         {
             var uri = $"api/SuperkatAction/ToggleReserve";
-            _ = await _client.PutAsJsonAsync(uri, superkatId);
+            return _httpService.Put(uri, superkatId);
         }
 
-        public async Task ToggleRetourSuperkatAsync(Guid superkatId)
+        public Task ToggleRetourSuperkatAsync(Guid superkatId)
         {
             var uri = $"api/SuperkatAction/ToggleRetour";
-            _ = await _client.PutAsJsonAsync(uri, superkatId);
+            return _httpService.Put(uri, superkatId);
         }
 
         public Task CreateSuperkatCageCardAsync(SuperkatCageCardPrintParameters parameters)

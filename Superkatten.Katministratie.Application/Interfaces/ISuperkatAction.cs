@@ -2,12 +2,11 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Superkatten.Katministratie.Application.Interfaces
+namespace Superkatten.Katministratie.Application.Interfaces;
+
+public interface ISuperkatAction
 {
-    public interface ISuperkatAction
-    {
-        Task ToggleRetourAsync(Guid id );
-        Task ToggleReserveAsync(Guid id);
-        Task CreateSuperkatCageCardAsync(SuperkatCageCardPrintParameters parameters);
-    }
+    Task ToggleRetourAsync(Guid id );
+    Task ToggleReserveAsync(Guid id);
+    Task CreateSuperkatCageCardAsync(SuperkatCageCardPrintParameters parameters);
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Superkatten.Katministratie.Domain.Entities;
+using Superkatten.Katministratie.Infrastructure.Entities;
 using Superkatten.Katministratie.Infrastructure.Exceptions;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
 using Superkatten.Katministratie.Infrastructure.Mapper;
@@ -120,7 +121,8 @@ public class GastgezinnenRepository : IGastgezinnenRepository
         gastgezinDto.Phone = gastgezin.Phone;
         gastgezinDto.Superkatten = GetIntersection(
             _context.SuperKatten.ToList(), 
-            gastgezin.Superkatten);
+            gastgezin.Superkatten
+        );
        
         _context.Gastgezinnen.Update(gastgezinDto);
         _ = await _context.SaveChangesAsync();
@@ -130,16 +132,7 @@ public class GastgezinnenRepository : IGastgezinnenRepository
 
     private List<Entities.SuperkatDto> GetIntersection(List<Entities.SuperkatDto> availableSuperkatten, List<Superkat> superkatten)
     {
-        var list = new List<Entities.SuperkatDto>();
-
-        foreach (var superkat in superkatten)
-        {
-            var result = availableSuperkatten.FirstOrDefault(s => s.Id == superkat.Id);
-            if (result is not null)
-            {
-                list.Add(result);
-            }
-        }
-        return list;
+        var selection = availableSuperkatten.Where(s => superkatten.Any(k => k.Id == s.Id)).ToList();
+        return selection;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Superkatten.Katministratie.Domain.Entities;
+using Superkatten.Katministratie.Infrastructure.Entities;
 using Superkatten.Katministratie.Infrastructure.Exceptions;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
 using Superkatten.Katministratie.Infrastructure.Mapper;
@@ -29,15 +30,15 @@ public class SuperkattenRepository : ISuperkattenRepository
 
     public async Task<Superkat> CreateSuperkatAsync(Superkat superkat)
     {
-        var isAvailable = await _context
+        var superkatDtoExsist = await _context
             .SuperKatten
             .AnyAsync(s => s.Id == superkat.Id);
             
-        if (isAvailable)
+        if (superkatDtoExsist)
         {
             throw new DatabaseException($"A {nameof(Superkat)} found in the database with id {superkat.Id}");
         }
-        
+
         var superkatDto = _mapper.MapDomainToRepository(superkat);
 
         await _context.SuperKatten.AddAsync(superkatDto);
@@ -51,7 +52,7 @@ public class SuperkattenRepository : ISuperkattenRepository
        var superkatDto = await _context
             .SuperKatten
             .Where(s => s.Id == id)
-            .FirstAsync();
+            .FirstOrDefaultAsync();
 
         if (superkatDto is null)
         {
@@ -107,16 +108,24 @@ public class SuperkattenRepository : ISuperkattenRepository
 
     public async Task UpdateSuperkatAsync(Superkat superkat)
     {
-        var isValidSuperkat = _context
+        var superkatDto = _context
             .SuperKatten
-            .Any(s => s.Id == superkat.Id);
+            .FirstOrDefault(s => s.Id == superkat.Id);
 
-        if (!isValidSuperkat)
+        if (superkatDto is null)
         {
             throw new DatabaseException($"No superkat found in the database with id {superkat.Id}");
         }
 
-        var superkatDto = _mapper.MapDomainToRepository(superkat);
+        superkatDto.Retour = superkat.Retour;
+        superkatDto.CageNumber = superkat.CageNumber;
+        superkatDto.Behaviour = (int)superkat.Behaviour;
+        superkatDto.Area = (int)superkat.CatArea;
+        superkatDto.Birthday = superkat.Birthday;
+        superkatDto.Gender = (int)superkat.Gender;
+        superkatDto.IsKitten = superkat.IsKitten;
+        superkatDto.Name = superkat.Name;
+        superkatDto.Reserved = superkat.Reserved;
 
         _context.Update(superkatDto);
         await _context.SaveChangesAsync();
