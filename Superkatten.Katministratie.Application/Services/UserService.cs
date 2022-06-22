@@ -32,8 +32,7 @@ public class UserService : IUserService
             throw new AuthorisationException("Given username may not be null");
         }
 
-        var user = _userAuthorisationRepository
-            .GetUserByName(model.Username);
+        var user = _userAuthorisationRepository.GetUserByName(model.Username);
 
         if (user is null)
         {
@@ -42,7 +41,7 @@ public class UserService : IUserService
 
         if (!user.IsEnabled)
         {
-            throw new AuthorisationException("User is not enabled yet");
+            throw new AuthorisationException("User is disabled");
         }
 
         if (!BcryptNet.Verify(model.Password, user.PasswordHash))
@@ -51,9 +50,8 @@ public class UserService : IUserService
         }
 
         // authentication successful
-        var token = _jwtUtils.GenerateToken(user);
-        var response = _userAuthorisationMapper.MapToAuthenticateResponse(user, token);
-        return response;
+        var token = _jwtUtils.GenerateToken(user);        
+        return _userAuthorisationMapper.MapToAuthenticateResponse(user, token);
     }
 
     public IEnumerable<User> GetAll()
@@ -83,14 +81,21 @@ public class UserService : IUserService
         // hash password
         var passwordHash = BcryptNet.HashPassword(model.Password);
 
-        // map model to new user object
-        var user = _userAuthorisationMapper.MapModelToUser(model, passwordHash);
+        // create domain user model
+        var domainUser = new User
+        {
+            Name = model.Name,
+            Email = model.Email,
+            IsEnabled = true,
+            Username = model.Username,
+            PasswordHash = passwordHash
+        };
 
         // save user
-        _userAuthorisationRepository.StoreUser(user);
+        _userAuthorisationRepository.StoreUser(domainUser);
     }
 
-    public void Update(int id, UpdateRequest model)
+    public void Update(int id, UpdateRequest updateRequest)
     {
         var user = _userAuthorisationRepository
             .GetAllUsers()
@@ -104,20 +109,20 @@ public class UserService : IUserService
         // validate
         var userExsist = _userAuthorisationRepository
             .GetAllUsers()
-            .Any(x => x.Username == model.Username);
+            .Any(x => x.Username == updateRequest.Username);
 
-        if (model.Username != user.Username && userExsist)
+        if (updateRequest.Username != user.Username && userExsist)
         {
-            throw new AuthorisationException("Username '" + model.Username + "' is already taken");
+            throw new AuthorisationException("Username '" + updateRequest.Username + "' is already taken");
         }
 
         // hash password if it was entered
-        var passwordHash = string.IsNullOrEmpty(model.Password)
+        var passwordHash = string.IsNullOrEmpty(updateRequest.Password)
             ? string.Empty
-            :BcryptNet.HashPassword(model.Password);
+            :BcryptNet.HashPassword(updateRequest.Password);
 
         // copy model to user and save
-        user = _userAuthorisationMapper.MapToDomain(id, model, passwordHash);
+        user = user.Update(updateRequest.Username, updateRequest.Email, updateRequest.Name, passwordHash);
 
         _userAuthorisationRepository.UpdateUser(user);
     }

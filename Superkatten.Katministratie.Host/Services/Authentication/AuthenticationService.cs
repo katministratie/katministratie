@@ -6,6 +6,8 @@ namespace Superkatten.Katministratie.Host.Services.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
+        private const string STORAGE_USER_KEY = "user";
+
         private readonly IHttpService _httpService;
         private readonly NavigationManager _navigationManager;
         private readonly ILocalStorageService _localStorageService;
@@ -22,6 +24,11 @@ namespace Superkatten.Katministratie.Host.Services.Authentication
             _httpService = httpService;
             _navigationManager = navigationManager;
             _localStorageService = localStorageService;
+        }
+
+        public async Task InitializeAsync()
+        {
+            User = await _localStorageService.GetItem<User>(STORAGE_USER_KEY);
         }
 
         public async Task AuthenticateUserAsync(string username, string password)
@@ -44,13 +51,13 @@ namespace Superkatten.Katministratie.Host.Services.Authentication
                 Id = result?.Id ?? -1
             };
 
-            await _localStorageService.SetItem("user", User);
+            await _localStorageService.SetItem(STORAGE_USER_KEY, User);
         }
 
         public async Task LogoutAsync()
         {
             User = null!;
-            await _localStorageService.RemoveItem("user");
+            await _localStorageService.RemoveItem(STORAGE_USER_KEY);
             _navigationManager.NavigateTo("");
         }
 

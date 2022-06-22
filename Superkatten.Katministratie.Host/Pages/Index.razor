@@ -54,6 +54,13 @@
 </Row>
 
 @code {
+    protected override Task OnInitializedAsync()
+    {
+        _authenticationService.InitializeAsync();
+        return base.OnInitializedAsync();
+    }
+
+
     private void OnRegister()
     {
         _navigationManager.NavigateTo("Register");

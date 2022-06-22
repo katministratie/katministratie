@@ -1,7 +1,5 @@
 ﻿using Superkatten.Katministratie.Contract.Authenticate;
 using Superkatten.Katministratie.Domain.Entities;
-using System;
-using System.Collections.Generic;
 
 namespace Superkatten.Katministratie.Application.Authenticate
 {
@@ -9,28 +7,6 @@ namespace Superkatten.Katministratie.Application.Authenticate
 
     public class UserAuthorisationMapper : IUserAuthorisationMapper
     {
-        public User MapModelToUser(RegisterRequest model, string? passwordHash)
-        {
-            var user = new User
-            {
-                Name = model.Name,
-                Email = model.Email,
-                Username = model.Username,
-                PasswordHash = passwordHash,
-                Permissions = SetDefaultPermission()
-            };
-
-            return user;
-        }
-
-        private IReadOnlyCollection<PermissionEnum> SetDefaultPermission()
-        {
-            return new List<PermissionEnum>
-            { 
-                PermissionEnum.ViewOnly
-            };        
-        }
-
         public User MapToDomain(int id, UpdateRequest model, string? passwordHash)
         {
             var user = new User

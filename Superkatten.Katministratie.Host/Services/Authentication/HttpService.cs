@@ -98,9 +98,19 @@ public class HttpService : IHttpService
             return;
         }
 
+        if (response.StatusCode == HttpStatusCode.Forbidden)
+        {
+            return;
+        }
+
         // throw exception on error response
         if (!response.IsSuccessStatusCode)
         {
+            if (response.Content?.Headers.ContentType?.MediaType != "application/json")
+            {
+                throw new Exception($"unsuccesfull; response is: {response.StatusCode}");
+            }
+            
             var error = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
             throw new Exception(error is not null
                 ? error["message"]

@@ -4,7 +4,8 @@ namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 
 public partial class SelectSuperkatForGastgezin
 {
-    public Gastgezin? _gastgezin { get; set; } = new Gastgezin { Name = "John Doee" };
+    public Gastgezin? Gastgezin { get; set; } = new Gastgezin { Name = "John Doee" };
+
     private void OnBackHome()
     {
         _navigationManager.NavigateTo("");

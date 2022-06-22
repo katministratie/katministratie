@@ -69,16 +69,26 @@ builder.Configuration.AddEnvironmentVariables();
     builder.Services.AddAuthorization(options =>
     {
         options.AddPolicy(SuperkattenPolicies.POLICY_ADMINISTRATOR, policy =>
+        {
+            var allPermissionValues = (PermissionEnum[])Enum.GetValues(typeof(PermissionEnum));
+            var array = allPermissionValues
+                .Select(value => value.ToString())
+                .ToArray();
+            foreach (var item in array)
+            {
+                policy.RequireRole(item);
+            }
+        });
+
+        options.AddPolicy(SuperkattenPolicies.POLICY_VIEW_ONLY, policy =>
             policy.RequireRole(
-                PermissionEnum.CreateEditDeleteGastgezin.ToString(),
-                PermissionEnum.CreateEditDeleteSuperkatten.ToString(),
-                PermissionEnum.CreateEditDeleteUser.ToString(),
                 PermissionEnum.ViewOnly.ToString()
             ));
 
         options.AddPolicy(SuperkattenPolicies.POLICY_GASTGEZIN, policy =>
             policy.RequireRole(
-                PermissionEnum.ViewOnly.ToString()
+                PermissionEnum.CreateEditDeleteGastgezin.ToString(),
+                PermissionEnum.AssignSuperkatten.ToString()
             ));
     });
 }
@@ -111,6 +121,7 @@ app.UseSwaggerUI();
 
 // custom jwt auth middleware
 app.UseMiddleware<JwtMiddleware>();
+
 // global error handler
 app.UseMiddleware<ErrorHandlerMiddleware>();
 

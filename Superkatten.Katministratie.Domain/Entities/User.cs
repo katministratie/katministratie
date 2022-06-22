@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Superkatten.Katministratie.Domain.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
@@ -15,4 +16,37 @@ public class User
 
     [JsonIgnore]
     public string? PasswordHash { get; set; }
+
+    public User()
+    {
+        Permissions = new List<PermissionEnum>() 
+        { 
+            PermissionEnum.ViewOnly 
+        };
+    }
+
+    public User Update(string username, string email, string name, string passwordHash)
+    {
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            throw new DomainException($"username can not be empty");
+        }
+
+        if (string.IsNullOrWhiteSpace(passwordHash))
+        {
+            throw new DomainException($"password can not be empty");
+        }
+
+        return new User
+        {
+            Id = Id,
+            IsEnabled = IsEnabled,
+            Permissions = Permissions,
+
+            Name = name,
+            Email = email,
+            Username = username,
+            PasswordHash = passwordHash
+        };
+    }
 }

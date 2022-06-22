@@ -8,7 +8,7 @@ using ContractEntities = Superkatten.Katministratie.Contract.Entities;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers
 {
-    [Authorize(Policy = SuperkattenPolicies.POLICY_ADMINISTRATOR)]
+    [Authorize(Policy = SuperkattenPolicies.POLICY_GASTGEZIN)]
     [Route("api/[controller]")]
     [ApiController]
     public class GastgezinnenController
@@ -32,6 +32,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
                 .ToList();
         }
 
+        [Authorize(Policy = SuperkattenPolicies.POLICY_ADMINISTRATOR)]
         [HttpPut]
         public async Task<ContractEntities.Gastgezin> PutGastgezin([FromBody] CreateOrUpdateNawGastgezinParameters createGastgezinParameters)
         {
@@ -39,6 +40,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
             return _mapper.MapDomainToContract(gastgezin);
         }
 
+        [Authorize(Policy = SuperkattenPolicies.POLICY_ADMINISTRATOR)]
         [HttpPost]
         [Route("AssignSuperkatten")]
         public async Task<ContractEntities.Gastgezin> PostGastgezin(Guid id, [FromBody] CreateOrUpdateGastgezinParameters updateGastgezinParameters)
@@ -47,6 +49,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
             return _mapper.MapDomainToContract(gastgezin);
         }
 
+        [Authorize(Policy = SuperkattenPolicies.POLICY_ADMINISTRATOR)]
         [HttpPost]
         public async Task<ContractEntities.Gastgezin> PostGastgezin(Guid id, [FromBody] CreateOrUpdateNawGastgezinParameters updateGastgezinParameters)
         {
@@ -54,6 +57,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
             return _mapper.MapDomainToContract(gastgezin);
         }
 
+        [Authorize(Policy = SuperkattenPolicies.POLICY_ADMINISTRATOR)]
         [HttpDelete]
         public async Task DeleteGastgezin(Guid id)
         {

@@ -8,7 +8,7 @@ using ContractEntities = Superkatten.Katministratie.Contract.Entities;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers
 {
-    [Authorize(Policy = SuperkattenPolicies.POLICY_ADMINISTRATOR)]
+    [Authorize(Policy = SuperkattenPolicies.POLICY_VIEW_ONLY)]
     [Route("api/[controller]")]
     [ApiController]
     public class SuperkattenController
@@ -41,6 +41,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
                 .ToList();
         }
 
+        [Authorize(Policy = SuperkattenPolicies.POLICY_ADMINISTRATOR)]
         [HttpPut]
         public async Task<ContractEntities.Superkat> PutSuperkat([FromBody] CreateSuperkatParameters newSuperkatParameters)
         {
@@ -48,6 +49,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
             return _mapper.MapDomainToContract(superkat);
         }
 
+        [Authorize(Policy = SuperkattenPolicies.POLICY_ADMINISTRATOR)]
         [HttpPost]
         public async Task<ContractEntities.Superkat> PostSuperkat([FromBody] UpdateSuperkatParameters updateSuperkatParameters)
         {
@@ -55,6 +57,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
             return _mapper.MapDomainToContract(superkat);
         }
 
+        [Authorize(Policy = SuperkattenPolicies.POLICY_ADMINISTRATOR)]
         [HttpDelete]
         public async Task DeleteSuperkat(Guid id)
         {

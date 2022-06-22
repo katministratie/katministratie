@@ -27,6 +27,7 @@ internal class AuthorisationHandler : IAuthorizationHandler
 
         if (user is null)
         {
+            context.Fail(new AuthorizationFailureReason(this, "No user logged in."));
             return Task.CompletedTask;
         }
 
@@ -37,9 +38,9 @@ internal class AuthorisationHandler : IAuthorizationHandler
             {
                 var permissions = user.Permissions.Select(s => s.ToString()).ToList();
                 var rolesRequirement = (RolesAuthorizationRequirement)requirement;
-                var permissionCount = rolesRequirement.AllowedRoles.Intersect(permissions).ToList().Count;
-
-                if (permissionCount > 0)
+                
+                var hasPermission = rolesRequirement.AllowedRoles.Intersect(permissions).Any();
+                if (hasPermission)
                 {
                     context.Succeed(requirement);
                     return Task.CompletedTask;
@@ -47,24 +48,9 @@ internal class AuthorisationHandler : IAuthorizationHandler
             }
         }
 
-        context.Fail(
-            new AuthorizationFailureReason(this, "User is not authorized to use this function")
-        );
+        var failException = new AuthorizationFailureReason(this, "User is not authorized to use this function");
+        context.Fail(failException);
 
         return Task.CompletedTask;
-    }
-
-    private bool CheckUserPermissions(IReadOnlyCollection<PermissionEnum> permissions, string allowedPermission)
-    {
-        foreach (var permission in permissions)
-        {
-            var permissionAsString = permission.ToString();
-            if (permissionAsString.Equals(allowedPermission))
-            {
-                return true;
-            }    
-        }
-
-        return false;
     }
 }
