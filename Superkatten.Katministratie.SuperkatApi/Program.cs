@@ -10,6 +10,8 @@ using Superkatten.Katministratie.Infrastructure.Persistence;
 using System.Text;
 
 const string SWAGGER_DOC_VERSION = "v1";
+const string CORS_POLICY_NAME = "DefaultCorsPolicy";
+
 var builder = WebApplication.CreateBuilder(args);
 
 //----------------------------------------------------------------------------------------------------------
@@ -17,7 +19,6 @@ builder.Configuration.AddEnvironmentVariables();
 
 {
     // Add services to the container.
-    builder.Services.AddCors();
     builder.Services.AddControllers();
     builder.Services.AddSwaggerGen(options =>
     {
@@ -82,20 +83,42 @@ builder.Configuration.AddEnvironmentVariables();
 
         options.AddPolicy(SuperkattenPolicies.POLICY_VIEW_ONLY, policy =>
             policy.RequireRole(
-                PermissionEnum.ViewOnly.ToString()
+                PermissionEnum.Viewer.ToString()
             ));
 
         options.AddPolicy(SuperkattenPolicies.POLICY_GASTGEZIN, policy =>
             policy.RequireRole(
-                PermissionEnum.CreateEditDeleteGastgezin.ToString(),
-                PermissionEnum.AssignSuperkatten.ToString()
+                PermissionEnum.Viewer.ToString(),
+                PermissionEnum.Gastgezin.ToString()
+            ));
+
+        options.AddPolicy(SuperkattenPolicies.POLICY_COORDINATOR, policy =>
+            policy.RequireRole(
+                PermissionEnum.Viewer.ToString(),
+                PermissionEnum.Coordinator.ToString()
             ));
     });
+
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(
+            name: CORS_POLICY_NAME, 
+            builder => 
+            {
+                builder.WithOrigins(
+                    "https://katministratie.azurewebsites.net"
+                );
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+            });
+    });
+
+    builder.Services.AddLogging();
 }
+
 
 //----------------------------------------------------------------------------------------------------------
 var app = builder.Build();
-
 
 //----------------------------------------------------------------------------------------------------------
 using (var scope = app.Services.CreateScope())
@@ -104,20 +127,25 @@ using (var scope = app.Services.CreateScope())
     dataContext.Database.EnsureCreated();
 }
 
-app.UseCors(cors => cors
-    .AllowAnyMethod()
-    .AllowAnyHeader()
-    .SetIsOriginAllowed(origin => true)
-    .AllowCredentials()
-    );
-
 if (builder.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1"));
 }
+
 app.UseSwagger();
 app.UseSwaggerUI();
+
+// For routing and sequence
+// see: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0#middleware-order
+//
+
+app.UseHttpsRedirection();
+app.UseRouting();
+app.UseCors(CORS_POLICY_NAME);
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 // custom jwt auth middleware
 app.UseMiddleware<JwtMiddleware>();
@@ -125,12 +153,6 @@ app.UseMiddleware<JwtMiddleware>();
 // global error handler
 app.UseMiddleware<ErrorHandlerMiddleware>();
 
-app.UseRouting();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();

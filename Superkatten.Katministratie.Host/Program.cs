@@ -15,20 +15,21 @@ builder.Services.AddTransient<ISuperkatActionService, SuperkatActionService>();
 builder.Services.AddTransient<IGastgezinService, GastgezinService>();
 builder.Services.AddTransient<IGastgezinMapper, GastgezinMapper>();
 builder.Services.AddTransient<ISuperkatMapper, SuperkatMapper>();
-builder.Services.AddTransient<HttpClient>(s =>
+builder.Services.AddTransient(s =>
 {
-    // When localhost: https://localhost:4000
+    // When localhost: https://localhost:7171
     // When azure: https://katministratie.azurewebsites.net/
 
-//    return new HttpClient { BaseAddress = new System.Uri("https://localhost:7171/") };
-    return new HttpClient { BaseAddress = new System.Uri("https://katministratie.azurewebsites.net/") };
+    //return new HttpClient { BaseAddress = new System.Uri("https://localhost:7171/") };
+    return new HttpClient { BaseAddress = new Uri("https://superkatten.azurewebsites.net/") };
 });
-
 
 // Add Scoped services
 builder.Services.AddSingleton<IHttpService, HttpService>();
 builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
 builder.Services.AddSingleton<ILocalStorageService, LocalStorageService>();
+
+builder.Services.AddLogging(configure => configure.SetMinimumLevel(LogLevel.Debug));
 
 // Add the ANT design from https://antblazor.com/
 builder.Services.AddAntDesign();

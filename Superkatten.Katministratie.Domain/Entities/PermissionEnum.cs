@@ -2,10 +2,8 @@
 
 public enum PermissionEnum
 {
-    Nothing,
-    ViewOnly,
-    AssignSuperkatten,
-    CreateEditDeleteGastgezin,
-    CreateEditDeleteSuperkatten,
-    CreateEditDeleteUser
+    Viewer,
+    Administrator,
+    Gastgezin,
+    Coordinator
 }

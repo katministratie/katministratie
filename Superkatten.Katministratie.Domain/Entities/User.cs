@@ -21,7 +21,7 @@ public class User
     {
         Permissions = new List<PermissionEnum>() 
         { 
-            PermissionEnum.ViewOnly 
+            PermissionEnum.Viewer 
         };
     }
 
