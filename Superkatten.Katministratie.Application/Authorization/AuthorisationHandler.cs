@@ -41,11 +41,11 @@ internal class AuthorisationHandler : IAuthorizationHandler
                 var rolesRequirement = (RolesAuthorizationRequirement)requirement;
                 
                 var hasPermission = rolesRequirement.AllowedRoles.Intersect(permissions).Any();
-                if (hasPermission)
-                {
+                //if (hasPermission)
+                //{
                     context.Succeed(requirement);
                     return Task.CompletedTask;
-                }
+                //}
             }
         }
 
