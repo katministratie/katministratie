@@ -65,6 +65,11 @@ namespace Superkatten.Katministratie.Application.Services
             var estimatedBirthday = catchDate.AddDays(-DAY_IN_ONE_WEEK * estimatedWeeksOld);
             superkat.SetBirthday(estimatedBirthday);
 
+            superkat.SetLitterType(_mapper.MapContractToDomain(createSuperkatParameters.LitterType));
+            superkat.SetWetFoodAllowed(createSuperkatParameters.WetFoodAllowed);
+            superkat.SetFoodType(_mapper.MapContractToDomain(createSuperkatParameters.FoodType));
+            superkat.SetColor(createSuperkatParameters.Color);
+
             var createdSuperkat = await _superkattenRepository.CreateSuperkatAsync(superkat);
 
             return createdSuperkat;

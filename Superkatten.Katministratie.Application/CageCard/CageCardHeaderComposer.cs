@@ -47,14 +47,14 @@ namespace Superkatten.Katministratie.Application.CageCard
                         column.Item().AlignMiddle().AlignCenter().Text($"{_superkat.CatchLocation}").Style(titleStyle);
                     });
 
-                if (_superkat.CatArea == CatArea.Unknown)
+                if (_superkat.CatArea == CatArea.BigEnclosure)
                 {
                     row.RelativeItem()
                         .Border(1)
                         .Column(column =>
                         {
-                            column.Item().AlignCenter().Text($"Hok nr.").Style(titleStyle);
-                            column.Item().AlignCenter().Text($"{_superkat.CageNumber}").Style(titleStyle);
+                            column.Item().AlignMiddle().Text($"Geplaatst in").Style(titleStyle);
+                            column.Item().AlignMiddle().Text($"de grote ren").Style(titleStyle);
                         });
                 }
                 else
@@ -63,8 +63,8 @@ namespace Superkatten.Katministratie.Application.CageCard
                         .Border(1)
                         .Column(column =>
                         {
-                            column.Item().AlignMiddle().Text($"Geplaatst in").Style(titleStyle);
-                            column.Item().AlignMiddle().Text($"de grote ren").Style(titleStyle);
+                            column.Item().AlignCenter().Text($"Hok nr.").Style(titleStyle);
+                            column.Item().AlignCenter().Text($"{_superkat.CageNumber}").Style(titleStyle);
                         });
                 }
             });

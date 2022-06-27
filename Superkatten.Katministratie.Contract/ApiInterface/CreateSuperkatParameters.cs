@@ -13,4 +13,8 @@ public class CreateSuperkatParameters
     public CatBehaviour Behaviour { get; init; }
     public bool IsKitten { get; init; }
     public Gender Gender { get; init; }
+    public LitterGranuleType LitterType { get; init; }
+    public bool WetFoodAllowed { get; init; }
+    public FoodType FoodType { get; init; }
+    public string Color { get; set; } = string.Empty;
 }

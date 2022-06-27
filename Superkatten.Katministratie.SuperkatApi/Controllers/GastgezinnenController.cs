@@ -8,7 +8,7 @@ using ContractEntities = Superkatten.Katministratie.Contract.Entities;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers
 {
-    [Authorize(Policy = SuperkattenPolicies.POLICY_GASTGEZIN)]
+    [Authorize(Roles = nameof(PermissionEnum.Administrator))]
     [Route("api/[controller]")]
     [ApiController]
     public class GastgezinnenController

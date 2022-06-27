@@ -1,4 +1,5 @@
-﻿using Superkatten.Katministratie.Host.Api;
+﻿using Superkatten.Katministratie.Contract.ApiInterface;
+using Superkatten.Katministratie.Host.Api;
 using Superkatten.Katministratie.Host.Entities;
 
 namespace Superkatten.Katministratie.Host.Services

@@ -42,9 +42,11 @@ namespace Superkatten.Katministratie.Application.Mappers
         {
             return catArea switch
             {
-                CatArea.LargeCage => contractEntities.CatArea.LargeCage,
-                CatArea.SmallCage => contractEntities.CatArea.SmallCage,
-                CatArea.Unknown => contractEntities.CatArea.Unknown,
+                CatArea.Quarantine => contractEntities.CatArea.Quarantine,
+                CatArea.Infirmary => contractEntities.CatArea.Infirmary,
+                CatArea.SmallEnclosure => contractEntities.CatArea.SmallEnclosure,
+                CatArea.BigEnclosure => contractEntities.CatArea.BigEnclosure,
+                CatArea.Room2 => contractEntities.CatArea.Room2,
                 _ => throw new InvalidEnumArgumentException(nameof(catArea), (int)catArea, typeof(CatArea))
             };
         }
@@ -84,9 +86,11 @@ namespace Superkatten.Katministratie.Application.Mappers
         {
             return area switch
             {
-                contractEntities.CatArea.LargeCage => CatArea.LargeCage,
-                contractEntities.CatArea.SmallCage => CatArea.SmallCage,
-                contractEntities.CatArea.Unknown => CatArea.Unknown,
+                contractEntities.CatArea.Quarantine => CatArea.Quarantine,
+                contractEntities.CatArea.Infirmary => CatArea.Infirmary,
+                contractEntities.CatArea.SmallEnclosure => CatArea.SmallEnclosure,
+                contractEntities.CatArea.BigEnclosure => CatArea.BigEnclosure,
+                contractEntities.CatArea.Room2 => CatArea.Room2,
                 _ => throw new InvalidEnumArgumentException(nameof(area), (int)area, typeof(contractEntities.CatArea))
             };
         }
@@ -110,6 +114,28 @@ namespace Superkatten.Katministratie.Application.Mappers
                 contractEntities.Gender.Tomcat => Gender.Tomcat,
                 contractEntities.Gender.Unknown => Gender.Unknown,
                 _ => throw new InvalidEnumArgumentException(nameof(gender), (int)gender, typeof(contractEntities.Gender))
+            };
+        }
+
+        public LitterGranuleType MapContractToDomain(contractEntities.LitterGranuleType litterType)
+        {
+            return litterType switch
+            {
+                contractEntities.LitterGranuleType.Normal => LitterGranuleType.Normal,
+                contractEntities.LitterGranuleType.Clumping => LitterGranuleType.Clumping,
+                contractEntities.LitterGranuleType.Wood => LitterGranuleType.Wood,
+                _ => throw new InvalidEnumArgumentException(nameof(litterType), (int)litterType, typeof(contractEntities.LitterGranuleType))
+            };
+        }
+
+        public FoodType MapContractToDomain(contractEntities.FoodType foodType)
+        {
+            return foodType switch
+            {
+                contractEntities.FoodType.FirstPhase => FoodType.FirstPhase,
+                contractEntities.FoodType.SecondPhase => FoodType.SecondPhase,
+                contractEntities.FoodType.Rc365 => FoodType.Rc365,
+                _ => throw new InvalidEnumArgumentException(nameof(foodType), (int)foodType, typeof(contractEntities.FoodType))
             };
         }
     }

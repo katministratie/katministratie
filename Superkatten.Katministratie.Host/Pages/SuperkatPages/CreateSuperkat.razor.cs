@@ -1,51 +1,43 @@
 ﻿using AntDesign;
 using Microsoft.AspNetCore.Components;
-using Superkatten.Katministratie.Host.Api;
-using Superkatten.Katministratie.Host.Entities;
+using Superkatten.Katministratie.Contract.ApiInterface;
+using Superkatten.Katministratie.Contract.Entities;
 
 namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 
 public partial class CreateSuperkat
-{ 
-    private string VangdatumText { get; init; } = "Vangdatum";
-    private string GeboortedatumText { get; init; } = "Geboortedatum";
-    private DateTime InitialDateTimeNow => DateTime.UtcNow;
+{
+    public DateTime CatchDate = DateTime.UtcNow;
+    public string CatchLocation = string.Empty;
+    public CatArea CatArea = CatArea.Quarantine;
+    public int CageNumber = 1;
+    public CatBehaviour Behaviour = CatBehaviour.Unknown;
+    public bool Retour = false;
+    public bool IsKitten = true;
+    public Gender Gender = Gender.Unknown;
+    public LitterGranuleType LitterType = LitterGranuleType.Normal;
+    public bool WetFoodAllowed = true;
+    public FoodType FoodType = FoodType.FirstPhase;
+    public string CatColor = string.Empty;
+    public bool StrongHoldGiven = false;
+    public int EstimatedWeeksOld = 0;
 
-    private bool ValidCatchLocation => string.IsNullOrWhiteSpace(parameters.CatchLocation);
+    private bool ValidCatchLocation => string.IsNullOrWhiteSpace(CatchLocation);
 
     private void OnChangeCatchDate(DateTimeChangedEventArgs args)
     {
-        parameters.CatchDate = args.Date;
+        CatchDate = args.Date;
     }
 
     private void OnChangeBirthDate(DateTimeChangedEventArgs args)
     {
-        parameters.CatchDate = args.Date;
+        CatchDate = args.Date;
     }
-
-    private CreateSuperkatParameters parameters =
-        new CreateSuperkatParameters()
-            {
-                CatchDate = DateTime.UtcNow,
-                CatchLocation = string.Empty,
-                Area = CatArea.Unknown,
-                CageNumber = null,
-                Behaviour = CatBehaviour.Unknown,
-                Retour = false,
-                IsKitten = true,
-                Gender = Gender.Unknown
-            };
 
     public async Task OnOk()
     {
         await StoreSuperkat();
         NavigationManager.NavigateTo("/");
-    }
-
-    public async Task OnOkAndNew()
-    {
-        await StoreSuperkat();
-        await _message.Warning("Voer de volgende superkat in", 2);
     }
 
     public void OnCancel()
@@ -55,7 +47,23 @@ public partial class CreateSuperkat
 
     private async Task StoreSuperkat()
     {
-        var superkat = await _superkattenService.CreateSuperkatAsync(parameters);
+        var createSuperkatParameters = new CreateSuperkatParameters()
+        {
+            CatchDate = DateTime.UtcNow,
+            CatchLocation = string.Empty,
+            CatArea = CatArea.Quarantine,
+            CageNumber = null,
+            Behaviour = CatBehaviour.Unknown,
+            Retour = false,
+            IsKitten = true,
+            Gender = Gender.Unknown,
+            LitterType = LitterGranuleType.Normal,
+            WetFoodAllowed = true,
+            FoodType = FoodType.FirstPhase,
+            Color = string.Empty,
+            EstimatedWeeksOld = EstimatedWeeksOld
+        };
+        var superkat = await _superkattenService.CreateSuperkatAsync(createSuperkatParameters);
         if (superkat is null)
         {
             await _message.Error($"Fout bij het opslaan van de nieuwe superkat.", 3);

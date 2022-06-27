@@ -129,14 +129,18 @@ using (var scope = app.Services.CreateScope())
     dataContext.Database.EnsureCreated();
 }
 
+app.UseSwagger();
+
 if (builder.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1"));
 }
-
-app.UseSwagger();
-app.UseSwaggerUI();
+else
+{
+    app.UseSwaggerUI();
+    app.UseExceptionHandler("/Error");
+}
 
 // For routing and sequence
 // see: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0#middleware-order
@@ -145,16 +149,10 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseCors(CORS_POLICY_NAME);
-
 app.UseAuthentication();
-app.UseAuthorization();
-
-// custom jwt auth middleware
 app.UseMiddleware<JwtMiddleware>();
-
-// global error handler
+app.UseAuthorization();
 app.UseMiddleware<ErrorHandlerMiddleware>();
-
 app.MapControllers();
 
 app.Run();

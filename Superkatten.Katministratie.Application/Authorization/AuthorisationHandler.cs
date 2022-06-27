@@ -51,7 +51,6 @@ internal class AuthorisationHandler : IAuthorizationHandler
 
         var failException = new AuthorizationFailureReason(this, "User is not authorized to use this function");
         context.Fail(failException);
-
         return Task.CompletedTask;
     }
 }

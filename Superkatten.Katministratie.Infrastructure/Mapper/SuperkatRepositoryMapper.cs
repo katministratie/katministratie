@@ -1,7 +1,5 @@
 ﻿using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Infrastructure.Entities;
-using System;
-using System.ComponentModel;
 
 namespace Superkatten.Katministratie.Infrastructure.Mapper;
 
@@ -17,14 +15,18 @@ public class SuperkatRepositoryMapper : ISuperkatRepositoryMapper
             CatchDate = superkat.CatchDate,
             CatchLocation = superkat.CatchLocation,
             Birthday = superkat.Birthday,
-            Area = (int)superkat.CatArea,
+            Area = EnumConverter<CatArea>.ToInt(superkat.CatArea),
             CageNumber = superkat.CageNumber,
             Retour = superkat.Retour,
             Reserved = superkat.Reserved,
-            Behaviour = (int)superkat.Behaviour,
+            Behaviour = EnumConverter<CatBehaviour>.ToInt(superkat.Behaviour),
             IsKitten = superkat.IsKitten,
-            Gender = (int)superkat.Gender,
-        };
+            Gender = EnumConverter<Gender>.ToInt(superkat.Gender),
+            LitterType = EnumConverter<LitterGranuleType>.ToInt(superkat.LitterType),
+            WetFoodAllowed = superkat.WetFoodAllowed,
+            FoodType = EnumConverter<FoodType>.ToInt(superkat.FoodType),
+            Color = superkat.Color
+};
     }
 
     public Superkat MapRepositoryToDomain(SuperkatDto superkatDto)
@@ -38,42 +40,18 @@ public class SuperkatRepositoryMapper : ISuperkatRepositoryMapper
         };
         superkat.SetName(superkatDto.Name ?? string.Empty);
         superkat.SetReserved(superkatDto.Reserved);
-        superkat.SetArea(MapToDomainArea(superkatDto.Area));
+        superkat.SetArea(EnumConverter<CatArea>.FromInt(superkatDto.Area));
         superkat.SetCageNumber(superkatDto.CageNumber);
         superkat.SetRetour(superkatDto.Retour);
-        superkat.SetBehaviour(MapToDomainBehaviour(superkatDto.Behaviour));
+        superkat.SetBehaviour(EnumConverter<CatBehaviour>.FromInt(superkatDto.Behaviour));
         superkat.SetBirthday(superkatDto.Birthday);
         superkat.SetIsKitten(superkatDto.IsKitten);
-        superkat.SetGender(MapToDomanGender(superkatDto.Gender));
+        superkat.SetGender(EnumConverter<Gender>.FromInt(superkatDto.Gender));
+        superkat.SetLitterType(EnumConverter<LitterGranuleType>.FromInt(superkatDto.LitterType));
+        superkat.SetWetFoodAllowed(superkatDto.WetFoodAllowed);
+        superkat.SetFoodType(EnumConverter<FoodType>.FromInt(superkatDto.FoodType));
+        superkat.SetColor(superkatDto.Color ?? string.Empty);
 
         return superkat;
-    }
-    private Gender MapToDomanGender(int gender)
-    {
-        if (!Enum.IsDefined(typeof(Gender), gender))
-        {
-            throw new InvalidEnumArgumentException(nameof(Gender), gender, typeof(Gender));
-        }
-
-        return (Gender)gender;
-    }
-    private CatBehaviour MapToDomainBehaviour(int behaviour)
-    {
-        if (!Enum.IsDefined(typeof(CatBehaviour), behaviour))
-        {
-            throw new InvalidEnumArgumentException(nameof(CatBehaviour), behaviour, typeof(CatBehaviour));
-        }
-
-        return (CatBehaviour)behaviour;
-    }
-
-    private CatArea MapToDomainArea(int area)
-    {
-        if (!Enum.IsDefined(typeof(CatArea), area)) 
-        {
-            throw new InvalidEnumArgumentException(nameof(CatArea), area, typeof(CatArea));
-        }
-
-        return (CatArea)area;
     }
 }

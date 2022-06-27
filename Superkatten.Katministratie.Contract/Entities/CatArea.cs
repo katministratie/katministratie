@@ -2,7 +2,9 @@
 
 public enum CatArea
 {
-    Unknown,
-    SmallCage,
-    LargeCage
+    Quarantine,
+    Room2,
+    SmallEnclosure,
+    BigEnclosure,
+    Infirmary
 }

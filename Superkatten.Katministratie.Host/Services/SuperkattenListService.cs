@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Host.Api;
 using Superkatten.Katministratie.Host.Entities;
 using Superkatten.Katministratie.Host.Services.Authentication;
-using System.Net.Http.Json;
-using System.Text.Json;
 
 namespace Superkatten.Katministratie.Host.Services;
 
@@ -24,28 +23,13 @@ public class SuperkattenListService : ISuperkattenListService
     public async Task<Superkat?> CreateSuperkatAsync([FromBody] CreateSuperkatParameters newSuperkat)
     {
         var uri = $"api/Superkatten";
-        var superkat = await _httpService.Put<Superkat>(uri, newSuperkat);
-//        var Response = await _client.PutAsJsonAsync(uri, newSuperkat);
-
-//        var superkat = await response.Content.ReadAsStreamAsync();
-
-//        return stream is null
-//            ? null
-//            : await JsonSerializer.DeserializeAsync<Superkat>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-        return superkat;
+        var superkat = await _httpService.Put<Superkat>(uri, newSuperkat);return superkat;
     }
 
     public async Task<Superkat?> UpdateSuperkatAsync(Guid id, [FromBody] UpdateSuperkatParameters updateSuperkat)
     {
         var uri = $"api/Superkatten?Id={id}";
         var superkat = await _httpService.Post<Superkat?>(uri);
-        //        var response = await _client.PostAsJsonAsync(uri, updateSuperkat);
-
-        //        var stream = await response.Content.ReadAsStreamAsync();
-
-        //        return stream is null
-        //                ? null
-        //                : await JsonSerializer.DeserializeAsync<Superkat>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         return superkat;
     }
 

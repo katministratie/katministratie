@@ -12,9 +12,9 @@ namespace Superkatten.Katministratie.Application.Mappers
 
 
         CatArea MapContractToDomain(ContractEntitiess.CatArea area);
-
         CatBehaviour MapContractToDomain(ContractEntitiess.CatBehaviour behaviour);
-
         Gender MapContractToDomain(ContractEntitiess.Gender gender);
+        LitterGranuleType MapContractToDomain(ContractEntitiess.LitterGranuleType litterType);
+        FoodType MapContractToDomain(ContractEntitiess.FoodType foodType);
     }
 }

@@ -20,8 +20,8 @@ builder.Services.AddTransient(s =>
     // When localhost: https://localhost:7171
     // When azure: https://katministratie.azurewebsites.net/
 
-    //return new HttpClient { BaseAddress = new System.Uri("https://localhost:7171/") };
-    return new HttpClient { BaseAddress = new Uri("https://superkatten.azurewebsites.net/") };
+    return new HttpClient { BaseAddress = new System.Uri("https://localhost:7171/") };
+    //return new HttpClient { BaseAddress = new Uri("https://superkatten.azurewebsites.net/") };
 });
 
 // Add Scoped services

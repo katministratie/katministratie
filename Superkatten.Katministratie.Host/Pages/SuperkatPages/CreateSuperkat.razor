@@ -1,7 +1,9 @@
 ﻿@page "/CreateSuperkat"
+
 @using Superkatten.Katministratie.Host.Api
 @using Superkatten.Katministratie.Host.Entities
 @using Superkatten.Katministratie.Host.Services
+@using Superkatten.Katministratie.Contract.Entities
 
 @inject NavigationManager NavigationManager
 @inject ISuperkattenListService _superkattenService
@@ -15,7 +17,7 @@
         <Button Block="@true" Disabled="@ValidCatchLocation" OnClick="@OnOk">Ok</Button>
     </Col>
     <Col Class="col-4">
-        <Button Block="@true" Disabled="@ValidCatchLocation" OnClick="@OnOkAndNew">Nieuwe kat</Button>
+        
     </Col>
     <Col Class="col-4">
         <Button Block="@true" OnClick="@OnCancel">Terug</Button>
@@ -26,47 +28,79 @@
 
 <Row Class="mb-2">
     <Col Class="col-12">
-        <Input Placeholder="Voer vanglokatie in"  Size="@InputSize.Large" @bind-Value="@parameters.CatchLocation" >
-            <Prefix>
-                <Icon Type="border-inner" />
-            </Prefix>
-        </Input>
-    </Col>
-</Row>
-    
-<Row Class="mb-2">
-    <Col Class="col-12">
-        Nummer van het hok: 
-        <AntDesign.InputNumber 
-            Min="1"
-            Max="50"
-            Disabled="@ValidCatchLocation" 
-            DefaultValue="1" 
-            Size="@InputSize.Small" 
-            @bind-Value="@parameters.CageNumber"/>    
+        <Input Placeholder="vanglokatie"  Size="@InputSize.Large" @bind-Value="@CatchLocation" />
     </Col>
 </Row>
 
 <Row Class="mb-2">
     <Col Class="col-12">
-        Kat gaat retour:
-        <Switch Disabled="@ValidCatchLocation" @bind-Checked="@parameters.Retour"></Switch>
+        Vangdatum: 
+        <DatePicker
+            Bordered="@false" 
+            TValue="DateTime?" 
+            Picker="@DatePickerType.Date" 
+            OnChange="OnChangeCatchDate" 
+            DefaultValue="@DateTime.UtcNow" />
+    </Col>
+</Row>
+
+<Row>
+    <Col Class="col-12">        
+        Hok:<AntDesign.InputNumber 
+                Min="1"
+                Max="50"
+                DefaultValue="1" 
+                Size="@InputSize.Large" 
+                @bind-Value="@CageNumber"/>
+    </Col>
+</Row>
+
+
+<Row Class="mb-2">
+    <Col Class="col-12">
+        <Checkbox @bind-Checked="@StrongHoldGiven">
+            @($"{(StrongHoldGiven ? "Stronghold gegeven" : "Geen stronghold gegeven")}")
+        </Checkbox>
+    </Col>
+</Row>
+
+<Row Class="mb-2">
+    <Col Class="col-12">
+        <Checkbox @bind-Checked="@Retour">
+            @($"{(Retour ? "Kat gaat retour" : "Kat gaat adoptieproces in")}")
+        </Checkbox>
+    </Col>
+</Row>
+
+<Row Class="mb-2">
+    <Col Class="col-12">
+        <Input Placeholder="Kleur kat"  Size="@InputSize.Large" @bind-Value="@CatColor" />
+    </Col>
+</Row>
+
+<Row Class="mb-2">
+    <Col Class="col-12">
+        <RadioGroup @bind-Value="@CatArea">
+            <Radio RadioButton Value="@Contract.Entities.CatArea.Quarantine">Quarantaine</Radio>
+            <Radio RadioButton Value="@(Contract.Entities.CatArea.Infirmary)">Ziekenboeg</Radio>
+            <Radio RadioButton Value="@(Contract.Entities.CatArea.Room2)">Kamer 2</Radio>
+            <Radio RadioButton Value="@(Contract.Entities.CatArea.SmallEnclosure)">KLeine ren</Radio>
+            <Radio RadioButton Value="@(Contract.Entities.CatArea.BigEnclosure)">Grote ren</Radio>
+        </RadioGroup>
     </Col>
 </Row>
 
 <Row Class="mb-2">
     <Col Class="col-12">
         <Row Class="">
-            <Col Class="me-2">
-                Is een kitten:
-            </Col>
-
-            <Col Class="me-2">
-                <Switch Disabled="@ValidCatchLocation" @bind-Checked="@parameters.IsKitten"></Switch>
+            <Col Class="me-4">
+                <Checkbox @bind-Checked="@IsKitten">
+                @($"{(IsKitten ? "Kitten" : "Volwassen poes")}")
+            </Checkbox>
             </Col>
         
             <Col Class="me-2">
-                @if (@parameters.IsKitten)
+                @if (IsKitten)
                 {
                     <p>Weken oud:</p>
                 }
@@ -81,7 +115,7 @@
                     Disabled="@ValidCatchLocation" 
                     DefaultValue="1" 
                     Size="@InputSize.Small" 
-                    @bind-Value="@parameters.EstimatedWeeksOld"/>
+                    @bind-Value="@EstimatedWeeksOld"/>
             </Col>
         </Row>
     </Col>
@@ -89,23 +123,38 @@
 
 <Row Class="mb-2">
     <Col Class="col-12">
-        <RadioGroup @bind-Value="@parameters.Gender">
-        <Radio RadioButton Value="@(Gender.Molly)">Poes</Radio>
-        <Radio RadioButton Value="@(Gender.Tomcat)">Kater</Radio>
-        <Radio RadioButton Value="@(Gender.Unknown)">Onbekend</Radio>
-    </RadioGroup>
+        <RadioGroup @bind-Value="@Gender">
+            <Radio RadioButton Value="@(Contract.Entities.Gender.Molly)">Poes</Radio>
+            <Radio RadioButton Value="@(Contract.Entities.Gender.Tomcat)">Kater</Radio>
+            <Radio RadioButton Value="@(Contract.Entities.Gender.Unknown)">Onbekend</Radio>
+        </RadioGroup>
     </Col>
 </Row>
 
 <Row Class="mb-2">
     <Col Class="col-12">
-        Vangdatum: 
-        <DatePicker Disabled="@ValidCatchLocation" 
-            Bordered="@false" 
-            TValue="DateTime?" 
-            Picker="@DatePickerType.Date" 
-            OnChange="OnChangeCatchDate" 
-            DefaultValue="@InitialDateTimeNow" 
-            Placeholder="@VangdatumText"/>
+        <RadioGroup @bind-Value="@FoodType">
+            <Radio RadioButton Value="@(Contract.Entities.FoodType.FirstPhase)">Eerste Fase</Radio>
+            <Radio RadioButton Value="@(Contract.Entities.FoodType.SecondPhase)">Tweede Fase</Radio>
+            <Radio RadioButton Value="@(Contract.Entities.FoodType.Rc365)">RC 365</Radio>
+        </RadioGroup>
+    </Col>
+</Row>
+
+<Row Class="mb-2">
+    <Col Class="col-12">
+        <Checkbox @bind-Checked="@WetFoodAllowed">
+            @($"{(WetFoodAllowed ? "Nat voer toegestaan" : "Geen nat voer")}")
+        </Checkbox>
+    </Col>
+</Row>
+
+<Row Class="mb-2">
+    <Col Class="col-12">
+        <RadioGroup @bind-Value="@LitterType">
+            <Radio RadioButton Value="@(Contract.Entities.LitterGranuleType.Clumping)">Klontvormend</Radio>
+            <Radio RadioButton Value="@(Contract.Entities.LitterGranuleType.Normal)">Normaal</Radio>
+            <Radio RadioButton Value="@(Contract.Entities.LitterGranuleType.Wood)">Hout korrels</Radio>
+        </RadioGroup>
     </Col>
 </Row>

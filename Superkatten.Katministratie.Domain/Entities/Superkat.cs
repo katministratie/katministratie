@@ -13,12 +13,15 @@ namespace Superkatten.Katministratie.Domain.Entities
         public string Name { get; private set; } = string.Empty;
         public bool Reserved { get; private set; }
         public bool Retour { get; private set; }
-        public CatArea CatArea { get; private set; } = CatArea.Unknown;
+        public CatArea CatArea { get; private set; } = CatArea.Quarantine;
         public int? CageNumber { get; private set; }
         public CatBehaviour Behaviour { get; private set; } = CatBehaviour.Unknown;
         public bool IsKitten { get; private set; } = true;
         public Gender Gender { get; private set; } = Gender.Unknown;
-
+        public LitterGranuleType LitterType { get; private set; } = LitterGranuleType.Normal;
+        public bool WetFoodAllowed { get; private set; } = true;
+        public FoodType FoodType { get; private set; } = FoodType.FirstPhase;
+        public string Color { get; private set; } = string.Empty;
         public Superkat(
             int number,
             DateTime catchDate,
@@ -78,6 +81,26 @@ namespace Superkatten.Katministratie.Domain.Entities
         public void SetGender(Gender gender)
         {
             Gender = gender;
+        }
+
+        public void SetLitterType(LitterGranuleType litterType)
+        {
+            LitterType = litterType;
+        }
+
+        public void SetWetFoodAllowed(bool wetFoodAllowed)
+        {
+            WetFoodAllowed = wetFoodAllowed;
+        }
+
+        public void SetFoodType(FoodType foodType)
+        {
+            FoodType = foodType;
+        }
+
+        public void SetColor(string color)
+        {
+            Color = color;
         }
     }
 }
