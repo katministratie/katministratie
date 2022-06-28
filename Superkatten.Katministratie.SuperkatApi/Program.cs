@@ -148,11 +148,11 @@ else
 
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseMiddleware<JwtMiddleware>();
+app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseCors(CORS_POLICY_NAME);
 app.UseAuthentication();
-app.UseMiddleware<JwtMiddleware>();
 app.UseAuthorization();
-app.UseMiddleware<ErrorHandlerMiddleware>();
 app.MapControllers();
 
 app.Run();
