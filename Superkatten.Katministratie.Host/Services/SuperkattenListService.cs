@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Superkatten.Katministratie.Contract.ApiInterface;
-using Superkatten.Katministratie.Host.Api;
 using Superkatten.Katministratie.Host.Entities;
+using Superkatten.Katministratie.Host.Mappers;
 using Superkatten.Katministratie.Host.Services.Authentication;
+
+using ContractEntities = Superkatten.Katministratie.Contract.Entities;
 
 namespace Superkatten.Katministratie.Host.Services;
 
@@ -10,14 +12,17 @@ public class SuperkattenListService : ISuperkattenListService
 {
     private readonly HttpClient _client;
     private readonly IHttpService _httpService;
+    private readonly ISuperkatMapper _mapper;
 
     public SuperkattenListService(
         HttpClient client,
-        IHttpService httpService
+        IHttpService httpService,
+        ISuperkatMapper mapper
     )
     {
         _client = client;
         _httpService = httpService;
+        _mapper = mapper;
     }
     
     public async Task<Superkat?> CreateSuperkatAsync([FromBody] CreateSuperkatParameters newSuperkat)
@@ -51,11 +56,11 @@ public class SuperkattenListService : ISuperkattenListService
     {
         var uri = "api/Superkatten";
 
-        var superkatten = await _httpService.Get<List<Superkat>>(uri);
-
+        var superkatten = await _httpService.Get<List<ContractEntities.Superkat>>(uri);
+        
         return superkatten is null 
-            ? new() 
-            : superkatten;
+            ? new List<Superkat>() 
+            : superkatten.Select(_mapper.MapContractToHost).ToList();
     }
 
     public async Task<List<Superkat>> GetAllNotAssignedSuperkattenAsync()
