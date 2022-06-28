@@ -56,6 +56,7 @@ public class SuperkattenListService : ISuperkattenListService
     {
         var uri = "api/Superkatten";
 
+        Console.WriteLine("Get the contract entities from the API");
         var superkatten = await _httpService.Get<List<ContractEntities.Superkat>>(uri);
         
         return superkatten is null 

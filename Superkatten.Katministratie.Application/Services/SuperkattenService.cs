@@ -82,6 +82,7 @@ namespace Superkatten.Katministratie.Application.Services
 
         public async Task<IReadOnlyCollection<Superkat>> ReadAvailableSuperkattenAsync()
         {
+            Console.WriteLine("ReadAvailableSuperkattenAsync");
             var superkatten = await _superkattenRepository.GetAvailableSuperkattenAsync();            
             return superkatten.ToList();
         }
