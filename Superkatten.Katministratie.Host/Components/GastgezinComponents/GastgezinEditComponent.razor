@@ -1,10 +1,4 @@
-﻿@if (Gastgezin is null)
-{
-    <div>unknown</div>
-    return;
-}
-
-<Form class="mb-2" OnFinish="@OnFinish" OnFinishFailed="@OnFinishFailed"  Model="@Gastgezin" >
+﻿<Form class="mb-2" OnFinish="@OnFinish" OnFinishFailed="@OnFinishFailed"  Model="@GastgezinData" >
     <FormItem Label="Naam">
         <Input @bind-Value="@context.Name"/>
     </FormItem>

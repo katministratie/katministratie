@@ -1,4 +1,4 @@
-﻿using Superkatten.Katministratie.Host.Entities;
+﻿using Superkatten.Katministratie.Contract.Entities;
 
 namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 

@@ -27,7 +27,7 @@ namespace Superkatten.Katministratie.Application.Services
             _superkatMapper = superkatMapper;
         }
 
-        public async Task<Gastgezin> CreateGastgezinAsync(CreateOrUpdateNawGastgezinParameters createGastgezinParameters)
+        public async Task<Gastgezin> CreateGastgezinAsync(CreateUpdateGastgezinParameters createGastgezinParameters)
         {
             if (string.IsNullOrEmpty(createGastgezinParameters.Name))
             {
@@ -47,6 +47,34 @@ namespace Superkatten.Katministratie.Application.Services
 
             return gastgezin;
         }
+        public async Task<Gastgezin> AssignSuperkattenAsync(AssignSuperkattenParameters assignSuperkattenParameters)
+        {
+            if (assignSuperkattenParameters.Id == Guid.Empty)
+            {
+                throw new ValidationException($"Gastgezin ID is empty");
+            }
+
+            var gastgezin = await _repository.GetGastgezinAsync(assignSuperkattenParameters.Id);
+            if (gastgezin is null)
+            {
+                throw new ValidationException($"gastgezin with guid: {assignSuperkattenParameters.Id} does not exsist");
+            }
+
+            var updatedGastgezin = new Gastgezin(
+                assignSuperkattenParameters.Id,
+                gastgezin.Name,
+                gastgezin.Address,
+                gastgezin.City,
+                gastgezin.Phone,
+                assignSuperkattenParameters.AssignedSuperkatten
+                    .Select(_superkatMapper.MapContractToDomain)
+                    .ToList()
+            );
+
+            await _repository.UpdateGastgezinAsync(updatedGastgezin.Id, updatedGastgezin);
+
+            return updatedGastgezin;
+        }
 
         public async Task DeleteGastgezinAsync(Guid id)
         {
@@ -59,38 +87,8 @@ namespace Superkatten.Katministratie.Application.Services
             return gastgezinnen.ToList();
         }
 
-        public async Task<Gastgezin> UpdateGastgezinAsync(Guid id, CreateOrUpdateGastgezinParameters updateGastgezinParameters)
+        public async Task<Gastgezin> UpdateGastgezinAsync(Guid id, CreateUpdateGastgezinParameters updateGastgezinParameters)
         {
-            if (string.IsNullOrEmpty(updateGastgezinParameters.Name))
-            {
-                throw new ValidationException($"Gastgezin name is empty");
-            }
-
-            var gastgezin = await _repository.GetGastgezinAsync(id);
-            if(gastgezin is null)
-            {
-                throw new ValidationException($"gastgezin {updateGastgezinParameters.Name} does not exsist");
-            }
-
-            var updatedGastgezin = new Gastgezin(
-                gastgezin.Id,
-                updateGastgezinParameters.Name,
-                updateGastgezinParameters.Address,
-                updateGastgezinParameters.City,
-                updateGastgezinParameters.Phone,
-                updateGastgezinParameters.Superkatten
-                    .Select(_superkatMapper.MapContractToDomain)
-                    .ToList()
-            );
-
-            await _repository.UpdateGastgezinAsync(id, updatedGastgezin);
-
-            return updatedGastgezin;
-        }
-
-        public async Task<Gastgezin> UpdateGastgezinAsync(Guid id, CreateOrUpdateNawGastgezinParameters updateGastgezinParameters)
-        {
-            //JDK: Deze call word aangepast naar iest als AssignSuperkatten
             if (string.IsNullOrEmpty(updateGastgezinParameters.Name))
             {
                 throw new ValidationException($"Gastgezin name is empty");
@@ -99,7 +97,7 @@ namespace Superkatten.Katministratie.Application.Services
             var gastgezin = await _repository.GetGastgezinAsync(id);
             if (gastgezin is null)
             {
-                throw new ValidationException($"gastgezin {updateGastgezinParameters.Name} does not exsist");
+                throw new ValidationException($"gastgezin with guid: {id} does not exsist");
             }
 
             var updatedGastgezin = new Gastgezin(

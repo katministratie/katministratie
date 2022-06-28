@@ -8,5 +8,5 @@ public class Gastgezin
     public string? City { get; init; }
     public string? Phone { get; init; }
 
-    public IReadOnlyCollection<Superkat> Superkatten { get; init; } = Array.Empty<Superkat>();
+    public IList<Superkat> Superkatten { get; init; } = Array.Empty<Superkat>();
 }

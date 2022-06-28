@@ -5,9 +5,9 @@ namespace Superkatten.Katministratie.Host.Pages.GastgezinPages;
 
 public partial class CreateGastgezin
 {
-    public Gastgezin? Gastgezin { get; set; } = new();
+    public NawData GastgezinData { get; set; } = new();
                     
-    private bool ValidName => string.IsNullOrWhiteSpace(Gastgezin?.Name);
+    private bool ValidName => string.IsNullOrWhiteSpace(GastgezinData?.Name);
 
     public async Task OnOk()
     {
@@ -22,17 +22,12 @@ public partial class CreateGastgezin
 
     private async Task StoreGastgezin()
     {
-        if (Gastgezin is null)
+        var createGastgezin = new CreateUpdateGastgezinParameters
         {
-            throw new Exception("No gastgezin to store");
-        }
-
-        var createGastgezin = new CreateOrUpdateNawGastgezinParameters
-        {
-            Name = Gastgezin.Name,
-            Address = Gastgezin.Address,
-            City = Gastgezin.City,
-            Phone = Gastgezin.Phone
+            Name = GastgezinData.Name,
+            Address = GastgezinData.Address,
+            City = GastgezinData.City,
+            Phone = GastgezinData.Phone
         };
 
         var gastgezin = await _gastgezinService.CreateGastgezinAsync(createGastgezin);

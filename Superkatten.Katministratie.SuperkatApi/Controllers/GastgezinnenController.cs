@@ -32,32 +32,28 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
                 .ToList();
         }
 
-        [Authorize(Policy = SuperkattenPolicies.POLICY_ADMINISTRATOR)]
         [HttpPut]
-        public async Task<ContractEntities.Gastgezin> PutGastgezin([FromBody] CreateOrUpdateNawGastgezinParameters createGastgezinParameters)
+        public async Task<ContractEntities.Gastgezin> PutGastgezin([FromBody] CreateUpdateGastgezinParameters createGastgezinParameters)
         {
             var gastgezin = await _service.CreateGastgezinAsync(createGastgezinParameters);
             return _mapper.MapDomainToContract(gastgezin);
         }
 
-        [Authorize(Policy = SuperkattenPolicies.POLICY_ADMINISTRATOR)]
         [HttpPost]
         [Route("AssignSuperkatten")]
-        public async Task<ContractEntities.Gastgezin> PostGastgezin(Guid id, [FromBody] CreateOrUpdateGastgezinParameters updateGastgezinParameters)
+        public async Task<ContractEntities.Gastgezin> PostGastgezin([FromBody] AssignSuperkattenParameters assignSuperkattenParameters)
         {
-            var gastgezin =  await _service.UpdateGastgezinAsync(id, updateGastgezinParameters);
+            var gastgezin =  await _service.AssignSuperkattenAsync(assignSuperkattenParameters);
             return _mapper.MapDomainToContract(gastgezin);
         }
 
-        [Authorize(Policy = SuperkattenPolicies.POLICY_ADMINISTRATOR)]
         [HttpPost]
-        public async Task<ContractEntities.Gastgezin> PostGastgezin(Guid id, [FromBody] CreateOrUpdateNawGastgezinParameters updateGastgezinParameters)
+        public async Task<ContractEntities.Gastgezin> PostGastgezin(Guid id, [FromBody] CreateUpdateGastgezinParameters updateGastgezinParameters)
         {
             var gastgezin = await _service.UpdateGastgezinAsync(id, updateGastgezinParameters);
             return _mapper.MapDomainToContract(gastgezin);
         }
 
-        [Authorize(Policy = SuperkattenPolicies.POLICY_ADMINISTRATOR)]
         [HttpDelete]
         public async Task DeleteGastgezin(Guid id)
         {

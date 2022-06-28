@@ -130,7 +130,7 @@ public class GastgezinnenRepository : IGastgezinnenRepository
         return _gastgezinMapper.MapRepositoryToDomain(gastgezinDto);
     }
 
-    private List<Entities.SuperkatDto> GetIntersection(List<Entities.SuperkatDto> availableSuperkatten, List<Superkat> superkatten)
+    private List<SuperkatDto> GetIntersection(List<SuperkatDto> availableSuperkatten, List<Superkat> superkatten)
     {
         var selection = availableSuperkatten.Where(s => superkatten.Any(k => k.Id == s.Id)).ToList();
         return selection;

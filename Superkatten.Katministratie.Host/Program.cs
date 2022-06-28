@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Superkatten.Katministratie.Host;
-using Superkatten.Katministratie.Host.Mappers;
 using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Authentication;
 
@@ -13,8 +12,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddTransient<ISuperkattenListService, SuperkattenListService>();
 builder.Services.AddTransient<ISuperkatActionService, SuperkatActionService>();
 builder.Services.AddTransient<IGastgezinService, GastgezinService>();
-builder.Services.AddTransient<IGastgezinMapper, GastgezinMapper>();
-builder.Services.AddTransient<ISuperkatMapper, SuperkatMapper>();
 builder.Services.AddTransient(s =>
 {
     // When localhost: https://localhost:7171

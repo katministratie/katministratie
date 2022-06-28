@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Entities;
 using Superkatten.Katministratie.Host.Services;
 
@@ -27,8 +28,15 @@ public partial class GastgezinComponent
     {
         if (_gastgezinService is null)
         {
-            await _gastgezinService!.DeleteGastgezinAsync(Gastgezin.Id);
+            throw new Exception("No gastgezin service available");
         }
+
+        if (Gastgezin is null)
+        {
+            throw new Exception("gastgezin is null");
+        }
+
+        await _gastgezinService!.DeleteGastgezinAsync(Gastgezin.Id);
     }
 
     private void OnEdit()

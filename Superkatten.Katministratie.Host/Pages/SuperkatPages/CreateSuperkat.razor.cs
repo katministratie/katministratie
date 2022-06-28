@@ -70,6 +70,6 @@ public partial class CreateSuperkat
             return;
         }
 
-        await _message.Success($"Superkat is opgeslagen onder nummer {superkat.DisplayableNumber}", 3);        
+        await _message.Success($"Superkat is opgeslagen met jaar: {superkat.CatchDate.Year % 100} en nummer {superkat.Number}", 3);        
     }
 }

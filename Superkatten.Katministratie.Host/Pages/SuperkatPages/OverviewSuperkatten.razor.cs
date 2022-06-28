@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Superkatten.Katministratie.Host.Entities;
+using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Services;
 
 namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
