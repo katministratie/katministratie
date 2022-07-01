@@ -65,7 +65,6 @@ public class SuperkattenListService : ISuperkattenListService
     {
         var uri = "api/Superkatten/NotAssigned";
         var superkatten = await _httpService.Get<List<Superkat>>(uri);
-        //var superkatten = await _client.GetFromJsonAsync<List<Superkat>>(uri);
 
         return superkatten is null
             ? new()

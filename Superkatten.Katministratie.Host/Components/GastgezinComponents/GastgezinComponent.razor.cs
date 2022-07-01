@@ -13,16 +13,21 @@ public partial class GastgezinComponent
     [Inject]
     private IGastgezinService? _gastgezinService { get; set; }
 
-    private GastgezinEditMode _editMode = GastgezinEditMode.DisplayDetailsOnly;
 
     [Parameter]
-    public Gastgezin? Gastgezin { get; set; }
-
-
-    private void OnAdd()
-    {
-        _navigationManager?.NavigateTo("CreateGastgezin");
+    public Gastgezin? Gastgezin 
+    { 
+        get => _gastgezin; 
+        set => _gastgezin = value; 
     }
+
+    [Parameter]
+    public EventCallback<Gastgezin> OnGastgezinDeleted { get; set; }
+
+
+    private Gastgezin? _gastgezin;
+
+    private HostFamilyComponentEditMode _editMode = HostFamilyComponentEditMode.DisplayDetailsOnly;
 
     private async Task OnDelete()
     {
@@ -31,26 +36,39 @@ public partial class GastgezinComponent
             throw new Exception("No gastgezin service available");
         }
 
-        if (Gastgezin is null)
+        if (_gastgezin is null)
         {
             throw new Exception("gastgezin is null");
         }
 
-        await _gastgezinService!.DeleteGastgezinAsync(Gastgezin.Id);
+        await _gastgezinService!.DeleteGastgezinAsync(_gastgezin.Id);
+        await OnGastgezinDeleted.InvokeAsync(_gastgezin);
     }
 
     private void OnEdit()
     {
-        _editMode = GastgezinEditMode.EditGastgezinNaw;
+        _editMode = HostFamilyComponentEditMode.EditGastgezinNaw;
     }
 
     private void OnAssignSuperkat()
     {
-        _editMode = GastgezinEditMode.AssignSuperkatten;
+        _editMode = HostFamilyComponentEditMode.AssignSuperkatten;
     }
 
-    private void OnFinishEdit()
+    private async Task OnFinishEdit()
     {
-        _editMode = GastgezinEditMode.DisplayDetailsOnly;
+        _editMode = HostFamilyComponentEditMode.DisplayDetailsOnly;
+
+        if (_gastgezin is null)
+        {
+            return;
+        }
+
+        if (_gastgezinService is null)
+        {
+            return;
+        }
+
+        Gastgezin = await _gastgezinService.GetGastgezinAsync(_gastgezin.Id);
     }
 }

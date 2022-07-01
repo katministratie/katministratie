@@ -39,11 +39,6 @@ public class UserService : IUserService
             throw new AuthorisationException("Username is incorrect");
         }
 
-        if (!user.IsEnabled)
-        {
-            throw new AuthorisationException("User is disabled");
-        }
-
         if (!BcryptNet.Verify(model.Password, user.PasswordHash))
         {
             throw new AuthorisationException("Password is incorrect");
@@ -86,7 +81,6 @@ public class UserService : IUserService
         {
             Name = model.Name,
             Email = model.Email,
-            IsEnabled = true,
             Username = model.Username,
             PasswordHash = passwordHash
         };

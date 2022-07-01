@@ -136,7 +136,6 @@ public class HttpService : IHttpService
         var user = await _localStorageService.GetItem<AuthenticateResponse>("user");
         if (user is not null)
         {
-            Console.WriteLine($"Add authorisation header.");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
         }
 

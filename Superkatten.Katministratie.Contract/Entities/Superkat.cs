@@ -15,4 +15,5 @@ public class Superkat
     public CatBehaviour Behaviour { get; init; }
     public bool IsKitten { get; init; } = true;
     public Gender Gender { get; set; }
+    public Guid GastgezinId { get; set; }
 }

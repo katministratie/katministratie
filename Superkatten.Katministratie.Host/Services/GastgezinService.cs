@@ -33,13 +33,6 @@ public class GastgezinService : IGastgezinService
         return response;
     }
 
-    public async Task<Gastgezin?> UpdateGastgezinAsync(Guid id, AssignSuperkattenParameters updateGastgezinParameters)
-    {
-        var uri = $"api/Gastgezinnen/AssignSuperkatten?Id={id}";
-        var response = await _httpService.Post<Gastgezin>(uri, updateGastgezinParameters);
-        return response;
-    }
-
     public async Task DeleteGastgezinAsync(Guid id)
     {
         var uri = $"api/Gastgezinnen?Id={id}";
@@ -63,15 +56,5 @@ public class GastgezinService : IGastgezinService
         return gastgezinnen is null
             ? new()
             : gastgezinnen;
-    }
-
-    public async Task<Gastgezin> AssignSuperkattenAsync(AssignSuperkattenParameters updateGastgezinParameters)
-    {
-        var uri = $"api/Gastgezinnen/AssignSuperkatten";
-        var gastgezin = await _httpService.Post<Gastgezin>(uri, updateGastgezinParameters);
-
-        return gastgezin is null
-            ? new()
-            : gastgezin;
     }
 }

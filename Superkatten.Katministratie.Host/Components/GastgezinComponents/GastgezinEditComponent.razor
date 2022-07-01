@@ -1,4 +1,4 @@
-﻿<Form class="mb-2" OnFinish="@OnFinish" OnFinishFailed="@OnFinishFailed"  Model="@GastgezinData" >
+﻿<Form class="mb-2" OnFinish="@OnFinishOk" OnFinishFailed="@OnFinishFail"  Model="@_gastgezinData" >
     <FormItem Label="Naam">
         <Input @bind-Value="@context.Name"/>
     </FormItem>

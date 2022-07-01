@@ -13,7 +13,7 @@
     <Col class="col-xl-11 col-lg-11 col-md-9 col-8">
         <h5 class="p-1 bg-black text-white">
             <span class="material-icons">face</span>
-            @if (_editMode == GastgezinEditMode.DisplayDetailsOnly)
+            @if (_editMode == HostFamilyComponentEditMode.DisplayDetailsOnly)
             {
                 <Button OnClick="@OnEdit">Edit</Button>
                 <Button OnClick="@OnDelete">Delete</Button>
@@ -23,18 +23,18 @@
 
         @switch(_editMode)
         {
-            case GastgezinEditMode.DisplayDetailsOnly:
+            case HostFamilyComponentEditMode.DisplayDetailsOnly:
                 <div class="mb-2">
                     <GastgezinDetailsComponent Gastgezin="@Gastgezin" />
                 </div>
                 break;
 
-            case GastgezinEditMode.AssignSuperkatten:
-                <SuperkattenSelector Gastgezin="@Gastgezin" OnFinishEdit="@OnFinishEdit"/>
+            case HostFamilyComponentEditMode.AssignSuperkatten:
+                <SuperkattenSelector GastgezinId="@Gastgezin.Id" OnFinish="@OnFinishEdit" />
                 break;
 
-            case GastgezinEditMode.EditGastgezinNaw:
-                <GastgezinEditComponent Gastgezin="@Gastgezin" OnFinishEdit="@OnFinishEdit" />
+            case HostFamilyComponentEditMode.EditGastgezinNaw:
+                <GastgezinEditComponent Gastgezin="@Gastgezin" OnFinish="@OnFinishEdit" />
                 break;
         }
     </Col>

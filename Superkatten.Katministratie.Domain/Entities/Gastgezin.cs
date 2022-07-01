@@ -1,32 +1,41 @@
 ﻿using Superkatten.Katministratie.Domain.Exceptions;
 using System;
-using System.Collections.Generic;
-//using System.ComponentModel.DataAnnotations;
 
 namespace Superkatten.Katministratie.Domain.Entities;
 
 public class Gastgezin
 {
-    // moet deze erin ? [Key]
     public Guid Id { get; private set; }
     public string Name { get; private set; }
     public string? Address { get; private set; }
     public string? City { get; private set; }
     public string? Phone { get; private set; }
-    public List<Superkat> Superkatten { get; private set; } = new();
 
-    public Gastgezin(Guid id, string name, string? address, string? city, string? phone, List<Superkat> superkatten)
+    public Gastgezin(
+        string name, 
+        string? address, 
+        string? city, 
+        string? phone
+    )
     {
         if (string.IsNullOrEmpty(name))
         {
             throw new DomainException($"{nameof(Name)} should not be null or empty");
         }
 
-        Id = id;
+        Id = Guid.NewGuid();
+
         Name = name;
         Address = address;
         City = city;
         Phone = phone;
-        Superkatten = superkatten;
+    }
+
+    public Gastgezin Update(string name, string? address, string? city, string? phone)
+    {
+        return new Gastgezin(name, address, city, phone)
+        {
+            Id = Id
+        };
     }
 }

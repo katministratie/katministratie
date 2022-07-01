@@ -38,15 +38,10 @@ namespace Superkatten.Katministratie.Application.Services
                 throw new ValidationException($"Superkat location is empty");
             }
 
-            //if (createSuperkatParameters.CatchDate < createSuperkatParameters.Birthday)
-            //{
-            //    throw new ValidationException($"Not possible to catch the cat before it is born");
-            //}
-
-            var uniqueCatNumber = await _superkattenRepository.GetSuperkatMaxNumberForGivenYearAsync(DateTimeOffset.Now.Year);
+            var numberOfCats = await _superkattenRepository.GetCatCountForGivenYear(DateTimeOffset.Now.Year);
             
             var superkat = new Superkat(
-                uniqueCatNumber,
+                numberOfCats + 1,
                 createSuperkatParameters.CatchDate,
                 createSuperkatParameters.CatchLocation);
 
@@ -68,21 +63,20 @@ namespace Superkatten.Katministratie.Application.Services
             superkat.SetLitterType(_mapper.MapContractToDomain(createSuperkatParameters.LitterType));
             superkat.SetWetFoodAllowed(createSuperkatParameters.WetFoodAllowed);
             superkat.SetFoodType(_mapper.MapContractToDomain(createSuperkatParameters.FoodType));
-            superkat.SetColor(createSuperkatParameters.Color);
+            superkat.SetColor(createSuperkatParameters.CatColor);
 
-            var createdSuperkat = await _superkattenRepository.CreateSuperkatAsync(superkat);
+            await _superkattenRepository.CreateSuperkatAsync(superkat);
 
-            return createdSuperkat;
+            return superkat;
         }
 
-        public async Task DeleteSuperkatAsync(Guid id)
+        public async Task DeleteSuperkatAsync(Guid guid)
         {
-            await _superkattenRepository.DeleteSuperkatAsync(id);
+            await _superkattenRepository.DeleteSuperkatAsync(guid);
         }
 
         public async Task<IReadOnlyCollection<Superkat>> ReadAvailableSuperkattenAsync()
         {
-            Console.WriteLine("ReadAvailableSuperkattenAsync");
             var superkatten = await _superkattenRepository.GetAvailableSuperkattenAsync();            
             return superkatten.ToList();
         }
@@ -99,18 +93,18 @@ namespace Superkatten.Katministratie.Application.Services
             return superkat;
         }
 
-        public async Task<Superkat> UpdateSuperkatAsync(UpdateSuperkatParameters updateSuperkatParameters)
+        public async Task<Superkat> UpdateSuperkatAsync(Guid id, UpdateSuperkatParameters updateSuperkatParameters)
         {
-            var superkat = await _superkattenRepository.GetSuperkatAsync(updateSuperkatParameters.Id);
+            var superkat = await _superkattenRepository.GetSuperkatAsync(id);
             if (superkat is null)
             {
-                throw new ServiceException($"Superkat cannot be found for id {updateSuperkatParameters.Id}");
+                throw new ServiceException($"Superkat cannot be found for id {id}");
             }
 
-            superkat.SetName(updateSuperkatParameters.Name);
-            superkat.SetBirthday(updateSuperkatParameters.Birthday);
+            var updatedSuperkat = superkat
+                .WithGastgezinId(updateSuperkatParameters.GastgezinId);
 
-            await _superkattenRepository.UpdateSuperkatAsync(superkat);
+            await _superkattenRepository.UpdateSuperkatAsync(updatedSuperkat);
 
             return superkat;
         }

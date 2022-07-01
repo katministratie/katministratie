@@ -22,6 +22,7 @@ namespace Superkatten.Katministratie.Domain.Entities
         public bool WetFoodAllowed { get; private set; } = true;
         public FoodType FoodType { get; private set; } = FoodType.FirstPhase;
         public string Color { get; private set; } = string.Empty;
+        public Guid? GastgezinId { get; private set; }
         public Superkat(
             int number,
             DateTime catchDate,
@@ -101,6 +102,13 @@ namespace Superkatten.Katministratie.Domain.Entities
         public void SetColor(string color)
         {
             Color = color;
+        }
+
+        public Superkat WithGastgezinId(Guid gastgezinId)
+        {
+            GastgezinId = gastgezinId;
+
+            return this;
         }
     }
 }

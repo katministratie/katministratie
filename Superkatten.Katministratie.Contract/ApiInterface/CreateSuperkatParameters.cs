@@ -16,5 +16,5 @@ public class CreateSuperkatParameters
     public LitterGranuleType LitterType { get; init; }
     public bool WetFoodAllowed { get; init; }
     public FoodType FoodType { get; init; }
-    public string Color { get; set; } = string.Empty;
+    public string CatColor { get; set; } = string.Empty;
 }

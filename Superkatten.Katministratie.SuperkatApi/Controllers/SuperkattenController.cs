@@ -51,9 +51,9 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ContractEntities.Superkat> PostSuperkat([FromBody] UpdateSuperkatParameters updateSuperkatParameters)
+        public async Task<ContractEntities.Superkat> PostSuperkat(Guid id, [FromBody] UpdateSuperkatParameters updateSuperkatParameters)
         {
-            var superkat = await _service.UpdateSuperkatAsync(updateSuperkatParameters);
+            var superkat = await _service.UpdateSuperkatAsync(id, updateSuperkatParameters);
             return _mapper.MapDomainToContract(superkat);
         }
 

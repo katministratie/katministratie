@@ -10,8 +10,8 @@ namespace Superkatten.Katministratie.Application.Interfaces
     {
         Task<Superkat> CreateSuperkatAsync(CreateSuperkatParameters createSuperkatDto);
         Task<Superkat> ReadSuperkatAsync(Guid id);
-        Task<Superkat> UpdateSuperkatAsync(UpdateSuperkatParameters updateSuperkatDto);
-        Task DeleteSuperkatAsync(Guid id);
+        Task<Superkat> UpdateSuperkatAsync(Guid id, UpdateSuperkatParameters updateSuperkatDto);
+        Task DeleteSuperkatAsync(Guid guid);
         Task<IReadOnlyCollection<Superkat>> ReadAvailableSuperkattenAsync();
         Task<IReadOnlyCollection<Superkat>> ReadNotAssignedSuperkattenAsync();
     }

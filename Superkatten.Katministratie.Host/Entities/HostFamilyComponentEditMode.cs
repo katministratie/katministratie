@@ -1,6 +1,6 @@
 ﻿namespace Superkatten.Katministratie.Host.Entities
 {
-    public enum GastgezinEditMode
+    public enum HostFamilyComponentEditMode
     {
         DisplayDetailsOnly,
         EditGastgezinNaw,

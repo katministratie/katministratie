@@ -16,15 +16,12 @@ namespace Superkatten.Katministratie.Application.Services
     {
         public readonly ILogger<GastgezinnenService> _logger;
         public readonly IGastgezinnenRepository _repository;
-        public readonly ISuperkatMapper _superkatMapper;
         public GastgezinnenService(
             ILogger<GastgezinnenService> logger,
-            IGastgezinnenRepository repository,
-            ISuperkatMapper superkatMapper)
+            IGastgezinnenRepository repository)
         {
             _logger = logger;
             _repository = repository;
-            _superkatMapper = superkatMapper;
         }
 
         public async Task<Gastgezin> CreateGastgezinAsync(CreateUpdateGastgezinParameters createGastgezinParameters)
@@ -34,48 +31,18 @@ namespace Superkatten.Katministratie.Application.Services
                 throw new ValidationException("Gastgezin name is invalid");
             }
 
-            var gastgezin= new Gastgezin(
-                Guid.NewGuid(),
+            var gastgezin = new Gastgezin(
                 createGastgezinParameters.Name,
                 createGastgezinParameters.Address,
                 createGastgezinParameters.City,
-                createGastgezinParameters.Phone,
-                new List<Superkat>()
+                createGastgezinParameters.Phone
                 );
 
             await _repository.CreateGastgezinAsync(gastgezin);
 
             return gastgezin;
         }
-        public async Task<Gastgezin> AssignSuperkattenAsync(AssignSuperkattenParameters assignSuperkattenParameters)
-        {
-            if (assignSuperkattenParameters.Id == Guid.Empty)
-            {
-                throw new ValidationException($"Gastgezin ID is empty");
-            }
-
-            var gastgezin = await _repository.GetGastgezinAsync(assignSuperkattenParameters.Id);
-            if (gastgezin is null)
-            {
-                throw new ValidationException($"gastgezin with guid: {assignSuperkattenParameters.Id} does not exsist");
-            }
-
-            var updatedGastgezin = new Gastgezin(
-                assignSuperkattenParameters.Id,
-                gastgezin.Name,
-                gastgezin.Address,
-                gastgezin.City,
-                gastgezin.Phone,
-                assignSuperkattenParameters.AssignedSuperkatten
-                    .Select(_superkatMapper.MapContractToDomain)
-                    .ToList()
-            );
-
-            await _repository.UpdateGastgezinAsync(updatedGastgezin.Id, updatedGastgezin);
-
-            return updatedGastgezin;
-        }
-
+       
         public async Task DeleteGastgezinAsync(Guid id)
         {
             await _repository.DeleteGastgezinAsync(id);
@@ -100,16 +67,14 @@ namespace Superkatten.Katministratie.Application.Services
                 throw new ValidationException($"gastgezin with guid: {id} does not exsist");
             }
 
-            var updatedGastgezin = new Gastgezin(
-                gastgezin.Id,
+            var updatedGastgezin = gastgezin.Update(
                 updateGastgezinParameters.Name,
                 updateGastgezinParameters.Address,
                 updateGastgezinParameters.City,
-                updateGastgezinParameters.Phone,
-                gastgezin.Superkatten
+                updateGastgezinParameters.Phone
             );
 
-            await _repository.UpdateGastgezinAsync(id, updatedGastgezin);
+            await _repository.UpdateGastgezinAsync(updatedGastgezin);
 
             return updatedGastgezin;
         }

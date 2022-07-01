@@ -1,24 +1,17 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Host.Services;
 
 namespace Superkatten.Katministratie.Host.Components.GastgezinComponents;
 
 public partial class GastgezinDetailsComponent
 {
     [Parameter]
-    public Gastgezin? Gastgezin
+    public Gastgezin Gastgezin
     {
         set
         {
-            if (value is null)
-            {
-                return;
-            }
-
-            Name = value.Name;
-            Address = value.Address ?? string.Empty;
-            City = value.City ?? string.Empty;
-            Phone = value.Phone ?? string.Empty;
+            UpdateData(value);
         }
     }
 
@@ -26,4 +19,17 @@ public partial class GastgezinDetailsComponent
     public string Address { get; private set; } = string.Empty;
     public string City { get; private set; } = string.Empty;
     public string Phone { get; private set; } = string.Empty;
+
+    private void UpdateData(Gastgezin? gastgezin)
+    {
+        if (gastgezin is null)
+        {
+            return;
+        }
+
+        Name = gastgezin.Name;
+        Address = gastgezin.Address ?? string.Empty;
+        City = gastgezin.City ?? string.Empty;
+        Phone = gastgezin.Phone ?? string.Empty;
+    }
 }

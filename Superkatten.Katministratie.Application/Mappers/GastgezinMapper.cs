@@ -8,19 +8,13 @@ public class GastgezinMapper : IGastgezinMapper
 {
     public ContractEntities.Gastgezin MapDomainToContract(Gastgezin gastgezin)
     {
-        var mapper = new SuperkatMapper();
-        var superkatten = gastgezin.Superkatten
-            .Select(mapper.MapDomainToContract)
-            .ToList();
-
         return new ContractEntities.Gastgezin
         {
             Id = gastgezin.Id,
             Name = gastgezin.Name,
             Address = gastgezin.Address,
             City = gastgezin.City,
-            Phone = gastgezin.Phone,
-            Superkatten = superkatten
+            Phone = gastgezin.Phone
         };
     }
 }
