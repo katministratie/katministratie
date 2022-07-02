@@ -51,7 +51,7 @@ public class SuperkattenRepository : ISuperkattenRepository
         _context.SaveChanges();
     }
 
-    public async Task<IReadOnlyCollection<Superkat>> GetAvailableSuperkattenAsync()
+    public async Task<IReadOnlyCollection<Superkat>> GetAllSuperkattenAsync()
     {
         return await _context
             .SuperKatten

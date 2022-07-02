@@ -104,7 +104,7 @@ namespace Superkatten.Katministratie.Domain.Entities
             Color = color;
         }
 
-        public Superkat WithGastgezinId(Guid gastgezinId)
+        public Superkat WithGastgezinId(Guid? gastgezinId)
         {
             GastgezinId = gastgezinId;
 

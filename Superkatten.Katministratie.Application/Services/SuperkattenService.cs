@@ -77,7 +77,7 @@ namespace Superkatten.Katministratie.Application.Services
 
         public async Task<IReadOnlyCollection<Superkat>> ReadAvailableSuperkattenAsync()
         {
-            var superkatten = await _superkattenRepository.GetAvailableSuperkattenAsync();            
+            var superkatten = await _superkattenRepository.GetAllSuperkattenAsync();            
             return superkatten.ToList();
         }
 

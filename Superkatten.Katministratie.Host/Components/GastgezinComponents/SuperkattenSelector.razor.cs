@@ -72,7 +72,7 @@ public partial class SuperkattenSelector
                 GastgezinId = GastgezinId
             };
 
-            _ = await _superkattenService.UpdateSuperkatAsync(assignedSuperkat.Id, updateSuperkatParameters);
+            await _superkattenService.UpdateSuperkatAsync(assignedSuperkat.Id, updateSuperkatParameters);
         }
     }
 }
