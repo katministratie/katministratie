@@ -35,7 +35,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         [Route("NotAssigned")]
         public async Task<IReadOnlyCollection<ContractEntities.Superkat>> GetAllNotAssignedSuperkatten()
         {
-            var superkatten = await _service.ReadNotAssignedSuperkattenAsync();
+            var superkatten = await _service.ReadAvailableSuperkattenAsync();
             return superkatten
                 .Select(_mapper.MapDomainToContract)
                 .ToList();
