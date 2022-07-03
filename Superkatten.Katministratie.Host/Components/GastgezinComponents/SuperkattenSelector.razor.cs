@@ -8,49 +8,44 @@ namespace Superkatten.Katministratie.Host.Components.GastgezinComponents;
 public partial class SuperkattenSelector
 {
     [Inject]
-    public ISuperkattenListService? SuperkattenService { get; set; }
+    public ISuperkattenListService? _superkattenService { get; set; }
 
     [Inject]
     public IGastgezinService? GastgezinService { get; set; }
 
     [Parameter]
-    public Gastgezin? Gastgezin 
-    { 
-        set
-        {
-            if (value is null)
-            {
-                return;
-            }
-
-            GastgezinId = value.Id;
-
-        }
+    public Guid GastgezinId 
+    {
+        get; 
+        set; 
     }
 
     [Parameter]
-    public EventCallback OnFinishEdit { get; set; }
+    public EventCallback OnFinish { get; set; }
 
-    private Guid GastgezinId { get; set; } = Guid.Empty;
+
+
     private List<Superkat> AssignedSuperkatten { get; set; } = new();
     private List<Superkat> AvailableSuperkatten { get; set; } = new();
 
     protected async override Task OnInitializedAsync()
     {
-        if (SuperkattenService is null)
+        if (_superkattenService is null)
         {
-            await OnFinishEdit.InvokeAsync();
             return;
         }
 
-        var superkatten = await SuperkattenService.GetAllNotAssignedSuperkattenAsync();
-        
-        var availableSuperkatten = superkatten
+        var superkatten = await _superkattenService.GetAllNotAssignedSuperkattenAsync();
+        AvailableSuperkatten = superkatten
             .AsQueryable()
             .OrderByDescending(s => s.Number)
             .ToList();
 
-        AvailableSuperkatten = availableSuperkatten;
+        superkatten = await _superkattenService.GetAllSuperkattenAsync();
+        AssignedSuperkatten = superkatten
+            .Where(o => o.GastgezinId == GastgezinId)
+            .OrderByDescending(s => s.Number)
+            .ToList();
     }
 
     private void AddSuperkatToSelection(Superkat superkat)
@@ -67,28 +62,26 @@ public partial class SuperkattenSelector
 
     private async Task OnClose()
     {
-        UpdateGastgezinSuperkatten();
-        await OnFinishEdit.InvokeAsync();
-    }
-
-    private void UpdateGastgezinSuperkatten()
-    {
-        if (GastgezinService is null)
-        {
-            throw new Exception("No gastgezin service available");
+        if (_superkattenService is null)
+        { 
+            throw new Exception("No superkatten service available");
         }
 
         if (GastgezinId == Guid.Empty)
         {
-            throw new Exception("No gastgezin available");
+            throw new Exception("No gastgezin id");
         }
 
-        var updateParameters = new AssignSuperkattenParameters
+        foreach(var assignedSuperkat in AssignedSuperkatten)
         {
-            Id = GastgezinId,
-            AssignedSuperkatten = AssignedSuperkatten
-        };
+            var updateSuperkatParameters = new UpdateSuperkatParameters
+            {
+                GastgezinId = GastgezinId
+            };
 
-        GastgezinService.AssignSuperkattenAsync(updateParameters);
+            await _superkattenService.UpdateSuperkatAsync(assignedSuperkat.Id, updateSuperkatParameters);
+        }
+
+        await OnFinish.InvokeAsync();
     }
 }

@@ -89,7 +89,6 @@ public class UserAuthorisationRepository : IUserAuthorisationRepository
         userDto.Name = updatedUser.Name;
         userDto.Email = updatedUser.Email;
         userDto.Username = updatedUser.Username;
-        userDto.IsEnabled = updatedUser.IsEnabled;
         
         _context.Users.Update(userDto);
         _context.SaveChanges();

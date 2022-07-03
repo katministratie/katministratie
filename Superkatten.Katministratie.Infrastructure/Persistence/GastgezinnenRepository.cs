@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Superkatten.Katministratie.Domain.Entities;
-using Superkatten.Katministratie.Infrastructure.Entities;
 using Superkatten.Katministratie.Infrastructure.Exceptions;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
-using Superkatten.Katministratie.Infrastructure.Mapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,123 +14,84 @@ public class GastgezinnenRepository : IGastgezinnenRepository
 {
     private readonly ILogger<GastgezinnenRepository> _logger;
     private readonly SuperkattenDbContext _context;
-    private readonly IGastgezinRepositoryMapper _gastgezinMapper;
-    private readonly ISuperkatRepositoryMapper _superkatMapper;
     public GastgezinnenRepository(
         ILogger<GastgezinnenRepository> logger, 
-        SuperkattenDbContext context, 
-        IGastgezinRepositoryMapper gastgezinMapper,
-        ISuperkatRepositoryMapper superkatMapper)
+        SuperkattenDbContext context
+    )
     {
         _logger = logger;
-        _gastgezinMapper = gastgezinMapper;
-        _superkatMapper = superkatMapper;
         _context = context;
     }
 
-    public async Task<Gastgezin> CreateGastgezinAsync(Gastgezin createGastgezin)
+    public async Task CreateGastgezinAsync(Gastgezin gastgezin)
     {
-        var existingGastgezinCount = await _context
+        var gastgezinExists = await _context
             .Gastgezinnen
-            .CountAsync(gg => gg.Name == createGastgezin.Name);
+            .AnyAsync(o => o.Name == gastgezin.Name);
 
-        if (existingGastgezinCount > 0)
+        if (gastgezinExists)
         {
-            throw new DatabaseException($"A gastgezin found in the database with name '{createGastgezin.Name}'");
+            throw new DatabaseException($"A hostfamily found in the database with name '{gastgezin.Name}'");
         }
 
-        var gastgezinDto = _gastgezinMapper.MapDomainToRepository(createGastgezin);
-
-        await _context.Gastgezinnen.AddAsync(gastgezinDto);
+        await _context.Gastgezinnen.AddAsync(gastgezin);
         await _context.SaveChangesAsync();
 
-        var addedGastgezin = await _context
-            .Gastgezinnen
-            .Where(gg => gg.Name == createGastgezin.Name)
-            .FirstOrDefaultAsync();
-
-        if (addedGastgezin is null)
-        {
-            throw new DatabaseException($"Error adding gastgezin '{createGastgezin.Name}'");
-        }
-
-        return _gastgezinMapper.MapRepositoryToDomain(addedGastgezin);
+        _logger.LogInformation("Hostfamily {Name} created", gastgezin.Name);
     }
 
     public async Task DeleteGastgezinAsync(Guid id)
     {
-        var gastgezinDto = await _context
+        var gastgezin = await _context
             .Gastgezinnen
-            .Where(gg => gg.Id == id)
+            .AsNoTracking()
+            .Where(o => o.Id == id)
             .FirstAsync();
 
-        if (gastgezinDto is null)
+        if (gastgezin is null)
         {
-            throw new DatabaseException($"No gastgezin found in the database with id '{id}'");
+            throw new DatabaseException($"No hostfamily found in the database with id '{id}'");
         }
 
-        _context.Gastgezinnen.Remove(gastgezinDto);
+        _context.Gastgezinnen.Remove(gastgezin);
         _context.SaveChanges();
+
+        _logger.LogInformation("Hostfamily {Name} created", gastgezin.Name);
     }
 
     public async Task<IReadOnlyCollection<Gastgezin>> GetGastgezinnenAsync()
     {
-        var gastgezinnen = await _context
+        return await _context
             .Gastgezinnen
-            .Include(gg => gg.Superkatten)
             .ToListAsync();
-
-        return gastgezinnen
-            .Select(_gastgezinMapper.MapRepositoryToDomain)
-            .ToList();
     }
 
     public async Task<Gastgezin> GetGastgezinAsync(Guid id)
     {
-        var gastgezinDto = await _context
+        var gastgezin = await _context
             .Gastgezinnen
-            .Include(gg => gg.Superkatten)
-            .Where(gg => gg.Id == id)
+            .AsNoTracking()
+            .Where(o => o.Id == id)
             .FirstOrDefaultAsync();
 
-        if (gastgezinDto is null)
-        {
-            throw new DatabaseException($"No gastgezin found in the database with id '{id}'");
-        }
-
-        return _gastgezinMapper.MapRepositoryToDomain(gastgezinDto);
+        return gastgezin is not null
+            ? gastgezin
+            : throw new DatabaseException($"Unknown hostfamily id '{id}'");
     }
 
-    public async Task<Gastgezin> UpdateGastgezinAsync(Guid id, Gastgezin gastgezin)
+    public async Task UpdateGastgezinAsync(Gastgezin gastgezin)
     {
-        var gastgezinDto = await _context
+        var gastgezinExsist = await _context
             .Gastgezinnen
-            .Where(o => o.Id == id)
-            .FirstAsync();
-
-        if (gastgezinDto is null)
+            .AnyAsync(o => o.Id == gastgezin.Id);
+        if (!gastgezinExsist)
         {
-            throw new DatabaseException($"No gastgezin found in the database with id '{id}'");
+            throw new DatabaseException($"Hostfamily '{gastgezin.Name}' not found");
         }
 
-        gastgezinDto.Name = gastgezin.Name;
-        gastgezinDto.Address = gastgezin.Address;
-        gastgezinDto.City = gastgezin.City;
-        gastgezinDto.Phone = gastgezin.Phone;
-        gastgezinDto.Superkatten = GetIntersection(
-            _context.SuperKatten.ToList(), 
-            gastgezin.Superkatten
-        );
-       
-        _context.Gastgezinnen.Update(gastgezinDto);
+        _context.Gastgezinnen.Update(gastgezin);
         _ = await _context.SaveChangesAsync();
 
-        return _gastgezinMapper.MapRepositoryToDomain(gastgezinDto);
-    }
-
-    private List<SuperkatDto> GetIntersection(List<SuperkatDto> availableSuperkatten, List<Superkat> superkatten)
-    {
-        var selection = availableSuperkatten.Where(s => superkatten.Any(k => k.Id == s.Id)).ToList();
-        return selection;
+        _logger.LogInformation("Hostfamily {Name} updated", gastgezin.Name);
     }
 }

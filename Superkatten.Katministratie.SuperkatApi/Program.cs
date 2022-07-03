@@ -134,7 +134,7 @@ app.UseSwagger();
 if (builder.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1"));
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Superkatten Api v1"));
 }
 else
 {

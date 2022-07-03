@@ -7,12 +7,12 @@ namespace Superkatten.Katministratie.Infrastructure.Interfaces
 {
     public interface ISuperkattenRepository
     {
-        Task<Superkat> CreateSuperkatAsync(Superkat superkat);
+        Task CreateSuperkatAsync(Superkat superkat);
         Task<Superkat> GetSuperkatAsync(Guid id);
-        Task DeleteSuperkatAsync(Guid id);
+        Task DeleteSuperkatAsync(Guid guid);
         Task UpdateSuperkatAsync(Superkat superkat);
-        Task<IReadOnlyCollection<Superkat>> GetAvailableSuperkattenAsync();
+        Task<IReadOnlyCollection<Superkat>> GetAssignedSuperkattenAsync();
         Task<IReadOnlyCollection<Superkat>> GetNotAssignedSuperkattenAsync();
-        Task<int> GetSuperkatMaxNumberForGivenYearAsync(int year);
+        Task<int> GetNextUniqueSuperkatNumber(int year);
     }
 }

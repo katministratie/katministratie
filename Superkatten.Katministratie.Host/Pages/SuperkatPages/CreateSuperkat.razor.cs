@@ -7,6 +7,8 @@ namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 
 public partial class CreateSuperkat
 {
+    public const int MAX_HOKNUMBER_ALLOWED = 50;
+
     public DateTime CatchDate = DateTime.UtcNow;
     public string CatchLocation = string.Empty;
     public CatArea CatArea = CatArea.Quarantine;
@@ -49,18 +51,18 @@ public partial class CreateSuperkat
     {
         var createSuperkatParameters = new CreateSuperkatParameters()
         {
-            CatchDate = DateTime.UtcNow,
-            CatchLocation = string.Empty,
-            CatArea = CatArea.Quarantine,
-            CageNumber = null,
-            Behaviour = CatBehaviour.Unknown,
-            Retour = false,
-            IsKitten = true,
-            Gender = Gender.Unknown,
-            LitterType = LitterGranuleType.Normal,
-            WetFoodAllowed = true,
-            FoodType = FoodType.FirstPhase,
-            Color = string.Empty,
+            CatchDate = CatchDate,
+            CatchLocation = CatchLocation,
+            CatArea = CatArea,
+            CageNumber = CageNumber,
+            Behaviour = Behaviour,
+            Retour = Retour,
+            IsKitten = IsKitten,
+            Gender = Gender,
+            LitterType = LitterType,
+            WetFoodAllowed = WetFoodAllowed,
+            FoodType = FoodType,
+            CatColor = CatColor,
             EstimatedWeeksOld = EstimatedWeeksOld
         };
         var superkat = await _superkattenService.CreateSuperkatAsync(createSuperkatParameters);

@@ -3,8 +3,10 @@ using Superkatten.Katministratie.Application.Exceptions;
 using Superkatten.Katministratie.Contract.Authenticate;
 using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using BcryptNet = BCrypt.Net.BCrypt;
 
 namespace Superkatten.Katministratie.Application.Services;
@@ -32,16 +34,11 @@ public class UserService : IUserService
             throw new AuthorisationException("Given username may not be null");
         }
 
-        var user = _userAuthorisationRepository.GetUserByName(model.Username);
+        var user = _userAuthorisationRepository.GetUserByName(model.Username.ToLower());
 
         if (user is null)
         {
             throw new AuthorisationException("Username is incorrect");
-        }
-
-        if (!user.IsEnabled)
-        {
-            throw new AuthorisationException("User is disabled");
         }
 
         if (!BcryptNet.Verify(model.Password, user.PasswordHash))
@@ -68,7 +65,8 @@ public class UserService : IUserService
 
     public void Register(RegisterRequest model)
     {
-        // validate
+        CheckForValidUsername(model.Username);
+
         var userExsist = _userAuthorisationRepository
             .GetAllUsers()
             .Any(x => x.Username == model.Username);
@@ -86,13 +84,22 @@ public class UserService : IUserService
         {
             Name = model.Name,
             Email = model.Email,
-            IsEnabled = true,
             Username = model.Username,
             PasswordHash = passwordHash
         };
 
         // save user
         _userAuthorisationRepository.StoreUser(domainUser);
+    }
+
+    private static void CheckForValidUsername(string username)
+    {
+        var regex = new Regex(@"^[a-z]+$");
+        var isValidUserName = regex.IsMatch(username);
+        if (!isValidUserName)
+        {
+            throw new AuthorisationException("Username contains invallid characters, only [a...z] allowed.");
+        }
     }
 
     public void Update(int id, UpdateRequest updateRequest)

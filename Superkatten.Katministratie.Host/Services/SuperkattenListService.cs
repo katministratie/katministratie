@@ -21,18 +21,17 @@ public class SuperkattenListService : ISuperkattenListService
         _httpService = httpService;
     }
     
-    public async Task<Superkat?> CreateSuperkatAsync([FromBody] CreateSuperkatParameters newSuperkat)
+    public async Task<Superkat?> CreateSuperkatAsync(CreateSuperkatParameters newSuperkat)
     {
         var uri = $"api/Superkatten";
         var superkat = await _httpService.Put<Superkat>(uri, newSuperkat);
         return superkat;
     }
 
-    public async Task<Superkat?> UpdateSuperkatAsync(Guid id, [FromBody] UpdateSuperkatParameters updateSuperkat)
+    public async Task UpdateSuperkatAsync(Guid id, UpdateSuperkatParameters updateSuperkat)
     {
         var uri = $"api/Superkatten?Id={id}";
-        var superkat = await _httpService.Post<Superkat?>(uri);
-        return superkat;
+        await _httpService.Post<Superkat?>(uri, updateSuperkat);
     }
 
     public async Task DeleteSuperkatAsync(Guid id)
@@ -65,7 +64,6 @@ public class SuperkattenListService : ISuperkattenListService
     {
         var uri = "api/Superkatten/NotAssigned";
         var superkatten = await _httpService.Get<List<Superkat>>(uri);
-        //var superkatten = await _client.GetFromJsonAsync<List<Superkat>>(uri);
 
         return superkatten is null
             ? new()

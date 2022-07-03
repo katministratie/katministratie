@@ -42,8 +42,8 @@
 }
 else
 {
-    @foreach (var gastgezin in Gastgezinnen)
+    @foreach (var gastgezin in _gastgezinnen)
     {
-        <GastgezinComponent Gastgezin=gastgezin />
+        <GastgezinComponent Gastgezin=gastgezin OnGastgezinDeleted=OnGastgezinDeleted/>
     }    
 }

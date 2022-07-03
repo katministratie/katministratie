@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Superkatten.Katministratie.Domain.Entities;
-using Superkatten.Katministratie.Infrastructure.Entities;
 using Superkatten.Katministratie.Infrastructure.Exceptions;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
-using Superkatten.Katministratie.Infrastructure.Mapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,125 +14,106 @@ public class SuperkattenRepository : ISuperkattenRepository
 {
     private readonly ILogger<SuperkattenRepository> _logger;
     private readonly SuperkattenDbContext _context;
-    private readonly ISuperkatRepositoryMapper _mapper;
     public SuperkattenRepository(
         ILogger<SuperkattenRepository> logger, 
-        SuperkattenDbContext context, 
-        ISuperkatRepositoryMapper mapper
+        SuperkattenDbContext context
     )
     {
         _logger = logger;
-        _mapper = mapper;
         _context = context;
     }
 
-    public async Task<Superkat> CreateSuperkatAsync(Superkat superkat)
+    public async Task CreateSuperkatAsync(Superkat superkat)
     {
         var superkatDtoExsist = await _context
             .SuperKatten
-            .AnyAsync(s => s.Id == superkat.Id);
-            
+            .AnyAsync(s => s.Id == superkat.Id);            
         if (superkatDtoExsist)
         {
             throw new DatabaseException($"A {nameof(Superkat)} found in the database with id {superkat.Id}");
         }
 
-        var superkatDto = _mapper.MapDomainToRepository(superkat);
-
-        await _context.SuperKatten.AddAsync(superkatDto);
+        await _context.SuperKatten.AddAsync(superkat);
         await _context.SaveChangesAsync();
-
-        return await GetSuperkatAsync(superkatDto.Id);
     }
 
-    public async Task DeleteSuperkatAsync(Guid id)
+    public async Task DeleteSuperkatAsync(Guid guid)
     {
-       var superkatDto = await _context
+       var superkat = await _context
             .SuperKatten
-            .Where(s => s.Id == id)
-            .FirstOrDefaultAsync();
-
-        if (superkatDto is null)
+            .FirstOrDefaultAsync(s => s.Id == guid);
+        if (superkat is null)
         {
-            throw new DatabaseException($"No superkat found in the database with id {id}");
+            throw new DatabaseException($"No superkat found in the database with id {guid}");
         }
 
-        _context.SuperKatten.Remove(superkatDto);
+        _context.SuperKatten.Remove(superkat);
         _context.SaveChanges();
     }
 
-    public async Task<IReadOnlyCollection<Superkat>> GetAvailableSuperkattenAsync()
+    public async Task<IReadOnlyCollection<Superkat>> GetAssignedSuperkattenAsync()
     {
-        var superkatten = await _context
+        return await _context
             .SuperKatten
+            .AsNoTracking()
+            .Where(o => o.GastgezinId != null)
             .ToListAsync();
-
-        return superkatten
-            .Select(_mapper.MapRepositoryToDomain)
-            .ToList();
     }
 
     public async Task<IReadOnlyCollection<Superkat>> GetNotAssignedSuperkattenAsync()
     {
-        var superkatten = await _context
+        return await _context
             .SuperKatten
-            .Where(x => !_context
-                        .Gastgezinnen
-                        .Any(g => g.Superkatten.Contains(x))
-            )
+            .AsNoTracking()
+            .Where(o => o.GastgezinId == null)
             .ToListAsync();
-
-        return superkatten
-            .Select(_mapper.MapRepositoryToDomain)
-            .ToList();
     }
-
-
 
     public async Task<Superkat> GetSuperkatAsync(Guid id)
     {
-        var superkatDto = await _context
+        var superkat = await _context
             .SuperKatten
-            .Where(s => s.Id == id)
-            .FirstOrDefaultAsync();
-
-        if (superkatDto is null)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s => s.Id == id);
+        if (superkat is null)
         {
             throw new DatabaseException($"No superkat found in the database with id {id}");
         }
 
-        return _mapper.MapRepositoryToDomain(superkatDto);
+        return superkat;
     }
 
     public async Task UpdateSuperkatAsync(Superkat superkat)
     {
-        var superkatDto = _context
+        var superkatExist = await _context
             .SuperKatten
-            .FirstOrDefault(s => s.Id == superkat.Id);
+            .AnyAsync(s => s.Id == superkat.Id);
 
-        if (superkatDto is null)
+        if (!superkatExist)
         {
             throw new DatabaseException($"No superkat found in the database with id {superkat.Id}");
         }
 
-        superkatDto.Retour = superkat.Retour;
-        superkatDto.CageNumber = superkat.CageNumber;
-        superkatDto.Behaviour = (int)superkat.Behaviour;
-        superkatDto.Area = (int)superkat.CatArea;
-        superkatDto.Birthday = superkat.Birthday;
-        superkatDto.Gender = (int)superkat.Gender;
-        superkatDto.IsKitten = superkat.IsKitten;
-        superkatDto.Name = superkat.Name;
-        superkatDto.Reserved = superkat.Reserved;
-
-        _context.Update(superkatDto);
+        _context.Update(superkat);
         await _context.SaveChangesAsync();
     }
 
-    public async Task<int> GetSuperkatMaxNumberForGivenYearAsync(int year)
+    public async Task<int> GetNextUniqueSuperkatNumber(int year)
     {
-        return await _context
+        var count = await _context
             .SuperKatten
             .CountAsync(s => s.CatchDate.Year == year);
+
+        var maxNumber = await _context
+            .SuperKatten
+            .Where(s => s.CatchDate.Year == year)
+            .MaxAsync(s => s.Number);
+
+        return count is 0
+            ? 1
+            : await _context
+                    .SuperKatten
+                    .Where(s => s.CatchDate.Year == year)
+                    .MaxAsync(s => s.Number) + 1;
     }
 }

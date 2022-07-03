@@ -6,7 +6,6 @@ namespace Superkatten.Katministratie.Host.Pages.GastgezinPages;
 public partial class OverviewGastgezinnen
 { 
     public List<Gastgezin> _gastgezinnen = new();
-    public List<Gastgezin> Gastgezinnen => _gastgezinnen;
 
     protected override async Task OnInitializedAsync()
     {
@@ -35,5 +34,10 @@ public partial class OverviewGastgezinnen
     public void OnCreateGastgezin()
     {
         _navigationManager.NavigateTo("CreateGastgezin");
+    }
+
+    public void OnGastgezinDeleted(Gastgezin gastgezin)
+    {
+        _gastgezinnen.Remove(gastgezin);
     }
 }

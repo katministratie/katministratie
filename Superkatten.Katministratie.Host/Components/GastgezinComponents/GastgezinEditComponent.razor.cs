@@ -9,8 +9,11 @@ namespace Superkatten.Katministratie.Host.Components.GastgezinComponents;
 
 public partial class GastgezinEditComponent
 {
+    [Inject]
+    private IGastgezinService? _gastgezinService { get; set; }
+
     [Parameter]
-    public Gastgezin Gastgezin 
+    public Gastgezin? Gastgezin
     {
         set
         {
@@ -18,52 +21,48 @@ public partial class GastgezinEditComponent
             {
                 return;
             }
+            _gastgezinId = value.Id;
 
-            GastgezinId = value.Id;
-
-            GastgezinData.Name = value.Name;
-            GastgezinData.Address = value.Address ?? string.Empty;
-            GastgezinData.City = value.City ?? string.Empty;
-            GastgezinData.Phone = value.Phone ?? string.Empty;
+            _gastgezinData.Name = value.Name;
+            _gastgezinData.Address = value.Address ?? string.Empty;
+            _gastgezinData.City = value.City ?? string.Empty;
+            _gastgezinData.Phone = value.Phone ?? string.Empty;
         }
     }
 
     [Parameter]
-    public EventCallback OnFinishEdit { get; set; }
+    public EventCallback OnFinish { get; set; }
 
-    [Inject]
-    private IGastgezinService? _gastgezinService { get; set; }
 
-    private Guid GastgezinId = Guid.Empty;
-    private readonly NawData GastgezinData = new();
+    private Guid _gastgezinId = Guid.Empty;
+    private HostFamilyNawData _gastgezinData { get; set; } = new();
 
-    private async Task OnFinish(EditContext editContext)
+    private async Task OnFinishOk(EditContext editContext)
     {
-        Gastgezin = (Gastgezin)editContext.Model;
-        UpdateGastgezin();
-        await OnFinishEdit.InvokeAsync();
+        await StoreAsync();
+        await OnFinish.InvokeAsync();
     }
 
-    private async Task OnFinishFailed(EditContext editContext)
+    private Task OnFinishFail(EditContext editContext)
     {
-        await OnFinishEdit.InvokeAsync();
+        return OnFinish.InvokeAsync();
     }
 
-    private void UpdateGastgezin()
+    private async Task StoreAsync()
     {
-        if (GastgezinId == Guid.Empty)
+        if (_gastgezinId == Guid.Empty)
         {
             return;
         }
 
         var updateGastgezinParameters = new CreateUpdateGastgezinParameters()
         {
-            Name = GastgezinData.Name,
-            Address = GastgezinData.Address,
-            City = GastgezinData.City,
-            Phone = GastgezinData.Phone
+            Name = _gastgezinData.Name,
+            Address = _gastgezinData.Address,
+            City = _gastgezinData.City,
+            Phone = _gastgezinData.Phone
         };
 
-        _gastgezinService!.UpdateGastgezinAsync(GastgezinId, updateGastgezinParameters);
+        await _gastgezinService!.UpdateGastgezinAsync(_gastgezinId, updateGastgezinParameters);
     }
 }

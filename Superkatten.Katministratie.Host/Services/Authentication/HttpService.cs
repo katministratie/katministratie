@@ -50,8 +50,6 @@ public class HttpService : IHttpService
     }
     public async Task<T?> Put<T>(string uri, object value)
     {
-        Console.WriteLine($"Uri: [{uri}], value:{value} ");
-
         var request = new HttpRequestMessage(HttpMethod.Put, uri)
         {
             Content = new StringContent(JsonSerializer.Serialize(value), Encoding.UTF8, "application/json")
@@ -96,32 +94,34 @@ public class HttpService : IHttpService
         // auto logout on 401 response
         if (response.StatusCode == HttpStatusCode.Unauthorized)
         {
-            Console.WriteLine($"Status Unauthorized");
-
             _navigationManager.NavigateTo("logout");
             return;
         }
 
         if (response.StatusCode == HttpStatusCode.Forbidden)
         {
-            Console.WriteLine($"Status Forbidden");
-
             return;
         }
 
         // throw exception on error response
         if (!response.IsSuccessStatusCode)
         {
-            if (response.Content?.Headers.ContentType?.MediaType != "application/json")
+            var mediaType = response.Content?.Headers.ContentType?.MediaType;
+            if (mediaType != "application/json")
             {
                 throw new Exception($"unsuccesfull; response is: {response.StatusCode}");
             }
             
+            if (response.Content is null)
+            {
+                throw new Exception("No content available, reason of failure unknown");
+            }
+
             var error = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
             throw new Exception(error is not null
-                ? error["message"]
-                : "Fatal error"
-            );
+                        ? error["message"]
+                        : "Fatal error"
+                      );
         }
     }
 
@@ -136,7 +136,6 @@ public class HttpService : IHttpService
         var user = await _localStorageService.GetItem<AuthenticateResponse>("user");
         if (user is not null)
         {
-            Console.WriteLine($"Add authorisation header.");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
         }
 

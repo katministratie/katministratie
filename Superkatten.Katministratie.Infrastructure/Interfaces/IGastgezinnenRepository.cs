@@ -7,10 +7,10 @@ namespace Superkatten.Katministratie.Infrastructure.Interfaces
 {
     public interface IGastgezinnenRepository
     {
-        Task<Gastgezin> CreateGastgezinAsync(Gastgezin gastgezin);
+        Task CreateGastgezinAsync(Gastgezin gastgezin);
         Task<Gastgezin> GetGastgezinAsync(Guid id);
         Task DeleteGastgezinAsync(Guid id);
-        Task<Gastgezin> UpdateGastgezinAsync(Guid id, Gastgezin gastgezin);
+        Task UpdateGastgezinAsync(Gastgezin gastgezin);
         Task<IReadOnlyCollection<Gastgezin>> GetGastgezinnenAsync();
     }
 }

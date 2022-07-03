@@ -8,7 +8,6 @@ public interface IGastgezinService
     public Task<List<Gastgezin>> GetAllGastgezinAsync();
     public Task<Gastgezin?> GetGastgezinAsync(Guid id);
     public Task<Gastgezin?> CreateGastgezinAsync(CreateUpdateGastgezinParameters newGastgezinParameters);
-    public Task<Gastgezin?> AssignSuperkattenAsync(AssignSuperkattenParameters updateGastgezinParameters);
     public Task<Gastgezin?> UpdateGastgezinAsync(Guid id, CreateUpdateGastgezinParameters updateNawGastgezinParameters);
     public Task DeleteGastgezinAsync(Guid id);
 }

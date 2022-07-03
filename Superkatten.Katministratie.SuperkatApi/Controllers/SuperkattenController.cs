@@ -25,9 +25,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         [HttpGet]
         public async Task<IReadOnlyCollection<ContractEntities.Superkat>> GetAllSuperkatten()
         {
-            Console.WriteLine("Get all superkatten");
-
-            var superkatten = await _service.ReadAvailableSuperkattenAsync();
+            var superkatten = await _service.ReadAllSuperkattenAsync();
             return superkatten
                 .Select(_mapper.MapDomainToContract)
                 .ToList();
@@ -51,9 +49,9 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ContractEntities.Superkat> PostSuperkat([FromBody] UpdateSuperkatParameters updateSuperkatParameters)
+        public async Task<ContractEntities.Superkat> PostSuperkat(Guid id, [FromBody] UpdateSuperkatParameters updateSuperkatParameters)
         {
-            var superkat = await _service.UpdateSuperkatAsync(updateSuperkatParameters);
+            var superkat = await _service.UpdateSuperkatAsync(id, updateSuperkatParameters);
             return _mapper.MapDomainToContract(superkat);
         }
 

@@ -14,7 +14,6 @@ public class UserMapper : IUserMapper
         {
             Email = user.Email,
             Id = user.Id,
-            IsEnabled = user.IsEnabled,
             Name = user.Name,
             PasswordHash = user.PasswordHash,
             Username = user.Username,
@@ -34,7 +33,6 @@ public class UserMapper : IUserMapper
         {
             Email = userDto.Email,
             Id = userDto.Id,
-            IsEnabled = userDto.IsEnabled,
             Name = userDto.Name,
             PasswordHash = userDto.PasswordHash,
             Username = userDto.Username,

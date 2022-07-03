@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Superkatten.Katministratie.Application.Exceptions;
 using Superkatten.Katministratie.Application.Interfaces;
-using Superkatten.Katministratie.Application.Mappers;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
@@ -15,16 +14,18 @@ namespace Superkatten.Katministratie.Application.Services
     public class GastgezinnenService : IGastgezinnenService
     {
         public readonly ILogger<GastgezinnenService> _logger;
-        public readonly IGastgezinnenRepository _repository;
-        public readonly ISuperkatMapper _superkatMapper;
+        public readonly IGastgezinnenRepository _gastgezinRepository;
+        private readonly ISuperkattenRepository _superkattenRepository;
+
         public GastgezinnenService(
             ILogger<GastgezinnenService> logger,
-            IGastgezinnenRepository repository,
-            ISuperkatMapper superkatMapper)
+            IGastgezinnenRepository gastgezinRepository,
+            ISuperkattenRepository superkattenRepository
+        )
         {
             _logger = logger;
-            _repository = repository;
-            _superkatMapper = superkatMapper;
+            _gastgezinRepository = gastgezinRepository;
+            _superkattenRepository = superkattenRepository;
         }
 
         public async Task<Gastgezin> CreateGastgezinAsync(CreateUpdateGastgezinParameters createGastgezinParameters)
@@ -34,56 +35,38 @@ namespace Superkatten.Katministratie.Application.Services
                 throw new ValidationException("Gastgezin name is invalid");
             }
 
-            var gastgezin= new Gastgezin(
-                Guid.NewGuid(),
+            var gastgezin = new Gastgezin(
                 createGastgezinParameters.Name,
                 createGastgezinParameters.Address,
                 createGastgezinParameters.City,
-                createGastgezinParameters.Phone,
-                new List<Superkat>()
+                createGastgezinParameters.Phone
                 );
 
-            await _repository.CreateGastgezinAsync(gastgezin);
+            await _gastgezinRepository.CreateGastgezinAsync(gastgezin);
 
             return gastgezin;
         }
-        public async Task<Gastgezin> AssignSuperkattenAsync(AssignSuperkattenParameters assignSuperkattenParameters)
-        {
-            if (assignSuperkattenParameters.Id == Guid.Empty)
-            {
-                throw new ValidationException($"Gastgezin ID is empty");
-            }
-
-            var gastgezin = await _repository.GetGastgezinAsync(assignSuperkattenParameters.Id);
-            if (gastgezin is null)
-            {
-                throw new ValidationException($"gastgezin with guid: {assignSuperkattenParameters.Id} does not exsist");
-            }
-
-            var updatedGastgezin = new Gastgezin(
-                assignSuperkattenParameters.Id,
-                gastgezin.Name,
-                gastgezin.Address,
-                gastgezin.City,
-                gastgezin.Phone,
-                assignSuperkattenParameters.AssignedSuperkatten
-                    .Select(_superkatMapper.MapContractToDomain)
-                    .ToList()
-            );
-
-            await _repository.UpdateGastgezinAsync(updatedGastgezin.Id, updatedGastgezin);
-
-            return updatedGastgezin;
-        }
-
+       
         public async Task DeleteGastgezinAsync(Guid id)
         {
-            await _repository.DeleteGastgezinAsync(id);
+            await _gastgezinRepository.DeleteGastgezinAsync(id);
+
+            // delete all assignments for the superkatten
+            var superkatten = await _superkattenRepository.GetAssignedSuperkattenAsync();
+            var toBeUpdated = superkatten
+                .Where(o => o.GastgezinId == id)
+                .ToList();
+
+            foreach(var superkat in toBeUpdated)
+            {
+                var updatedSuperkat = superkat.WithGastgezinId(null);
+                await _superkattenRepository.UpdateSuperkatAsync(updatedSuperkat);
+            }
         }
 
         public async Task<IReadOnlyCollection<Gastgezin>> ReadAvailableGastgezinAsync()
         {
-            var gastgezinnen = await _repository.GetGastgezinnenAsync();
+            var gastgezinnen = await _gastgezinRepository.GetGastgezinnenAsync();
             return gastgezinnen.ToList();
         }
 
@@ -94,22 +77,20 @@ namespace Superkatten.Katministratie.Application.Services
                 throw new ValidationException($"Gastgezin name is empty");
             }
 
-            var gastgezin = await _repository.GetGastgezinAsync(id);
+            var gastgezin = await _gastgezinRepository.GetGastgezinAsync(id);
             if (gastgezin is null)
             {
                 throw new ValidationException($"gastgezin with guid: {id} does not exsist");
             }
 
-            var updatedGastgezin = new Gastgezin(
-                gastgezin.Id,
+            var updatedGastgezin = gastgezin.Update(
                 updateGastgezinParameters.Name,
                 updateGastgezinParameters.Address,
                 updateGastgezinParameters.City,
-                updateGastgezinParameters.Phone,
-                gastgezin.Superkatten
+                updateGastgezinParameters.Phone
             );
 
-            await _repository.UpdateGastgezinAsync(id, updatedGastgezin);
+            await _gastgezinRepository.UpdateGastgezinAsync(updatedGastgezin);
 
             return updatedGastgezin;
         }

@@ -5,7 +5,7 @@ namespace Superkatten.Katministratie.Host.Pages.GastgezinPages;
 
 public partial class CreateGastgezin
 {
-    public NawData GastgezinData { get; set; } = new();
+    public HostFamilyNawData GastgezinData { get; set; } = new();
                     
     private bool ValidName => string.IsNullOrWhiteSpace(GastgezinData?.Name);
 
