@@ -7,6 +7,8 @@ namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 
 public partial class CreateSuperkat
 {
+    public const int MAX_HOKNUMBER_ALLOWED = 50;
+
     public DateTime CatchDate = DateTime.UtcNow;
     public string CatchLocation = string.Empty;
     public CatArea CatArea = CatArea.Quarantine;

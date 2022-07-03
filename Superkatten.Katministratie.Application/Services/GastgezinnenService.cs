@@ -52,7 +52,7 @@ namespace Superkatten.Katministratie.Application.Services
             await _gastgezinRepository.DeleteGastgezinAsync(id);
 
             // delete all assignments for the superkatten
-            var superkatten = await _superkattenRepository.GetAllSuperkattenAsync();
+            var superkatten = await _superkattenRepository.GetAssignedSuperkattenAsync();
             var toBeUpdated = superkatten
                 .Where(o => o.GastgezinId == id)
                 .ToList();

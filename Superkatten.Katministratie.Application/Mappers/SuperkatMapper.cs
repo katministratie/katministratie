@@ -1,4 +1,5 @@
 ﻿using Superkatten.Katministratie.Domain.Entities;
+using System;
 using System.ComponentModel;
 
 using contractEntities = Superkatten.Katministratie.Contract.Entities;
@@ -23,7 +24,8 @@ namespace Superkatten.Katministratie.Application.Mappers
                 Retour = createdSuperkat.Retour,
                 Behaviour = MapToContract(createdSuperkat.Behaviour),
                 CatArea = MapToContract(createdSuperkat.CatArea),
-                Gender = MapToContract(createdSuperkat.Gender)
+                Gender = MapToContract(createdSuperkat.Gender),
+                GastgezinId = createdSuperkat.GastgezinId ?? Guid.Empty
             };
         }
 
@@ -69,7 +71,9 @@ namespace Superkatten.Katministratie.Application.Mappers
                 contractSuperkat.Number,
                 contractSuperkat.CatchDate,
                 contractSuperkat.CatchLocation)
-            { Id = contractSuperkat.Id };
+            { 
+                Id = contractSuperkat.Id
+            };
 
             superkat.SetArea(MapContractToDomain(contractSuperkat.CatArea));
             superkat.SetBehaviour(MapContractToDomain(contractSuperkat.Behaviour));
@@ -79,7 +83,7 @@ namespace Superkatten.Katministratie.Application.Mappers
             superkat.SetIsKitten(contractSuperkat.IsKitten);
             superkat.SetName(contractSuperkat.Name ?? string.Empty);
 
-            return superkat;
+            return superkat.WithGastgezinId(contractSuperkat.GastgezinId);
         }
 
         public CatArea MapContractToDomain(contractEntities.CatArea area)

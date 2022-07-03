@@ -94,16 +94,12 @@ public class HttpService : IHttpService
         // auto logout on 401 response
         if (response.StatusCode == HttpStatusCode.Unauthorized)
         {
-            Console.WriteLine($"Status Unauthorized");
-
             _navigationManager.NavigateTo("logout");
             return;
         }
 
         if (response.StatusCode == HttpStatusCode.Forbidden)
         {
-            Console.WriteLine($"Status Forbidden");
-
             return;
         }
 
@@ -116,11 +112,16 @@ public class HttpService : IHttpService
                 throw new Exception($"unsuccesfull; response is: {response.StatusCode}");
             }
             
+            if (response.Content is null)
+            {
+                throw new Exception("No content available, reason of failure unknown");
+            }
+
             var error = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
             throw new Exception(error is not null
-                ? error["message"]
-                : "Fatal error"
-            );
+                        ? error["message"]
+                        : "Fatal error"
+                      );
         }
     }
 

@@ -28,7 +28,7 @@
 
 <Row Class="mb-2">
     <Col Class="col-12">
-        <Input Placeholder="vanglokatie"  Size="@InputSize.Large" @bind-Value="@CatchLocation" />
+        <Input Placeholder="vanglokatie" @bind-Value="@CatchLocation" />
     </Col>
 </Row>
 
@@ -48,9 +48,8 @@
     <Col Class="col-12">        
         Hok:<AntDesign.InputNumber 
                 Min="1"
-                Max="50"
+                Max="@MAX_HOKNUMBER_ALLOWED"
                 DefaultValue="1" 
-                Size="@InputSize.Large" 
                 @bind-Value="@CageNumber"/>
     </Col>
 </Row>
@@ -58,6 +57,7 @@
 
 <Row Class="mb-2">
     <Col Class="col-12">
+        Stronghold: 
         <Checkbox @bind-Checked="@StrongHoldGiven">
             @($"{(StrongHoldGiven ? "Stronghold gegeven" : "Geen stronghold gegeven")}")
         </Checkbox>
@@ -66,27 +66,10 @@
 
 <Row Class="mb-2">
     <Col Class="col-12">
+        Retour:
         <Checkbox @bind-Checked="@Retour">
             @($"{(Retour ? "Kat gaat retour" : "Kat gaat adoptieproces in")}")
         </Checkbox>
-    </Col>
-</Row>
-
-<Row Class="mb-2">
-    <Col Class="col-12">
-        <Input Placeholder="Kleur kat"  Size="@InputSize.Large" @bind-Value="@CatColor" />
-    </Col>
-</Row>
-
-<Row Class="mb-2">
-    <Col Class="col-12">
-        <RadioGroup @bind-Value="@CatArea">
-            <Radio RadioButton Value="@Contract.Entities.CatArea.Quarantine">Quarantaine</Radio>
-            <Radio RadioButton Value="@(Contract.Entities.CatArea.Infirmary)">Ziekenboeg</Radio>
-            <Radio RadioButton Value="@(Contract.Entities.CatArea.Room2)">Kamer 2</Radio>
-            <Radio RadioButton Value="@(Contract.Entities.CatArea.SmallEnclosure)">KLeine ren</Radio>
-            <Radio RadioButton Value="@(Contract.Entities.CatArea.BigEnclosure)">Grote ren</Radio>
-        </RadioGroup>
     </Col>
 </Row>
 
@@ -123,17 +106,45 @@
 
 <Row Class="mb-2">
     <Col Class="col-12">
-        <RadioGroup @bind-Value="@Gender">
+        Voer:
+        <Checkbox @bind-Checked="@WetFoodAllowed">
+            @($"{(WetFoodAllowed ? "Nat voer" : "Geen nat voer")}")
+        </Checkbox>
+    </Col>
+</Row>
+
+<Row Class="mb-2">
+    <Col Class="col-12">
+        <Input Placeholder="Kleur kat"  Size="@InputSize.Large" @bind-Value="@CatColor" />
+    </Col>
+</Row>
+
+<Row Class="mb-2">
+    <Col Class="col-12">
+        <RadioGroup @bind-Value="@CatArea" ButtonStyle="@RadioButtonStyle.Solid">
+            <Radio RadioButton Value="@Contract.Entities.CatArea.Quarantine">Quarantaine</Radio>
+            <Radio RadioButton Value="@(Contract.Entities.CatArea.Infirmary)">Ziekenboeg</Radio>
+            <Radio RadioButton Value="@(Contract.Entities.CatArea.Room2)">Kamer 2</Radio>
+            <Radio RadioButton Value="@(Contract.Entities.CatArea.SmallEnclosure)">KLeine ren</Radio>
+            <Radio RadioButton Value="@(Contract.Entities.CatArea.BigEnclosure)">Grote ren</Radio>
+        </RadioGroup>
+    </Col>
+</Row>
+
+
+<Row Class="mb-2">
+    <Col Class="col-12">
+        <RadioGroup @bind-Value="@Gender" ButtonStyle="@RadioButtonStyle.Solid">
+            <Radio RadioButton Value="@(Contract.Entities.Gender.Unknown)">Onbekend</Radio>
             <Radio RadioButton Value="@(Contract.Entities.Gender.Molly)">Poes</Radio>
             <Radio RadioButton Value="@(Contract.Entities.Gender.Tomcat)">Kater</Radio>
-            <Radio RadioButton Value="@(Contract.Entities.Gender.Unknown)">Onbekend</Radio>
         </RadioGroup>
     </Col>
 </Row>
 
 <Row Class="mb-2">
     <Col Class="col-12">
-        <RadioGroup @bind-Value="@FoodType">
+        <RadioGroup @bind-Value="@FoodType" ButtonStyle="@RadioButtonStyle.Solid">
             <Radio RadioButton Value="@(Contract.Entities.FoodType.FirstPhase)">Eerste Fase</Radio>
             <Radio RadioButton Value="@(Contract.Entities.FoodType.SecondPhase)">Tweede Fase</Radio>
             <Radio RadioButton Value="@(Contract.Entities.FoodType.Rc365)">RC 365</Radio>
@@ -143,17 +154,9 @@
 
 <Row Class="mb-2">
     <Col Class="col-12">
-        <Checkbox @bind-Checked="@WetFoodAllowed">
-            @($"{(WetFoodAllowed ? "Nat voer toegestaan" : "Geen nat voer")}")
-        </Checkbox>
-    </Col>
-</Row>
-
-<Row Class="mb-2">
-    <Col Class="col-12">
-        <RadioGroup @bind-Value="@LitterType">
-            <Radio RadioButton Value="@(Contract.Entities.LitterGranuleType.Clumping)">Klontvormend</Radio>
+        <RadioGroup @bind-Value="@LitterType" ButtonStyle="@RadioButtonStyle.Solid">
             <Radio RadioButton Value="@(Contract.Entities.LitterGranuleType.Normal)">Normaal</Radio>
+            <Radio RadioButton Value="@(Contract.Entities.LitterGranuleType.Clumping)">Klontvormend</Radio>
             <Radio RadioButton Value="@(Contract.Entities.LitterGranuleType.Wood)">Hout korrels</Radio>
         </RadioGroup>
     </Col>

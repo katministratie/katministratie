@@ -38,10 +38,10 @@ namespace Superkatten.Katministratie.Application.Services
                 throw new ValidationException($"Superkat location is empty");
             }
 
-            var numberOfCats = await _superkattenRepository.GetCatCountForGivenYear(DateTimeOffset.Now.Year);
+            var uniqueSuperkatNumber = await _superkattenRepository.GetNextUniqueSuperkatNumber(DateTimeOffset.Now.Year);
             
             var superkat = new Superkat(
-                numberOfCats + 1,
+                uniqueSuperkatNumber,
                 createSuperkatParameters.CatchDate,
                 createSuperkatParameters.CatchLocation);
 
@@ -75,10 +75,15 @@ namespace Superkatten.Katministratie.Application.Services
             await _superkattenRepository.DeleteSuperkatAsync(guid);
         }
 
-        public async Task<IReadOnlyCollection<Superkat>> ReadAvailableSuperkattenAsync()
+        public async Task<IReadOnlyCollection<Superkat>> ReadAllSuperkattenAsync()
         {
-            var superkatten = await _superkattenRepository.GetAllSuperkattenAsync();            
-            return superkatten.ToList();
+            var assignedSuperkatten = await _superkattenRepository.GetAssignedSuperkattenAsync();
+            var notAssignedSuperkatten = await _superkattenRepository.GetNotAssignedSuperkattenAsync();
+
+            var allSuperkatten = assignedSuperkatten.ToList();
+            allSuperkatten.AddRange(notAssignedSuperkatten.ToList());
+
+            return allSuperkatten;
         }
 
         public async Task<IReadOnlyCollection<Superkat>> ReadNotAssignedSuperkattenAsync()

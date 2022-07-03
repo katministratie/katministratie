@@ -14,7 +14,11 @@ public partial class SuperkattenSelector
     public IGastgezinService? GastgezinService { get; set; }
 
     [Parameter]
-    public Guid GastgezinId { get; set; }
+    public Guid GastgezinId 
+    {
+        get; 
+        set; 
+    }
 
     [Parameter]
     public EventCallback OnFinish { get; set; }
@@ -32,13 +36,16 @@ public partial class SuperkattenSelector
         }
 
         var superkatten = await _superkattenService.GetAllNotAssignedSuperkattenAsync();
-        
-        var availableSuperkatten = superkatten
+        AvailableSuperkatten = superkatten
             .AsQueryable()
             .OrderByDescending(s => s.Number)
             .ToList();
 
-        AvailableSuperkatten = availableSuperkatten;
+        superkatten = await _superkattenService.GetAllSuperkattenAsync();
+        AssignedSuperkatten = superkatten
+            .Where(o => o.GastgezinId == GastgezinId)
+            .OrderByDescending(s => s.Number)
+            .ToList();
     }
 
     private void AddSuperkatToSelection(Superkat superkat)
@@ -74,5 +81,7 @@ public partial class SuperkattenSelector
 
             await _superkattenService.UpdateSuperkatAsync(assignedSuperkat.Id, updateSuperkatParameters);
         }
+
+        await OnFinish.InvokeAsync();
     }
 }

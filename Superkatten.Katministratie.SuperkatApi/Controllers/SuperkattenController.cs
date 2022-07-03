@@ -25,9 +25,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         [HttpGet]
         public async Task<IReadOnlyCollection<ContractEntities.Superkat>> GetAllSuperkatten()
         {
-            Console.WriteLine("Get all superkatten");
-
-            var superkatten = await _service.ReadAvailableSuperkattenAsync();
+            var superkatten = await _service.ReadAllSuperkattenAsync();
             return superkatten
                 .Select(_mapper.MapDomainToContract)
                 .ToList();
