@@ -18,6 +18,7 @@ builder.Services.AddTransient(s =>
     // When azure: https://katministratie.azurewebsites.net/
 
     //return new HttpClient { BaseAddress = new System.Uri("https://localhost:7171/") };
+    // ook naar environment var
     return new HttpClient { BaseAddress = new Uri("https://superkatten.azurewebsites.net/") };
 });
 
