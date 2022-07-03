@@ -4,6 +4,7 @@
 @using Superkatten.Katministratie.Host.Entities
 @using Superkatten.Katministratie.Host.Services
 @using Superkatten.Katministratie.Contract.Entities
+@using Superkatten.Katministratie.Host.Components.Helpers
 
 @inject NavigationManager NavigationManager
 @inject ISuperkattenListService _superkattenService
@@ -26,14 +27,13 @@
 
 <Divider />
 
-<Row Class="mb-2">
-    <Col Class="col-12">
+<HeaderItem Titel="Vang informatie:"></HeaderItem>
+<Row Class="m-2">
+    <Col Class="col-6">
         <Input Placeholder="vanglokatie" @bind-Value="@CatchLocation" />
     </Col>
-</Row>
 
-<Row Class="mb-2">
-    <Col Class="col-12">
+    <Col Class="col-6">
         Vangdatum: 
         <DatePicker
             Bordered="@false" 
@@ -44,18 +44,8 @@
     </Col>
 </Row>
 
-<Row>
-    <Col Class="col-12">        
-        Hok:<AntDesign.InputNumber 
-                Min="1"
-                Max="@MAX_HOKNUMBER_ALLOWED"
-                DefaultValue="1" 
-                @bind-Value="@CageNumber"/>
-    </Col>
-</Row>
-
-
-<Row Class="mb-2">
+<HeaderItem Titel="Medicatie:"></HeaderItem>
+<Row Class="m-2">
     <Col Class="col-12">
         Stronghold: 
         <Checkbox @bind-Checked="@StrongHoldGiven">
@@ -64,6 +54,7 @@
     </Col>
 </Row>
 
+<HeaderItem Titel="Extra info:"></HeaderItem>
 <Row Class="mb-2">
     <Col Class="col-12">
         Retour:
@@ -73,7 +64,8 @@
     </Col>
 </Row>
 
-<Row Class="mb-2">
+<HeaderItem Titel="Vang informatie:"></HeaderItem>
+<Row Class="m-2">
     <Col Class="col-12">
         <Row Class="">
             <Col Class="me-4">
@@ -104,22 +96,16 @@
     </Col>
 </Row>
 
-<Row Class="mb-2">
+<HeaderItem Titel="Kleur:"></HeaderItem>
+<Row Class="m-2">
     <Col Class="col-12">
-        Voer:
-        <Checkbox @bind-Checked="@WetFoodAllowed">
-            @($"{(WetFoodAllowed ? "Nat voer" : "Geen nat voer")}")
-        </Checkbox>
+        <Input Placeholder="Kleur kat" @bind-Value="@CatColor" />
     </Col>
 </Row>
 
-<Row Class="mb-2">
-    <Col Class="col-12">
-        <Input Placeholder="Kleur kat"  Size="@InputSize.Large" @bind-Value="@CatColor" />
-    </Col>
-</Row>
+<HeaderItem Titel="Ruimte"></HeaderItem>
 
-<Row Class="mb-2">
+<Row Class="m-2">
     <Col Class="col-12">
         <RadioGroup @bind-Value="@CatArea" ButtonStyle="@RadioButtonStyle.Solid">
             <Radio RadioButton Value="@Contract.Entities.CatArea.Quarantine">Quarantaine</Radio>
@@ -130,9 +116,19 @@
         </RadioGroup>
     </Col>
 </Row>
+<Row>
+    <Col Class="col-12">        
+        Hok:<AntDesign.InputNumber 
+                Min="1"
+                Max="@MAX_HOKNUMBER_ALLOWED"
+                DefaultValue="1" 
+                @bind-Value="@CageNumber"/>
+    </Col>
+</Row>
 
+<HeaderItem Titel="Gender"></HeaderItem>
 
-<Row Class="mb-2">
+<Row Class="m-2">
     <Col Class="col-12">
         <RadioGroup @bind-Value="@Gender" ButtonStyle="@RadioButtonStyle.Solid">
             <Radio RadioButton Value="@(Contract.Entities.Gender.Unknown)">Onbekend</Radio>
@@ -142,7 +138,16 @@
     </Col>
 </Row>
 
-<Row Class="mb-2">
+<HeaderItem Titel="Voer"></HeaderItem>
+
+<Row Class="m-2">
+    <Col Class="col-12">
+        <Checkbox @bind-Checked="@WetFoodAllowed" style="font-size:18px;">
+            @($"{(WetFoodAllowed ? "Nat toegestaan" : "Alleen droog")}")
+        </Checkbox>
+    </Col>
+</Row>
+<Row Class="m-2">
     <Col Class="col-12">
         <RadioGroup @bind-Value="@FoodType" ButtonStyle="@RadioButtonStyle.Solid">
             <Radio RadioButton Value="@(Contract.Entities.FoodType.FirstPhase)">Eerste Fase</Radio>
@@ -152,7 +157,7 @@
     </Col>
 </Row>
 
-<Row Class="mb-2">
+<Row Class="m-2">
     <Col Class="col-12">
         <RadioGroup @bind-Value="@LitterType" ButtonStyle="@RadioButtonStyle.Solid">
             <Radio RadioButton Value="@(Contract.Entities.LitterGranuleType.Normal)">Normaal</Radio>

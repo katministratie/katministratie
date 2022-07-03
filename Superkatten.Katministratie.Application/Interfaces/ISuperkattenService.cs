@@ -13,6 +13,6 @@ namespace Superkatten.Katministratie.Application.Interfaces
         Task<Superkat> UpdateSuperkatAsync(Guid id, UpdateSuperkatParameters updateSuperkatDto);
         Task DeleteSuperkatAsync(Guid guid);
         Task<IReadOnlyCollection<Superkat>> ReadAllSuperkattenAsync();
-        Task<IReadOnlyCollection<Superkat>> ReadNotAssignedSuperkattenAsync();
+        Task<IReadOnlyCollection<Superkat>> ReadAvailableSuperkattenAsync();
     }
 }

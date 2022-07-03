@@ -51,21 +51,11 @@ public class SuperkattenRepository : ISuperkattenRepository
         _context.SaveChanges();
     }
 
-    public async Task<IReadOnlyCollection<Superkat>> GetAssignedSuperkattenAsync()
+    public async Task<IReadOnlyCollection<Superkat>> GetSuperkattenAsync()
     {
         return await _context
             .SuperKatten
             .AsNoTracking()
-            .Where(o => o.GastgezinId != null)
-            .ToListAsync();
-    }
-
-    public async Task<IReadOnlyCollection<Superkat>> GetNotAssignedSuperkattenAsync()
-    {
-        return await _context
-            .SuperKatten
-            .AsNoTracking()
-            .Where(o => o.GastgezinId == null)
             .ToListAsync();
     }
 

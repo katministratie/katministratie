@@ -18,10 +18,11 @@ builder.Services.AddTransient(s =>
     // When azure: https://katministratie.azurewebsites.net/
 
     //return new HttpClient { BaseAddress = new System.Uri("https://localhost:7171/") };
+    // ook naar environment var
     return new HttpClient { BaseAddress = new Uri("https://superkatten.azurewebsites.net/") };
 });
 
-// Add Scoped services
+// Add singleton services
 builder.Services.AddSingleton<IHttpService, HttpService>();
 builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
 builder.Services.AddSingleton<ILocalStorageService, LocalStorageService>();
@@ -32,7 +33,6 @@ builder.Services.AddLogging(configure => configure.SetMinimumLevel(LogLevel.Debu
 builder.Services.AddAntDesign();
 
 await builder.Build().RunAsync();
-
 
 //
 // Use configuration appsettings or other config file
