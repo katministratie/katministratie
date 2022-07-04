@@ -6,7 +6,7 @@ using Superkatten.Katministratie.Domain.Entities;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers
 {
-    [Authorize(Roles = nameof(PermissionEnum.Administrator))]
+    [Authorize(Roles = nameof(PermissionEnum.Viewer))]
     [Route("api/[Controller]")]
     [ApiController]
     public class SuperkatActionController
@@ -37,6 +37,13 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         public async Task CreateSuperkatCageCard(SuperkatCageCardPrintParameters parameters)
         {
             await _actionService.CreateSuperkatCageCardAsync(parameters);
+        }
+
+        [HttpPut]
+        [Route("AddMedicalProcedure")]
+        public async Task AddMedicalProcedure(AddMedicalProcedureParameters parameters)
+        {
+            await _actionService.AddMedicalProcedureAsync(parameters);
         }
     }
 }

@@ -108,7 +108,8 @@ builder.Configuration.AddEnvironmentVariables();
                 builder.WithOrigins(
                     "https://katministratie.azurewebsites.net",
                     "http://katministratie.azurewebsites.net",
-                    "https://localhost:7292"
+                    "https://localhost:7292",
+                    "https://31.149.186.194"
                 );
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();

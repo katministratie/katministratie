@@ -14,6 +14,7 @@ public class SuperkattenRepository : ISuperkattenRepository
 {
     private readonly ILogger<SuperkattenRepository> _logger;
     private readonly SuperkattenDbContext _context;
+
     public SuperkattenRepository(
         ILogger<SuperkattenRepository> logger, 
         SuperkattenDbContext context
@@ -88,22 +89,13 @@ public class SuperkattenRepository : ISuperkattenRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<int> GetNextUniqueSuperkatNumber(int year)
+    public async Task<int> GetMaxSuperkatNumberForYear(int year)
     {
-        var count = await _context
-            .SuperKatten
-            .CountAsync(s => s.CatchDate.Year == year);
-
-        var maxNumber = await _context
+        var highestOrderNumberForYear = await _context
             .SuperKatten
             .Where(s => s.CatchDate.Year == year)
-            .MaxAsync(s => s.Number);
+            .MaxAsync(s => (int?)s.Number);
 
-        return count is 0
-            ? 1
-            : await _context
-                    .SuperKatten
-                    .Where(s => s.CatchDate.Year == year)
-                    .MaxAsync(s => s.Number) + 1;
+        return highestOrderNumberForYear ?? 0;
     }
 }

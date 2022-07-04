@@ -8,7 +8,7 @@ using ContractEntities = Superkatten.Katministratie.Contract.Entities;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers
 {
-    [Authorize(Roles = nameof(PermissionEnum.Administrator))]
+    [Authorize(Roles = nameof(PermissionEnum.Viewer))]
     [Route("api/[controller]")]
     [ApiController]
     public class SuperkattenController

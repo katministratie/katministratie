@@ -38,10 +38,10 @@ namespace Superkatten.Katministratie.Application.Services
                 throw new ValidationException($"Superkat location is empty");
             }
 
-            var uniqueSuperkatNumber = await _superkattenRepository.GetNextUniqueSuperkatNumber(DateTimeOffset.Now.Year);
+            var maxSuperkatNumberForYear = await _superkattenRepository.GetMaxSuperkatNumberForYear(DateTimeOffset.Now.Year);
             
             var superkat = new Superkat(
-                uniqueSuperkatNumber,
+                maxSuperkatNumberForYear + 1,
                 createSuperkatParameters.CatchDate,
                 createSuperkatParameters.CatchLocation);
 

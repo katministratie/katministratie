@@ -14,6 +14,7 @@ public class GastgezinnenRepository : IGastgezinnenRepository
 {
     private readonly ILogger<GastgezinnenRepository> _logger;
     private readonly SuperkattenDbContext _context;
+
     public GastgezinnenRepository(
         ILogger<GastgezinnenRepository> logger, 
         SuperkattenDbContext context

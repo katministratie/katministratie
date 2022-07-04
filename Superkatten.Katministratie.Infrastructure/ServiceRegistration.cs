@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Superkatten.Katministratie.Infrastructure.Exceptions;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
 using Superkatten.Katministratie.Infrastructure.Mapper;
 using Superkatten.Katministratie.Infrastructure.Persistence;
@@ -20,16 +19,22 @@ namespace Superkatten.Katministratie.Infrastructure
             var cs = Environment.GetEnvironmentVariable(ENVIRONMENT_VAR_CONNECTION_STRING);
             if (string.IsNullOrEmpty(cs))
             {
-                throw new DatabaseException("Database connectionstring is invallid.");
+                services.AddDbContext<SuperkattenDbContext>(option =>
+                    option.UseInMemoryDatabase(ENVIRONMENT_VAR_CONNECTION_STRING)
+                );
             }
-            
-            services.AddDbContext<SuperkattenDbContext>(option => 
-                option.UseSqlServer(cs ?? string.Empty).EnableDetailedErrors()
-            );
+            else
+            {
+                services.AddDbContext<SuperkattenDbContext>(option =>
+                    //option.UseSqlServer(cs ?? string.Empty).EnableDetailedErrors()
+                    option.UseInMemoryDatabase(ENVIRONMENT_VAR_CONNECTION_STRING)
+                );
+            }
 
             services.AddTransient<ISuperkattenRepository, SuperkattenRepository>();
             services.AddTransient<IGastgezinnenRepository, GastgezinnenRepository>();
             services.AddTransient<IUserAuthorisationRepository, UserAuthorisationRepository>();
+            services.AddTransient<IMedicalProceduresRepository, MedicalProceduresRepository>();
             services.AddTransient<IUserMapper, UserMapper>();
 
             return services;
