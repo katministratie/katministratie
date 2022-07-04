@@ -26,6 +26,7 @@ public class SuperkattenRepository : ISuperkattenRepository
 
     public async Task CreateSuperkatAsync(Superkat superkat)
     {
+        // Check naar applicatielaag
         var superkatDtoExsist = await _context
             .SuperKatten
             .AnyAsync(s => s.Id == superkat.Id);            
@@ -40,7 +41,7 @@ public class SuperkattenRepository : ISuperkattenRepository
 
     public async Task DeleteSuperkatAsync(Guid guid)
     {
-       var superkat = await _context
+        var superkat = await _context
             .SuperKatten
             .FirstOrDefaultAsync(s => s.Id == guid);
         if (superkat is null)
@@ -76,6 +77,7 @@ public class SuperkattenRepository : ISuperkattenRepository
 
     public async Task UpdateSuperkatAsync(Superkat superkat)
     {
+        // Check naar applicatielaag
         var superkatExist = await _context
             .SuperKatten
             .AnyAsync(s => s.Id == superkat.Id);

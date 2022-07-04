@@ -1,5 +1,4 @@
 ﻿using Superkatten.Katministratie.Application.CageCard;
-using Superkatten.Katministratie.Application.Exceptions;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
@@ -12,17 +11,14 @@ public class SuperkatAction : ISuperkatAction
 {
     public readonly ISuperkattenRepository SuperkattenRepository;
     public readonly ISuperkatCageCard CageCardGenerator;
-    public readonly IMedicalProceduresRepository MedicalProceduresRepository;
 
     public SuperkatAction(
         ISuperkattenRepository superkattenRepository,
-        ISuperkatCageCard cageCardGenerator,
-        IMedicalProceduresRepository medicalProceduresRepository
+        ISuperkatCageCard cageCardGenerator
     )
     {
         SuperkattenRepository = superkattenRepository;
         CageCardGenerator = cageCardGenerator;
-        MedicalProceduresRepository = medicalProceduresRepository;
     }
 
     public async Task ToggleRetourAsync(Guid id)
@@ -42,16 +38,5 @@ public class SuperkatAction : ISuperkatAction
     public async Task CreateSuperkatCageCardAsync(SuperkatCageCardPrintParameters parameters)
     {
         _ = await CageCardGenerator.CreateCageCardAsync(parameters.Id);
-    }
-
-    public Task AddMedicalProcedureAsync(AddMedicalProcedureParameters parameters)
-    {
-        var superkat = SuperkattenRepository.GetSuperkatAsync(parameters.SuperkatId);
-        if (superkat is null)
-        {
-            throw new ServiceException($"Superkat with id '{parameters.SuperkatId}' does not exist");
-        }
-
-        return MedicalProceduresRepository.AddMedicalProcedureAsync(parameters);
     }
 }

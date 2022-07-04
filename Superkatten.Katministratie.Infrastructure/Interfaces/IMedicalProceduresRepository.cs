@@ -1,9 +1,13 @@
 ﻿using Superkatten.Katministratie.Contract.ApiInterface;
+using Superkatten.Katministratie.Domain.Entities;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Superkatten.Katministratie.Infrastructure.Interfaces;
 
 public interface IMedicalProceduresRepository
 {
-    public Task AddMedicalProcedureAsync(AddMedicalProcedureParameters addMedicalProcedureParameters);
+    Task<IReadOnlyCollection<MedicalProcedure>> GetAllMedicalProcedureAsync();
+
+    Task AddMedicalProcedureAsync(AddMedicalProcedureParameters addMedicalProcedureParameters);
 }

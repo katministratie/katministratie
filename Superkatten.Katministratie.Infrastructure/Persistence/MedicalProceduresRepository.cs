@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,5 +35,13 @@ public class MedicalProceduresRepository : IMedicalProceduresRepository
 
         await _context.MedicalProcedures.AddAsync(medicalProcedure);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<IReadOnlyCollection<MedicalProcedure>> GetAllMedicalProcedureAsync()
+    {
+        return await _context
+            .MedicalProcedures
+            .AsNoTracking()
+            .ToListAsync();
     }
 }

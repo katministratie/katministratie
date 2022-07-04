@@ -38,12 +38,5 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         {
             await _actionService.CreateSuperkatCageCardAsync(parameters);
         }
-
-        [HttpPut]
-        [Route("AddMedicalProcedure")]
-        public async Task AddMedicalProcedure(AddMedicalProcedureParameters parameters)
-        {
-            await _actionService.AddMedicalProcedureAsync(parameters);
-        }
     }
 }
