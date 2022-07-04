@@ -8,21 +8,20 @@ namespace Superkatten.Katministratie.Host.Components.GastgezinComponents;
 public partial class SuperkattenSelector
 {
     [Inject]
-    public ISuperkattenListService? _superkattenService { get; set; }
+    public ISuperkattenListService _superkattenService { get; set; }
 
     [Inject]
     public IGastgezinService? GastgezinService { get; set; }
 
     [Parameter]
-    public Guid GastgezinId 
+    public Guid GastgezinId
     {
-        get; 
-        set; 
+        get;
+        set;
     }
 
     [Parameter]
     public EventCallback OnFinish { get; set; }
-
 
 
     private List<Superkat> AssignedSuperkatten { get; set; } = new();
@@ -48,40 +47,31 @@ public partial class SuperkattenSelector
             .ToList();
     }
 
-    private void AddSuperkatToSelection(Superkat superkat)
+    private async Task AddSuperkatToSelection(Superkat superkat)
     {
         AvailableSuperkatten.Remove(superkat);
         AssignedSuperkatten.Add(superkat);
+
+        await _superkattenService.UpdateSuperkatAsync(
+            superkat.Id,
+            new UpdateSuperkatParameters
+            {
+                GastgezinId = GastgezinId
+            }
+        );
     }
 
-    private void RemoveSuperkatFromSelection(Superkat superkat)
+    private async Task RemoveSuperkatFromSelection(Superkat superkat)
     {
         AvailableSuperkatten.Add(superkat);
         AssignedSuperkatten.Remove(superkat);
+
+        // Remove by having null as guid
+        await _superkattenService.UpdateSuperkatAsync(superkat.Id, new UpdateSuperkatParameters());
     }
 
     private async Task OnClose()
     {
-        if (_superkattenService is null)
-        { 
-            throw new Exception("No superkatten service available");
-        }
-
-        if (GastgezinId == Guid.Empty)
-        {
-            throw new Exception("No gastgezin id");
-        }
-
-        foreach(var assignedSuperkat in AssignedSuperkatten)
-        {
-            var updateSuperkatParameters = new UpdateSuperkatParameters
-            {
-                GastgezinId = GastgezinId
-            };
-
-            await _superkattenService.UpdateSuperkatAsync(assignedSuperkat.Id, updateSuperkatParameters);
-        }
-
         await OnFinish.InvokeAsync();
     }
 }
