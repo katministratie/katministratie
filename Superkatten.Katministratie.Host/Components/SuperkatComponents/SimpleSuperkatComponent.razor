@@ -1,0 +1,33 @@
+﻿@using Superkatten.Katministratie.Host.Components
+@using Superkatten.Katministratie.Host.Components.SuperkatComponents.Action
+@using Superkatten.Katministratie.Host.Entities
+
+@if (Superkat is null)
+{
+    <Row Class="mb-2 border">
+        <div class="col-xl-1 col-lg-1 col-md-3 col-4 align-content-center">
+            <Image Width="100px" Src=".\images\superkat.jpg" />
+        </div>
+        <div class="col-xl-11 col-lg-11 col-md-9 col-8">
+            <h5 class="p-1 bg-black text-white">
+                inlezen kat informatie...
+            </h5>
+        </div>
+    </Row>
+    return;
+}
+
+<Row Class="mb-2 border">
+    <Col class="col-12">
+        <h5 class="p-1">
+            <BehaviourComponent Behaviour="@Superkat.Behaviour" />
+            <span>
+                @SuperkatDisplayableNumber
+            </span>
+            <span>
+                <SuperkatGenderComponent Gender="@Superkat.Gender"/>
+            </span>
+        </h5>
+    </Col>
+</Row>
+

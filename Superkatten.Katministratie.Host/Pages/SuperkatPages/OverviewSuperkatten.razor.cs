@@ -11,7 +11,7 @@ public partial class OverviewSuperkatten
 
     public string LoadingInfoMessage { get; private set; } = string.Empty;
     private List<Superkat> Superkatten { get; set; } = new();
-
+    private bool _enableSimpleListView = false;
     protected override async Task OnInitializedAsync()
     {
         LoadingInfoMessage = "Inlezen van alle superkatten";

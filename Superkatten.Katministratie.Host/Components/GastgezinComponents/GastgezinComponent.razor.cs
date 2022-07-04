@@ -7,8 +7,6 @@ namespace Superkatten.Katministratie.Host.Components.GastgezinComponents;
 
 public partial class GastgezinComponent
 {
-    [Inject]
-    private NavigationManager? _navigationManager { get; set; }
 
     [Inject]
     private IGastgezinService? _gastgezinService { get; set; }

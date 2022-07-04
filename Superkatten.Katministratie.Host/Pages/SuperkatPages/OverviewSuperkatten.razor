@@ -16,8 +16,15 @@
 }
 
 <Row Class="mb-2">
-    <Col Class="col-12">
+    <Col Class="col-9">
         <Button Block="@true" OnClick="@OnBackHome">Terug</Button>
+    </Col>
+    <Col Class="col-3">
+        <Button>
+            <Checkbox @bind-Checked="@_enableSimpleListView">
+                Simple
+            </Checkbox>
+        </Button>
     </Col>
 </Row>
 
@@ -29,6 +36,13 @@ else
 {
     @foreach (var superkat in Superkatten)
     {
-        <SuperkatComponent Superkat=superkat />
+        if (_enableSimpleListView)
+        {
+            <SimpleSuperkatComponent Superkat=superkat />
+        }
+        else
+        {
+            <SuperkatComponent Superkat=superkat />
+        }
     }
 }
