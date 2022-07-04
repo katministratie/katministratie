@@ -24,10 +24,6 @@ public class MedicalProceduresRepository : IMedicalProceduresRepository
 
     public async Task AddMedicalProcedureAsync(AddMedicalProcedureParameters addMedicalProcedureParameters)
     {
-        var gastgezinExists = _context
-            .SuperKatten
-            .Any(o => o.Id == addMedicalProcedureParameters.SuperkatId);
-
         var medicalProcedure = new MedicalProcedure(
             addMedicalProcedureParameters.ProcedureType,
             addMedicalProcedureParameters.SuperkatId,
