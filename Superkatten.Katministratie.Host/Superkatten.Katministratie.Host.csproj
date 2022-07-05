@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Superkatten.Katministratie.Contract\Superkatten.Katministratie.Contract.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\MedicalProcedure\" />
+  </ItemGroup>
+
 </Project>

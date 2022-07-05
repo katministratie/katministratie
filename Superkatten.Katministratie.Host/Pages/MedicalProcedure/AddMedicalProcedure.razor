@@ -1,0 +1,50 @@
+﻿@page "/AddMedicalProcedure/{superkatId}"
+
+@using Superkatten.Katministratie.Host.Api
+@using Superkatten.Katministratie.Host.Entities
+@using Superkatten.Katministratie.Host.Services
+@using Superkatten.Katministratie.Contract.Entities
+@using Superkatten.Katministratie.Host.Components.Helpers
+
+@inject NavigationManager NavigationManager
+@inject ISuperkattenListService _superkattenService
+@inject MessageService _message
+@inject NotificationService _notice
+
+<PageTitle>Medische procedure melden</PageTitle>
+
+<Row Class="border mb-2">
+    <Col Class="col-4">
+        <Button Block="@true" OnClick="@OnOk">Ok</Button>
+    </Col>
+    <Col Class="col-4">
+        
+    </Col>
+    <Col Class="col-4">
+        <Button Block="@true" OnClick="@OnCancel">Terug</Button>
+    </Col>
+</Row>
+
+<Divider />
+
+<Row Class="m-2">
+    <HeaderItem Titel="Superkat"></HeaderItem>
+</Row>
+
+<Row Class="m-2">
+    <HeaderItem Titel="Type medische actie"></HeaderItem>
+</Row>
+
+<Row Class="m-2">
+    <HeaderItem Titel="Wanneer uitgevoerd"></HeaderItem>
+    <DatePicker
+        Bordered="@false" 
+        TValue="DateTime?" 
+        Picker="@DatePickerType.Date" 
+        OnChange="@OnChangeDate" 
+        DefaultValue="@DateTime.UtcNow" />
+</Row>
+
+<Row Class="m-2">
+    <HeaderItem Titel="Remark"></HeaderItem>
+</Row>

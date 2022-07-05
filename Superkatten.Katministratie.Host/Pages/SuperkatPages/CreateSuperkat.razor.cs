@@ -31,11 +31,6 @@ public partial class CreateSuperkat
         CatchDate = args.Date;
     }
 
-    private void OnChangeBirthDate(DateTimeChangedEventArgs args)
-    {
-        CatchDate = args.Date;
-    }
-
     public async Task OnOk()
     {
         await StoreSuperkat();
@@ -65,6 +60,7 @@ public partial class CreateSuperkat
             CatColor = CatColor,
             EstimatedWeeksOld = EstimatedWeeksOld
         };
+
         var superkat = await _superkattenService.CreateSuperkatAsync(createSuperkatParameters);
         if (superkat is null)
         {
@@ -72,6 +68,6 @@ public partial class CreateSuperkat
             return;
         }
 
-        await _message.Success($"Superkat is opgeslagen met jaar: {superkat.CatchDate.Year % 100} en nummer {superkat.Number}", 3);        
+        await _message.Success($"Superkat {superkat.CatchDate.Year % 100}-{superkat.Number}", 3);        
     }
 }

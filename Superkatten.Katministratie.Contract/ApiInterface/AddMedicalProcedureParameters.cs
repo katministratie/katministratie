@@ -2,9 +2,8 @@
 
 public class AddMedicalProcedureParameters
 {
-    public Guid SuperkatId { get; set; }
-    public int ProcedureType { get; set; }
-    public DateTime Timestamp { get; set; }
-    public string Remark { get; set; } = string.Empty;
-
+    public Guid SuperkatId { get; init; }
+    public int ProcedureType { get; init; }
+    public DateTime Timestamp { get; init; }
+    public string Remark { get; init; } = string.Empty;
 }
