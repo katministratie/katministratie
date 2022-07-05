@@ -1,6 +1,6 @@
 ﻿@using Superkatten.Katministratie.Contract.Entities;
 
-@switch(Gender)
+@switch(GenderView)
 {
     case Gender.Unknown:
         <small class="text-muted">(Onbekend)</small>
@@ -13,9 +13,4 @@
     case Gender.Tomcat:
         <small class="text-muted">(Kater)</small>
         break;
-}
-
-@code {
-    [Parameter]
-    public Gender Gender { get; set; }
 }

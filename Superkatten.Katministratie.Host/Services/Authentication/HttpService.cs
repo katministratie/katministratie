@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.Authenticate;
+using Superkatten.Katministratie.Host.LocalStorage;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -133,7 +134,7 @@ public class HttpService : IHttpService
         }
 
         // add jwt auth header if user is logged in and request is to the api url
-        var user = await _localStorageService.GetItem<AuthenticateResponse>("user");
+        var user = await _localStorageService.GetItem<AuthenticateResponse>(LocalStorageItems.LOCALSTORAGE_ITEM_USER);
         if (user is not null)
         {
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);

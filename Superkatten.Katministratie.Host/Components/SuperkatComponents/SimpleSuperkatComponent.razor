@@ -1,0 +1,21 @@
+﻿@using Superkatten.Katministratie.Host.Components
+@using Superkatten.Katministratie.Host.Components.SuperkatComponents.Action
+@using Superkatten.Katministratie.Host.Entities
+
+@if (SuperkatView is null)
+{
+    <Spin />
+    return;
+}
+
+<Row Class="mb-1 border-bottom">
+    <Col class="col-12">
+        <h5 class="p-1">
+            <BehaviourComponent Behaviour="@SuperkatView.Behaviour" />
+            @SuperkatView.UserFriendlyNumber
+            <SuperkatGenderComponent GenderView="@SuperkatView.Gender"/>
+            <SuperkatActions SuperkatView="@SuperkatView" OnActionExecuted="@ReloadSuperkatData" />
+        </h5>
+    </Col>
+</Row>
+
