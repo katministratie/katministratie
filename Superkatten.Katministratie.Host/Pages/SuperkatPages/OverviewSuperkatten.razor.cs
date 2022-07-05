@@ -23,6 +23,8 @@ public partial class OverviewSuperkatten
         await _localStorageService.SetItem<bool>(
             LocalStorageItems.LOCALSTORAGE_SETTING_SUPERKATTENLIST_TYPE,
             _enableSimpleListView);
+
+        await UpdateListAsync();
     }
 
     protected override async Task OnInitializedAsync()

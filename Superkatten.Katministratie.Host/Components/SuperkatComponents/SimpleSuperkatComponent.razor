@@ -2,28 +2,19 @@
 @using Superkatten.Katministratie.Host.Components.SuperkatComponents.Action
 @using Superkatten.Katministratie.Host.Entities
 
-@if (Superkat is null)
+@if (SuperkatView is null)
 {
-    <Row Class="mb-2 border">
-        <div class="col-xl-1 col-lg-1 col-md-3 col-4 align-content-center">
-            <Image Width="100px" Src=".\images\superkat.jpg" />
-        </div>
-        <div class="col-xl-11 col-lg-11 col-md-9 col-8">
-            <h5 class="p-1 bg-black text-white">
-                inlezen kat informatie...
-            </h5>
-        </div>
-    </Row>
+    <Spin />
     return;
 }
 
-<Row Class="mb-2 border">
+<Row Class="mb-1 border-bottom">
     <Col class="col-12">
         <h5 class="p-1">
-            <BehaviourComponent Behaviour="@Superkat.Behaviour" />
-            @SuperkatDisplayableNumber
-            <SuperkatGenderComponent Gender="@Superkat.Gender"/>
-            <SuperkatActions @bind-superkat="@Superkat" />
+            <BehaviourComponent Behaviour="@SuperkatView.Behaviour" />
+            @SuperkatView.UserFriendlyNumber
+            <SuperkatGenderComponent GenderView="@SuperkatView.Gender"/>
+            <SuperkatActions SuperkatView="@SuperkatView" OnActionExecuted="@ReloadSuperkatData" />
         </h5>
     </Col>
 </Row>
