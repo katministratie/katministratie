@@ -1,7 +1,7 @@
 ﻿using Microsoft.JSInterop;
 using System.Text.Json;
 
-namespace Superkatten.Katministratie.Host.Services.Authentication;
+namespace Superkatten.Katministratie.Host.LocalStorage;
 
 public class LocalStorageService : ILocalStorageService
 {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.Authenticate;
+using Superkatten.Katministratie.Host.LocalStorage;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;

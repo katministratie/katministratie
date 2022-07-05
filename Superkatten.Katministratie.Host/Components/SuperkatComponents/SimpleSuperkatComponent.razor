@@ -21,12 +21,9 @@
     <Col class="col-12">
         <h5 class="p-1">
             <BehaviourComponent Behaviour="@Superkat.Behaviour" />
-            <span>
-                @SuperkatDisplayableNumber
-            </span>
-            <span>
-                <SuperkatGenderComponent Gender="@Superkat.Gender"/>
-            </span>
+            @SuperkatDisplayableNumber
+            <SuperkatGenderComponent Gender="@Superkat.Gender"/>
+            <SuperkatActions @bind-superkat="@Superkat" />
         </h5>
     </Col>
 </Row>

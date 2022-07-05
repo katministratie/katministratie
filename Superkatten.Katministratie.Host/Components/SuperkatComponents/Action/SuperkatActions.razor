@@ -4,24 +4,18 @@
 @inject NavigationManager _navigationManager
 @inject ISuperkatActionService _superkatActionService
 
-<div class="container">
-    <div class="row">
-        <div class="col-3">
             <SuperkatAction
                 OnClickCallback="@ToggleReserve"
-                ActionIcon="@(Superkat.Reserved ? "./images/actions/briefcase.svg" : "./images/actions/briefcase-fill.svg")" />
-        </div>
+                ActionIcon="@(Superkat.Reserved 
+                   ? "./images/actions/briefcase.svg" 
+                   : "./images/actions/briefcase-fill.svg")" />
 
-        <div class="col-3">
             <SuperkatAction
                 OnClickCallback="@ToggleRetour"
-                ActionIcon="@(Superkat.Retour ? "./images/actions/arrow-90deg-right.svg" : "./images/actions/box-arrow-in-right.svg")" />
-        </div>
-        
-        <div class="col-3">
+                ActionIcon="@(Superkat.Retour 
+                   ? "./images/actions/arrow-90deg-right.svg" 
+                   : "./images/actions/box-arrow-in-right.svg")" />
+
             <SuperkatAction
             OnClickCallback="@CreateSuperkatCageCard"
             ActionIcon="./images/actions/printer.svg" />
-        </div>        
-    </div>
-</div>

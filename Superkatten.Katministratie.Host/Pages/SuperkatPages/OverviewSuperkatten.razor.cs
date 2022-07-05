@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Host.LocalStorage;
 using Superkatten.Katministratie.Host.Services;
-using Superkatten.Katministratie.Host.Services.Authentication;
 
 namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 

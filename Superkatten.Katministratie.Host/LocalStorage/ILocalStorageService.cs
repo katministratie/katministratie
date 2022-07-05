@@ -1,4 +1,4 @@
-﻿namespace Superkatten.Katministratie.Host.Services.Authentication;
+﻿namespace Superkatten.Katministratie.Host.LocalStorage;
 
 public interface ILocalStorageService
 {
