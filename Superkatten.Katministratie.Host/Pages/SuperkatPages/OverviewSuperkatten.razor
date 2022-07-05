@@ -21,7 +21,7 @@
     </Col>
     <Col Class="col-3">
         <Button>
-            <Checkbox @bind-Checked="@_enableSimpleListView">
+            <Checkbox @bind-Checked="@_enableSimpleListView" OnChange="@OnChangeSimpleListView">
                 Simple
             </Checkbox>
         </Button>

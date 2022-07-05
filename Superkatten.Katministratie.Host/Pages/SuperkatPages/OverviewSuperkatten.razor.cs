@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Services;
+using Superkatten.Katministratie.Host.Services.Authentication;
 
 namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 
@@ -8,13 +9,29 @@ public partial class OverviewSuperkatten
 {
     [Inject]
     private ISuperkattenListService? _superkattenService { get; set; }
+    [Inject]
+    private ILocalStorageService _localStorageService { get; set; }
 
-    public string LoadingInfoMessage { get; private set; } = string.Empty;
+
+    private string LoadingInfoMessage { get; set; } = string.Empty;
     private List<Superkat> Superkatten { get; set; } = new();
+
     private bool _enableSimpleListView = false;
+
+    private async Task OnChangeSimpleListView()
+    {
+        await _localStorageService.SetItem<bool>(
+            LocalStorageItems.LOCALSTORAGE_SETTING_SUPERKATTENLIST_TYPE,
+            _enableSimpleListView);
+    }
+
     protected override async Task OnInitializedAsync()
     {
         LoadingInfoMessage = "Inlezen van alle superkatten";
+
+        var enableSimpleListView = await _localStorageService.GetItem<bool>(LocalStorageItems.LOCALSTORAGE_SETTING_SUPERKATTENLIST_TYPE);
+        _enableSimpleListView = enableSimpleListView;
+
         await UpdateListAsync();
     }
 

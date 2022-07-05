@@ -133,7 +133,7 @@ public class HttpService : IHttpService
         }
 
         // add jwt auth header if user is logged in and request is to the api url
-        var user = await _localStorageService.GetItem<AuthenticateResponse>("user");
+        var user = await _localStorageService.GetItem<AuthenticateResponse>(LocalStorageItems.LOCALSTORAGE_ITEM_USER);
         if (user is not null)
         {
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
