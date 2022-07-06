@@ -67,12 +67,10 @@ public class SuperkattenRepository : ISuperkattenRepository
             .SuperKatten
             .AsNoTracking()
             .FirstOrDefaultAsync(s => s.Id == id);
-        if (superkat is null)
-        {
-            throw new DatabaseException($"No superkat found in the database with id {id}");
-        }
 
-        return superkat;
+        return superkat is null 
+            ? throw new DatabaseException($"No superkat found in the database with id {id}") 
+            : superkat;
     }
 
     public async Task UpdateSuperkatAsync(Superkat superkat)

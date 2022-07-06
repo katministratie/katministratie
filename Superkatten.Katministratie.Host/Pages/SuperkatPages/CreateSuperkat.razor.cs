@@ -31,11 +31,6 @@ public partial class CreateSuperkat
         CatchDate = args.Date;
     }
 
-    private void OnChangeBirthDate(DateTimeChangedEventArgs args)
-    {
-        CatchDate = args.Date;
-    }
-
     public async Task OnOk()
     {
         await StoreSuperkat();

@@ -4,6 +4,7 @@ using Superkatten.Katministratie.Host;
 using Superkatten.Katministratie.Host.LocalStorage;
 using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Authentication;
+using Superkatten.Katministratie.Host.Services.Interfaces;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -13,6 +14,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddTransient<ISuperkattenListService, SuperkattenListService>();
 builder.Services.AddTransient<ISuperkatActionService, SuperkatActionService>();
 builder.Services.AddTransient<IGastgezinService, GastgezinService>();
+builder.Services.AddTransient<IMedicalProcedureService, MedicalProcedureService>();
 builder.Services.AddTransient(s =>
 {
     // When localhost: https://localhost:7171
@@ -27,8 +29,8 @@ builder.Services.AddSingleton<IHttpService, HttpService>();
 builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
 builder.Services.AddSingleton<ILocalStorageService, LocalStorageService>();
 
-builder.Services.AddLogging(configure => configure.SetMinimumLevel(LogLevel.Debug));
 
+builder.Services.AddLogging(configure => configure.SetMinimumLevel(LogLevel.Debug));
 // Add the ANT design from https://antblazor.com/
 builder.Services.AddAntDesign();
 

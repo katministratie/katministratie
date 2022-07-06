@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Superkatten.Katministratie.Application.Authorization;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Domain.Entities;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers
 {
-    [Authorize(Roles = nameof(PermissionEnum.Viewer))]
+    [AuthorizeRoles(PermissionEnum.Administrator, PermissionEnum.Coordinator)]
     [Route("api/[Controller]")]
     [ApiController]
     public class SuperkatActionController

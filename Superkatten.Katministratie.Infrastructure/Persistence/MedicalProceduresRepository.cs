@@ -24,15 +24,8 @@ public class MedicalProceduresRepository : IMedicalProceduresRepository
         _context = context;
     }
 
-    public async Task AddMedicalProcedureAsync(AddMedicalProcedureParameters addMedicalProcedureParameters)
+    public async Task AddMedicalProcedureAsync(MedicalProcedure medicalProcedure)
     {
-        var medicalProcedure = new MedicalProcedure(
-            addMedicalProcedureParameters.ProcedureType,
-            addMedicalProcedureParameters.SuperkatId,
-            addMedicalProcedureParameters.Timestamp,
-            addMedicalProcedureParameters.Remark
-        );
-
         await _context.MedicalProcedures.AddAsync(medicalProcedure);
         await _context.SaveChangesAsync();
     }

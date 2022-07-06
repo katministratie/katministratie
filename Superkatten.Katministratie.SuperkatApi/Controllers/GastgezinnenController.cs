@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Superkatten.Katministratie.Application.Authorization;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
 using Superkatten.Katministratie.Contract.ApiInterface;
@@ -8,7 +9,7 @@ using ContractEntities = Superkatten.Katministratie.Contract.Entities;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers
 {
-    [Authorize(Roles = nameof(PermissionEnum.Administrator))]
+    [AuthorizeRoles(PermissionEnum.Administrator, PermissionEnum.Coordinator)]
     [Route("api/[controller]")]
     [ApiController]
     public class GastgezinnenController

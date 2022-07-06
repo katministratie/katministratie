@@ -9,5 +9,5 @@ public interface IMedicalProceduresRepository
 {
     Task<IReadOnlyCollection<MedicalProcedure>> GetAllMedicalProcedureAsync();
 
-    Task AddMedicalProcedureAsync(AddMedicalProcedureParameters addMedicalProcedureParameters);
+    Task AddMedicalProcedureAsync(MedicalProcedure medicalProcedure);
 }

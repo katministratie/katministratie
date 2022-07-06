@@ -26,8 +26,7 @@ namespace Superkatten.Katministratie.Infrastructure
             else
             {
                 services.AddDbContext<SuperkattenDbContext>(option =>
-                    //option.UseSqlServer(cs ?? string.Empty).EnableDetailedErrors()
-                    option.UseInMemoryDatabase(ENVIRONMENT_VAR_CONNECTION_STRING)
+                    option.UseSqlServer(cs ?? string.Empty).EnableDetailedErrors()
                 );
             }
 

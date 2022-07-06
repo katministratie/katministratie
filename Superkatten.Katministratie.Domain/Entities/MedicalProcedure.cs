@@ -8,9 +8,9 @@ public class MedicalProcedure
     public Guid SuperkatId { get; private set; }
     public DateTime Timestamp { get; private set; }
     public string? Remark { get; private set; }
-    public int ProcedureType { get; private set; }
+    public MedicalProcedureType ProcedureType { get; private set; }
 
-    public MedicalProcedure(int procedureType, Guid superkatId, DateTime timestamp, string remark)
+    public MedicalProcedure(MedicalProcedureType procedureType, Guid superkatId, DateTime timestamp, string remark)
     {
         Id = Guid.NewGuid();
 

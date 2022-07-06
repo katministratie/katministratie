@@ -8,7 +8,7 @@ namespace Superkatten.Katministratie.Host.Components.GastgezinComponents;
 public partial class SuperkattenSelector
 {
     [Inject]
-    public ISuperkattenListService _superkattenService { get; set; }
+    public ISuperkattenListService SuperkattenService { get; set; }
 
     [Inject]
     public IGastgezinService? GastgezinService { get; set; }
@@ -29,18 +29,18 @@ public partial class SuperkattenSelector
 
     protected async override Task OnInitializedAsync()
     {
-        if (_superkattenService is null)
+        if (SuperkattenService is null)
         {
             return;
         }
 
-        var superkatten = await _superkattenService.GetAllNotAssignedSuperkattenAsync();
+        var superkatten = await SuperkattenService.GetAllNotAssignedSuperkattenAsync();
         AvailableSuperkatten = superkatten
             .AsQueryable()
             .OrderByDescending(s => s.Number)
             .ToList();
 
-        superkatten = await _superkattenService.GetAllSuperkattenAsync();
+        superkatten = await SuperkattenService.GetAllSuperkattenAsync();
         AssignedSuperkatten = superkatten
             .Where(o => o.GastgezinId == GastgezinId)
             .OrderByDescending(s => s.Number)
@@ -52,7 +52,7 @@ public partial class SuperkattenSelector
         AvailableSuperkatten.Remove(superkat);
         AssignedSuperkatten.Add(superkat);
 
-        await _superkattenService.UpdateSuperkatAsync(
+        await SuperkattenService.UpdateSuperkatAsync(
             superkat.Id,
             new UpdateSuperkatParameters
             {
@@ -67,7 +67,7 @@ public partial class SuperkattenSelector
         AssignedSuperkatten.Remove(superkat);
 
         // Remove by having null as guid
-        await _superkattenService.UpdateSuperkatAsync(superkat.Id, new UpdateSuperkatParameters());
+        await SuperkattenService.UpdateSuperkatAsync(superkat.Id, new UpdateSuperkatParameters());
     }
 
     private async Task OnClose()

@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Superkatten.Katministratie.Application.Authorization;
 using Superkatten.Katministratie.Application.Services;
 using Superkatten.Katministratie.Contract.Authenticate;
 using Superkatten.Katministratie.Domain.Entities;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers;
 
-[Authorize(Roles = nameof(PermissionEnum.Administrator))]
+[AuthorizeRoles(PermissionEnum.Administrator)]
 [ApiController]
 [Route("api/[controller]")]
 public class UsersController : ControllerBase
