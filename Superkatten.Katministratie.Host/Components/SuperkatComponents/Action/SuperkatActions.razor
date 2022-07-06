@@ -1,7 +1,6 @@
 ﻿@using Superkatten.Katministratie.Host.Entities
 @using Superkatten.Katministratie.Host.Services
 
-@inject NavigationManager _navigationManager
 @inject ISuperkatActionService _superkatActionService
 
 <SuperkatAction
@@ -15,3 +14,7 @@
     ActionIcon="@(SuperkatView.Retour 
         ? "./images/actions/arrow-90deg-right.svg" 
         : "./images/actions/box-arrow-in-right.svg")" />
+        
+<SuperkatAction
+    OnClickCallback="@AddMedicalProcedure"
+    ActionIcon="./images/actions/printer.svg"/>

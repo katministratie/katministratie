@@ -1,12 +1,15 @@
 ﻿
 using Microsoft.AspNetCore.Components;
-using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Entities;
+using Superkatten.Katministratie.Host.Helpers;
 
 namespace Superkatten.Katministratie.Host.Components.SuperkatComponents.Action;
 
 public partial class SuperkatActions
 {
+    [Inject]
+    public Navigation Navigation { get; set; }
+
     [Parameter]
     public SuperkatView SuperkatView { get; set; }
 
@@ -23,5 +26,11 @@ public partial class SuperkatActions
     {
         await _superkatActionService.ToggleRetourSuperkatAsync(SuperkatView.Id);
         await OnActionExecuted.InvokeAsync();
+    }
+
+    private void AddMedicalProcedure()
+    {
+        var navigateToUrl = "AddMedicalProcedure/" + SuperkatView.Id.ToString();
+        Navigation.NavigateTo(navigateToUrl);
     }
 }

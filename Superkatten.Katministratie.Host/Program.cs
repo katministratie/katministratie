@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Superkatten.Katministratie.Host;
+using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.LocalStorage;
 using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Authentication;
@@ -29,6 +30,7 @@ builder.Services.AddSingleton<IHttpService, HttpService>();
 builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
 builder.Services.AddSingleton<ILocalStorageService, LocalStorageService>();
 
+builder.Services.AddSingleton<Navigation>();
 
 builder.Services.AddLogging(configure => configure.SetMinimumLevel(LogLevel.Debug));
 // Add the ANT design from https://antblazor.com/

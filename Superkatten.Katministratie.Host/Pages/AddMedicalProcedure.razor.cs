@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services.Interfaces;
 
 
@@ -12,12 +13,21 @@ partial class AddMedicalProcedure
     [Inject]
     private IMedicalProcedureService _medicalprocedureService { get; set; }
     [Inject]
-    private NavigationManager _navigationManager { get; set; }
+    private Navigation Navigation { get; set; }
+
+
+    [Parameter]
+    public Guid SuperkatId { get; set; }
+
 
     private DateTime TimeStamp { get; set; }
-    private Guid SuperkatId { get; set; }
     private string Remark { get; set; } = string.Empty;
     private MedicalProcedureType ProcedureType { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
 
     private void OnChangeDate(DateTimeChangedEventArgs args)
     {
@@ -36,11 +46,11 @@ partial class AddMedicalProcedure
 
         _medicalprocedureService.AddMedicalProcedure(SuperkatId, parameters);
 
-        _navigationManager.NavigateTo("/");
+        Navigation.NavigateBack();
     }
 
     private void OnCancel()
     {
-        _navigationManager.NavigateTo("/");
+        Navigation.NavigateBack();
     }
 }

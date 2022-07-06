@@ -25,7 +25,7 @@ public class MedicalProcedureController
     [HttpGet]
     public async Task<IReadOnlyCollection<ContractEntities.MedicalProcedure>> GetAll()
     {
-        return new List<ContractEntities.MedicalProcedure>();
+        return await _medicalProcedureService.GetAllMedicalProceduresAsync();
     }
 
     [HttpPut]
