@@ -10,6 +10,7 @@ on:
       - main-azure
     paths:
       - '**/RELEASE'
+
 jobs:
   gh-release:
     runs-on: ubuntu-latest
