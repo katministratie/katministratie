@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Host.Helpers;
 
 namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 
@@ -24,6 +25,9 @@ public partial class CreateSuperkat
     public bool StrongHoldGiven = false;
     public int EstimatedWeeksOld = 0;
 
+
+    [Inject]
+    public Navigation Navigation { get; set; }
     private bool ValidCatchLocation => string.IsNullOrWhiteSpace(CatchLocation);
 
     private void OnChangeCatchDate(DateTimeChangedEventArgs args)
@@ -34,12 +38,17 @@ public partial class CreateSuperkat
     public async Task OnOk()
     {
         await StoreSuperkat();
-        NavigationManager.NavigateTo("/");
+        Navigation.NavigateBack();
+    }
+
+    public async Task OnOkNoReturn()
+    {
+        await StoreSuperkat();
     }
 
     public void OnCancel()
     {
-        NavigationManager.NavigateTo("/");
+        Navigation.NavigateBack();
     }
 
     private async Task StoreSuperkat()
@@ -67,6 +76,6 @@ public partial class CreateSuperkat
             return;
         }
 
-        await _message.Success($"Superkat is opgeslagen met jaar: {superkat.CatchDate.Year % 100} en nummer {superkat.Number}", 3);        
+        _message.Success($"Superkat {superkat.CatchDate.Year % 100}-{superkat.Number.ToString("000")} is aangemaakt", 3);        
     }
 }
