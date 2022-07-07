@@ -1,6 +1,7 @@
 ﻿@page "/CreateSuperkat"
 
 @using Superkatten.Katministratie.Host.Api
+@using Superkatten.Katministratie.Host.Components
 @using Superkatten.Katministratie.Host.Entities
 @using Superkatten.Katministratie.Host.Services
 @using Superkatten.Katministratie.Contract.Entities
@@ -40,6 +41,23 @@
             Picker="@DatePickerType.Date" 
             OnChange="OnChangeCatchDate" 
             DefaultValue="@DateTime.UtcNow" />
+    </Col>
+</Row>
+
+<HeaderItem Titel="Gedrag:"></HeaderItem>
+<Row Class="m-2">
+    <Col Class="col-12">
+        <RadioGroup @bind-Value="@Behaviour" ButtonStyle="@RadioButtonStyle.Solid">
+            <Radio RadioButton Value="@(Contract.Entities.CatBehaviour.Unknown)">
+                <BehaviourComponent Behaviour="@CatBehaviour.Unknown" />
+            </Radio>
+            <Radio RadioButton Value="@(Contract.Entities.CatBehaviour.Social)">
+                <BehaviourComponent Behaviour="@CatBehaviour.Social" />
+            </Radio>
+            <Radio RadioButton Value="@(Contract.Entities.CatBehaviour.Shy)">
+                <BehaviourComponent Behaviour="@CatBehaviour.Shy" />
+            </Radio>
+        </RadioGroup>
     </Col>
 </Row>
 

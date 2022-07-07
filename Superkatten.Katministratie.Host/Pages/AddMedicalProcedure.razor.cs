@@ -23,12 +23,7 @@ partial class AddMedicalProcedure
     private DateTime TimeStamp { get; set; }
     private string Remark { get; set; } = string.Empty;
     private MedicalProcedureType ProcedureType { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-
-    }
-
+    
     private void OnChangeDate(DateTimeChangedEventArgs args)
     {
         TimeStamp = args.Date;
