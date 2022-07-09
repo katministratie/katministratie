@@ -17,7 +17,7 @@ namespace Superkatten.Katministratie.Application.Mappers
                 CageNumber = createdSuperkat.CageNumber,
                 CatchDate = createdSuperkat.CatchDate,
                 CatchLocation = createdSuperkat.CatchLocation,
-                IsKitten = createdSuperkat.IsKitten,
+                AgeCategory = MapToContract(createdSuperkat.AgeCategory),
                 Name = createdSuperkat.Name,
                 Number = createdSuperkat.Number,
                 Reserved = createdSuperkat.Reserved,
@@ -64,6 +64,17 @@ namespace Superkatten.Katministratie.Application.Mappers
             };
         }
 
+        private static contractEntities.AgeCategory MapToContract(AgeCategory ageCategory)
+        {
+            return ageCategory switch
+            {
+                AgeCategory.Kitten => contractEntities.AgeCategory.Kitten,
+                AgeCategory.Juvenile => contractEntities.AgeCategory.Juvenile,
+                AgeCategory.Adult => contractEntities.AgeCategory.Adult,
+                _ => throw new InvalidEnumArgumentException(nameof(ageCategory), (int)ageCategory, typeof(AgeCategory))
+            };
+        }
+
 
         public Superkat MapContractToDomain(contractEntities.Superkat contractSuperkat)
         {
@@ -80,7 +91,7 @@ namespace Superkatten.Katministratie.Application.Mappers
             superkat.SetBirthday(contractSuperkat.Birthday);
             superkat.SetCageNumber(contractSuperkat.CageNumber);
             superkat.SetGender(MapContractToDomain(contractSuperkat.Gender));
-            superkat.SetIsKitten(contractSuperkat.IsKitten);
+            superkat.SetAgeCategory(MapContractToDomain(contractSuperkat.AgeCategory));
             superkat.SetName(contractSuperkat.Name ?? string.Empty);
 
             return superkat.WithGastgezinId(contractSuperkat.GastgezinId);
@@ -140,6 +151,17 @@ namespace Superkatten.Katministratie.Application.Mappers
                 contractEntities.FoodType.SecondPhase => FoodType.SecondPhase,
                 contractEntities.FoodType.Rc365 => FoodType.Rc365,
                 _ => throw new InvalidEnumArgumentException(nameof(foodType), (int)foodType, typeof(contractEntities.FoodType))
+            };
+        }
+
+        public AgeCategory MapContractToDomain(contractEntities.AgeCategory ageCategory)
+        {
+            return ageCategory switch
+            {
+                contractEntities.AgeCategory.Kitten => AgeCategory.Kitten,
+                contractEntities.AgeCategory.Juvenile => AgeCategory.Juvenile,
+                contractEntities.AgeCategory.Adult => AgeCategory.Adult,
+                _ => throw new InvalidEnumArgumentException(nameof(ageCategory), (int)ageCategory, typeof(contractEntities.AgeCategory))
             };
         }
     }

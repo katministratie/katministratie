@@ -16,7 +16,7 @@ namespace Superkatten.Katministratie.Domain.Entities
         public CatArea CatArea { get; private set; } = CatArea.Quarantine;
         public int? CageNumber { get; private set; }
         public CatBehaviour Behaviour { get; private set; } = CatBehaviour.Unknown;
-        public bool IsKitten { get; private set; } = true;
+        public AgeCategory AgeCategory{ get; private set; }
         public Gender Gender { get; private set; } = Gender.Unknown;
         public LitterGranuleType LitterType { get; private set; } = LitterGranuleType.Normal;
         public bool WetFoodAllowed { get; private set; } = true;
@@ -75,9 +75,9 @@ namespace Superkatten.Katministratie.Domain.Entities
             CageNumber = cageNumber;
         }
 
-        public void SetIsKitten(bool isKitten)
+        public void SetAgeCategory(AgeCategory ageCategory)
         {
-            IsKitten = isKitten;
+            AgeCategory = AgeCategory;
         }
         public void SetGender(Gender gender)
         {

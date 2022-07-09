@@ -11,7 +11,7 @@ public class CreateSuperkatParameters
     public int? CageNumber { get; init; }
     public CatArea CatArea { get; init; }
     public CatBehaviour Behaviour { get; init; }
-    public bool IsKitten { get; init; }
+    public AgeCategory AgeCategory{ get; init; }
     public Gender Gender { get; init; }
     public LitterGranuleType LitterType { get; init; }
     public bool WetFoodAllowed { get; init; }

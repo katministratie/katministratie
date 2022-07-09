@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.Entities;
 
-namespace Superkatten.Katministratie.Host.Components;
+namespace Superkatten.Katministratie.Host.Components.SuperkatComponents;
 
 public partial class BehaviourComponent
 {

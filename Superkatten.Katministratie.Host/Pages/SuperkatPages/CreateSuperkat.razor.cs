@@ -16,7 +16,7 @@ public partial class CreateSuperkat
     public int CageNumber = 1;
     public CatBehaviour Behaviour = CatBehaviour.Unknown;
     public bool Retour = false;
-    public bool IsKitten = true;
+    public AgeCategory AgeCategory = AgeCategory.Kitten;
     public Gender Gender = Gender.Unknown;
     public LitterGranuleType LitterType = LitterGranuleType.Normal;
     public bool WetFoodAllowed = true;
@@ -61,7 +61,7 @@ public partial class CreateSuperkat
             CageNumber = CageNumber,
             Behaviour = Behaviour,
             Retour = Retour,
-            IsKitten = IsKitten,
+            AgeCategory = AgeCategory,
             Gender = Gender,
             LitterType = LitterType,
             WetFoodAllowed = WetFoodAllowed,
@@ -76,6 +76,6 @@ public partial class CreateSuperkat
             return;
         }
 
-        _message.Success($"Superkat {superkat.CatchDate.Year % 100}-{superkat.Number.ToString("000")} is aangemaakt", 3);        
+        _ = _message.Success($"Superkat {superkat.CatchDate.Year % 100}-{superkat.Number.ToString("000")} is aangemaakt", 3);        
     }
 }

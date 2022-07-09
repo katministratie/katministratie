@@ -7,6 +7,7 @@ using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,6 +16,7 @@ namespace Superkatten.Katministratie.Application.Services
     public class SuperkattenService : ISuperkattenService
     {
         private const int WEEKS_IN_ONE_YEAR = 52;
+        private const int WEEKS_IN_ONE_MONTH = 4;
         public const int DAY_IN_ONE_WEEK = 7;
 
         private readonly ILogger<SuperkattenService> _logger;
@@ -47,19 +49,14 @@ namespace Superkatten.Katministratie.Application.Services
 
             superkat.SetCageNumber(createSuperkatParameters.CageNumber);
             superkat.SetRetour(createSuperkatParameters.Retour);
-            superkat.SetIsKitten(createSuperkatParameters.IsKitten);
+            superkat.SetAgeCategory(_mapper.MapContractToDomain(createSuperkatParameters.AgeCategory));
             superkat.SetBehaviour(_mapper.MapContractToDomain(createSuperkatParameters.Behaviour));
             superkat.SetArea(_mapper.MapContractToDomain(createSuperkatParameters.CatArea));
             superkat.SetGender(_mapper.MapContractToDomain(createSuperkatParameters.Gender));
 
-            var estimatedWeeksOld = createSuperkatParameters.IsKitten
-                ? createSuperkatParameters.EstimatedWeeksOld
-                : WEEKS_IN_ONE_YEAR * createSuperkatParameters.EstimatedWeeksOld;
-
             var catchDate = createSuperkatParameters.CatchDate;
-            var estimatedBirthday = catchDate.AddDays(-DAY_IN_ONE_WEEK * estimatedWeeksOld);
+            var estimatedBirthday = catchDate.AddDays(-DAY_IN_ONE_WEEK * createSuperkatParameters.EstimatedWeeksOld);
             superkat.SetBirthday(estimatedBirthday);
-
             superkat.SetLitterType(_mapper.MapContractToDomain(createSuperkatParameters.LitterType));
             superkat.SetWetFoodAllowed(createSuperkatParameters.WetFoodAllowed);
             superkat.SetFoodType(_mapper.MapContractToDomain(createSuperkatParameters.FoodType));

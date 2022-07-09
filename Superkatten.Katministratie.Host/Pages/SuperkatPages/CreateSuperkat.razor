@@ -1,7 +1,7 @@
 ﻿@page "/CreateSuperkat"
 
 @using Superkatten.Katministratie.Host.Api
-@using Superkatten.Katministratie.Host.Components
+@using Superkatten.Katministratie.Host.Components.SuperkatComponents
 @using Superkatten.Katministratie.Host.Entities
 @using Superkatten.Katministratie.Host.Services
 @using Superkatten.Katministratie.Contract.Entities
@@ -29,32 +29,27 @@
 
 <HeaderItem Titel="Vang informatie:"></HeaderItem>
 <Row Class="m-2">
-    <Col Class="col-6">
-        <Input Placeholder="vanglokatie" @bind-Value="@CatchLocation" />
-    </Col>
-
-    <Col Class="col-6">
-        Vangdatum: 
-        <DatePicker
-            Bordered="@false" 
-            TValue="DateTime?" 
-            Picker="@DatePickerType.Date" 
-            OnChange="OnChangeCatchDate" 
-            DefaultValue="@DateTime.UtcNow" />
-    </Col>
+    <span>Gevangen op</span> 
+    <DatePicker
+        Bordered="@false" 
+        TValue="DateTime?" 
+        Picker="@DatePickerType.Date" 
+        OnChange="OnChangeCatchDate" 
+        DefaultValue="@DateTime.UtcNow" />
+    <Input Class="my-1" Placeholder="vanglokatie" @bind-Value="@CatchLocation" />
 </Row>
 
 <HeaderItem Titel="Gedrag:"></HeaderItem>
 <Row Class="m-2">
     <Col Class="col-12">
         <RadioGroup @bind-Value="@Behaviour" ButtonStyle="@RadioButtonStyle.Solid">
-            <Radio RadioButton Value="@(Contract.Entities.CatBehaviour.Unknown)">
+            <Radio RadioButton Class="p-1" Value="@(Contract.Entities.CatBehaviour.Unknown)">
                 <BehaviourComponent Behaviour="@CatBehaviour.Unknown" />
             </Radio>
-            <Radio RadioButton Value="@(Contract.Entities.CatBehaviour.Social)">
+            <Radio RadioButton Class="p-1" Value="@(Contract.Entities.CatBehaviour.Social)">
                 <BehaviourComponent Behaviour="@CatBehaviour.Social" />
             </Radio>
-            <Radio RadioButton Value="@(Contract.Entities.CatBehaviour.Shy)">
+            <Radio RadioButton Class="p-1" Value="@(Contract.Entities.CatBehaviour.Shy)">
                 <BehaviourComponent Behaviour="@CatBehaviour.Shy" />
             </Radio>
         </RadioGroup>
@@ -81,24 +76,32 @@
     </Col>
 </Row>
 
-<HeaderItem Titel="Vang informatie:"></HeaderItem>
+<HeaderItem Titel="Leeftijd info:"></HeaderItem>
 <Row Class="m-2">
-    <Col Class="col-12">
+    <Col Class="col-12">        
         <Row Class="">
             <Col Class="me-4">
-                <Checkbox @bind-Checked="@IsKitten">
-                @($"{(IsKitten ? "Kitten" : "Volwassen poes")}")
-            </Checkbox>
+                <RadioGroup @bind-Value="@AgeCategory" ButtonStyle="@RadioButtonStyle.Solid">
+                    <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.AgeCategory.Kitten)">Kitten</Radio>
+                    <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.AgeCategory.Juvenile)">Jeugdig</Radio>
+                    <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.AgeCategory.Adult)">Volwassen</Radio>
+                </RadioGroup>
             </Col>
-        
             <Col Class="me-2">
-                @if (IsKitten)
+                @switch (AgeCategory)
                 {
-                    <p>Weken oud:</p>
-                }
-                else
-                {
-                    <p>Jaren oud:</p>
+                    case AgeCategory.Kitten:
+                        <p>Weken oud:</p>
+                        break;
+                    case AgeCategory.Juvenile:
+                        <p>Maanden oud:</p>
+                        break;
+                    case AgeCategory.Adult:
+                        <p>Jaren oud:</p>
+                        break;
+                    default:
+                        <p>weken oud</p>
+                        break;
                 }
             </Col>
             <Col>
@@ -125,11 +128,11 @@
 <Row Class="m-2">
     <Col Class="col-12">
         <RadioGroup @bind-Value="@CatArea" ButtonStyle="@RadioButtonStyle.Solid">
-            <Radio RadioButton Value="@Contract.Entities.CatArea.Quarantine">Quarantaine</Radio>
-            <Radio RadioButton Value="@(Contract.Entities.CatArea.Infirmary)">Ziekenboeg</Radio>
-            <Radio RadioButton Value="@(Contract.Entities.CatArea.Room2)">Kamer 2</Radio>
-            <Radio RadioButton Value="@(Contract.Entities.CatArea.SmallEnclosure)">KLeine ren</Radio>
-            <Radio RadioButton Value="@(Contract.Entities.CatArea.BigEnclosure)">Grote ren</Radio>
+            <Radio RadioButton Class="mx-1" Value="@Contract.Entities.CatArea.Quarantine">Quarantaine</Radio>
+            <Radio RadioButton Class="mx-1"Value="@(Contract.Entities.CatArea.Infirmary)">Ziekenboeg</Radio>
+            <Radio RadioButton Class="mx-1"Value="@(Contract.Entities.CatArea.Room2)">Kamer 2</Radio>
+            <Radio RadioButton Class="mx-1"Value="@(Contract.Entities.CatArea.SmallEnclosure)">KLeine ren</Radio>
+            <Radio RadioButton Class="mx-1"Value="@(Contract.Entities.CatArea.BigEnclosure)">Grote ren</Radio>
         </RadioGroup>
     </Col>
 </Row>
@@ -148,9 +151,9 @@
 <Row Class="m-2">
     <Col Class="col-12">
         <RadioGroup @bind-Value="@Gender" ButtonStyle="@RadioButtonStyle.Solid">
-            <Radio RadioButton Value="@(Contract.Entities.Gender.Unknown)">Onbekend</Radio>
-            <Radio RadioButton Value="@(Contract.Entities.Gender.Molly)">Poes</Radio>
-            <Radio RadioButton Value="@(Contract.Entities.Gender.Tomcat)">Kater</Radio>
+            <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.Gender.Unknown)">Onbekend</Radio>
+            <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.Gender.Molly)">Poes</Radio>
+            <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.Gender.Tomcat)">Kater</Radio>
         </RadioGroup>
     </Col>
 </Row>
@@ -167,9 +170,9 @@
 <Row Class="m-2">
     <Col Class="col-12">
         <RadioGroup @bind-Value="@FoodType" ButtonStyle="@RadioButtonStyle.Solid">
-            <Radio RadioButton Value="@(Contract.Entities.FoodType.FirstPhase)">Eerste Fase</Radio>
-            <Radio RadioButton Value="@(Contract.Entities.FoodType.SecondPhase)">Tweede Fase</Radio>
-            <Radio RadioButton Value="@(Contract.Entities.FoodType.Rc365)">RC 365</Radio>
+            <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.FoodType.FirstPhase)">Eerste Fase</Radio>
+            <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.FoodType.SecondPhase)">Tweede Fase</Radio>
+            <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.FoodType.Rc365)">RC 365</Radio>
         </RadioGroup>
     </Col>
 </Row>
@@ -177,9 +180,9 @@
 <Row Class="m-2">
     <Col Class="col-12">
         <RadioGroup @bind-Value="@LitterType" ButtonStyle="@RadioButtonStyle.Solid">
-            <Radio RadioButton Value="@(Contract.Entities.LitterGranuleType.Normal)">Normaal</Radio>
-            <Radio RadioButton Value="@(Contract.Entities.LitterGranuleType.Clumping)">Klontvormend</Radio>
-            <Radio RadioButton Value="@(Contract.Entities.LitterGranuleType.Wood)">Hout korrels</Radio>
+            <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.LitterGranuleType.Normal)">Normaal</Radio>
+            <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.LitterGranuleType.Clumping)">Klontvormend</Radio>
+            <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.LitterGranuleType.Wood)">Hout korrels</Radio>
         </RadioGroup>
     </Col>
 </Row>

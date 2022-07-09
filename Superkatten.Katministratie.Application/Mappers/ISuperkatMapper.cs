@@ -16,5 +16,6 @@ namespace Superkatten.Katministratie.Application.Mappers
         Gender MapContractToDomain(ContractEntitiess.Gender gender);
         LitterGranuleType MapContractToDomain(ContractEntitiess.LitterGranuleType litterType);
         FoodType MapContractToDomain(ContractEntitiess.FoodType foodType);
+        AgeCategory MapContractToDomain(ContractEntitiess.AgeCategory ageCategory);
     }
 }
