@@ -2,6 +2,7 @@
 using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Entities;
 using Superkatten.Katministratie.Host.Services;
+using Superkatten.Katministratie.Host.Helpers;
 
 namespace Superkatten.Katministratie.Host.Components.GastgezinComponents;
 
@@ -10,6 +11,9 @@ public partial class GastgezinComponent
 
     [Inject]
     private IGastgezinService? _gastgezinService { get; set; }
+    
+    [Inject]
+    private Navigation _navigation { get; set; }
 
 
     [Parameter]
@@ -50,7 +54,12 @@ public partial class GastgezinComponent
 
     private void OnAssignSuperkat()
     {
-        _editMode = HostFamilyComponentEditMode.AssignSuperkatten;
+        if (_gastgezin is null)
+        {
+            return;
+        }
+
+        _navigation.NavigateTo($"/AssignSuperkatten/{_gastgezin.Id}");
     }
 
     private async Task OnFinishEdit()

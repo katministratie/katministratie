@@ -2,5 +2,5 @@
 
 public class UpdateSuperkatParameters
 {
-    public Guid GastgezinId { get; set; } = Guid.Empty;
+    public Guid? GastgezinId { get; set; }
 }

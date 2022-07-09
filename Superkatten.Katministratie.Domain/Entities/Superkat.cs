@@ -7,6 +7,7 @@ namespace Superkatten.Katministratie.Domain.Entities
     {
         public Guid Id { get; init; }
         public int Number { get; private set; }
+        public SuperkatState State { get; init; } = SuperkatState.Trapped;
         public DateTime Birthday { get; private set; }
         public DateTime CatchDate { get; private set; }
         public string CatchLocation { get; private set; }
@@ -30,6 +31,7 @@ namespace Superkatten.Katministratie.Domain.Entities
         )
         {
             Id = Guid.NewGuid();
+
             Number = number;
             CatchDate = catchDate;
             CatchLocation = catchLocation;

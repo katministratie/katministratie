@@ -5,6 +5,7 @@ namespace Superkatten.Katministratie.Host.Entities
     public class SuperkatView
     {
         public Guid Id { get; }
+        public SuperkatState State { get; }
         public bool Retour { get; }
         public bool Reserved { get; }
         public int Number { get; }
@@ -25,6 +26,7 @@ namespace Superkatten.Katministratie.Host.Entities
             }
 
             Id = superkat.Id;
+            State = superkat.State;
             Retour = superkat.Retour;
             Reserved = superkat.Reserved;
             CatchDate = superkat.CatchDate;

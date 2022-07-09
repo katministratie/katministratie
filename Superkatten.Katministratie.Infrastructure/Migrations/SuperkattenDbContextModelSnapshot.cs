@@ -75,6 +75,9 @@ namespace Superkatten.Katministratie.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("AgeCategory")
+                        .HasColumnType("int");
+
                     b.Property<int>("Behaviour")
                         .HasColumnType("int");
 
@@ -107,9 +110,6 @@ namespace Superkatten.Katministratie.Infrastructure.Migrations
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsKitten")
-                        .HasColumnType("bit");
-
                     b.Property<int>("LitterType")
                         .HasColumnType("int");
 
@@ -125,6 +125,9 @@ namespace Superkatten.Katministratie.Infrastructure.Migrations
 
                     b.Property<bool>("Retour")
                         .HasColumnType("bit");
+
+                    b.Property<int>("State")
+                        .HasColumnType("int");
 
                     b.Property<bool>("WetFoodAllowed")
                         .HasColumnType("bit");

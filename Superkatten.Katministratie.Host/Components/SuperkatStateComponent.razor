@@ -1,0 +1,27 @@
+﻿@using Superkatten.Katministratie.Contract.Entities
+
+<div>
+    @switch(State)
+    {
+        case SuperkatState.Trapped:
+            <div class="col" style="color:lightgray"><p class="float-start">T</p></div>
+            <div class="col" style="color:indianred">NRC</div>
+            break;
+        case SuperkatState.Neutralized:
+            <div class="col" style="color:lightgray"><p class="float-start">TN</p></div>
+            <div class="col" style="color:indianred">RC</div>
+            break;
+        case SuperkatState.Returnable:
+            <div class="col" style="color:lightgray">TNR</div>
+            <div class="col" style="color:indianred">C</div>
+            break;
+        case SuperkatState.Checked:
+            <div class="col" style="color:lightgray">TNRC</div>
+            break;            
+    }
+</div>
+
+@code {
+    [Parameter]
+    public SuperkatState State { get; set; }
+}

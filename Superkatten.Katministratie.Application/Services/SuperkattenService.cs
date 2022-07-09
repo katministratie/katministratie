@@ -15,8 +15,6 @@ namespace Superkatten.Katministratie.Application.Services
 {
     public class SuperkattenService : ISuperkattenService
     {
-        private const int WEEKS_IN_ONE_YEAR = 52;
-        private const int WEEKS_IN_ONE_MONTH = 4;
         public const int DAY_IN_ONE_WEEK = 7;
 
         private readonly ILogger<SuperkattenService> _logger;

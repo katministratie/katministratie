@@ -72,7 +72,7 @@ public partial class CreateSuperkat
         var superkat = await _superkattenService.CreateSuperkatAsync(createSuperkatParameters);
         if (superkat is null)
         {
-            await _message.Error($"Fout bij het opslaan van de nieuwe superkat.", 3);
+            await _message.Error($"Fout bij het opslaan van de nieuwe superkat.", 2);
             return;
         }
 

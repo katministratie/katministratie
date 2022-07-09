@@ -33,10 +33,10 @@ public partial class CreateGastgezin
         var gastgezin = await _gastgezinService.CreateGastgezinAsync(createGastgezin);
         if (gastgezin is null)
         {
-            await _message.Error($"Fout bij het opslaan van een nieuw gastgezin.", 3);
+            await _message.Error($"Fout bij het opslaan van een nieuw gastgezin.", 1);
             return;
         }
 
-        await _message.Success($"Gastgezin {gastgezin.Name} is opgeslagen.", 3);        
+        await _message.Success($"Gastgezin {gastgezin.Name} is opgeslagen.", 1);        
     }
 }

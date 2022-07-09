@@ -4,6 +4,7 @@ public class Superkat
 {
     public Guid Id { get; init; }
     public int Number { get; init; }
+    public SuperkatState State { get; init; }
     public DateTime Birthday { get; init; }
     public DateTime CatchDate { get; init; }
     public string CatchLocation { get; init; } = string.Empty;

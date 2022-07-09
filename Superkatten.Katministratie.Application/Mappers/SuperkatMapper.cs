@@ -13,6 +13,7 @@ namespace Superkatten.Katministratie.Application.Mappers
             return new contractEntities.Superkat
             {
                 Id = createdSuperkat.Id,
+                State = MapToContract(createdSuperkat.State),
                 Birthday = createdSuperkat.Birthday,
                 CageNumber = createdSuperkat.CageNumber,
                 CatchDate = createdSuperkat.CatchDate,
@@ -37,6 +38,19 @@ namespace Superkatten.Katministratie.Application.Mappers
                 CatBehaviour.Social => contractEntities.CatBehaviour.Social,
                 CatBehaviour.Unknown => contractEntities.CatBehaviour.Unknown,
                 _ => throw new InvalidEnumArgumentException(nameof(behaviour), (int)behaviour, typeof(CatBehaviour))
+            };
+        }
+
+        private static contractEntities.SuperkatState MapToContract(SuperkatState state)
+        {
+            return state switch
+            {
+                SuperkatState.Trapped => contractEntities.SuperkatState.Trapped,
+                SuperkatState.Neutralized => contractEntities.SuperkatState.Neutralized,
+                SuperkatState.Returnable => contractEntities.SuperkatState.Returnable,
+                SuperkatState.Checked => contractEntities.SuperkatState.Checked,
+                SuperkatState.Done => contractEntities.SuperkatState.Done,
+                _ => throw new InvalidEnumArgumentException(nameof(state), (int)state, typeof(SuperkatState))
             };
         }
 
@@ -83,7 +97,8 @@ namespace Superkatten.Katministratie.Application.Mappers
                 contractSuperkat.CatchDate,
                 contractSuperkat.CatchLocation)
             { 
-                Id = contractSuperkat.Id
+                Id = contractSuperkat.Id,
+                State = MapContractToDomain(contractSuperkat.State)
             };
 
             superkat.SetArea(MapContractToDomain(contractSuperkat.CatArea));
@@ -162,6 +177,19 @@ namespace Superkatten.Katministratie.Application.Mappers
                 contractEntities.AgeCategory.Juvenile => AgeCategory.Juvenile,
                 contractEntities.AgeCategory.Adult => AgeCategory.Adult,
                 _ => throw new InvalidEnumArgumentException(nameof(ageCategory), (int)ageCategory, typeof(contractEntities.AgeCategory))
+            };
+        }
+
+        public SuperkatState MapContractToDomain(contractEntities.SuperkatState state)
+        {
+            return state switch
+            {
+                contractEntities.SuperkatState.Trapped => SuperkatState.Trapped,
+                contractEntities.SuperkatState.Neutralized => SuperkatState.Neutralized,
+                contractEntities.SuperkatState.Returnable => SuperkatState.Returnable,
+                contractEntities.SuperkatState.Checked => SuperkatState.Checked,
+                contractEntities.SuperkatState.Done => SuperkatState.Done,
+                _ => throw new InvalidEnumArgumentException(nameof(state), (int)state, typeof(contractEntities.SuperkatState))
             };
         }
     }

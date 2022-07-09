@@ -26,7 +26,7 @@ namespace Superkatten.Katministratie.Infrastructure
             else
             {
                 services.AddDbContext<SuperkattenDbContext>(option =>
-                    option.UseSqlServer(cs ?? string.Empty).EnableDetailedErrors()
+                    option.UseSqlServer(cs).EnableDetailedErrors()
                 );
             }
 
