@@ -58,6 +58,7 @@ public class SuperkattenRepository : ISuperkattenRepository
         return await _context
             .SuperKatten
             .AsNoTracking()
+            .Where(o => o.State != SuperkatState.Done)
             .ToListAsync();
     }
 
