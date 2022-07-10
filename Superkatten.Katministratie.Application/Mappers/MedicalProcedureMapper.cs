@@ -22,7 +22,7 @@ public class MedicalProcedureMapper : IMedicalProcedureMapper
 
     private static int MapMedicalProcedureTypeToContract(MedicalProcedureType procedureType)
     {
-        if (!Enum.TryParse<MedicalProcedureType>(procedureType.ToString(), true, out procedureType))
+        if (!Enum.TryParse(procedureType.ToString(), true, out procedureType))
         {
             throw new InvalidEnumArgumentException(nameof(procedureType), (int)procedureType, typeof(MedicalProcedureType));
         }
@@ -44,6 +44,9 @@ public class MedicalProcedureMapper : IMedicalProcedureMapper
         return procedureType switch
         {
             ContractEntities.MedicalProcedureType.Stronghold => MedicalProcedureType.Stronghold,
+            ContractEntities.MedicalProcedureType.Neutralize => MedicalProcedureType.Neutralize,
+            ContractEntities.MedicalProcedureType.Checkup => MedicalProcedureType.Checkup,
+            ContractEntities.MedicalProcedureType.Sickness => MedicalProcedureType.Sickness,
             _ => throw new InvalidEnumArgumentException(nameof(procedureType), (int)procedureType, typeof(ContractEntities.MedicalProcedureType))
         };
     }

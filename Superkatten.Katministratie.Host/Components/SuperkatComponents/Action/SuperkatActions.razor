@@ -3,18 +3,28 @@
 
 @inject ISuperkatActionService _superkatActionService
 
-<SuperkatAction
-    OnClickCallback="@ToggleReserve"
-    ActionIcon="@(SuperkatView.Reserved 
-        ? "./images/actions/briefcase.svg" 
-        : "./images/actions/briefcase-fill.svg")" />
+@if(!SuperkatView.Retour)
+{
+    <SuperkatAction
+        OnClickCallback="@ToggleReserve"
+        ActionIcon="@(SuperkatView.Reserved 
+            ? "./images/actions/briefcase.svg" 
+            : "./images/actions/briefcase-fill.svg")" />
+}
+else
+{
+    <span></span>    
+}
+
+@if(!SuperkatView.IsAtGastgezin)
+{
+    <SuperkatAction
+        OnClickCallback="@ToggleRetour"
+        ActionIcon="@(SuperkatView.Retour 
+            ? "./images/actions/arrow-90deg-right.svg" 
+            : "./images/actions/box-arrow-in-right.svg")" />
+}
 
 <SuperkatAction
-    OnClickCallback="@ToggleRetour"
-    ActionIcon="@(SuperkatView.Retour 
-        ? "./images/actions/arrow-90deg-right.svg" 
-        : "./images/actions/box-arrow-in-right.svg")" />
-        
-<SuperkatAction
     OnClickCallback="@AddMedicalProcedure"
-    ActionIcon="./images/actions/printer.svg"/>
+    ActionIcon="./images/actions/medical.svg"/>

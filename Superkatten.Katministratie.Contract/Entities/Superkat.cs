@@ -16,5 +16,5 @@ public class Superkat
     public CatBehaviour Behaviour { get; init; }
     public AgeCategory AgeCategory { get; init; }
     public Gender Gender { get; set; }
-    public Guid GastgezinId { get; set; }
+    public Guid? GastgezinId { get; set; }
 }

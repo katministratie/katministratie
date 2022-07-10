@@ -26,7 +26,7 @@ namespace Superkatten.Katministratie.Application.Mappers
                 Behaviour = MapToContract(createdSuperkat.Behaviour),
                 CatArea = MapToContract(createdSuperkat.CatArea),
                 Gender = MapToContract(createdSuperkat.Gender),
-                GastgezinId = createdSuperkat.GastgezinId ?? Guid.Empty
+                GastgezinId = createdSuperkat.GastgezinId
             };
         }
 

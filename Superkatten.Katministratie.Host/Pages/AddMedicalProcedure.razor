@@ -28,7 +28,10 @@
 <Row Class="m-2">
     <Col Class="col-12">
         <RadioGroup @bind-Value="@ProcedureType" ButtonStyle="@RadioButtonStyle.Solid">
-            <Radio RadioButton Value="@(MedicalProcedureType.Stronghold)">Onbekend</Radio>
+            <Radio RadioButton Value="@(MedicalProcedureType.Stronghold)">Stronghold</Radio>
+            <Radio RadioButton Value="@(MedicalProcedureType.Neutralize)">Neutraliseren</Radio>
+            <Radio RadioButton Value="@(MedicalProcedureType.Checkup)">Controle</Radio>
+            <Radio RadioButton Value="@(MedicalProcedureType.Sickness)">Ziekte/Ongeluk</Radio>
         </RadioGroup>
     </Col>
 </Row>

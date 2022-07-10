@@ -55,11 +55,13 @@ public class SuperkattenRepository : ISuperkattenRepository
 
     public async Task<IReadOnlyCollection<Superkat>> GetSuperkattenAsync()
     {
-        return await _context
+        var superkatten = await _context
             .SuperKatten
             .AsNoTracking()
             .Where(o => o.State != SuperkatState.Done)
             .ToListAsync();
+
+        return superkatten;
     }
 
     public async Task<Superkat> GetSuperkatAsync(Guid id)
