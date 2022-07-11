@@ -7,7 +7,7 @@ using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Interfaces;
 
 
-namespace Superkatten.Katministratie.Host.Pages;
+namespace Superkatten.Katministratie.Host.Pages.MedicalProcedure;
 
 partial class AddMedicalProcedure
 {
@@ -18,7 +18,7 @@ partial class AddMedicalProcedure
     private Navigation? _navigation { get; set; }
 
     [Inject]
-    private ISuperkattenListService _superkattenService { get; set; }
+    private ISuperkattenListService? _superkattenService { get; set; }
 
     [Parameter]
     public Guid SuperkatId { get; set; }
