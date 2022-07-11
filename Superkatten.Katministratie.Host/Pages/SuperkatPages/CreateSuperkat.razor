@@ -7,182 +7,105 @@
 @using Superkatten.Katministratie.Contract.Entities
 @using Superkatten.Katministratie.Host.Components.Helpers
 
-@inject ISuperkattenListService _superkattenService
-@inject MessageService _message
-@inject NotificationService _notice
-
 <PageTitle>Nieuwe superkat</PageTitle>
 
-<Row Class="border mb-2">
-    <Col Class="col-4">
-        <Button Block="@true" OnClick="@OnOk">Ok</Button>
-    </Col>
-    <Col Class="col-4">
-        <Button Block="@true" OnClick="@OnOkNoReturn">Nieuwe kat</Button>
-    </Col>
-    <Col Class="col-4">
-        <Button Block="@true" OnClick="@OnCancel">Terug</Button>
-    </Col>
-</Row>
+<Button Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Ok</Button>
+<Button Size="Size.Large" Color="Color.Primary" Clicked="@OnOkNoReturn">Nieuwe kat</Button>
+<Button Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
 
-<Divider />
+<AntDesign.Divider />
 
 <HeaderItem Titel="Vang informatie:"></HeaderItem>
-<Row Class="m-2">
-    <span>Gevangen op</span> 
-    <DatePicker
-        Bordered="@false" 
-        TValue="DateTime?" 
-        Picker="@DatePickerType.Date" 
-        OnChange="OnChangeCatchDate" 
-        DefaultValue="@DateTime.UtcNow" />
-    <Input Class="my-1" Placeholder="vanglokatie" @bind-Value="@CatchLocation" />
-</Row>
+<Field>
+    <FieldLabel>Locatie</FieldLabel>
+    <TextEdit Placeholder="Waar gevangen" @bind-Text="@CatchLocation"/>
+</Field>
+<Field>
+    <FieldLabel>Datum</FieldLabel>
+    <DateEdit TValue="DateTime?" @bind-Date="@CatchDate" />
+</Field>
 
 <HeaderItem Titel="Gedrag:"></HeaderItem>
-<Row Class="m-2">
-    <Col Class="col-12">
-        <RadioGroup @bind-Value="@Behaviour" ButtonStyle="@RadioButtonStyle.Solid">
-            <Radio RadioButton Class="p-1" Value="@(Contract.Entities.CatBehaviour.Unknown)">
-                <BehaviourComponent Behaviour="@CatBehaviour.Unknown" />
-            </Radio>
-            <Radio RadioButton Class="p-1" Value="@(Contract.Entities.CatBehaviour.Social)">
-                <BehaviourComponent Behaviour="@CatBehaviour.Social" />
-            </Radio>
-            <Radio RadioButton Class="p-1" Value="@(Contract.Entities.CatBehaviour.Shy)">
-                <BehaviourComponent Behaviour="@CatBehaviour.Shy" />
-            </Radio>
-        </RadioGroup>
-    </Col>
-</Row>
+<RadioGroup TValue="@Contract.Entities.CatBehaviour" Color="Color.Light" Buttons @bind-CheckedValue="@Behaviour">
+    <Radio Value="@Contract.Entities.CatBehaviour.Unknown"><BehaviourComponent Behaviour="@CatBehaviour.Unknown" /></Radio>
+    <Radio Value="@Contract.Entities.CatBehaviour.Social"><BehaviourComponent Behaviour="@CatBehaviour.Social" /></Radio>
+    <Radio Value="@Contract.Entities.CatBehaviour.Shy"><BehaviourComponent Behaviour="@CatBehaviour.Shy" /></Radio>
+</RadioGroup>
 
 <HeaderItem Titel="Medicatie:"></HeaderItem>
-<Row Class="m-2">
-    <Col Class="col-12">
-        Stronghold: 
-        <Checkbox @bind-Checked="@StrongHoldGiven">
-            @($"{(StrongHoldGiven ? "Stronghold gegeven" : "Geen stronghold gegeven")}")
-        </Checkbox>
-    </Col>
-</Row>
+<Check TValue="bool" @bind-Checked="@StrongHoldGiven">
+    Stronghold gegeven
+</Check>
 
 <HeaderItem Titel="Extra info:"></HeaderItem>
-<Row Class="mb-2">
-    <Col Class="col-12">
-        Retour:
-        <Checkbox @bind-Checked="@Retour">
-            @($"{(Retour ? "Kat gaat retour" : "Kat gaat adoptieproces in")}")
-        </Checkbox>
-    </Col>
-</Row>
+<Check TValue="bool" @bind-Checked="@Retour">
+    Retour
+</Check>
 
 <HeaderItem Titel="Leeftijd info:"></HeaderItem>
-<Row Class="m-2">
-    <Col Class="col-12">        
-        <Row Class="">
-            <Col Class="me-4">
-                <RadioGroup @bind-Value="@AgeCategory" ButtonStyle="@RadioButtonStyle.Solid">
-                    <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.AgeCategory.Kitten)">Kitten</Radio>
-                    <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.AgeCategory.Juvenile)">Jeugdig</Radio>
-                    <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.AgeCategory.Adult)">Volwassen</Radio>
-                </RadioGroup>
-            </Col>
-            <Col Class="me-2">
-                @switch (AgeCategory)
-                {
-                    case AgeCategory.Kitten:
-                        <p>Weken oud:</p>
-                        break;
-                    case AgeCategory.Juvenile:
-                        <p>Maanden oud:</p>
-                        break;
-                    case AgeCategory.Adult:
-                        <p>Jaren oud:</p>
-                        break;
-                    default:
-                        <p>weken oud</p>
-                        break;
-                }
-            </Col>
-            <Col>
-                <AntDesign.InputNumber 
-                    Min="1"
-                    Disabled="@ValidCatchLocation" 
-                    DefaultValue="1" 
-                    Size="@InputSize.Small" 
-                    @bind-Value="@EstimatedWeeksOld"/>
-            </Col>
-        </Row>
-    </Col>
+<RadioGroup TValue="@Contract.Entities.AgeCategory" Buttons @bind-CheckedValue="@AgeCategory">
+    <Radio Value="@Contract.Entities.AgeCategory.Kitten">Kitten</Radio>
+    <Radio Value="@Contract.Entities.AgeCategory.Juvenile">Jeugdig</Radio>
+    <Radio Value="@Contract.Entities.AgeCategory.Adult">Volwassen</Radio>
+</RadioGroup>
+<Row>    
+    <Column ColumnSize="ColumnSize.Is3">
+        <NumericEdit Value="5" @bind-Text="@EstimatedWeeksOld"/>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is9">
+        @switch (AgeCategory)
+        {
+        case AgeCategory.Kitten:
+            <TextEdit Placeholder="weken oud" />
+            break;
+        case AgeCategory.Juvenile:
+            <TextEdit Placeholder="maanden oud" />
+            break;
+        case AgeCategory.Adult:
+            <TextEdit Placeholder="jaren oud" />
+            break;
+        default:
+            <TextEdit Placeholder="??" />
+            break;
+        }
+    </Column>
 </Row>
 
 <HeaderItem Titel="Kleur:"></HeaderItem>
-<Row Class="m-2">
-    <Col Class="col-12">
-        <Input Placeholder="Kleur kat" @bind-Value="@CatColor" />
-    </Col>
-</Row>
+<Field>
+    <TextEdit Placeholder="Kleur kat" @bind-Text="@CatColor"/>
+</Field>
 
 <HeaderItem Titel="Ruimte"></HeaderItem>
-
-<Row Class="m-2">
-    <Col Class="col-12">
-        <RadioGroup @bind-Value="@CatArea" ButtonStyle="@RadioButtonStyle.Solid">
-            <Radio RadioButton Class="mx-1" Value="@Contract.Entities.CatArea.Quarantine">Quarantaine</Radio>
-            <Radio RadioButton Class="mx-1"Value="@(Contract.Entities.CatArea.Infirmary)">Ziekenboeg</Radio>
-            <Radio RadioButton Class="mx-1"Value="@(Contract.Entities.CatArea.Room2)">Kamer 2</Radio>
-            <Radio RadioButton Class="mx-1"Value="@(Contract.Entities.CatArea.SmallEnclosure)">KLeine ren</Radio>
-            <Radio RadioButton Class="mx-1"Value="@(Contract.Entities.CatArea.BigEnclosure)">Grote ren</Radio>
-        </RadioGroup>
-    </Col>
-</Row>
-<Row>
-    <Col Class="col-12">        
-        Hok:<AntDesign.InputNumber 
-                Min="1"
-                Max="@MAX_HOKNUMBER_ALLOWED"
-                DefaultValue="1" 
-                @bind-Value="@CageNumber"/>
-    </Col>
-</Row>
-
+<RadioGroup TValue="@Contract.Entities.CatArea" Buttons @bind-CheckedValue="@CatArea">
+    <Radio Value="@Contract.Entities.CatArea.Quarantine">Quarantaine</Radio>
+    <Radio Value="@Contract.Entities.CatArea.Infirmary">Ziekenboeg</Radio>
+    <Radio Value="@Contract.Entities.CatArea.Room2">Kamer 2</Radio>
+    <Radio Value="@Contract.Entities.CatArea.SmallEnclosure">KLeine ren</Radio>
+    <Radio Value="@Contract.Entities.CatArea.BigEnclosure">Grote ren</Radio>
+</RadioGroup>
+@if(CanEnterHokNumber)
+{
+    <NumericEdit Min="1" Max="@MAX_HOKNUMBER_ALLOWED" TValue="int" @bind-Value="@CageNumber" />
+}
 <HeaderItem Titel="Gender"></HeaderItem>
-
-<Row Class="m-2">
-    <Col Class="col-12">
-        <RadioGroup @bind-Value="@Gender" ButtonStyle="@RadioButtonStyle.Solid">
-            <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.Gender.Unknown)">Onbekend</Radio>
-            <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.Gender.Molly)">Poes</Radio>
-            <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.Gender.Tomcat)">Kater</Radio>
-        </RadioGroup>
-    </Col>
-</Row>
+<RadioGroup TValue="@Contract.Entities.Gender" Buttons @bind-CheckedValue="@Gender">
+    <Radio Value="@Contract.Entities.Gender.Unknown">Onbekend</Radio>
+    <Radio Value="@Contract.Entities.Gender.Molly">Poes</Radio>
+    <Radio Value="@Contract.Entities.Gender.Tomcat">Kater</Radio>
+</RadioGroup>
 
 <HeaderItem Titel="Voer"></HeaderItem>
-
-<Row Class="m-2">
-    <Col Class="col-12">
-        <Checkbox @bind-Checked="@WetFoodAllowed" style="font-size:18px;">
-            @($"{(WetFoodAllowed ? "Nat toegestaan" : "Alleen droog")}")
-        </Checkbox>
-    </Col>
-</Row>
-<Row Class="m-2">
-    <Col Class="col-12">
-        <RadioGroup @bind-Value="@FoodType" ButtonStyle="@RadioButtonStyle.Solid">
-            <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.FoodType.FirstPhase)">Eerste Fase</Radio>
-            <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.FoodType.SecondPhase)">Tweede Fase</Radio>
-            <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.FoodType.Rc365)">RC 365</Radio>
-        </RadioGroup>
-    </Col>
-</Row>
-
-<Row Class="m-2">
-    <Col Class="col-12">
-        <RadioGroup @bind-Value="@LitterType" ButtonStyle="@RadioButtonStyle.Solid">
-            <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.LitterGranuleType.Normal)">Normaal</Radio>
-            <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.LitterGranuleType.Clumping)">Klontvormend</Radio>
-            <Radio RadioButton Class="mx-1" Value="@(Contract.Entities.LitterGranuleType.Wood)">Hout korrels</Radio>
-        </RadioGroup>
-    </Col>
-</Row>
+<Check TValue="bool" @bind-Checked="@WetFoodAllowed">
+    Retour
+</Check>
+<RadioGroup TValue="@Contract.Entities.FoodType" Buttons @bind-CheckedValue="@FoodType">
+    <Radio Value="@Contract.Entities.FoodType.FirstPhase">Eerste Fase</Radio>
+    <Radio Value="@Contract.Entities.FoodType.SecondPhase">Tweede Fase</Radio>
+    <Radio Value="@Contract.Entities.FoodType.Rc365">RC 365</Radio>
+</RadioGroup>
+<RadioGroup TValue="@Contract.Entities.LitterGranuleType" Buttons @bind-CheckedValue="@LitterType">
+    <Radio Value="@Contract.Entities.LitterGranuleType.Normal">Normaal</Radio>
+    <Radio Value="@Contract.Entities.LitterGranuleType.Clumping">Klontvormend</Radio>
+    <Radio Value="@Contract.Entities.LitterGranuleType.Wood">Hout korrels</Radio>
+</RadioGroup>

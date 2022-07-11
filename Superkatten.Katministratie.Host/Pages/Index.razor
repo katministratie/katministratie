@@ -1,57 +1,58 @@
 ﻿@page "/"
 
 @using Superkatten.Katministratie.Host.Components
+@using Superkatten.Katministratie.Host.Helpers
 @using Superkatten.Katministratie.Host.Services
 @using Superkatten.Katministratie.Host.Services.Authentication
 
-@inject NavigationManager _navigationManager
+@inject Navigation _navigation
 @inject ISuperkattenListService _superkattenService
 @inject IAuthenticationService _authenticationService
 
 <PageTitle>Superkatten</PageTitle>
 
-<Row>
-    <Col Class="col-2">
+<AntDesign.Row>
+    <AntDesign.Col Class="col-2">
         <Image Src="Images/superkat.jpg"></Image>
-    </Col>
-    <Col Class="col-10">
+    </AntDesign.Col>
+    <AntDesign.Col Class="col-10">
         <h1>Superkatten katministratie</h1>
-    </Col>
-</Row>
+    </AntDesign.Col>
+</AntDesign.Row>
 
-<Row>
+<AntDesign.Row>
     
     @if (!_authenticationService.IsAuthenticated)
     {
-        <Button Block="@true" OnClick="OnRegister" Class="mb-2">
+        <AntDesign.Button Block="@true" OnClick="OnRegister" Class="mb-2">
             Register
-        </Button>
+        </AntDesign.Button>
 
-        <Button Block="@true" OnClick="OnLogin" Class="mb-2">
+        <AntDesign.Button Block="@true" OnClick="OnLogin" Class="mb-2">
             Login
-        </Button>
+        </AntDesign.Button>
     }
     else
     {
-        <Button Block="@true" OnClick="OnLogout" Class="mb-2">
+        <AntDesign.Button Block="@true" OnClick="OnLogout" Class="mb-2">
             Logout
-        </Button>
+        </AntDesign.Button>
         
-        <Button Block="@true" OnClick="OnCreateSuperkat" Class="mb-2">
+        <AntDesign.Button Block="@true" OnClick="OnCreateSuperkat" Class="mb-2">
             Nieuwe kat toevoegen
-        </Button>
+        </AntDesign.Button>
 
-        <Divider />
+        <AntDesign.Divider />
 
-        <Button Block="@true" OnClick="OnShowOverviewSuperkatten" Class="mb-2">
+        <AntDesign.Button Block="@true" OnClick="OnShowOverviewSuperkatten" Class="mb-2">
             Lijst katten
-        </Button>
+        </AntDesign.Button>
     
-        <Button Block="@true" OnClick="OnShowOverviewGastgezinnen" Class="mb-2">
+        <AntDesign.Button Block="@true" OnClick="OnShowOverviewGastgezinnen" Class="mb-2">
             Lijst gastgezinnen
-        </Button>
+        </AntDesign.Button>
     }
-</Row>
+</AntDesign.Row>
 
 @code {
     protected override Task OnInitializedAsync()
@@ -63,31 +64,31 @@
 
     private void OnRegister()
     {
-        _navigationManager.NavigateTo("Register");
+        _navigation.NavigateTo("Register");
     }
 
     private void OnLogin()
     {
-        _navigationManager.NavigateTo("Login");
+        _navigation.NavigateTo("Login");
     }
 
     private void OnLogout()
     {
-        _navigationManager.NavigateTo("Logout");
+        _navigation.NavigateTo("Logout");
     }
 
     private void OnCreateSuperkat()
     {
-        _navigationManager.NavigateTo("CreateSuperkat");
+        _navigation.NavigateTo("CreateSuperkat");
     }
 
     private void OnShowOverviewSuperkatten()
     {
-        _navigationManager.NavigateTo("OverviewSuperkatten");
+        _navigation.NavigateTo("OverviewSuperkatten");
     }
 
     private void OnShowOverviewGastgezinnen()
     {
-        _navigationManager.NavigateTo("OverviewGastgezinnen");
+        _navigation.NavigateTo("OverviewGastgezinnen");
     }
 }

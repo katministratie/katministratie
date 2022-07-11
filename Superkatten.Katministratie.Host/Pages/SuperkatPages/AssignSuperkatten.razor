@@ -1,46 +1,46 @@
 ﻿@page "/AssignSuperkatten/{GastgezinId:guid}"
 
-<Row Class="border mb-2">
-    <Col Class="col-6">
-        <Button Block="@true" OnClick="@OnClose">Terug</Button>
-    </Col>
-</Row>
+<AntDesign.Row Class="border mb-2">
+    <AntDesign.Col Class="col-6">
+        <AntDesign.Button Block="@true" OnClick="@OnClose">Terug</AntDesign.Button>
+    </AntDesign.Col>
+</AntDesign.Row>
 
-<Divider />
+<AntDesign.Divider />
         
 <h2>@_gastgezin?.Name</h2>
 
 <p>Kies de superkatten uit de beschikbare katten en koppel deze aan dit gastgezin.</p>
-<Row>
+<AntDesign.Row>
     <p>Hieruit kan je selecteren</p>
-    <Col Class="col-12">            
+    <AntDesign.Col Class="col-12">            
         @foreach(var superkat in AvailableSuperkatten)
         {
-            <Button Class="btn btn-primary" 
+            <AntDesign.Button Class="btn btn-primary" 
                 OnClick="() => AddSuperkatToSelection(superkat)">
                 <div>
                     @GetSuperkatNumber(superkat)<br>
                     @superkat.Name
                 </div>
-            </Button>
+            </AntDesign.Button>
         }
-    </Col>
-</Row>
+    </AntDesign.Col>
+</AntDesign.Row>
     
 <Divider />
     
 <p>Geselecteerde katten</p>
-<Row>
-    <Col Class="col-12">            
+<AntDesign.Row>
+    <AntDesign.Col Class="col-12">            
         @foreach(var superkat in AssignedSuperkatten)
         {
-            <Button Class="btn btn-primary" 
+            <AntDesign.Button Class="btn btn-primary" 
                 OnClick="() => RemoveSuperkatFromSelection(superkat)">
                 <div>
                     @GetSuperkatNumber(superkat)<br>
                     @superkat.Name
                 </div>
-            </Button>
+            </AntDesign.Button>
         }
-    </Col>
-</Row>
+    </AntDesign.Col>
+</AntDesign.Row>

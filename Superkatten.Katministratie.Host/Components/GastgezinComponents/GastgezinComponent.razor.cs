@@ -13,7 +13,7 @@ public partial class GastgezinComponent
     private IGastgezinService? _gastgezinService { get; set; }
     
     [Inject]
-    private Navigation _navigation { get; set; }
+    private Navigation? Navigation { get; set; }
 
 
     [Parameter]
@@ -59,7 +59,7 @@ public partial class GastgezinComponent
             return;
         }
 
-        _navigation.NavigateTo($"/AssignSuperkatten/{_gastgezin.Id}");
+        Navigation.NavigateTo($"/AssignSuperkatten/{_gastgezin.Id}");
     }
 
     private async Task OnFinishEdit()

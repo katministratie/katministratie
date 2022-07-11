@@ -2,59 +2,55 @@
 
 @using Superkatten.Katministratie.Host.Services
 
-@inject NavigationManager _navigationManager
-@inject IGastgezinService _gastgezinService
-@inject MessageService _message
-
 <h3>Aanmaken van een gastgezin</h3>
 
 <PageTitle>Nieuwe superkat</PageTitle>
 
-<Row Class="mb-2">
-    <Col Class="col-4">
+<AntDesign.Row Class="mb-2">
+    <AntDesign.Col Class="col-4">
         <Button Block="@true" Disabled="@ValidName" OnClick="@OnOk">Ok</Button>
-    </Col>
-    <Col Class="col-4">
+    </AntDesign.Col>
+    <AntDesign.Col Class="col-4">
         <Button Block="@true" OnClick="@OnCancel">Terug</Button>
-    </Col>
+    </AntDesign.Col>
+</AntDesign.Row>
+
+<AntDesign.Row Class="mb-2">
+    <AntDesign.Col Class="col-12">
+        <AntDesign.Input Placeholder="Voer de naam in"  Size="@AntDesign.InputSize.Large" @bind-Value="@GastgezinData.Name" >
+            <Prefix>
+                <AntDesign.Icon Type="border-inner" />
+            </Prefix>
+        </AntDesign.Input>
+    </AntDesign.Col>
+</AntDesign.Row>
+
+<Row Class="mb-2">
+    <AntDesign.Col Class="col-12">
+        <AntDesign.Input Placeholder="Voer het adres in"  Size="@AntDesign.InputSize.Large" @bind-Value="@GastgezinData.Address" >
+            <Prefix>
+                <AntDesign.Icon Type="border-inner" />
+            </Prefix>
+        </AntDesign.Input>
+    </AntDesign.Col>
 </Row>
 
 <Row Class="mb-2">
-    <Col Class="col-12">
-        <Input Placeholder="Voer de naam in"  Size="@InputSize.Large" @bind-Value="@GastgezinData.Name" >
+    <AntDesign.Col Class="col-12">
+        <AntDesign.Input Placeholder="Voer de woonplaats in"  Size="@AntDesign.InputSize.Large" @bind-Value="@GastgezinData.City" >
             <Prefix>
-                <Icon Type="border-inner" />
+                <AntDesign.Icon Type="border-inner" />
             </Prefix>
-        </Input>
-    </Col>
+        </AntDesign.Input>
+    </AntDesign.Col>
 </Row>
 
 <Row Class="mb-2">
-    <Col Class="col-12">
-        <Input Placeholder="Voer het adres in"  Size="@InputSize.Large" @bind-Value="@GastgezinData.Address" >
+    <AntDesign.Col Class="col-12">
+        <AntDesign.Input Placeholder="Voer het telefoonnummer in"  Size="@AntDesign.InputSize.Large" @bind-Value="@GastgezinData.Phone" >
             <Prefix>
                 <Icon Type="border-inner" />
             </Prefix>
-        </Input>
-    </Col>
-</Row>
-
-<Row Class="mb-2">
-    <Col Class="col-12">
-        <Input Placeholder="Voer de woonplaats in"  Size="@InputSize.Large" @bind-Value="@GastgezinData.City" >
-            <Prefix>
-                <Icon Type="border-inner" />
-            </Prefix>
-        </Input>
-    </Col>
-</Row>
-
-<Row Class="mb-2">
-    <Col Class="col-12">
-        <Input Placeholder="Voer het telefoonnummer in"  Size="@InputSize.Large" @bind-Value="@GastgezinData.Phone" >
-            <Prefix>
-                <Icon Type="border-inner" />
-            </Prefix>
-        </Input>
-    </Col>
+        </AntDesign.Input>
+    </AntDesign.Col>
 </Row>

@@ -15,18 +15,18 @@
     return;
 }
 
-<Row Class="mb-2">
-    <Col Class="col-9">
+<AntDesign.Row Class="mb-2">
+    <AntDesign.Col Class="col-9">
         <Button Block="@true" OnClick="@OnBackHome">Terug</Button>
-    </Col>
-    <Col Class="col-3">
-        <Button>
-            <Checkbox @bind-Checked="@_enableSimpleListView" OnChange="@OnChangeSimpleListView">
+    </AntDesign.Col>
+    <AntDesign.Col Class="col-3">
+        <AntDesign.Button>
+            <AntDesign.Checkbox @bind-Checked="@_enableSimpleListView" OnChange="@OnChangeSimpleListView">
                 Simple
-            </Checkbox>
-        </Button>
-    </Col>
-</Row>
+            </AntDesign.Checkbox>
+        </AntDesign.Button>
+    </AntDesign.Col>
+</AntDesign.Row>
 
 @if (!Superkatten.Any())
 {

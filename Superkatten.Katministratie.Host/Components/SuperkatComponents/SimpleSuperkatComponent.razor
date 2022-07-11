@@ -4,18 +4,22 @@
 
 @if (SuperkatView is null)
 {
-    <Spin />
+    <AntDesign.Spin />
     return;
 }
 
-<Row Class="mb-1 border-bottom">
-    <Col class="col-12">
-        <h5 class="p-1">
+<Row>
+    <Column ColumnSize="ColumnSize.Is1">
             <BehaviourComponent Behaviour="@SuperkatView.Behaviour" />
-            @SuperkatView.UserFriendlyNumber
+    </Column>
+    <Column ColumnSize="ColumnSize.Is5">
+            <Field>@SuperkatView.UserFriendlyNumber</Field>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is2">
             <SuperkatGenderComponent GenderView="@SuperkatView.Gender"/>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is4">
             <SuperkatActions SuperkatView="@SuperkatView" OnActionExecuted="@ReloadSuperkatData" />
-        </h5>
-    </Col>
+    </Column>
 </Row>
 

@@ -1,8 +1,9 @@
-﻿using AntDesign;
+﻿using Blazorise;
 using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Helpers;
+using Superkatten.Katministratie.Host.Services;
 
 namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 
@@ -10,7 +11,8 @@ public partial class CreateSuperkat
 {
     public const int MAX_HOKNUMBER_ALLOWED = 50;
 
-    public DateTime CatchDate = DateTime.UtcNow;
+    public DatePicker<DateTime?> datePicker;
+    public DateTime? CatchDate = DateTime.UtcNow;
     public string CatchLocation = string.Empty;
     public CatArea CatArea = CatArea.Quarantine;
     public int CageNumber = 1;
@@ -27,35 +29,49 @@ public partial class CreateSuperkat
 
 
     [Inject]
-    public Navigation Navigation { get; set; }
-    private bool ValidCatchLocation => string.IsNullOrWhiteSpace(CatchLocation);
+    public Navigation? Navigation { get; set; }
 
-    private void OnChangeCatchDate(DateTimeChangedEventArgs args)
-    {
-        CatchDate = args.Date;
-    }
+    [Inject]
+    public ISuperkattenListService? SuperkattenService { get; set; }
+
+    [Inject]
+    public AntDesign.MessageService? Message { get; set; }
+
+    [Inject]
+    public AntDesign.NotificationService? Notice { get; set; }
+
+    private bool CanEnterHokNumber => CatArea != CatArea.SmallEnclosure && CatArea != CatArea.BigEnclosure;
 
     public async Task OnOk()
     {
-        await StoreSuperkat();
-        Navigation.NavigateBack();
+        var isSuccess = await StoreSuperkatAsync();
+        if (isSuccess)
+        {
+            Navigation?.NavigateBack();
+        }
     }
 
     public async Task OnOkNoReturn()
     {
-        await StoreSuperkat();
+        await StoreSuperkatAsync();
     }
 
     public void OnCancel()
     {
-        Navigation.NavigateBack();
+        Navigation?.NavigateBack();
     }
 
-    private async Task StoreSuperkat()
+    private async Task<bool> StoreSuperkatAsync()
     {
+        if (string.IsNullOrEmpty(CatchLocation))
+        {
+            _ = Message?.Error($"Vul de plaats waar de kat gevangen is in.", 1);
+            return false;
+        }
+
         var createSuperkatParameters = new CreateSuperkatParameters()
         {
-            CatchDate = CatchDate,
+            CatchDate = CatchDate ?? DateTime.UtcNow,
             CatchLocation = CatchLocation,
             CatArea = CatArea,
             CageNumber = CageNumber,
@@ -69,13 +85,14 @@ public partial class CreateSuperkat
             CatColor = CatColor,
             EstimatedWeeksOld = EstimatedWeeksOld
         };
-        var superkat = await _superkattenService.CreateSuperkatAsync(createSuperkatParameters);
+        var superkat = await SuperkattenService.CreateSuperkatAsync(createSuperkatParameters);
         if (superkat is null)
         {
-            await _message.Error($"Fout bij het opslaan van de nieuwe superkat.", 2);
-            return;
+            _ = Message?.Error($"Fout bij het opslaan van de nieuwe superkat.", 1);
+            return false;
         }
 
-        _ = _message.Success($"Superkat {superkat.CatchDate.Year % 100}-{superkat.Number.ToString("000")} is aangemaakt", 3);        
+        _ = Message?.Success($"Superkat {superkat.CatchDate.Year % 100}-{superkat.Number:000} is aangemaakt", 2);
+        return true;
     }
 }

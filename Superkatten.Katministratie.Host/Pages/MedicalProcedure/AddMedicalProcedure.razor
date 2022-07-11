@@ -5,41 +5,41 @@
 
 <h3>Toevoegen medische handeling voor kat @SuperkatNumber</h3>
 
-<Row Class="border mb-2">
-    <Col Class="col-6">
+<AntDesign.Row Class="border mb-2">
+    <AntDesign.Col Class="col-6">
         <Button Block="@true" OnClick="@OnOk">Ok</Button>
-    </Col>
-    <Col Class="col-6">
+    </AntDesign.Col>
+    <AntDesign.Col Class="col-6">
         <Button Block="@true" OnClick="@OnCancel">Terug</Button>
-    </Col>
-</Row>
+    </AntDesign.Col>
+</AntDesign.Row>
 
-<Divider />
+<AntDesign.Divider />
 
 <HeaderItem Titel="Datum:" />
-<DatePicker
+<AntDesign.DatePicker
     Bordered="@false" 
     TValue="DateTime?" 
-    Picker="@DatePickerType.Date" 
+    Picker="@AntDesign.DatePickerType.Date" 
     OnChange="@OnChangeDate" 
     DefaultValue="@DateTime.UtcNow" />
 
 <HeaderItem Titel="Medische handeling:" />
-<Row Class="m-2">
-    <Col Class="col-12">
-        <RadioGroup @bind-Value="@ProcedureType" ButtonStyle="@RadioButtonStyle.Solid">
-            <Radio RadioButton Value="@(MedicalProcedureType.Stronghold)">Stronghold</Radio>
-            <Radio RadioButton Value="@(MedicalProcedureType.Neutralize)">Neutraliseren</Radio>
-            <Radio RadioButton Value="@(MedicalProcedureType.Checkup)">Controle</Radio>
-            <Radio RadioButton Value="@(MedicalProcedureType.Sickness)">Ziekte/Ongeluk</Radio>
-        </RadioGroup>
-    </Col>
-</Row>
+<AntDesign.Row Class="m-2">
+    <AntDesign.Col Class="col-12">
+        <AntDesign.RadioGroup @bind-Value="@ProcedureType" ButtonStyle="@AntDesign.RadioButtonStyle.Solid">
+            <AntDesign.Radio RadioButton Value="@(MedicalProcedureType.Stronghold)">Stronghold</AntDesign.Radio>
+            <AntDesign.Radio RadioButton Value="@(MedicalProcedureType.Neutralize)">Neutraliseren</AntDesign.Radio>
+            <AntDesign.Radio RadioButton Value="@(MedicalProcedureType.Checkup)">Controle</AntDesign.Radio>
+            <AntDesign.Radio RadioButton Value="@(MedicalProcedureType.Sickness)">Ziekte/Ongeluk</AntDesign.Radio>
+        </AntDesign.RadioGroup>
+    </AntDesign.Col>
+</AntDesign.Row>
 
 <HeaderItem Titel="Opmerking:" />
 
-<Row Class="m-2">
-    <Col Class="col-12">
-        <Input Value="@Remark" />
-    </Col>
-</Row>
+<AntDesign.Row Class="m-2">
+    <AntDesign.Col Class="col-12">
+        <AntDesign.Input Value="@Remark" />
+    </AntDesign.Col>
+</AntDesign.Row>
