@@ -11,48 +11,31 @@
 
 <PageTitle>Superkatten</PageTitle>
 
-<AntDesign.Row>
-    <AntDesign.Col Class="col-2">
+<Row>    
+    <Column ColumnSize="ColumnSize.Is5">
         <Image Src="Images/superkat.jpg"></Image>
-    </AntDesign.Col>
-    <AntDesign.Col Class="col-10">
+    </Column>
+    <Column ColumnSize="ColumnSize.Is7">
         <h1>Superkatten katministratie</h1>
-    </AntDesign.Col>
-</AntDesign.Row>
+    </Column>
+</Row>
 
-<AntDesign.Row>
-    
-    @if (!_authenticationService.IsAuthenticated)
-    {
-        <AntDesign.Button Block="@true" OnClick="OnRegister" Class="mb-2">
-            Register
-        </AntDesign.Button>
 
-        <AntDesign.Button Block="@true" OnClick="OnLogin" Class="mb-2">
-            Login
-        </AntDesign.Button>
-    }
-    else
-    {
-        <AntDesign.Button Block="@true" OnClick="OnLogout" Class="mb-2">
-            Logout
-        </AntDesign.Button>
-        
-        <AntDesign.Button Block="@true" OnClick="OnCreateSuperkat" Class="mb-2">
-            Nieuwe kat toevoegen
-        </AntDesign.Button>
+@if (!_authenticationService.IsAuthenticated)
+{
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnRegister">Register</Button>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnLogin">Login</Button>
+}
+else
+{
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnLogout">Logout</Button>
+    <Divider />
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateSuperkat">Nieuwe kat</Button>
+    <Divider />
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowOverviewSuperkatten">Katten</Button>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowOverviewGastgezinnen">Gastgezinnen</Button>
+}
 
-        <AntDesign.Divider />
-
-        <AntDesign.Button Block="@true" OnClick="OnShowOverviewSuperkatten" Class="mb-2">
-            Lijst katten
-        </AntDesign.Button>
-    
-        <AntDesign.Button Block="@true" OnClick="OnShowOverviewGastgezinnen" Class="mb-2">
-            Lijst gastgezinnen
-        </AntDesign.Button>
-    }
-</AntDesign.Row>
 
 @code {
     protected override Task OnInitializedAsync()
