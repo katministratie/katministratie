@@ -7,41 +7,18 @@
 @inject IAuthenticationService AuthenticationService
 @inject NavigationManager NavigationManager
 
-<AntDesign.Row Class="mb-2">
-    <AntDesign.Col Class="col-12">
-        <AntDesign.Button Block="@true" OnClick="@OnBackHome">Terug</AntDesign.Button>
-    </AntDesign.Col>
-</AntDesign.Row>
+<Button Size="Size.Large" Color="Color.Primary" Clicked="@OnBackHome">Terug</Button>
 
-<div class="col-md-6 offset-md-3 mt-5">
-    <div class="card">
-        <h4 class="card-header">Katministratie Login</h4>
-        <div class="card-body">
-            <EditForm Model="@model" OnValidSubmit="HandleValidSubmit">
-                <DataAnnotationsValidator />
-                <div class="form-group">
-                    <label>Username</label>
-                    <InputText @bind-Value="model.Username" class="form-control" />
-                    <ValidationMessage For="@(() => model.Username)" />
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <InputText @bind-Value="model.Password" type="password" class="form-control" />
-                    <ValidationMessage For="@(() => model.Password)" />
-                </div>
-                <button class="btn btn-primary">
-                    @if (loading) {
-                        <span class="spinner-border spinner-border-sm mr-1"></span>
-                    }
-                    Login
-                </button>
-                @if (!string.IsNullOrEmpty(error)) {
-                    <div class="alert alert-danger mt-3 mb-0">@error</div>
-                }
-            </EditForm>
-        </div>
-    </div>
-</div>
+
+<Field>
+    <TextEdit Placeholder="Username" Role="TextRole.Email" @bind-Text="@model.Username" MaskType="MaskType.RegEx" EditMask="^[a-z]*$" />
+    <TextEdit Placeholder="Wachtwoord" Role="TextRole.Password" @bind-Text="@model.Password" />
+
+    <Button Size="Size.Large" Color="Color.Primary" Clicked="@HandleValidSubmit">Ok</Button>
+    <Button Size="Size.Large" Color="Color.Primary" Clicked="@OnBackHome">Terug</Button>
+</Field>
+
+
 
 @code {
     private Model model = new Model();

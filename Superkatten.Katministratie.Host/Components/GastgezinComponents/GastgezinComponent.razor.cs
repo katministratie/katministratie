@@ -59,7 +59,7 @@ public partial class GastgezinComponent
             return;
         }
 
-        Navigation.NavigateTo($"/AssignSuperkatten/{_gastgezin.Id}");
+        Navigation?.NavigateTo($"/AssignSuperkatten/{_gastgezin.Id}");
     }
 
     private async Task OnFinishEdit()

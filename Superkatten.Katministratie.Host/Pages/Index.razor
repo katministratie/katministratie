@@ -21,7 +21,7 @@
 </Row>
 
 
-@if (!_authenticationService.IsAuthenticated)
+@if (!IsAuthenticated)
 {
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnRegister">Register</Button>
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnLogin">Login</Button>
@@ -36,28 +36,70 @@ else
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowOverviewGastgezinnen">Gastgezinnen</Button>
 }
 
+<Modal @ref="modalRef">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Inloggen</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Field>
+                <FieldLabel>Gebruikersnaam</FieldLabel>
+                <TextEdit Role="TextRole.Text" 
+                          MaskType="MaskType.RegEx" 
+                          EditMask="^[a-z]*$" 
+                          @bind-Text="@loginModel.Username" 
+                          Placeholder="Vul de gebruikersnaam in..." 
+                          KeyPress="@OnKeyPress"/>
+            </Field>
+            <Field>
+                <FieldLabel>Wachtwoord</FieldLabel>
+                <TextEdit Role="TextRole.Password" 
+                          @bind-Text="@loginModel.Password" 
+                          Placeholder="Vul je wachtwoord in..."
+                          KeyPress="@OnKeyPress"/>
+            </Field>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideModal">Sluiten</Button>
+            <Button Color="Color.Primary" Clicked="@SaveAndHideModal">Ok</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
 
 @code {
-    protected override Task OnInitializedAsync()
+    private class LoginModel
     {
-        _authenticationService.InitializeAsync();
-        return base.OnInitializedAsync();
+        public string Username { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+
+        public bool AllFilledIn => !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password);
     }
 
+    private LoginModel? loginModel;
+    private Modal modalRef;
+    private bool IsAuthenticated => _authenticationService.IsAuthenticated;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await _authenticationService.InitializeAsync();
+    }
 
     private void OnRegister()
     {
         _navigation.NavigateTo("Register");
     }
 
-    private void OnLogin()
+    private async Task OnLogin()
     {
-        _navigation.NavigateTo("Login");
+        loginModel = new();
+        await modalRef.Show();
     }
 
-    private void OnLogout()
+    private async Task OnLogout()
     {
-        _navigation.NavigateTo("Logout");
+        await _authenticationService.LogoutAsync();
     }
 
     private void OnCreateSuperkat()
@@ -73,5 +115,26 @@ else
     private void OnShowOverviewGastgezinnen()
     {
         _navigation.NavigateTo("OverviewGastgezinnen");
+    }
+
+    private Task HideModal()
+    {
+        return modalRef.Hide();
+    }
+
+    private async Task SaveAndHideModal()
+    {
+        await _authenticationService.AuthenticateUserAsync(loginModel.Username, loginModel.Password);
+        await modalRef.Hide();
+    }
+
+    private async Task OnKeyPress(KeyboardEventArgs eventArgs)
+    {
+        if(eventArgs.Key != "Enter" || !loginModel.AllFilledIn)
+        {
+            return;
+        }
+
+        await SaveAndHideModal();        
     }
 }
