@@ -1,19 +1,19 @@
-﻿<Form class="mb-2" OnFinish="@OnFinishOk" OnFinishFailed="@OnFinishFail"  Model="@_gastgezinData" >
-    <AntDesign.FormItem Label="Naam">
-        <AntDesign.Input @bind-Value="@_gastgezinData.Name"/>
-    </AntDesign.FormItem>
-    <AntDesign.FormItem Label="Adres">
-        <AntDesign.Input @bind-Value="@_gastgezinData.Address"/>
-    </AntDesign.FormItem>
-    <AntDesign.FormItem Label="Woonplaats">
-        <AntDesign.Input @bind-Value="@_gastgezinData.City"/>
-    </AntDesign.FormItem>
-    <AntDesign.FormItem Label="Telefoon">
-        <AntDesign.Input @bind-Value="@_gastgezinData.Phone"/>
-    </AntDesign.FormItem>
-    <AntDesign.FormItem WrapperColOffset="8" WrapperColSpan="16">
-        <Button Type="@ButtonType.Button" HtmlType="submit">
-            Ok
-        </Button>
-    </AntDesign.FormItem>
-</Form>
+﻿<Button Size="Size.Large" Color="Color.Primary" Clicked="@OnEditOk">Ok</Button>
+<Button Size="Size.Large" Color="Color.Primary" Clicked="@OnEditCancel">Cancel</Button>
+
+<Field>
+    <FieldLabel>Naam</FieldLabel>
+    <TextEdit @bind-Text="@_gastgezinData.Name" />
+</Field>
+<Field>
+    <FieldLabel>Address</FieldLabel>
+    <TextEdit @bind-Text="@_gastgezinData.Address" />
+</Field>
+<Field>
+    <FieldLabel>Woonplaats</FieldLabel>
+    <TextEdit @bind-Text="@_gastgezinData.City" />
+</Field>
+<Field>
+    <FieldLabel>Telefoon nummer</FieldLabel>
+    <TextEdit @bind-Text="@_gastgezinData.Phone" />
+</Field>

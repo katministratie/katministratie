@@ -6,51 +6,24 @@
 
 <PageTitle>Nieuwe superkat</PageTitle>
 
-<AntDesign.Row Class="mb-2">
-    <AntDesign.Col Class="col-4">
-        <Button Block="@true" Disabled="@ValidName" OnClick="@OnOk">Ok</Button>
-    </AntDesign.Col>
-    <AntDesign.Col Class="col-4">
-        <Button Block="@true" OnClick="@OnCancel">Terug</Button>
-    </AntDesign.Col>
-</AntDesign.Row>
+<Button Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Ok</Button>
+<Button Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
 
-<AntDesign.Row Class="mb-2">
-    <AntDesign.Col Class="col-12">
-        <AntDesign.Input Placeholder="Voer de naam in"  Size="@AntDesign.InputSize.Large" @bind-Value="@GastgezinData.Name" >
-            <Prefix>
-                <AntDesign.Icon Type="border-inner" />
-            </Prefix>
-        </AntDesign.Input>
-    </AntDesign.Col>
-</AntDesign.Row>
+<AntDesign.Divider />
 
-<Row Class="mb-2">
-    <AntDesign.Col Class="col-12">
-        <AntDesign.Input Placeholder="Voer het adres in"  Size="@AntDesign.InputSize.Large" @bind-Value="@GastgezinData.Address" >
-            <Prefix>
-                <AntDesign.Icon Type="border-inner" />
-            </Prefix>
-        </AntDesign.Input>
-    </AntDesign.Col>
-</Row>
-
-<Row Class="mb-2">
-    <AntDesign.Col Class="col-12">
-        <AntDesign.Input Placeholder="Voer de woonplaats in"  Size="@AntDesign.InputSize.Large" @bind-Value="@GastgezinData.City" >
-            <Prefix>
-                <AntDesign.Icon Type="border-inner" />
-            </Prefix>
-        </AntDesign.Input>
-    </AntDesign.Col>
-</Row>
-
-<Row Class="mb-2">
-    <AntDesign.Col Class="col-12">
-        <AntDesign.Input Placeholder="Voer het telefoonnummer in"  Size="@AntDesign.InputSize.Large" @bind-Value="@GastgezinData.Phone" >
-            <Prefix>
-                <Icon Type="border-inner" />
-            </Prefix>
-        </AntDesign.Input>
-    </AntDesign.Col>
-</Row>
+<Field>
+    <FieldLabel>Naam:</FieldLabel>
+    <TextEdit Placeholder="Naam gezin" @bind-Text="@GastgezinData.Name"/>
+</Field>
+<Field>
+    <FieldLabel>Adres:</FieldLabel>
+    <TextEdit Placeholder="Naam gezin" @bind-Text="@GastgezinData.Address"/>
+</Field>
+<Field>
+    <FieldLabel>Woonplaats:</FieldLabel>
+    <TextEdit Placeholder="Naam gezin" @bind-Text="@GastgezinData.City"/>
+</Field>
+<Field>
+    <FieldLabel>Telefoon:</FieldLabel>
+    <TextEdit Placeholder="Naam gezin" @bind-Text="@GastgezinData.Phone"/>
+</Field>

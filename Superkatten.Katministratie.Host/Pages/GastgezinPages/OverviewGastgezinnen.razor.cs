@@ -38,7 +38,7 @@ public partial class OverviewGastgezinnen
 
     private void OnBackHome()
     {
-        _navigation.NavigateBack();
+        _navigation.NavigateTo("/");
     }
 
     public void OnCreateGastgezin()

@@ -11,7 +11,7 @@
     </Column>
     <Column ColumnSize="ColumnSize.Is2">
         <Div Position="Position.Absolute.Bottom.Is0">
-            <Check TValue="bool" CheckedChanged="@OnChangeSimpleListView">Simple</Check>
+            <Check TValue="bool" Checked="@_showSimpleListView" CheckedChanged="@OnChangeSimpleListViewAsync" >Simple</Check>
         </Div>
     </Column>
 </Row>

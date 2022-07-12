@@ -21,17 +21,17 @@ public partial class OverviewSuperkatten
     private ISuperkatActionService _superkatActionService { get; set; }
 
 
-    private string LoadingInfoMessage { get; set; } = string.Empty;
     private List<Superkat> Superkatten { get; set; } = new();
 
     private bool _showSimpleListView = false;
 
-    private async Task OnChangeSimpleListView()
+    private async Task OnChangeSimpleListViewAsync()
     {
         Superkatten.Clear();
+        
         _showSimpleListView = !_showSimpleListView;
 
-        await _localStorageService.SetItem<bool>(
+        await _localStorageService.SetItem(
             LocalStorageItems.LOCALSTORAGE_SETTING_SUPERKATTENLIST_TYPE,
             _showSimpleListView);
 
@@ -40,11 +40,7 @@ public partial class OverviewSuperkatten
 
     protected override async Task OnInitializedAsync()
     {
-        LoadingInfoMessage = "Inlezen van alle superkatten";
-
-        var enableSimpleListView = await _localStorageService.GetItem<bool>(LocalStorageItems.LOCALSTORAGE_SETTING_SUPERKATTENLIST_TYPE);
-        _showSimpleListView = enableSimpleListView;
-
+        _showSimpleListView = await _localStorageService.GetItem<bool>(LocalStorageItems.LOCALSTORAGE_SETTING_SUPERKATTENLIST_TYPE);
         await UpdateListAsync();
     }
 
@@ -58,13 +54,11 @@ public partial class OverviewSuperkatten
         var superkatten = await _superkattenService.GetAllSuperkattenAsync();
         if (superkatten is null)
         {
-            LoadingInfoMessage = "Iets ging fout met inlezen.";
             return;
         }
 
         if (superkatten?.Count == 0)
         {
-            LoadingInfoMessage = "Geen superkatten beschikbaar.";
             return;
         }
 
