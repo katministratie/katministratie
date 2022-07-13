@@ -23,8 +23,8 @@ public partial class AssignSuperkatten
     [Parameter]
     public EventCallback OnFinish { get; set; }
 
-    private Gastgezin? _gastgezin;
 
+    private Gastgezin? _gastgezin;
     private List<Superkat> AssignedSuperkatten { get; set; } = new();
     private List<Superkat> AvailableSuperkatten { get; set; } = new();
 
@@ -50,7 +50,7 @@ public partial class AssignSuperkatten
 
         superkatten = await _superkattenService.GetAllSuperkattenAsync();
         AssignedSuperkatten = superkatten
-            .Where(o => o.GastgezinId == _gastgezin.Id)
+            .Where(o => o.GastgezinId == _gastgezin?.Id)
             .OrderByDescending(s => s.Number)
             .ToList();
     }
@@ -60,17 +60,17 @@ public partial class AssignSuperkatten
         return superkat.CatchDate.Year.ToString() + "-" + superkat.Number.ToString("000");
     }
 
-    private async Task AddSuperkatToSelection(Superkat superkat)
+    private Task AddSuperkatToSelectionAsync(Superkat superkat)
     {
         if (_superkattenService is null)
         {
-            return;
+            return Task.CompletedTask;
         }
 
         AvailableSuperkatten.Remove(superkat);
         AssignedSuperkatten.Add(superkat);
 
-        await _superkattenService.UpdateSuperkatAsync(
+        return _superkattenService.UpdateSuperkatAsync(
             superkat.Id,
             new UpdateSuperkatParameters
             {
@@ -79,18 +79,18 @@ public partial class AssignSuperkatten
         );
     }
 
-    private async Task RemoveSuperkatFromSelection(Superkat superkat)
+    private Task RemoveSuperkatFromSelection(Superkat superkat)
     {
         if (_superkattenService is null)
         {
-            return;
+            return Task.CompletedTask;
         }
 
         AvailableSuperkatten.Add(superkat);
         AssignedSuperkatten.Remove(superkat);
 
         // Remove by having null as guid
-        await _superkattenService.UpdateSuperkatAsync(superkat.Id, new UpdateSuperkatParameters());
+        return _superkattenService.UpdateSuperkatAsync(superkat.Id, new UpdateSuperkatParameters());
     }
 
     private async Task OnClose()

@@ -42,21 +42,12 @@ public partial class CreateSuperkat
 
     private bool CanEnterHokNumber => CatArea != CatArea.SmallEnclosure && CatArea != CatArea.BigEnclosure;
 
-    public async Task OnOk()
-    {
-        var isSuccess = await StoreSuperkatAsync();
-        if (isSuccess)
-        {
-            Navigation?.NavigateBack();
-        }
-    }
-
-    public async Task OnOkNoReturn()
+    public async Task OnAddSuperkat()
     {
         await StoreSuperkatAsync();
     }
 
-    public void OnCancel()
+    public void OnStopAndReturn()
     {
         Navigation?.NavigateBack();
     }

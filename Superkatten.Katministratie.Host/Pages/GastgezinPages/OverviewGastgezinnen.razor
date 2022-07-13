@@ -5,15 +5,15 @@
 
 <PageTitle>Gastgezinnen</PageTitle>
 
-<Button Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateGastgezin">Toevoegen gastgezin</Button>
-<Button Size="Size.Large" Color="Color.Primary" Clicked="@OnBackHome">Terug</Button>
+<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateGastgezin">Toevoegen gastgezin</Button>
+<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnBackHome">Terug</Button>
 
 <Divider />
 
 @if (!_gastgezinnen.Any())
 {    
     <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
-        <SpinKit Type="SpinKitType.Chase" Size="20px"/>
+        <SpinKit Type="SpinKitType.Chase" Size="60px"/>
     </Div>
     return;
 }

@@ -7,7 +7,7 @@
 
 <Row>
     <Column ColumnSize="ColumnSize.Is10">
-        <Button Size="Size.Large" Color="Color.Primary" Clicked="@OnBackHome">Terug</Button>
+        <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnBackHome">Terug</Button>
     </Column>
     <Column ColumnSize="ColumnSize.Is2">
         <Div Position="Position.Absolute.Bottom.Is0">
@@ -21,7 +21,7 @@
 @if (!Superkatten.Any())
 {    
     <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
-        <SpinKit Type="SpinKitType.Chase" Size="20px"/>
+        <SpinKit Type="SpinKitType.Chase" Size="60px"/>
     </Div>
     return;
 }
