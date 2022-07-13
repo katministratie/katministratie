@@ -13,16 +13,16 @@ public partial class GastgezinEditComponent
     private IGastgezinService? _gastgezinService { get; set; }
 
     [Parameter]
-    public Gastgezin? Gastgezin
-    {
+    public Gastgezin? Gastgezin 
+    { 
         set
         {
             if (value is null)
             {
                 return;
             }
-            _gastgezinId = value.Id;
 
+            _gastgezinData.Id = value.Id;
             _gastgezinData.Name = value.Name;
             _gastgezinData.Address = value.Address ?? string.Empty;
             _gastgezinData.City = value.City ?? string.Empty;
@@ -33,24 +33,21 @@ public partial class GastgezinEditComponent
     [Parameter]
     public EventCallback OnFinish { get; set; }
 
-
-    private Guid _gastgezinId = Guid.Empty;
-    private HostFamilyNawData _gastgezinData { get; set; } = new();
-
-    private async Task OnFinishOk(EditContext editContext)
+    private GastgezinData _gastgezinData = new();
+    private async Task OnEditOk()
     {
         await StoreAsync();
         await OnFinish.InvokeAsync();
     }
 
-    private Task OnFinishFail(EditContext editContext)
+    private Task OnEditCancel()
     {
         return OnFinish.InvokeAsync();
     }
 
     private async Task StoreAsync()
     {
-        if (_gastgezinId == Guid.Empty)
+        if (_gastgezinData.Id is null)
         {
             return;
         }
@@ -63,6 +60,15 @@ public partial class GastgezinEditComponent
             Phone = _gastgezinData.Phone
         };
 
-        await _gastgezinService!.UpdateGastgezinAsync(_gastgezinId, updateGastgezinParameters);
+        await _gastgezinService!.UpdateGastgezinAsync((Guid)_gastgezinData.Id, updateGastgezinParameters);
+    }
+
+    private class GastgezinData
+    {
+        public Guid? Id;
+        public string Name = string.Empty;
+        public string Address = string.Empty;
+        public string City = string.Empty;
+        public string Phone = string.Empty;
     }
 }

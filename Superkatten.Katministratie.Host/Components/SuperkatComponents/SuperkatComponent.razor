@@ -4,15 +4,15 @@
 
 @if (SuperkatView is null)
 {
-    <Spin />
+    <AntDesign.Spin />
     return;
 }
 
-<Row Class="mb-2 border">
-    <Col class="col-xl-1 col-lg-1 col-md-3 col-4 d-flex align-items-center justify-content-center">
-        <Image Width="100px" Src=".\images\superkat.jpg" /><br />
-    </Col>
-    <Col class="col-xl-11 col-lg-11 col-md-9 col-8">
+<AntDesign.Row Class="mb-2 border">
+    <AntDesign.Col class="col-xl-1 col-lg-1 col-md-3 col-4 d-flex align-items-center justify-content-center">
+        <AntDesign.Image Width="100px" Src=".\images\superkat.jpg" /><br />
+    </AntDesign.Col>
+    <AntDesign.Col class="col-xl-11 col-lg-11 col-md-9 col-8">
         <h5 class="p-1 bg-black text-white">
             <BehaviourComponent Behaviour="@SuperkatView.Behaviour" />
             <span>
@@ -31,5 +31,5 @@
         <div class="mb-0 pt-1">
             <SuperkatActions SuperkatView="@SuperkatView" OnActionExecuted="@ReloadSuperkatData" />
         </div>
-    </Col>
-</Row>
+    </AntDesign.Col>
+</AntDesign.Row>

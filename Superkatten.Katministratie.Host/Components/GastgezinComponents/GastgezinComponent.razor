@@ -1,36 +1,35 @@
-﻿@using Superkatten.Katministratie.Host.Entities
+﻿@using Blazorise.SpinKit
+@using Superkatten.Katministratie.Host.Entities
 
 @if(Gastgezin is null)
 {
-    <Row Class="mb-2 border">...</Row>
+    <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
+        <SpinKit Type="SpinKitType.Chase" Size="40px"/>
+    </Div>
     return;
 }
 
-<Row Class="mb-2 border">
-    <Col class="col-xl-1 col-lg-1 col-md-3 col-4 d-flex align-items-center justify-content-center">
+<Row Border="Border.Is1" Margin="Margin.Is1">
+    <Column ColumnSize="ColumnSize.Is1.OnDesktop.Is4.OnMobile">
         <span class="material-icons" style="font-size:100px;">group</span>
-    </Col>
-    <Col class="col-xl-11 col-lg-11 col-md-9 col-8">
-        <h5 class="p-1 bg-white text-white">
-            @if (_editMode == HostFamilyComponentEditMode.DisplayDetailsOnly)
-            {
-                <Button OnClick="@OnEdit"><span class="material-icons">edit</span></Button>
-                <Button OnClick="@OnDelete"><span class="material-icons">delete</span></Button>
-                <Button OnClick="@OnAssignSuperkat"><span class="material-icons">pets</span></Button>
-            }
-        </h5>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is11.OnDesktop.Is8.OnMobile">
+        @if (_editMode == HostFamilyComponentEditMode.DisplayDetailsOnly)
+        {
+            <Button Padding="Padding.Is0" Color="Color.Primary" Clicked="@OnEdit"><span class="material-icons">edit</span></Button>
+            <Button Padding="Padding.Is0"Color="Color.Primary" Clicked="@OnDelete"><span class="material-icons">delete</span></Button>
+            <Button Padding="Padding.Is0"Color="Color.Primary" Clicked="@OnAssignSuperkat"><span class="material-icons">pets</span></Button>
+        }
 
         @switch(_editMode)
         {
             case HostFamilyComponentEditMode.DisplayDetailsOnly:
-                <div class="mb-2">
-                    <GastgezinDetailsComponent Gastgezin="@Gastgezin" />
-                </div>
+                <GastgezinDetailsComponent Gastgezin="@Gastgezin" />
                 break;
 
             case HostFamilyComponentEditMode.EditGastgezinNaw:
                 <GastgezinEditComponent Gastgezin="@Gastgezin" OnFinish="@OnFinishEdit" />
                 break;
         }
-    </Col>
+    </Column>
 </Row>

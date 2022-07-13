@@ -59,7 +59,6 @@ namespace Superkatten.Katministratie.Host.Services.Authentication
         {
             User = null!;
             await _localStorageService.RemoveItem(STORAGE_USER_KEY);
-            _navigationManager.NavigateTo("");
         }
 
         public async Task RegisterAsync(string username, string password, string name, string email)

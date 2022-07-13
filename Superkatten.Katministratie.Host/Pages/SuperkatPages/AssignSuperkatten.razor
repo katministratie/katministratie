@@ -1,46 +1,34 @@
 ﻿@page "/AssignSuperkatten/{GastgezinId:guid}"
 
-<Row Class="border mb-2">
-    <Col Class="col-6">
-        <Button Block="@true" OnClick="@OnClose">Terug</Button>
-    </Col>
-</Row>
+<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnClose">Terug</Button>
 
 <Divider />
         
-<h2>@_gastgezin?.Name</h2>
+<Div Margin="Margin.Is2" Border="Border.Is0">
+    <Field><h3>Gastgezin: @_gastgezin?.Name</h3></Field>
+    <Field>Kies de superkatten uit de beschikbare katten en koppel deze aan dit gastgezin.</Field>
+</Div>
 
-<p>Kies de superkatten uit de beschikbare katten en koppel deze aan dit gastgezin.</p>
-<Row>
-    <p>Hieruit kan je selecteren</p>
-    <Col Class="col-12">            
-        @foreach(var superkat in AvailableSuperkatten)
-        {
-            <Button Class="btn btn-primary" 
-                OnClick="() => AddSuperkatToSelection(superkat)">
-                <div>
-                    @GetSuperkatNumber(superkat)<br>
-                    @superkat.Name
-                </div>
-            </Button>
-        }
-    </Col>
-</Row>
-    
-<Divider />
-    
-<p>Geselecteerde katten</p>
-<Row>
-    <Col Class="col-12">            
-        @foreach(var superkat in AssignedSuperkatten)
-        {
-            <Button Class="btn btn-primary" 
-                OnClick="() => RemoveSuperkatFromSelection(superkat)">
-                <div>
-                    @GetSuperkatNumber(superkat)<br>
-                    @superkat.Name
-                </div>
-            </Button>
-        }
-    </Col>
-</Row>
+<Div Margin="Margin.Is2" Border="Border.Is3">
+    @foreach(var superkat in AssignedSuperkatten)
+    {
+        <Button Margin="Margin.Is1" Size="Size.Small" Color="Color.Primary" Clicked="async () => { await RemoveSuperkatFromSelection(superkat); }">
+            @GetSuperkatNumber(superkat)<br>
+            @superkat.Name
+        </Button>
+    }
+</Div>
+
+<Div Margin="Margin.Is2" Border="Border.Is0">
+    <Field>Kies uit onderstaande beschikbare katten</Field>
+</Div>
+<Div Margin="Margin.Is2" Border="Border.Is1">
+    @foreach(var superkat in AvailableSuperkatten)
+    {
+        <Button Margin="Margin.Is1" Size="Size.Small" Color="Color.Primary" Clicked="async () => { await AddSuperkatToSelectionAsync(superkat); }">
+            @GetSuperkatNumber(superkat)<br>
+            @superkat.Name
+        </Button>
+    }
+</Div>
+

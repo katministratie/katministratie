@@ -1,48 +1,39 @@
 ﻿@page "/OverviewSuperkatten"
 
-@using Superkatten.Katministratie.Host.Components
+@using Blazorise.SpinKit
 @using Superkatten.Katministratie.Host.Components.SuperkatComponents
-@using Superkatten.Katministratie.Host.Services
-
-@inject NavigationManager _navigationManager;
-@inject ISuperkatActionService _superkatActionService;
 
 <PageTitle>Superkatten</PageTitle>
 
-@if(Superkatten is null)
-{
-    <IsLoadingMessage InfoTitle="Initialisatie." InfoMessage="Inlezen data..." />
+<Row>
+    <Column ColumnSize="ColumnSize.Is10">
+        <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnBackHome">Terug</Button>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is2">
+        <Div Position="Position.Absolute.Bottom.Is0">
+            <Check TValue="bool" Checked="@_showSimpleListView" CheckedChanged="@OnChangeSimpleListViewAsync" >Simple</Check>
+        </Div>
+    </Column>
+</Row>
+
+<Divider />
+
+@if (!Superkatten.Any())
+{    
+    <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
+        <SpinKit Type="SpinKitType.Chase" Size="60px"/>
+    </Div>
     return;
 }
 
-<Row Class="mb-2">
-    <Col Class="col-9">
-        <Button Block="@true" OnClick="@OnBackHome">Terug</Button>
-    </Col>
-    <Col Class="col-3">
-        <Button>
-            <Checkbox @bind-Checked="@_enableSimpleListView" OnChange="@OnChangeSimpleListView">
-                Simple
-            </Checkbox>
-        </Button>
-    </Col>
-</Row>
-
-@if (!Superkatten.Any())
-{
-    <IsLoadingMessage InfoTitle="Superkatten." InfoMessage="@LoadingInfoMessage" />
-}
-else
-{
 @foreach (var superkat in Superkatten)
+{
+    if (_showSimpleListView)
     {
-        if (_enableSimpleListView)
-        {
-            <SimpleSuperkatComponent Superkat=superkat />
-        }
-        else
-        {
-            <SuperkatComponent Superkat=superkat />
-        }
+        <SimpleSuperkatComponent Superkat=superkat />
+        continue;
     }
+
+    <SuperkatComponent Superkat=superkat />
 }
+

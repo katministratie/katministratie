@@ -1,3 +1,6 @@
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Superkatten.Katministratie.Host;
@@ -33,8 +36,19 @@ builder.Services.AddSingleton<ILocalStorageService, LocalStorageService>();
 builder.Services.AddSingleton<Navigation>();
 
 builder.Services.AddLogging(configure => configure.SetMinimumLevel(LogLevel.Debug));
+
+builder.Services
+    .AddBlazorise(options =>
+    {
+        options.Immediate = true;
+    })
+    .AddBootstrapProviders()
+    .AddFontAwesomeIcons();
+
 // Add the ANT design from https://antblazor.com/
 builder.Services.AddAntDesign();
+
+
 
 await builder.Build().RunAsync();
 

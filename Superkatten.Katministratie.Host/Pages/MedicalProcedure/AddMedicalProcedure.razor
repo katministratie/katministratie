@@ -1,45 +1,30 @@
 ﻿@page "/AddMedicalProcedure/{SuperkatId:guid}"
 
-@using Superkatten.Katministratie.Contract.Entities
-@using Superkatten.Katministratie.Host.Components.Helpers
+@using Blazorise.Components
 
 <h3>Toevoegen medische handeling voor kat @SuperkatNumber</h3>
 
-<Row Class="border mb-2">
-    <Col Class="col-6">
-        <Button Block="@true" OnClick="@OnOk">Ok</Button>
-    </Col>
-    <Col Class="col-6">
-        <Button Block="@true" OnClick="@OnCancel">Terug</Button>
-    </Col>
-</Row>
+<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Ok</Button>
+<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
 
-<Divider />
+<AntDesign.Divider />
 
-<HeaderItem Titel="Datum:" />
-<DatePicker
-    Bordered="@false" 
-    TValue="DateTime?" 
-    Picker="@DatePickerType.Date" 
-    OnChange="@OnChangeDate" 
-    DefaultValue="@DateTime.UtcNow" />
 
-<HeaderItem Titel="Medische handeling:" />
-<Row Class="m-2">
-    <Col Class="col-12">
-        <RadioGroup @bind-Value="@ProcedureType" ButtonStyle="@RadioButtonStyle.Solid">
-            <Radio RadioButton Value="@(MedicalProcedureType.Stronghold)">Stronghold</Radio>
-            <Radio RadioButton Value="@(MedicalProcedureType.Neutralize)">Neutraliseren</Radio>
-            <Radio RadioButton Value="@(MedicalProcedureType.Checkup)">Controle</Radio>
-            <Radio RadioButton Value="@(MedicalProcedureType.Sickness)">Ziekte/Ongeluk</Radio>
-        </RadioGroup>
-    </Col>
-</Row>
+<Field>
+    <FieldLabel>Datum</FieldLabel>
+    <DateEdit TValue="DateTime" @bind-Date="@TimeStamp" />
+</Field>
 
-<HeaderItem Titel="Opmerking:" />
+<SelectList TItem="MySelectModel"
+            TValue="int"
+            Data="@myDdlData"
+            TextField="@((item)=>item.MyTextField)"
+            ValueField="@((item)=>item.MyValueField)"
+            SelectedValue="@selectedListValue"
+            SelectedValueChanged="@MyListValueChangedHandler"
+            DefaultItemText="Choose your country" />
 
-<Row Class="m-2">
-    <Col Class="col-12">
-        <Input Value="@Remark" />
-    </Col>
-</Row>
+<Field Margin="Margin.Is1">
+    <FieldLabel>Opmerkingen</FieldLabel>
+    <MemoEdit @bind-Text="@Remark" AutoSize />
+</Field>

@@ -1,19 +1,19 @@
-﻿<Form class="mb-2" OnFinish="@OnFinishOk" OnFinishFailed="@OnFinishFail"  Model="@_gastgezinData" >
-    <FormItem Label="Naam">
-        <Input @bind-Value="@context.Name"/>
-    </FormItem>
-    <FormItem Label="Adres">
-        <Input @bind-Value="@context.Address"/>
-    </FormItem>
-    <FormItem Label="Woonplaats">
-        <Input @bind-Value="@context.City"/>
-    </FormItem>
-    <FormItem Label="Telefoon">
-        <Input @bind-Value="@context.Phone"/>
-    </FormItem>
-    <FormItem WrapperColOffset="8" WrapperColSpan="16">
-        <Button Type="@ButtonType.Primary" HtmlType="submit">
-            Ok
-        </Button>
-    </FormItem>
-</Form>
+﻿<Button Size="Size.Large" Color="Color.Primary" Clicked="@OnEditOk">Ok</Button>
+<Button Size="Size.Large" Color="Color.Primary" Clicked="@OnEditCancel">Cancel</Button>
+
+<Field>
+    <FieldLabel>Naam</FieldLabel>
+    <TextEdit @bind-Text="@_gastgezinData.Name" />
+</Field>
+<Field>
+    <FieldLabel>Address</FieldLabel>
+    <TextEdit @bind-Text="@_gastgezinData.Address" />
+</Field>
+<Field>
+    <FieldLabel>Woonplaats</FieldLabel>
+    <TextEdit @bind-Text="@_gastgezinData.City" />
+</Field>
+<Field>
+    <FieldLabel>Telefoon nummer</FieldLabel>
+    <TextEdit @bind-Text="@_gastgezinData.Phone" />
+</Field>

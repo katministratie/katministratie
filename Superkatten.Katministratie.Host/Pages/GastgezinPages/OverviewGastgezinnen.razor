@@ -1,49 +1,24 @@
 ﻿@page "/OverviewGastgezinnen"
 
+@using Blazorise.SpinKit
 @using Superkatten.Katministratie.Host.Components.GastgezinComponents;
-@using Superkatten.Katministratie.Host.Services;
-@using Superkatten.Katministratie.Host.Entities;
 
-@inject NavigationManager _navigationManager
-@inject IGastgezinService _gastgezinnenService
+<PageTitle>Gastgezinnen</PageTitle>
 
-<PageTitle>Superkatten Gastgezinnen</PageTitle>
-
-<Row Class="mb-2">
-    <Col Class="col-12">
-        <Button Block="@true" OnClick="@OnCreateGastgezin">Toevoegen gastgezin</Button>
-    </Col>
-</Row>
-
-<Row Class="mb-2">
-    <Col Class="col-12">
-        <Button Block="@true" OnClick="@OnBackHome">Terug</Button>
-    </Col>
-</Row>
+<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateGastgezin">Toevoegen gastgezin</Button>
+<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnBackHome">Terug</Button>
 
 <Divider />
 
 @if (!_gastgezinnen.Any())
 {    
-    <div style="margin: 3rem auto; width: 20rem">
-        <div class="card">
-        <img src="images\superkat.jpg"
-                class="card-img-top"
-                alt="Phone" />
-        <div class="card-body">
-            <h5 class="card-title">Katministratie</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Ophalen gastgezinnen</h6>
-            <p class="card-text">
-            Nog geen gastgezinnen zijn aangemeld
-            </p>
-        </div>
-        </div>
-    </div>
+    <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
+        <SpinKit Type="SpinKitType.Chase" Size="60px"/>
+    </Div>
+    return;
 }
-else
+
+@foreach (var gastgezin in _gastgezinnen)
 {
-    @foreach (var gastgezin in _gastgezinnen)
-    {
-        <GastgezinComponent Gastgezin=gastgezin OnGastgezinDeleted=OnGastgezinDeleted/>
-    }    
+    <GastgezinComponent Gastgezin=gastgezin OnGastgezinDeleted=OnGastgezinDeleted/>
 }

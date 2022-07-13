@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.LocalStorage;
 using Superkatten.Katministratie.Host.Services;
 
@@ -8,32 +9,38 @@ namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 public partial class OverviewSuperkatten
 {
     [Inject]
+    private Navigation  _navigation { get; set; }
+
+    [Inject]
     private ISuperkattenListService? _superkattenService { get; set; }
+
     [Inject]
     private ILocalStorageService _localStorageService { get; set; }
 
+    [Inject]
+    private ISuperkatActionService _superkatActionService { get; set; }
 
-    private string LoadingInfoMessage { get; set; } = string.Empty;
+
     private List<Superkat> Superkatten { get; set; } = new();
 
-    private bool _enableSimpleListView = false;
+    private bool _showSimpleListView = false;
 
-    private async Task OnChangeSimpleListView()
+    private async Task OnChangeSimpleListViewAsync()
     {
-        await _localStorageService.SetItem<bool>(
+        Superkatten.Clear();
+        
+        _showSimpleListView = !_showSimpleListView;
+
+        await _localStorageService.SetItem(
             LocalStorageItems.LOCALSTORAGE_SETTING_SUPERKATTENLIST_TYPE,
-            _enableSimpleListView);
+            _showSimpleListView);
 
         await UpdateListAsync();
     }
 
     protected override async Task OnInitializedAsync()
     {
-        LoadingInfoMessage = "Inlezen van alle superkatten";
-
-        var enableSimpleListView = await _localStorageService.GetItem<bool>(LocalStorageItems.LOCALSTORAGE_SETTING_SUPERKATTENLIST_TYPE);
-        _enableSimpleListView = enableSimpleListView;
-
+        _showSimpleListView = await _localStorageService.GetItem<bool>(LocalStorageItems.LOCALSTORAGE_SETTING_SUPERKATTENLIST_TYPE);
         await UpdateListAsync();
     }
 
@@ -47,13 +54,11 @@ public partial class OverviewSuperkatten
         var superkatten = await _superkattenService.GetAllSuperkattenAsync();
         if (superkatten is null)
         {
-            LoadingInfoMessage = "Iets ging fout met inlezen.";
             return;
         }
 
         if (superkatten?.Count == 0)
         {
-            LoadingInfoMessage = "Geen superkatten beschikbaar.";
             return;
         }
 
@@ -65,7 +70,7 @@ public partial class OverviewSuperkatten
 
     private void OnBackHome()
     {
-        _navigationManager.NavigateTo("");
+        _navigation.NavigateTo("/");
     }
 
     private Task Print(string printername)

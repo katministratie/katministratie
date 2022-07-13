@@ -1,10 +1,20 @@
 ﻿
+using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Host.Helpers;
+using Superkatten.Katministratie.Host.Services;
 
 namespace Superkatten.Katministratie.Host.Pages.GastgezinPages;
 
 public partial class OverviewGastgezinnen
-{ 
+{
+    [Inject]
+    private Navigation _navigation { get; set; }
+
+    [Inject]
+    private IGastgezinService _gastgezinnenService { get; set; }
+
+
     public List<Gastgezin> _gastgezinnen = new();
 
     protected override async Task OnInitializedAsync()
@@ -28,12 +38,12 @@ public partial class OverviewGastgezinnen
 
     private void OnBackHome()
     {
-        _navigationManager.NavigateTo("");
+        _navigation.NavigateTo("/");
     }
 
     public void OnCreateGastgezin()
     {
-        _navigationManager.NavigateTo("CreateGastgezin");
+        _navigation.NavigateTo("CreateGastgezin");
     }
 
     public void OnGastgezinDeleted(Gastgezin gastgezin)

@@ -2,59 +2,28 @@
 
 @using Superkatten.Katministratie.Host.Services
 
-@inject NavigationManager _navigationManager
-@inject IGastgezinService _gastgezinService
-@inject MessageService _message
-
 <h3>Aanmaken van een gastgezin</h3>
 
 <PageTitle>Nieuwe superkat</PageTitle>
 
-<Row Class="mb-2">
-    <Col Class="col-4">
-        <Button Block="@true" Disabled="@ValidName" OnClick="@OnOk">Ok</Button>
-    </Col>
-    <Col Class="col-4">
-        <Button Block="@true" OnClick="@OnCancel">Terug</Button>
-    </Col>
-</Row>
+<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Ok</Button>
+<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
 
-<Row Class="mb-2">
-    <Col Class="col-12">
-        <Input Placeholder="Voer de naam in"  Size="@InputSize.Large" @bind-Value="@GastgezinData.Name" >
-            <Prefix>
-                <Icon Type="border-inner" />
-            </Prefix>
-        </Input>
-    </Col>
-</Row>
+<AntDesign.Divider />
 
-<Row Class="mb-2">
-    <Col Class="col-12">
-        <Input Placeholder="Voer het adres in"  Size="@InputSize.Large" @bind-Value="@GastgezinData.Address" >
-            <Prefix>
-                <Icon Type="border-inner" />
-            </Prefix>
-        </Input>
-    </Col>
-</Row>
-
-<Row Class="mb-2">
-    <Col Class="col-12">
-        <Input Placeholder="Voer de woonplaats in"  Size="@InputSize.Large" @bind-Value="@GastgezinData.City" >
-            <Prefix>
-                <Icon Type="border-inner" />
-            </Prefix>
-        </Input>
-    </Col>
-</Row>
-
-<Row Class="mb-2">
-    <Col Class="col-12">
-        <Input Placeholder="Voer het telefoonnummer in"  Size="@InputSize.Large" @bind-Value="@GastgezinData.Phone" >
-            <Prefix>
-                <Icon Type="border-inner" />
-            </Prefix>
-        </Input>
-    </Col>
-</Row>
+<Field>
+    <FieldLabel>Naam:</FieldLabel>
+    <TextEdit Placeholder="Naam gezin" @bind-Text="@GastgezinData.Name"/>
+</Field>
+<Field>
+    <FieldLabel>Adres:</FieldLabel>
+    <TextEdit Placeholder="Naam gezin" @bind-Text="@GastgezinData.Address"/>
+</Field>
+<Field>
+    <FieldLabel>Woonplaats:</FieldLabel>
+    <TextEdit Placeholder="Naam gezin" @bind-Text="@GastgezinData.City"/>
+</Field>
+<Field>
+    <FieldLabel>Telefoon:</FieldLabel>
+    <TextEdit Placeholder="Naam gezin" @bind-Text="@GastgezinData.Phone"/>
+</Field>

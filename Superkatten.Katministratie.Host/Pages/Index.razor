@@ -1,93 +1,130 @@
 ﻿@page "/"
 
 @using Superkatten.Katministratie.Host.Components
+@using Superkatten.Katministratie.Host.Helpers
 @using Superkatten.Katministratie.Host.Services
 @using Superkatten.Katministratie.Host.Services.Authentication
 
-@inject NavigationManager _navigationManager
+@inject Navigation _navigation
 @inject ISuperkattenListService _superkattenService
 @inject IAuthenticationService _authenticationService
 
 <PageTitle>Superkatten</PageTitle>
 
-<Row>
-    <Col Class="col-2">
-        <Image Src="Images/superkat.jpg"></Image>
-    </Col>
-    <Col Class="col-10">
-        <h1>Superkatten katministratie</h1>
-    </Col>
-</Row>
+@if (!IsAuthenticated)
+{
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnRegister">Register</Button>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnLogin">Login</Button>
+}
+else
+{
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnLogout">Logout</Button>
+    <Divider />
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateSuperkat">Nieuwe kat</Button>
+    <Divider />
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowOverviewSuperkatten">Katten</Button>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowOverviewGastgezinnen">Gastgezinnen</Button>
+}
 
-<Row>
-    
-    @if (!_authenticationService.IsAuthenticated)
-    {
-        <Button Block="@true" OnClick="OnRegister" Class="mb-2">
-            Register
-        </Button>
-
-        <Button Block="@true" OnClick="OnLogin" Class="mb-2">
-            Login
-        </Button>
-    }
-    else
-    {
-        <Button Block="@true" OnClick="OnLogout" Class="mb-2">
-            Logout
-        </Button>
-        
-        <Button Block="@true" OnClick="OnCreateSuperkat" Class="mb-2">
-            Nieuwe kat toevoegen
-        </Button>
-
-        <Divider />
-
-        <Button Block="@true" OnClick="OnShowOverviewSuperkatten" Class="mb-2">
-            Lijst katten
-        </Button>
-    
-        <Button Block="@true" OnClick="OnShowOverviewGastgezinnen" Class="mb-2">
-            Lijst gastgezinnen
-        </Button>
-    }
-</Row>
+<Modal @ref="modalRef">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Inloggen</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Field>
+                <FieldLabel>Gebruikersnaam</FieldLabel>
+                <TextEdit Role="TextRole.Text" 
+                          MaskType="MaskType.RegEx" 
+                          EditMask="^[a-z]*$" 
+                          @bind-Text="@loginModel.Username" 
+                          Placeholder="Vul de gebruikersnaam in..." 
+                          KeyPress="@OnKeyPress"/>
+            </Field>
+            <Field>
+                <FieldLabel>Wachtwoord</FieldLabel>
+                <TextEdit Role="TextRole.Password" 
+                          @bind-Text="@loginModel.Password" 
+                          Placeholder="Vul je wachtwoord in..."
+                          KeyPress="@OnKeyPress"/>
+            </Field>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideModal">Sluiten</Button>
+            <Button Color="Color.Primary" Clicked="@SaveAndHideModal">Ok</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
 
 @code {
-    protected override Task OnInitializedAsync()
+    private class LoginModel
     {
-        _authenticationService.InitializeAsync();
-        return base.OnInitializedAsync();
+        public string Username { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+
+        public bool AllFilledIn => !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password);
     }
 
+    private LoginModel? loginModel;
+    private Modal modalRef;
+    private bool IsAuthenticated => _authenticationService.IsAuthenticated;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await _authenticationService.InitializeAsync();
+    }
 
     private void OnRegister()
     {
-        _navigationManager.NavigateTo("Register");
+        _navigation.NavigateTo("Register");
     }
 
-    private void OnLogin()
+    private async Task OnLogin()
     {
-        _navigationManager.NavigateTo("Login");
+        loginModel = new();
+        await modalRef.Show();
     }
 
-    private void OnLogout()
+    private async Task OnLogout()
     {
-        _navigationManager.NavigateTo("Logout");
+        await _authenticationService.LogoutAsync();
     }
 
     private void OnCreateSuperkat()
     {
-        _navigationManager.NavigateTo("CreateSuperkat");
+        _navigation.NavigateTo("CreateSuperkat");
     }
 
     private void OnShowOverviewSuperkatten()
     {
-        _navigationManager.NavigateTo("OverviewSuperkatten");
+        _navigation.NavigateTo("OverviewSuperkatten");
     }
 
     private void OnShowOverviewGastgezinnen()
     {
-        _navigationManager.NavigateTo("OverviewGastgezinnen");
+        _navigation.NavigateTo("OverviewGastgezinnen");
+    }
+
+    private Task HideModal()
+    {
+        return modalRef.Hide();
+    }
+
+    private async Task SaveAndHideModal()
+    {
+        await _authenticationService.AuthenticateUserAsync(loginModel.Username, loginModel.Password);
+        await modalRef.Hide();
+    }
+
+    private async Task OnKeyPress(KeyboardEventArgs eventArgs)
+    {
+        if(eventArgs.Key != "Enter" || !loginModel.AllFilledIn)
+        {
+            return;
+        }
+
+        await SaveAndHideModal();        
     }
 }
