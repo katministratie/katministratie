@@ -1,45 +1,30 @@
 ﻿@page "/AddMedicalProcedure/{SuperkatId:guid}"
 
-@using Superkatten.Katministratie.Contract.Entities
-@using Superkatten.Katministratie.Host.Components.Helpers
+@using Blazorise.Components
 
 <h3>Toevoegen medische handeling voor kat @SuperkatNumber</h3>
 
-<AntDesign.Row Class="border mb-2">
-    <AntDesign.Col Class="col-6">
-        <Button Block="@true" OnClick="@OnOk">Ok</Button>
-    </AntDesign.Col>
-    <AntDesign.Col Class="col-6">
-        <Button Block="@true" OnClick="@OnCancel">Terug</Button>
-    </AntDesign.Col>
-</AntDesign.Row>
+<Button Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Ok</Button>
+<Button Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
 
 <AntDesign.Divider />
 
-<HeaderItem Titel="Datum:" />
-<AntDesign.DatePicker
-    Bordered="@false" 
-    TValue="DateTime?" 
-    Picker="@AntDesign.DatePickerType.Date" 
-    OnChange="@OnChangeDate" 
-    DefaultValue="@DateTime.UtcNow" />
 
-<HeaderItem Titel="Medische handeling:" />
-<AntDesign.Row Class="m-2">
-    <AntDesign.Col Class="col-12">
-        <AntDesign.RadioGroup @bind-Value="@ProcedureType" ButtonStyle="@AntDesign.RadioButtonStyle.Solid">
-            <AntDesign.Radio RadioButton Value="@(MedicalProcedureType.Stronghold)">Stronghold</AntDesign.Radio>
-            <AntDesign.Radio RadioButton Value="@(MedicalProcedureType.Neutralize)">Neutraliseren</AntDesign.Radio>
-            <AntDesign.Radio RadioButton Value="@(MedicalProcedureType.Checkup)">Controle</AntDesign.Radio>
-            <AntDesign.Radio RadioButton Value="@(MedicalProcedureType.Sickness)">Ziekte/Ongeluk</AntDesign.Radio>
-        </AntDesign.RadioGroup>
-    </AntDesign.Col>
-</AntDesign.Row>
+<Field>
+    <FieldLabel>Datum</FieldLabel>
+    <DateEdit TValue="DateTime" @bind-Date="@TimeStamp" />
+</Field>
 
-<HeaderItem Titel="Opmerking:" />
+<SelectList TItem="MySelectModel"
+            TValue="int"
+            Data="@myDdlData"
+            TextField="@((item)=>item.MyTextField)"
+            ValueField="@((item)=>item.MyValueField)"
+            SelectedValue="@selectedListValue"
+            SelectedValueChanged="@MyListValueChangedHandler"
+            DefaultItemText="Choose your country" />
 
-<AntDesign.Row Class="m-2">
-    <AntDesign.Col Class="col-12">
-        <AntDesign.Input Value="@Remark" />
-    </AntDesign.Col>
-</AntDesign.Row>
+<Field Margin="Margin.Is1">
+    <FieldLabel>Opmerkingen</FieldLabel>
+    <MemoEdit @bind-Text="@Remark" AutoSize />
+</Field>

@@ -70,7 +70,7 @@ public partial class OverviewSuperkatten
 
     private void OnBackHome()
     {
-        _navigation.NavigateBack();
+        _navigation.NavigateTo("/");
     }
 
     private Task Print(string printername)

@@ -9,7 +9,6 @@
 
 <Button Size="Size.Large" Color="Color.Primary" Clicked="@OnBackHome">Terug</Button>
 
-
 <Field>
     <TextEdit Placeholder="Username" Role="TextRole.Email" @bind-Text="@model.Username" MaskType="MaskType.RegEx" EditMask="^[a-z]*$" />
     <TextEdit Placeholder="Wachtwoord" Role="TextRole.Password" @bind-Text="@model.Password" />
@@ -22,7 +21,6 @@
 
 @code {
     private Model model = new Model();
-    private bool loading;
     private string error = string.Empty;
 
     protected override void OnInitialized()
@@ -36,7 +34,6 @@
 
     private async void HandleValidSubmit()
     {
-        loading = true;
         try
         {
             await AuthenticationService.AuthenticateUserAsync(model.Username, model.Password);
@@ -47,7 +44,6 @@
         catch (Exception ex)
         {
             error = ex.Message;
-            loading = false;
             StateHasChanged();
         }
     }

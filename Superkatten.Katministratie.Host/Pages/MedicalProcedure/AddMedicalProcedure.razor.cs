@@ -39,11 +39,6 @@ partial class AddMedicalProcedure
         _superkat = await _superkattenService.GetSuperkatAsync(SuperkatId); 
     }
 
-    private void OnChangeDate(DateTimeChangedEventArgs args)
-    {
-        TimeStamp = args.Date;
-    }
-
     private void OnOk()
     {
         if (_superkat is null)
@@ -82,5 +77,22 @@ partial class AddMedicalProcedure
         }
 
         _navigation.NavigateBack();
+    }
+    public class MySelectModel
+    {
+        public int MyValueField { get; set; }
+        public string MyTextField { get; set; }
+    }
+
+    static string[] Countries = { 
+        "Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia & Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kosovo", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "Vatican City" };
+    IEnumerable<MySelectModel> myDdlData = Enumerable.Range(1, Countries.Length).Select(x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x });
+
+    int selectedListValue { get; set; } = 3;
+
+    void MyListValueChangedHandler(int newValue)
+    {
+        selectedListValue = newValue;
+        StateHasChanged();
     }
 }

@@ -10,15 +10,15 @@
 }
 
 <Row Border="Border.Is1" Margin="Margin.Is1">
-    <Column ColumnSize="ColumnSize.Is1.OnDesktop.Is3.OnMobile">
+    <Column ColumnSize="ColumnSize.Is1.OnDesktop.Is4.OnMobile">
         <span class="material-icons" style="font-size:100px;">group</span>
     </Column>
-    <Column ColumnSize="ColumnSize.Is11.OnDesktop.Is9.OnMobile">
+    <Column ColumnSize="ColumnSize.Is11.OnDesktop.Is8.OnMobile">
         @if (_editMode == HostFamilyComponentEditMode.DisplayDetailsOnly)
         {
-            <Button Color="Color.Primary" Clicked="@OnEdit"><span class="material-icons">edit</span>Edit</Button>
-            <Button Color="Color.Primary" Clicked="@OnDelete"><span class="material-icons">delete</span>DELETE</Button>
-            <Button Color="Color.Primary" Clicked="@OnAssignSuperkat"><span class="material-icons">pets</span>PETS</Button>
+            <Button Padding="Padding.Is0" Color="Color.Primary" Clicked="@OnEdit"><span class="material-icons">edit</span></Button>
+            <Button Padding="Padding.Is0"Color="Color.Primary" Clicked="@OnDelete"><span class="material-icons">delete</span></Button>
+            <Button Padding="Padding.Is0"Color="Color.Primary" Clicked="@OnAssignSuperkat"><span class="material-icons">pets</span></Button>
         }
 
         @switch(_editMode)

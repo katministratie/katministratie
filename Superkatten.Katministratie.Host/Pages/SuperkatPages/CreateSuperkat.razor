@@ -36,9 +36,7 @@
 <Check TValue="bool" @bind-Checked="@StrongHoldGiven">Stronghold gegeven</Check>
 
 <HeaderItem Titel="Extra info:"></HeaderItem>
-<Check TValue="bool" @bind-Checked="@Retour">
-    Retour
-</Check>
+<Check TValue="bool" @bind-Checked="@Retour">Retour</Check>
 
 <HeaderItem Titel="Leeftijd info:"></HeaderItem>
 <RadioGroup TValue="@Contract.Entities.AgeCategory" Buttons @bind-CheckedValue="@AgeCategory">
@@ -84,7 +82,7 @@
 </RadioGroup>
 @if(CanEnterHokNumber)
 {
-    <NumericEdit Min="1" Max="@MAX_HOKNUMBER_ALLOWED" TValue="int" @bind-Value="@CageNumber" />
+    <p>Hok: </p> <NumericEdit Min="1" Max="@MAX_HOKNUMBER_ALLOWED" TValue="int" @bind-Value="@CageNumber" />
 }
 <HeaderItem Titel="Gender"></HeaderItem>
 <RadioGroup TValue="@Contract.Entities.Gender" Buttons @bind-CheckedValue="@Gender">
