@@ -63,6 +63,6 @@ public class MedicalProcedureService : IMedicalProcedureService
             result.Add(medicalProcedureInformation);
         }
 
-        return result;
+        return result.OrderBy(o=>o.SuperkatNumber).ToList();
     }
 }

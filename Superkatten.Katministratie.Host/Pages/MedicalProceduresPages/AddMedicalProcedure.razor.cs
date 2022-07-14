@@ -24,9 +24,10 @@ partial class AddMedicalProcedure
 
     private Superkat? _superkat;
     private string SuperkatNumber => _superkat?.CatchDate.Year.ToString() + "-" + _superkat?.Number.ToString("000");
-    private DateTime TimeStamp { get; set; }
+    private DateTime TimeStamp { get; set; } = DateTime.UtcNow;
     private string Remark { get; set; } = string.Empty;
     private MedicalProcedureType ProcedureType { get; set; }
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -35,10 +36,12 @@ partial class AddMedicalProcedure
             return;
         }
 
+        SelectedListValue = (int)MedicalProcedureType.Sickness;
+
         _superkat = await _superkattenService.GetSuperkatAsync(SuperkatId); 
     }
 
-    private void OnOk()
+    private async Task OnOk()
     {
         if (_superkat is null)
         {
@@ -63,7 +66,7 @@ partial class AddMedicalProcedure
             Timestamp = TimeStamp
         };
 
-        _medicalprocedureService.AddMedicalProcedureAsync(_superkat.Id, parameters);
+        await _medicalprocedureService.AddMedicalProcedureAsync(_superkat.Id, parameters);
 
         _navigation.NavigateBack();
     }
@@ -80,28 +83,43 @@ partial class AddMedicalProcedure
     public class MySelectModel
     {
         public int MyValueField { get; set; }
-        public string MyTextField { get; set; }
+        public string MyTextField { get; set; } = string.Empty;
     }
 
-    static string[] Countries = {
-        nameof(MedicalProcedureType.Neutralize),
-        nameof(MedicalProcedureType.Sickness),
-        nameof(MedicalProcedureType.Stronghold),
-        nameof(MedicalProcedureType.Checkup)
-    }; 
+    static readonly string[] _medicalProcedureNames = { 
+        "Stronghold", 
+        "Neutraliseren", 
+        "Controle", 
+        "Bezoek dierenarts"
+    };
     
     IEnumerable<MySelectModel> myDdlData = Enumerable
-        .Range(1, Countries.Length)
+        .Range(1, _medicalProcedureNames.Length)
         .Select(x => new MySelectModel { 
-            MyTextField = Countries[x - 1], 
+            MyTextField = _medicalProcedureNames[x - 1], 
             MyValueField = x 
         });
 
-    int selectedListValue { get; set; } = 3;
+    int SelectedListValue
+    {
+        get
+        {
+            return (int)ProcedureType + 1;
+        }
+        set
+        {
+            if (value < 0)
+            {
+                ProcedureType = MedicalProcedureType.Checkup;
+            }
+
+            ProcedureType = (MedicalProcedureType)(value - 1);
+        }
+    }
 
     void MyListValueChangedHandler(int newValue)
     {
-        selectedListValue = newValue;
+        SelectedListValue = newValue;
         StateHasChanged();
     }
 }

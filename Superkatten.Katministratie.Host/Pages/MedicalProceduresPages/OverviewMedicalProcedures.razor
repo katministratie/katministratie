@@ -14,7 +14,23 @@
     return;
 }
 
-@foreach(var medicalProcedure in MedicalProcedures)
+
+@foreach (var key in MedicalProcedureInformationDictionary.Keys)
+{
+    <Div Margin="Margin.Is1">
+        <h4>@key</h4>
+        @foreach (var item in MedicalProcedureInformationDictionary[key])
+        {
+            <Fields Margin="Margin.Is0">
+                <Field>@item.Timestamp.ToShortDateString()</Field>
+                <Field>@item.ProcedureType</Field>
+                <Field>@item.Remark</Field>
+            </Fields>
+        }
+    </Div>
+    <Divider />
+}
+@*@foreach(var medicalProcedure in MedicalProcedures)
 {
     <Fields Margin="Margin.Is1" Border="Border.Is1">
         <Field>@medicalProcedure.SuperkatNumber</Field>
@@ -22,4 +38,4 @@
         <Field>@medicalProcedure.ProcedureType</Field>
         <Field>@medicalProcedure.Remark</Field>
     </Fields>
-}
+}*@
