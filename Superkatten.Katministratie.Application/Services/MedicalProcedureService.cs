@@ -44,12 +44,25 @@ public class MedicalProcedureService : IMedicalProcedureService
         await _medicalProceduresRepository.AddMedicalProcedureAsync(medicalProcedure);
     }
 
-    public async Task<IReadOnlyCollection<MedicalProcedure>> GetAllMedicalProceduresAsync()
+    public async Task<IReadOnlyCollection<MedicalProcedureInformation>> GetAllMedicalProceduresAsync()
     {
         var medicalProcedures = await _medicalProceduresRepository.GetAllMedicalProcedureAsync();
 
-        return medicalProcedures
-            .Select(_medialProcedureMapper.MapToContract)
-            .ToList();
+        var result = new List<MedicalProcedureInformation>();
+        foreach(var medicalProcedure in medicalProcedures)
+        {
+            var superkat = await _superkattenRepository.GetSuperkatAsync(medicalProcedure.SuperkatId);
+            if (superkat is null)
+            {
+                throw new ServiceException($"Superkat with Id '{medicalProcedure.SuperkatId}' cannot be found");
+            }
+
+            var superkatDisplayableNumber = superkat.CatchDate.Year.ToString() + "-" + superkat.Number.ToString("000");
+
+            var medicalProcedureInformation = _medialProcedureMapper.MapToContract(superkatDisplayableNumber, medicalProcedure);
+            result.Add(medicalProcedureInformation);
+        }
+
+        return result;
     }
 }

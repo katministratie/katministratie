@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Superkatten.Katministratie.Contract.ApiInterface;
+﻿using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Services.Authentication;
 
@@ -52,8 +51,7 @@ public class SuperkattenListService : ISuperkattenListService
     {
         var uri = "api/Superkatten";
 
-        Console.WriteLine("Get the contract entities from the API");
-        var superkatten = await _httpService.Get<List<ContractEntities.Superkat>>(uri);
+        var superkatten = await _httpService.Get<List<Superkat>>(uri);
         
         return superkatten is null 
             ? new List<Superkat>() 

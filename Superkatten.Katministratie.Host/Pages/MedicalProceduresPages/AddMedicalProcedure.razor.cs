@@ -1,5 +1,4 @@
-﻿using AntDesign;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Helpers;
@@ -7,7 +6,7 @@ using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Interfaces;
 
 
-namespace Superkatten.Katministratie.Host.Pages.MedicalProcedure;
+namespace Superkatten.Katministratie.Host.Pages.MedicalProceduresPages;
 
 partial class AddMedicalProcedure
 {
@@ -64,7 +63,7 @@ partial class AddMedicalProcedure
             Timestamp = TimeStamp
         };
 
-        _medicalprocedureService.AddMedicalProcedure(_superkat.Id, parameters);
+        _medicalprocedureService.AddMedicalProcedureAsync(_superkat.Id, parameters);
 
         _navigation.NavigateBack();
     }
@@ -84,9 +83,19 @@ partial class AddMedicalProcedure
         public string MyTextField { get; set; }
     }
 
-    static string[] Countries = { 
-        "Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia & Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kosovo", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "Vatican City" };
-    IEnumerable<MySelectModel> myDdlData = Enumerable.Range(1, Countries.Length).Select(x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x });
+    static string[] Countries = {
+        nameof(MedicalProcedureType.Neutralize),
+        nameof(MedicalProcedureType.Sickness),
+        nameof(MedicalProcedureType.Stronghold),
+        nameof(MedicalProcedureType.Checkup)
+    }; 
+    
+    IEnumerable<MySelectModel> myDdlData = Enumerable
+        .Range(1, Countries.Length)
+        .Select(x => new MySelectModel { 
+            MyTextField = Countries[x - 1], 
+            MyValueField = x 
+        });
 
     int selectedListValue { get; set; } = 3;
 

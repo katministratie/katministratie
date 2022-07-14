@@ -24,6 +24,7 @@ else
     <Divider />
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowOverviewSuperkatten">Katten</Button>
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowOverviewGastgezinnen">Gastgezinnen</Button>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowMedicalProcedures">Medische handelingen</Button>
 }
 
 <Modal @ref="modalRef">
@@ -101,10 +102,15 @@ else
     {
         _navigation.NavigateTo("OverviewSuperkatten");
     }
-
+    
     private void OnShowOverviewGastgezinnen()
     {
         _navigation.NavigateTo("OverviewGastgezinnen");
+    }
+
+    private void OnShowMedicalProcedures()
+    {
+        _navigation.NavigateTo("OverviewMedicalProcedures");
     }
 
     private Task HideModal()

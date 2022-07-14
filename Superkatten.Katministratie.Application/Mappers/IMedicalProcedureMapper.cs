@@ -7,6 +7,6 @@ namespace Superkatten.Katministratie.Application.Mappers;
 
 public interface IMedicalProcedureMapper
 {
-    ContractEntities.MedicalProcedure MapToContract(MedicalProcedure medicalProcedure);
+    MedicalProcedureInformation MapToContract(string superkatNumber, MedicalProcedure medicalProcedure);
     MedicalProcedure MapToDomain(AddMedicalProcedureParameters parameters);
 }

@@ -1,0 +1,25 @@
+﻿@page "/OverviewMedicalProcedures"
+
+@using Blazorise.SpinKit
+
+<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnBack">Terug</Button>
+
+<Divider />
+
+@if (!MedicalProcedures.Any())
+{    
+    <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
+        <SpinKit Type="SpinKitType.Chase" Size="60px"/>
+    </Div>
+    return;
+}
+
+@foreach(var medicalProcedure in MedicalProcedures)
+{
+    <Fields Margin="Margin.Is1" Border="Border.Is1">
+        <Field>@medicalProcedure.SuperkatNumber</Field>
+        <Field>@medicalProcedure.Timestamp</Field>
+        <Field>@medicalProcedure.ProcedureType</Field>
+        <Field>@medicalProcedure.Remark</Field>
+    </Fields>
+}

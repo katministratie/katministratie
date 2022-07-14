@@ -8,26 +8,27 @@ namespace Superkatten.Katministratie.Application.Mappers;
 
 public class MedicalProcedureMapper : IMedicalProcedureMapper
 {
-    public ContractEntities.MedicalProcedure MapToContract(MedicalProcedure medicalProcedure)
+    public MedicalProcedureInformation MapToContract(string superkatNumber, MedicalProcedure medicalProcedure)
     {
-        return new ContractEntities.MedicalProcedure
+        return new MedicalProcedureInformation
         {
-            Id = medicalProcedure.Id,
+            SuperkatNumber = superkatNumber,
             ProcedureType = MapMedicalProcedureTypeToContract(medicalProcedure.ProcedureType),
             Remark = medicalProcedure.Remark,
-            SuperkatId = medicalProcedure.SuperkatId,
             Timestamp = medicalProcedure.Timestamp
         };
     }
 
-    private static int MapMedicalProcedureTypeToContract(MedicalProcedureType procedureType)
+    private static ContractEntities.MedicalProcedureType MapMedicalProcedureTypeToContract(MedicalProcedureType procedureType)
     {
-        if (!Enum.TryParse(procedureType.ToString(), true, out procedureType))
+        return procedureType switch
         {
-            throw new InvalidEnumArgumentException(nameof(procedureType), (int)procedureType, typeof(MedicalProcedureType));
-        }
-
-        return (int)procedureType;
+            MedicalProcedureType.Neutralize => ContractEntities.MedicalProcedureType.Neutralize,
+            MedicalProcedureType.Stronghold => ContractEntities.MedicalProcedureType.Stronghold,
+            MedicalProcedureType.Sickness => ContractEntities.MedicalProcedureType.Sickness,
+            MedicalProcedureType.Checkup => ContractEntities.MedicalProcedureType.Checkup,
+            _ => throw new InvalidEnumArgumentException(nameof(procedureType), (int)procedureType, typeof(MedicalProcedureType))
+        };
     }
 
     public MedicalProcedure MapToDomain(AddMedicalProcedureParameters parameters)

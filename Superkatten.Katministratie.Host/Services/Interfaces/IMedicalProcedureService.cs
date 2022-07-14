@@ -4,5 +4,6 @@ namespace Superkatten.Katministratie.Host.Services.Interfaces;
 
 public interface IMedicalProcedureService
 {
-    Task AddMedicalProcedure(Guid superkatId, AddMedicalProcedureParameters parameters);
+    Task AddMedicalProcedureAsync(Guid superkatId, AddMedicalProcedureParameters parameters);
+    Task<IReadOnlyCollection<MedicalProcedureInformation>> GetAllMedicalProcedures();
 }

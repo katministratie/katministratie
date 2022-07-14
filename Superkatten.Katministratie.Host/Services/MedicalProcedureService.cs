@@ -13,9 +13,21 @@ public class MedicalProcedureService : IMedicalProcedureService
         _httpService = httpService;
     }
 
-    public Task AddMedicalProcedure(Guid superkatId, AddMedicalProcedureParameters parameters)
+    public Task AddMedicalProcedureAsync(Guid superkatId, AddMedicalProcedureParameters parameters)
     {
         var uri = $"api/MedicalProcedure/?superkatId={superkatId}";
         return _httpService.Put(uri, parameters);
+    }
+
+    public async Task<IReadOnlyCollection<MedicalProcedureInformation>> GetAllMedicalProcedures()
+    {
+        var uri = "api/MedicalProcedure";
+
+        var medicalProcedures = await _httpService.Get<List<MedicalProcedureInformation>>(uri);
+
+        return medicalProcedures is null
+            ? new List<MedicalProcedureInformation>()
+            : medicalProcedures
+                .ToList();
     }
 }
