@@ -9,8 +9,8 @@
 
 <PageTitle>Nieuwe superkat</PageTitle>
 
-<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnAddSuperkat">Ok</Button>
-<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnStopAndReturn">Stoppen</Button>
+<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnAddSuperkat">Toevoegen</Button>
+<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnStopAndReturn">Terug</Button>
 
 <AntDesign.Divider />
 
@@ -91,9 +91,6 @@
 </RadioGroup>
 
 <HeaderItem Titel="Voer"></HeaderItem>
-<Check TValue="bool" @bind-Checked="@WetFoodAllowed">
-    Retour
-</Check>
 <RadioGroup TValue="@Contract.Entities.FoodType" Buttons @bind-CheckedValue="@FoodType">
     <Radio Value="@Contract.Entities.FoodType.FirstPhase">Eerste Fase</Radio>
     <Radio Value="@Contract.Entities.FoodType.SecondPhase">Tweede Fase</Radio>

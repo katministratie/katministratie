@@ -74,7 +74,8 @@ public partial class CreateSuperkat
             WetFoodAllowed = WetFoodAllowed,
             FoodType = FoodType,
             CatColor = CatColor,
-            EstimatedWeeksOld = EstimatedWeeksOld
+            EstimatedWeeksOld = EstimatedWeeksOld,
+            StrongholdGiven = StrongHoldGiven
         };
         var superkat = await SuperkattenService.CreateSuperkatAsync(createSuperkatParameters);
         if (superkat is null)

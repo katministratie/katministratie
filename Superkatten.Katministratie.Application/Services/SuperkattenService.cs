@@ -19,15 +19,18 @@ namespace Superkatten.Katministratie.Application.Services
 
         private readonly ILogger<SuperkattenService> _logger;
         private readonly ISuperkattenRepository _superkattenRepository;
+        private readonly IMedicalProceduresRepository _medicalProceduresRepository;
         private readonly ISuperkatMapper _mapper;
 
         public SuperkattenService(
             ILogger<SuperkattenService> logger,
             ISuperkattenRepository superkattenRepository,
+            IMedicalProceduresRepository medicalProceduresRepository,
             ISuperkatMapper mapper)
         {
             _logger = logger;
             _superkattenRepository = superkattenRepository;
+            _medicalProceduresRepository = medicalProceduresRepository;
             _mapper = mapper;
         }
 
@@ -61,6 +64,14 @@ namespace Superkatten.Katministratie.Application.Services
             superkat.SetColor(createSuperkatParameters.CatColor);
 
             await _superkattenRepository.CreateSuperkatAsync(superkat);
+
+            var medicalProcedure = new MedicalProcedure(
+                MedicalProcedureType.Stronghold,
+                superkat.Id,
+                DateTime.UtcNow,
+                "tijdens vangen");
+            await _medicalProceduresRepository.AddMedicalProcedureAsync(medicalProcedure);
+            
 
             return superkat;
         }

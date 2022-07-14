@@ -17,4 +17,5 @@ public class CreateSuperkatParameters
     public bool WetFoodAllowed { get; init; }
     public FoodType FoodType { get; init; }
     public string CatColor { get; set; } = string.Empty;
+    public bool StrongholdGiven { get; set; }
 }
