@@ -17,18 +17,25 @@
         @if (_editMode == HostFamilyComponentEditMode.DisplayDetailsOnly)
         {
             <Button Padding="Padding.Is0" Color="Color.Primary" Clicked="@OnEdit"><span class="material-icons">edit</span></Button>
-            <Button Padding="Padding.Is0"Color="Color.Primary" Clicked="@OnDelete"><span class="material-icons">delete</span></Button>
-            <Button Padding="Padding.Is0"Color="Color.Primary" Clicked="@OnAssignSuperkat"><span class="material-icons">pets</span></Button>
+            <Button Padding="Padding.Is0" Color="Color.Primary" Clicked="@OnDelete"><span class="material-icons">delete</span></Button>
+            <Button Padding="Padding.Is0" Color="Color.Primary" Clicked="@OnAssignSuperkat"><span class="material-icons">pets</span></Button>
         }
 
         @switch(_editMode)
         {
             case HostFamilyComponentEditMode.DisplayDetailsOnly:
-                <GastgezinDetailsComponent Gastgezin="@Gastgezin" />
+                <h4>
+                    <div>@Gastgezin.Name</div>
+                </h4>
+                <h5>
+                    <div>@Gastgezin.Address</div>
+                    <div>@Gastgezin.City</div>
+                    <div>@Gastgezin.Phone</div>
+                </h5>
                 break;
 
             case HostFamilyComponentEditMode.EditGastgezinNaw:
-                <GastgezinEditComponent Gastgezin="@Gastgezin" OnFinish="@OnFinishEdit" />
+                @*<GastgezinEditComponent Gastgezin="@Gastgezin" OnFinish="@OnFinishEdit" />*@
                 break;
         }
     </Column>

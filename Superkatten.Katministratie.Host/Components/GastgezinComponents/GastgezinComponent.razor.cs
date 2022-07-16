@@ -6,7 +6,7 @@ using Superkatten.Katministratie.Host.Helpers;
 
 namespace Superkatten.Katministratie.Host.Components.GastgezinComponents;
 
-public partial class GastgezinComponent
+public partial class GastgezinComponent : ComponentBase
 {
 
     [Inject]
