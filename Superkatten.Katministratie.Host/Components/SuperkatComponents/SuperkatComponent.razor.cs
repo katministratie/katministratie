@@ -6,7 +6,7 @@ using Superkatten.Katministratie.Host.Services;
 
 namespace Superkatten.Katministratie.Host.Components.SuperkatComponents;
 
-public partial class SuperkatComponent
+public partial class SuperkatComponent : ComponentBase
 {
     [Inject]
     private ISuperkattenListService? _superkattenService { get; set; }

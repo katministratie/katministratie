@@ -1,16 +1,3 @@
-﻿@using Superkatten.Katministratie.Contract.Entities;
-
-@switch(GenderView)
-{
-    case Gender.Unknown:
-        <small class="text-muted">(Onbekend)</small>
-        break;
-    
-    case Gender.Molly:
-        <small class="text-muted">(Poes)</small>
-        break;
-
-    case Gender.Tomcat:
-        <small class="text-muted">(Kater)</small>
-        break;
-}
+﻿<Figure Size="FigureSize.Default">
+    <FigureImage Source="@GenderIcon"/>
+</Figure>

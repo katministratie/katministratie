@@ -1,4 +1,5 @@
-﻿@using Superkatten.Katministratie.Host.Components
+﻿@using Superkatten.Katministratie.Contract.Entities
+@using Superkatten.Katministratie.Host.Components
 @using Superkatten.Katministratie.Host.Components.SuperkatComponents.Action
 @using Superkatten.Katministratie.Host.Entities
 
@@ -9,16 +10,20 @@
 }
 
 <Row>
-    <Column ColumnSize="ColumnSize.Is1.OnDesktop.Is2.OnMobile">
+    <Column Padding="Padding.Is0" Margin="Margin.Is0" ColumnSize="ColumnSize.Is1.OnDesktop.Is2.OnMobile">
         <BehaviourComponent Behaviour="@SuperkatView.Behaviour" />
     </Column>
-    <Column ColumnSize="ColumnSize.Is5.OnDesktop.Is3.OnMobile">
-        <Field>@SuperkatView.UserFriendlyNumber</Field>
+    <Column Padding="Padding.Is0" Margin="Margin.Is0" ColumnSize="ColumnSize.Is1.OnDesktop.Is2.OnMobile">
+        <SuperkatGenderComponent GenderIcon="@SuperkatView.GenderIcon"/>
     </Column>
-    <Column ColumnSize="ColumnSize.Is2.OnDesktop.Is2.OnMobile">
-        <SuperkatGenderComponent GenderView="@SuperkatView.Gender"/>
+    <Column Padding="Padding.Is0" Margin="Margin.Is0" ColumnSize="ColumnSize.Is5.OnDesktop.Is5.OnMobile">
+        <Field>
+            <FieldLabel>
+                @SuperkatView.UserFriendlyNumber
+            </FieldLabel>
+        </Field>
     </Column>
-    <Column ColumnSize="ColumnSize.Is4.OnDesktop.Is5.OnMobile">
+    <Column Padding="Padding.Is0" Margin="Margin.Is0" ColumnSize="ColumnSize.Is5.OnDesktop.Is3.OnMobile">
         <SuperkatActions SuperkatView="@SuperkatView" OnActionExecuted="@ReloadSuperkatData" />
     </Column>
 </Row>

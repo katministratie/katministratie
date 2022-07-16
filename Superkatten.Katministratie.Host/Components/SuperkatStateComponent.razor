@@ -1,25 +1,32 @@
 ﻿@using Superkatten.Katministratie.Contract.Entities
 
-<div>
-    @switch(State)
-    {
-        case SuperkatState.Trapped:
-            <div class="col" style="color:lightgray"><p class="float-start">T</p></div>
-            <div class="col" style="color:indianred">NRC</div>
-            break;
-        case SuperkatState.Neutralized:
-            <div class="col" style="color:lightgray"><p class="float-start">TN</p></div>
-            <div class="col" style="color:indianred">RC</div>
-            break;
-        case SuperkatState.Returnable:
-            <div class="col" style="color:lightgray">TNR</div>
-            <div class="col" style="color:indianred">C</div>
-            break;
-        case SuperkatState.Checked:
-            <div class="col" style="color:lightgray">TNRC</div>
-            break;            
-    }
-</div>
+<Div>
+    <Field Horizontal>
+        <Fields>
+            @switch(State)
+            {
+                case SuperkatState.Trapped:
+                    <FieldLabel Padding="Padding.Is0" Margin="Margin.Is0"><b><h3 style="color:forestgreen">T</h3></b></FieldLabel>
+                    <FieldLabel Padding="Padding.Is0" Margin="Margin.Is0"><h3 style="color:antiquewhite">NRC</h3></FieldLabel>
+                    break;
+
+                case SuperkatState.Neutralized:
+                    <FieldLabel TextColor="TextColor.Danger">TN</FieldLabel>
+                    <FieldLabel TextColor="TextColor.Dark">RC</FieldLabel>
+                    break;
+
+                case SuperkatState.Returnable:
+                    <FieldLabel TextColor="TextColor.Danger">TNR</FieldLabel>
+                    <FieldLabel TextColor="TextColor.Dark">C</FieldLabel>
+                    break;
+
+                case SuperkatState.Checked:
+                    <FieldLabel TextColor="TextColor.Danger">TNRC</FieldLabel>
+                    break;            
+            }
+        </Fields>
+    </Field>
+</Div>
 
 @code {
     [Parameter]

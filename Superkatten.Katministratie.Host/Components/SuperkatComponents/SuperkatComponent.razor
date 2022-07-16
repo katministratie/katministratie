@@ -1,35 +1,41 @@
-﻿@using Superkatten.Katministratie.Host.Components
+﻿@using Blazorise.SpinKit
+@using Superkatten.Katministratie.Host.Components
 @using Superkatten.Katministratie.Host.Components.SuperkatComponents.Action
 @using Superkatten.Katministratie.Host.Entities
 
 @if (SuperkatView is null)
 {
-    <AntDesign.Spin />
+    <SpinKit Type="SpinKitType.Chase" Size="60px"/>
     return;
 }
 
-<AntDesign.Row Class="mb-2 border">
-    <AntDesign.Col class="col-xl-1 col-lg-1 col-md-3 col-4 d-flex align-items-center justify-content-center">
-        <AntDesign.Image Width="100px" Src=".\images\superkat.jpg" /><br />
-    </AntDesign.Col>
-    <AntDesign.Col class="col-xl-11 col-lg-11 col-md-9 col-8">
-        <h5 class="p-1 bg-black text-white">
+<Row>
+    <Column ColumnSize="ColumnSize.Is2">
+        <Figure>
+            <FigureImage Source=".\images\superkat.jpg" />
+        </Figure>
+    </Column>
+    <Column>
+        <Div>
             <BehaviourComponent Behaviour="@SuperkatView.Behaviour" />
-            <span>
-                @SuperkatView.UserFriendlyNumber
-            </span>
-            <span>
-                <SuperkatGenderComponent GenderView="@SuperkatView.Gender"/>
-            </span>
-            <span>
+            <Field>
+                <FieldLabel>
+                    @SuperkatView.UserFriendlyNumber
+                </FieldLabel>
+            </Field>
+            <Div>
+                <SuperkatGenderComponent GenderIcon="@SuperkatView.GenderIcon"/>
+            </Div>
+            <Div>
                 <SuperkatStateComponent State="@SuperkatView.State" />
-            </span>
-        </h5>
-        <div class="mb-2">
+            </Div>
+        </Div>
+
+        <Div>
             <SuperkatDetailsComponent SuperkatView="@SuperkatView" />
-        </div>
-        <div class="mb-0 pt-1">
+        </Div>
+        <Div>
             <SuperkatActions SuperkatView="@SuperkatView" OnActionExecuted="@ReloadSuperkatData" />
-        </div>
-    </AntDesign.Col>
-</AntDesign.Row>
+        </Div>
+    </Column>
+</Row>

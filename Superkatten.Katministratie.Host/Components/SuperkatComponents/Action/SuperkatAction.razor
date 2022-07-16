@@ -1,3 +1,5 @@
-﻿<div class="d-inline-flex p-2">
-    <AntDesign.Image Height="20px" Width="20px" Src="@ActionIcon" OnClick="@ExecuteAction" Preview="false" />
-</div>
+﻿<Button Padding="Padding.Is0" Margin="Margin.Is0" Clicked="@ExecuteAction">
+    <Figure Size="FigureSize.Is24x24">
+        <FigureImage Source="@ActionIcon" />
+    </Figure>
+</Button>

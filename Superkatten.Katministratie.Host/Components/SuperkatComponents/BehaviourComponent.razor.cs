@@ -3,7 +3,7 @@ using Superkatten.Katministratie.Contract.Entities;
 
 namespace Superkatten.Katministratie.Host.Components.SuperkatComponents;
 
-public partial class BehaviourComponent
+public partial class BehaviourComponent : ComponentBase
 {
     [Parameter]
     public CatBehaviour Behaviour { get; set; }

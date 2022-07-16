@@ -5,7 +5,7 @@ using Superkatten.Katministratie.Host.Helpers;
 
 namespace Superkatten.Katministratie.Host.Components.SuperkatComponents.Action;
 
-public partial class SuperkatActions
+public partial class SuperkatActions: ComponentBase
 {
     [Inject]
     public Navigation Navigation { get; set; }

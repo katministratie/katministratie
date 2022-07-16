@@ -19,6 +19,8 @@ namespace Superkatten.Katministratie.Host.Entities
 
         public string UserFriendlyNumber => CatchDate.Year.ToString() + "-" + Number.ToString("000");
 
+        public string GenderIcon => $"./images/Gender/{Gender}.png";
+
         public SuperkatView(Superkat superkat)
         {
             if (superkat is null)
