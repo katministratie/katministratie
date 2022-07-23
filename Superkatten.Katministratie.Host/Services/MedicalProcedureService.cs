@@ -27,7 +27,6 @@ public class MedicalProcedureService : IMedicalProcedureService
 
         return medicalProcedures is null
             ? new List<MedicalProcedureInformation>()
-            : medicalProcedures
-                .ToList();
+            : medicalProcedures;
     }
 }

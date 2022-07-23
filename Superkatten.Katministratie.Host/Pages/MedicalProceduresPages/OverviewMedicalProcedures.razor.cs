@@ -13,17 +13,18 @@ public partial class OverviewMedicalProcedures
     [Inject]
     private IMedicalProcedureService? _medicalProcedureService { get; set; }
 
-    private IReadOnlyCollection<MedicalProcedureInformation> MedicalProcedures { get; set; } = new List<MedicalProcedureInformation>();
-
     private Dictionary<string, List<MedicalProcedureInformation>> MedicalProcedureInformationDictionary { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
         var medicalProcedures = await _medicalProcedureService.GetAllMedicalProcedures();
 
-        MedicalProcedures = medicalProcedures.OrderByDescending(o => o.SuperkatNumber).ToList();
+        medicalProcedures = medicalProcedures
+            .OrderByDescending(o => o.SuperkatNumber)
+            .ThenByDescending(o => o.Timestamp)
+            .ToList();
 
-        foreach (var medicalProcedure in MedicalProcedures)
+        foreach (var medicalProcedure in medicalProcedures)
         {
             var key = MedicalProcedureInformationDictionary.TryAdd(
                 medicalProcedure.SuperkatNumber ?? "unkown", 
@@ -32,15 +33,6 @@ public partial class OverviewMedicalProcedures
 
             MedicalProcedureInformationDictionary[medicalProcedure.SuperkatNumber ?? "unkown"].Add(medicalProcedure);
         }
-
-        /*
-                Enumerable
-                .Range(1, _medicalProcedureNames.Length)
-                .Select(x => new MySelectModel
-                {
-                    MyTextField = _medicalProcedureNames[x - 1],
-                    MyValueField = x*/
-
     }
 
     private void OnBack()

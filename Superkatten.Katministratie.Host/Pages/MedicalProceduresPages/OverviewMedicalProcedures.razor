@@ -6,7 +6,7 @@
 
 <Divider />
 
-@if (!MedicalProcedures.Any())
+@if (!MedicalProcedureInformationDictionary.Any())
 {    
     <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
         <SpinKit Type="SpinKitType.Chase" Size="60px"/>
@@ -17,25 +17,28 @@
 
 @foreach (var key in MedicalProcedureInformationDictionary.Keys)
 {
-    <Div Margin="Margin.Is1">
-        <h4>@key</h4>
+    <Div Margin="Margin.Is1" Border="Border.Is1">
+
+        <Row Margin="Margin.Is2" Background="Background.Success">
+            <Div Margin="Margin.Is1.FromTop.Is2.FromBottom.Is4.FromStart" Style="font-size:20px">
+                <b>@key</b>
+            </Div>
+        </Row>
+
         @foreach (var item in MedicalProcedureInformationDictionary[key])
         {
             <Fields Margin="Margin.Is0">
-                <Field>@item.Timestamp.ToShortDateString()</Field>
+                <Field>
+                    @item.Timestamp.ToShortDateString()<br />
+                    <Div>
+                        <Div Style="font-size:10px;color:grey">@item.Timestamp.ToLocalTime().ToString("hh:mm")</Div>
+                    </Div>
+                </Field>
                 <Field>@item.ProcedureType</Field>
                 <Field>@item.Remark</Field>
             </Fields>
+            <hr/>
         }
     </Div>
-    <Divider />
+
 }
-@*@foreach(var medicalProcedure in MedicalProcedures)
-{
-    <Fields Margin="Margin.Is1" Border="Border.Is1">
-        <Field>@medicalProcedure.SuperkatNumber</Field>
-        <Field>@medicalProcedure.Timestamp</Field>
-        <Field>@medicalProcedure.ProcedureType</Field>
-        <Field>@medicalProcedure.Remark</Field>
-    </Fields>
-}*@
