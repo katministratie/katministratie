@@ -8,25 +8,25 @@ namespace Superkatten.Katministratie.Application.Mappers
 {
     public class SuperkatMapper : ISuperkatMapper
     {
-        public contractEntities.Superkat MapDomainToContract(Superkat createdSuperkat)
+        public contractEntities.Superkat MapDomainToContract(Superkat superkat)
         {
             return new contractEntities.Superkat
             {
-                Id = createdSuperkat.Id,
-                State = MapToContract(createdSuperkat.State),
-                Birthday = createdSuperkat.Birthday,
-                CageNumber = createdSuperkat.CageNumber,
-                CatchDate = createdSuperkat.CatchDate,
-                CatchLocation = createdSuperkat.CatchLocation,
-                AgeCategory = MapToContract(createdSuperkat.AgeCategory),
-                Name = createdSuperkat.Name,
-                Number = createdSuperkat.Number,
-                Reserved = createdSuperkat.Reserved,
-                Retour = createdSuperkat.Retour,
-                Behaviour = MapToContract(createdSuperkat.Behaviour),
-                CatArea = MapToContract(createdSuperkat.CatArea),
-                Gender = MapToContract(createdSuperkat.Gender),
-                GastgezinId = createdSuperkat.GastgezinId
+                Id = superkat.Id,
+                State = MapToContract(superkat.State),
+                Birthday = superkat.Birthday,
+                CageNumber = superkat.CageNumber,
+                CatchDate = superkat.CatchDate,
+                CatchLocation = MapToContract(superkat.CatchLocation),
+                AgeCategory = MapToContract(superkat.AgeCategory),
+                Name = superkat.Name,
+                Number = superkat.Number,
+                Reserved = superkat.Reserved,
+                Retour = superkat.Retour,
+                Behaviour = MapToContract(superkat.Behaviour),
+                CatArea = MapToContract(superkat.CatArea),
+                Gender = MapToContract(superkat.Gender),
+                GastgezinId = superkat.GastgezinId
             };
         }
 
@@ -66,7 +66,7 @@ namespace Superkatten.Katministratie.Application.Mappers
                 _ => throw new InvalidEnumArgumentException(nameof(catArea), (int)catArea, typeof(CatArea))
             };
         }
-        
+
         private static contractEntities.Gender MapToContract(Gender gender)
         {
             return gender switch
@@ -89,14 +89,33 @@ namespace Superkatten.Katministratie.Application.Mappers
             };
         }
 
+        private static contractEntities.LocationType MapToContract(LocationType locationType)
+        {
+            return locationType switch
+            {
+                LocationType.IndustialArea => contractEntities.LocationType.IndustialArea,
+                LocationType.FarmHouse => contractEntities.LocationType.FarmHouse,
+                _ => throw new InvalidEnumArgumentException(nameof(locationType), (int)locationType, typeof(LocationType))
+            };
+        }
+
+        private static contractEntities.Location MapToContract(Location location)
+        {
+            return new contractEntities.Location
+            {
+                Id = location.Id,
+                Name = location.Name,
+                Type = MapToContract(location.Type)
+            };
+        }
 
         public Superkat MapContractToDomain(contractEntities.Superkat contractSuperkat)
         {
             var superkat = new Superkat(
                 contractSuperkat.Number,
                 contractSuperkat.CatchDate,
-                contractSuperkat.CatchLocation)
-            { 
+                MapContractToDomain(contractSuperkat.CatchLocation))
+            {
                 Id = contractSuperkat.Id,
                 State = MapContractToDomain(contractSuperkat.State)
             };
@@ -191,6 +210,22 @@ namespace Superkatten.Katministratie.Application.Mappers
                 contractEntities.SuperkatState.Done => SuperkatState.Done,
                 _ => throw new InvalidEnumArgumentException(nameof(state), (int)state, typeof(contractEntities.SuperkatState))
             };
+        }
+
+        private LocationType MapContractToDomain(contractEntities.LocationType locationType)
+        {
+            return locationType switch
+            {
+                contractEntities.LocationType.IndustialArea => LocationType.IndustialArea,
+                contractEntities.LocationType.FarmHouse => LocationType.FarmHouse,
+                _ => throw new InvalidEnumArgumentException(nameof(locationType), (int)locationType, typeof(contractEntities.LocationType))
+            };
+        }
+
+        public Location MapContractToDomain(contractEntities.Location location)
+        {
+            var locationType = MapContractToDomain(location.Type);
+            return new Location(location.Name, locationType);
         }
     }
 }

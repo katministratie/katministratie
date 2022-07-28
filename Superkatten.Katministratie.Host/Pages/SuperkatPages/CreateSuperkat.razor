@@ -17,7 +17,14 @@
 <HeaderItem Titel="Vang informatie:"></HeaderItem>
 <Field>
     <FieldLabel>Locatie</FieldLabel>
-    <TextEdit Placeholder="Waar gevangen" @bind-Text="@CatchLocation"/>
+    <TextEdit Placeholder="Waar gevangen" @bind-Text="@CatchLocationName"/>
+</Field>
+<Field>
+    <FieldLabel>Type locatie</FieldLabel>
+    <RadioGroup TValue="@Contract.Entities.LocationType" Color="Color.Light" Buttons @bind-CheckedValue="@CatchLocationType">
+        <Radio Value="@Contract.Entities.LocationType.FarmHouse">Boerderij</Radio>
+        <Radio Value="@Contract.Entities.LocationType.IndustialArea">Industriegebied</Radio>
+    </RadioGroup>
 </Field>
 <Field>
     <FieldLabel>Datum</FieldLabel>
@@ -38,7 +45,7 @@
 <Check TValue="bool" @bind-Checked="@Retour">Retour</Check>
 
 <HeaderItem Titel="Leeftijd info:"></HeaderItem>
-<RadioGroup TValue="@Contract.Entities.AgeCategory" Buttons @bind-CheckedValue="@AgeCategory">
+<RadioGroup TValue="@Contract.Entities.AgeCategory" Color="Color.Light" Buttons @bind-CheckedValue="@AgeCategory">
     <Radio Value="@Contract.Entities.AgeCategory.Kitten">Kitten</Radio>
     <Radio Value="@Contract.Entities.AgeCategory.Juvenile">Jeugdig</Radio>
     <Radio Value="@Contract.Entities.AgeCategory.Adult">Volwassen</Radio>
@@ -72,10 +79,12 @@
 </Field>
 
 <HeaderItem Titel="Ruimte"></HeaderItem>
-<RadioGroup TValue="@Contract.Entities.CatArea" Buttons @bind-CheckedValue="@CatArea">
+<RadioGroup TValue="@Contract.Entities.CatArea" Color="Color.Light" Buttons @bind-CheckedValue="@CatArea">
     <Radio Value="@Contract.Entities.CatArea.Quarantine">Quarantaine</Radio>
     <Radio Value="@Contract.Entities.CatArea.Infirmary">Ziekenboeg</Radio>
     <Radio Value="@Contract.Entities.CatArea.Room2">Kamer 2</Radio>
+</RadioGroup>
+<RadioGroup TValue="@Contract.Entities.CatArea" Color="Color.Light" Buttons @bind-CheckedValue="@CatArea">
     <Radio Value="@Contract.Entities.CatArea.SmallEnclosure">KLeine ren</Radio>
     <Radio Value="@Contract.Entities.CatArea.BigEnclosure">Grote ren</Radio>
 </RadioGroup>
@@ -84,19 +93,19 @@
     <p>Hok: </p> <NumericEdit Min="1" Max="@MAX_HOKNUMBER_ALLOWED" TValue="int" @bind-Value="@CageNumber" />
 }
 <HeaderItem Titel="Gender"></HeaderItem>
-<RadioGroup TValue="@Contract.Entities.Gender" Buttons @bind-CheckedValue="@Gender">
+<RadioGroup TValue="@Contract.Entities.Gender" Color="Color.Light" Buttons @bind-CheckedValue="@Gender">
     <Radio Value="@Contract.Entities.Gender.Unknown">Onbekend</Radio>
     <Radio Value="@Contract.Entities.Gender.Molly">Poes</Radio>
     <Radio Value="@Contract.Entities.Gender.Tomcat">Kater</Radio>
 </RadioGroup>
 
 <HeaderItem Titel="Voer"></HeaderItem>
-<RadioGroup TValue="@Contract.Entities.FoodType" Buttons @bind-CheckedValue="@FoodType">
+<RadioGroup TValue="@Contract.Entities.FoodType" Color="Color.Light" Buttons @bind-CheckedValue="@FoodType">
     <Radio Value="@Contract.Entities.FoodType.FirstPhase">Eerste Fase</Radio>
     <Radio Value="@Contract.Entities.FoodType.SecondPhase">Tweede Fase</Radio>
     <Radio Value="@Contract.Entities.FoodType.Rc365">RC 365</Radio>
 </RadioGroup>
-<RadioGroup TValue="@Contract.Entities.LitterGranuleType" Buttons @bind-CheckedValue="@LitterType">
+<RadioGroup TValue="@Contract.Entities.LitterGranuleType" Color="Color.Light" Buttons @bind-CheckedValue="@LitterType">
     <Radio Value="@Contract.Entities.LitterGranuleType.Normal">Normaal</Radio>
     <Radio Value="@Contract.Entities.LitterGranuleType.Clumping">Klontvormend</Radio>
     <Radio Value="@Contract.Entities.LitterGranuleType.Wood">Hout korrels</Radio>

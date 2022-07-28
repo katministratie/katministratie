@@ -24,7 +24,7 @@ var urlApi = Environment.GetEnvironmentVariable("UriSuperkattenApi");
 if (urlApi is null)
 {
     // geen exceptie maar standaard setting voor nu
-    urlApi = "https://superkattenapi.azurewebsites.net/";
+    urlApi = "https://superkattenapi-dev.azurewebsites.net/";
 }
 
 builder.Services.AddTransient(s =>

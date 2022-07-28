@@ -12,7 +12,7 @@ namespace Superkatten.Katministratie.Host.Entities
         public CatBehaviour Behaviour { get; }
         public Gender Gender { get; }
         public DateTime CatchDate { get; }
-        public string CatchLocation { get; }
+        public Location CatchLocation { get; }
         public string CatArea { get; }
         public string? CageNumber { get; }
         public bool IsAtGastgezin { get; }

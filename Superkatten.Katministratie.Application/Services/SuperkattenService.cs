@@ -20,47 +20,44 @@ namespace Superkatten.Katministratie.Application.Services
         private readonly ILogger<SuperkattenService> _logger;
         private readonly ISuperkattenRepository _superkattenRepository;
         private readonly IMedicalProceduresRepository _medicalProceduresRepository;
-        private readonly ISuperkatMapper _mapper;
+        private readonly ISuperkatMapper _superkattenMapper;
 
         public SuperkattenService(
             ILogger<SuperkattenService> logger,
             ISuperkattenRepository superkattenRepository,
             IMedicalProceduresRepository medicalProceduresRepository,
-            ISuperkatMapper mapper)
+            ISuperkatMapper superkattenMapper)
         {
             _logger = logger;
             _superkattenRepository = superkattenRepository;
             _medicalProceduresRepository = medicalProceduresRepository;
-            _mapper = mapper;
+            _superkattenMapper = superkattenMapper;
         }
 
         public async Task<Superkat> CreateSuperkatAsync(CreateSuperkatParameters createSuperkatParameters)
         {
-            if (string.IsNullOrEmpty(createSuperkatParameters.CatchLocation))
-            {
-                throw new ValidationException($"Superkat location is empty");
-            }
-
             var maxSuperkatNumberForYear = await _superkattenRepository.GetMaxSuperkatNumberForYear(DateTimeOffset.Now.Year);
-            
+
+            var catchLocation = _superkattenMapper.MapContractToDomain(createSuperkatParameters.CatchLocation);
             var superkat = new Superkat(
                 maxSuperkatNumberForYear + 1,
                 createSuperkatParameters.CatchDate,
-                createSuperkatParameters.CatchLocation);
+                catchLocation
+            );
 
             superkat.SetCageNumber(createSuperkatParameters.CageNumber);
             superkat.SetRetour(createSuperkatParameters.Retour);
-            superkat.SetAgeCategory(_mapper.MapContractToDomain(createSuperkatParameters.AgeCategory));
-            superkat.SetBehaviour(_mapper.MapContractToDomain(createSuperkatParameters.Behaviour));
-            superkat.SetArea(_mapper.MapContractToDomain(createSuperkatParameters.CatArea));
-            superkat.SetGender(_mapper.MapContractToDomain(createSuperkatParameters.Gender));
+            superkat.SetAgeCategory(_superkattenMapper.MapContractToDomain(createSuperkatParameters.AgeCategory));
+            superkat.SetBehaviour(_superkattenMapper.MapContractToDomain(createSuperkatParameters.Behaviour));
+            superkat.SetArea(_superkattenMapper.MapContractToDomain(createSuperkatParameters.CatArea));
+            superkat.SetGender(_superkattenMapper.MapContractToDomain(createSuperkatParameters.Gender));
 
             var catchDate = createSuperkatParameters.CatchDate;
             var estimatedBirthday = catchDate.AddDays(-DAY_IN_ONE_WEEK * createSuperkatParameters.EstimatedWeeksOld);
             superkat.SetBirthday(estimatedBirthday);
-            superkat.SetLitterType(_mapper.MapContractToDomain(createSuperkatParameters.LitterType));
+            superkat.SetLitterType(_superkattenMapper.MapContractToDomain(createSuperkatParameters.LitterType));
             superkat.SetWetFoodAllowed(createSuperkatParameters.WetFoodAllowed);
-            superkat.SetFoodType(_mapper.MapContractToDomain(createSuperkatParameters.FoodType));
+            superkat.SetFoodType(_superkattenMapper.MapContractToDomain(createSuperkatParameters.FoodType));
             superkat.SetColor(createSuperkatParameters.CatColor);
 
             await _superkattenRepository.CreateSuperkatAsync(superkat);
