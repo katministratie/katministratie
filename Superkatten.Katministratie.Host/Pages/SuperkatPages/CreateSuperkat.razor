@@ -22,8 +22,22 @@
 <Field>
     <FieldLabel>Type locatie</FieldLabel>
     <RadioGroup TValue="@Contract.Entities.LocationType" Color="Color.Light" Buttons @bind-CheckedValue="@CatchLocationType">
-        <Radio Value="@Contract.Entities.LocationType.FarmHouse">Boerderij</Radio>
-        <Radio Value="@Contract.Entities.LocationType.IndustialArea">Industriegebied</Radio>
+        <Radio Value="@Contract.Entities.LocationType.Farm">Boerderij</Radio>
+        <Radio Value="@Contract.Entities.LocationType.PrivateProperty">Particulier terein</Radio>
+        <Radio Value="@Contract.Entities.LocationType.AllotmentGarden">Volkstuin</Radio>
+    </RadioGroup>
+    <RadioGroup TValue="@Contract.Entities.LocationType" Color="Color.Light" Buttons @bind-CheckedValue="@CatchLocationType">
+        <Radio Value="@Contract.Entities.LocationType.Camping">Camping</Radio>
+        <Radio Value="@Contract.Entities.LocationType.Farmhouse">Woonboerderij</Radio>
+        <Radio Value="@Contract.Entities.LocationType.Stable">Paardenstal</Radio>
+    </RadioGroup>
+    <RadioGroup TValue="@Contract.Entities.LocationType" Color="Color.Light" Buttons @bind-CheckedValue="@CatchLocationType">
+        <Radio Value="@Contract.Entities.LocationType.BusinessPark">Bedrijventerein</Radio>
+        <Radio Value="@Contract.Entities.LocationType.UrbanArea">Stedelijk gebied</Radio>
+        <Radio Value="@Contract.Entities.LocationType.RuralArea">Landelijk gebied</Radio>
+    </RadioGroup>
+    <RadioGroup TValue="@Contract.Entities.LocationType" Color="Color.Light" Buttons @bind-CheckedValue="@CatchLocationType">
+        <Radio Value="@Contract.Entities.LocationType.NatureReserve">Natuurgebied</Radio>
     </RadioGroup>
 </Field>
 <Field>

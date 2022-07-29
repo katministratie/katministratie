@@ -14,7 +14,7 @@ public partial class CreateSuperkat
     public DatePicker<DateTime?> datePicker;
     public DateTime? CatchDate = DateTime.UtcNow;
     public string CatchLocationName = string.Empty;
-    public LocationType CatchLocationType = LocationType.FarmHouse;
+    public LocationType CatchLocationType = LocationType.Farm;
     public CatArea CatArea = CatArea.Quarantine;
     public int CageNumber = 1;
     public CatBehaviour Behaviour = CatBehaviour.Unknown;

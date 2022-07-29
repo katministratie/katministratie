@@ -10,6 +10,6 @@ public enum LocationType
     Stable,
     BusinessPark,
     UrbanArea,
-    RuralArea
+    RuralArea,
     NatureReserve
 }
