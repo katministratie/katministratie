@@ -2,6 +2,14 @@
 
 public enum LocationType
 {
-    FarmHouse,
-    IndustialArea
+    Farm,
+    PrivateProperty,
+    AllotmentGarden,
+    Camping,
+    Farmhouse,
+    Stable,
+    BusinessPark,
+    UrbanArea,
+    RuralArea
+    NatureReserve
 }

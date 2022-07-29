@@ -88,13 +88,20 @@ namespace Superkatten.Katministratie.Application.Mappers
                 _ => throw new InvalidEnumArgumentException(nameof(ageCategory), (int)ageCategory, typeof(AgeCategory))
             };
         }
-
         private static contractEntities.LocationType MapToContract(LocationType locationType)
         {
             return locationType switch
             {
-                LocationType.IndustialArea => contractEntities.LocationType.IndustialArea,
-                LocationType.FarmHouse => contractEntities.LocationType.FarmHouse,
+                LocationType.Farm => contractEntities.LocationType.Farm,
+                LocationType.PrivateProperty => contractEntities.LocationType.PrivateProperty,
+                LocationType.AllotmentGarden => contractEntities.LocationType.AllotmentGarden,
+                LocationType.Camping => contractEntities.LocationType.Camping,
+                LocationType.Farmhouse => contractEntities.LocationType.Farmhouse,
+                LocationType.Stable => contractEntities.LocationType.Stable,
+                LocationType.BusinessPark => contractEntities.LocationType.BusinessPark,
+                LocationType.UrbanArea => contractEntities.LocationType.UrbanArea,
+                LocationType.RuralArea => contractEntities.LocationType.RuralArea,
+                LocationType.NatureReserve => contractEntities.LocationType.NatureReserve,
                 _ => throw new InvalidEnumArgumentException(nameof(locationType), (int)locationType, typeof(LocationType))
             };
         }
@@ -199,7 +206,7 @@ namespace Superkatten.Katministratie.Application.Mappers
             };
         }
 
-        public SuperkatState MapContractToDomain(contractEntities.SuperkatState state)
+        public static SuperkatState MapContractToDomain(contractEntities.SuperkatState state)
         {
             return state switch
             {
@@ -212,12 +219,20 @@ namespace Superkatten.Katministratie.Application.Mappers
             };
         }
 
-        private LocationType MapContractToDomain(contractEntities.LocationType locationType)
+        private static LocationType MapContractToDomain(contractEntities.LocationType locationType)
         {
             return locationType switch
             {
-                contractEntities.LocationType.IndustialArea => LocationType.IndustialArea,
-                contractEntities.LocationType.FarmHouse => LocationType.FarmHouse,
+                contractEntities.LocationType.Farm => LocationType.Farm,
+                contractEntities.LocationType.PrivateProperty => LocationType.PrivateProperty,
+                contractEntities.LocationType.AllotmentGarden => LocationType.AllotmentGarden,
+                contractEntities.LocationType.Camping => LocationType.Camping,
+                contractEntities.LocationType.Farmhouse => LocationType.Farmhouse,
+                contractEntities.LocationType.Stable => LocationType.Stable,
+                contractEntities.LocationType.BusinessPark => LocationType.BusinessPark,
+                contractEntities.LocationType.UrbanArea => LocationType.UrbanArea,
+                contractEntities.LocationType.RuralArea => LocationType.RuralArea,
+                contractEntities.LocationType.NatureReserve => LocationType.NatureReserve,
                 _ => throw new InvalidEnumArgumentException(nameof(locationType), (int)locationType, typeof(contractEntities.LocationType))
             };
         }
