@@ -42,6 +42,16 @@ public partial class OverviewSuperkatten
     {
         _showSimpleListView = await _localStorageService.GetItem<bool>(LocalStorageItems.LOCALSTORAGE_SETTING_SUPERKATTENLIST_TYPE);
         await UpdateListAsync();
+
+        await InitializePaginationAsync();
+    }
+
+    private async Task InitializePaginationAsync()
+    {
+        var superkatten = await _superkattenService.GetAllSuperkattenAsync();
+        _totalPageCount = superkatten is null ? 0 : (superkatten.Count / _itemsPerPage) + 1;
+        _maxDisplayedPageNumber = CalculateMaxDisplayedPageNumber();
+
     }
 
     private async Task UpdateListAsync()
@@ -65,6 +75,8 @@ public partial class OverviewSuperkatten
         Superkatten = superkatten!
             .AsQueryable()
             .OrderByDescending(sk => sk.Number)
+            .Skip((_currentPage - 1) * _itemsPerPage)
+            .Take(_itemsPerPage)
             .ToList();
     }
 
@@ -77,4 +89,82 @@ public partial class OverviewSuperkatten
     {
         return _superkatActionService.CreateSuperkatCageCardAsync(new());
     }
+
+    private int _itemsPerPage = 10;
+    private int _currentPage = 1;
+    private int _displayedPageSetCount = 4;
+    private int _totalPageCount = 10;
+    private int _startPageNumber = 1;
+
+    private bool IsActive(int pageNumber) => _currentPage == pageNumber;
+    private bool IsFirstPageSet => _startPageNumber == 1;
+
+    private int _maxDisplayedPageNumber;
+    private bool IsLastPageSet => _maxDisplayedPageNumber > _totalPageCount;
+    private bool IsFirstPage => _currentPage == 1;
+    private bool IsLastPage => _currentPage == _totalPageCount;
+
+    private async Task Previous()
+    {
+        _currentPage -= 1;
+        if (_currentPage < _startPageNumber)
+        {
+            _startPageNumber -= _displayedPageSetCount;
+            _maxDisplayedPageNumber = CalculateMaxDisplayedPageNumber();
+        }
+
+        await UpdateListAsync();
+    }
+
+    private async Task Next()
+    {
+        _currentPage += 1;
+        if (_currentPage > _maxDisplayedPageNumber)
+        {
+            _startPageNumber += _displayedPageSetCount;
+            _maxDisplayedPageNumber = CalculateMaxDisplayedPageNumber();
+        }
+        await UpdateListAsync();
+    }
+
+    private async Task SetActive(string page)
+    {
+        _currentPage = int.Parse(page);
+        await UpdateListAsync();
+    }
+
+    private async Task PreviousPageSet()
+    {
+        _startPageNumber -= _displayedPageSetCount;
+        _currentPage -= _displayedPageSetCount;
+
+        _maxDisplayedPageNumber = CalculateMaxDisplayedPageNumber();
+
+        await UpdateListAsync();
+    }
+
+    private async Task NextPageSet()
+    {
+        _startPageNumber += _displayedPageSetCount;
+
+        _currentPage += _displayedPageSetCount;
+        if(_currentPage > _totalPageCount)
+        {
+            _currentPage = _totalPageCount;
+        }
+         
+        _maxDisplayedPageNumber = CalculateMaxDisplayedPageNumber();
+
+        await UpdateListAsync();
+    }
+
+    private int CalculateMaxDisplayedPageNumber()
+    {
+        var maxDisplayedPageNumber = _startPageNumber + _displayedPageSetCount - 1;
+
+        return maxDisplayedPageNumber > _totalPageCount
+            ? _totalPageCount
+            : maxDisplayedPageNumber;
+    }
+
 }

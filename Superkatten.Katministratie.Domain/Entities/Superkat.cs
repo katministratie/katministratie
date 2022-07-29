@@ -10,7 +10,7 @@ namespace Superkatten.Katministratie.Domain.Entities
         public SuperkatState State { get; init; } = SuperkatState.Trapped;
         public DateTime Birthday { get; private set; }
         public DateTime CatchDate { get; private set; }
-        public string CatchLocation { get; private set; }
+        public Location CatchLocation { get; private set; }
         public string Name { get; private set; } = string.Empty;
         public bool Reserved { get; private set; }
         public bool Retour { get; private set; }
@@ -24,10 +24,12 @@ namespace Superkatten.Katministratie.Domain.Entities
         public FoodType FoodType { get; private set; } = FoodType.FirstPhase;
         public string Color { get; private set; } = string.Empty;
         public Guid? GastgezinId { get; private set; }
+        public Superkat() { }
+
         public Superkat(
             int number,
             DateTime catchDate,
-            string catchLocation
+            Location catchLocation
         )
         {
             Id = Guid.NewGuid();

@@ -59,6 +59,7 @@ public class SuperkattenRepository : ISuperkattenRepository
             .SuperKatten
             .AsNoTracking()
             .Where(o => o.State != SuperkatState.Done)
+            .Include(o => o.CatchLocation)
             .ToListAsync();
 
         return superkatten;

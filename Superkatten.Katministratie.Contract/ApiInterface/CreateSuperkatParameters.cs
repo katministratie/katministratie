@@ -4,7 +4,7 @@ namespace Superkatten.Katministratie.Contract.ApiInterface;
 
 public class CreateSuperkatParameters
 {
-    public string CatchLocation { get; init; } = string.Empty;
+    public Location CatchLocation { get; init; } = new Location { Name = string.Empty, Type = LocationType.Farm };
     public int EstimatedWeeksOld { get; init; }
     public DateTime CatchDate { get; init; }
     public bool Retour { get; init; }

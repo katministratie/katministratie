@@ -105,12 +105,7 @@ builder.Configuration.AddEnvironmentVariables();
             name: CORS_POLICY_NAME, 
             builder => 
             {
-                builder.WithOrigins(
-                    "https://katministratie.azurewebsites.net",
-                    "http://katministratie.azurewebsites.net",
-                    "https://localhost:7292",
-                    "https://31.149.186.194"
-                );
+                builder.WithOrigins();
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();
             });

@@ -13,7 +13,8 @@ public partial class CreateSuperkat
 
     public DatePicker<DateTime?> datePicker;
     public DateTime? CatchDate = DateTime.UtcNow;
-    public string CatchLocation = string.Empty;
+    public string CatchLocationName = string.Empty;
+    public LocationType CatchLocationType = LocationType.Farm;
     public CatArea CatArea = CatArea.Quarantine;
     public int CageNumber = 1;
     public CatBehaviour Behaviour = CatBehaviour.Unknown;
@@ -54,16 +55,27 @@ public partial class CreateSuperkat
 
     private async Task<bool> StoreSuperkatAsync()
     {
-        if (string.IsNullOrEmpty(CatchLocation))
+        if (SuperkattenService is null)
+        {
+            return false;
+        }
+
+        if (string.IsNullOrEmpty(CatchLocationName))
         {
             _ = Message?.Error($"Vul de plaats waar de kat gevangen is in.", 1);
             return false;
         }
 
+        var catchLocation = new Location
+        {
+            Name = CatchLocationName,
+            Type = CatchLocationType
+        };
+
         var createSuperkatParameters = new CreateSuperkatParameters()
         {
             CatchDate = CatchDate ?? DateTime.UtcNow,
-            CatchLocation = CatchLocation,
+            CatchLocation = catchLocation,
             CatArea = CatArea,
             CageNumber = CageNumber,
             Behaviour = Behaviour,
@@ -77,6 +89,7 @@ public partial class CreateSuperkat
             EstimatedWeeksOld = EstimatedWeeksOld,
             StrongholdGiven = StrongHoldGiven
         };
+
         var superkat = await SuperkattenService.CreateSuperkatAsync(createSuperkatParameters);
         if (superkat is null)
         {

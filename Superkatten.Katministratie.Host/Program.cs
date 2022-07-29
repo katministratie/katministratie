@@ -19,13 +19,23 @@ builder.Services.AddTransient<ISuperkattenListService, SuperkattenListService>()
 builder.Services.AddTransient<ISuperkatActionService, SuperkatActionService>();
 builder.Services.AddTransient<IGastgezinService, GastgezinService>();
 builder.Services.AddTransient<IMedicalProcedureService, MedicalProcedureService>();
+
+var urlApi = Environment.GetEnvironmentVariable("UriSuperkattenApi");
+if (urlApi is null)
+{
+    // geen exceptie maar standaard setting voor nu
+    urlApi = "https://superkattenapi-dev.azurewebsites.net/";
+}
+
 builder.Services.AddTransient(s =>
 {
     // When localhost: https://localhost:7171
     // When azure: https://katministratie.azurewebsites.net/
 
     //return new HttpClient { BaseAddress = new System.Uri("https://localhost:7171/") };
-    return new HttpClient { BaseAddress = new Uri("https://superkatten.azurewebsites.net/") };
+    //return new HttpClient { BaseAddress = new Uri("https://superkatten.azurewebsites.net/") };
+
+    return new HttpClient { BaseAddress = new Uri(urlApi) };
 });
 
 // Add singleton services
