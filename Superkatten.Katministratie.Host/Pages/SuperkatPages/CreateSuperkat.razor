@@ -9,10 +9,9 @@
 
 <PageTitle>Nieuwe superkat</PageTitle>
 
-<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnAddSuperkat">Toevoegen</Button>
 <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnStopAndReturn">Terug</Button>
 
-<AntDesign.Divider />
+<Divider />
 
 <HeaderItem Titel="Vang informatie:"></HeaderItem>
 <Field>
@@ -47,8 +46,8 @@
 
 <HeaderItem Titel="Gedrag:"></HeaderItem>
 <RadioGroup TValue="@Contract.Entities.CatBehaviour" Color="Color.Light" Buttons @bind-CheckedValue="@Behaviour">
-    <Radio Value="@Contract.Entities.CatBehaviour.Unknown"><BehaviourComponent Behaviour="@CatBehaviour.Unknown" /></Radio>
     <Radio Value="@Contract.Entities.CatBehaviour.Social"><BehaviourComponent Behaviour="@CatBehaviour.Social" /></Radio>
+    <Radio Value="@Contract.Entities.CatBehaviour.Unknown"><BehaviourComponent Behaviour="@CatBehaviour.Unknown" /></Radio>
     <Radio Value="@Contract.Entities.CatBehaviour.Shy"><BehaviourComponent Behaviour="@CatBehaviour.Shy" /></Radio>
 </RadioGroup>
 
@@ -61,7 +60,7 @@
 <HeaderItem Titel="Leeftijd info:"></HeaderItem>
 <RadioGroup TValue="@Contract.Entities.AgeCategory" Color="Color.Light" Buttons @bind-CheckedValue="@AgeCategory">
     <Radio Value="@Contract.Entities.AgeCategory.Kitten">Kitten</Radio>
-    <Radio Value="@Contract.Entities.AgeCategory.Juvenile">Jeugdig</Radio>
+    <Radio Value="@Contract.Entities.AgeCategory.Juvenile">Junior</Radio>
     <Radio Value="@Contract.Entities.AgeCategory.Adult">Volwassen</Radio>
 </RadioGroup>
 <Row>
@@ -99,14 +98,14 @@
     <Radio Value="@Contract.Entities.CatArea.Room2">Kamer 2</Radio>
 </RadioGroup>
 <RadioGroup TValue="@Contract.Entities.CatArea" Color="Color.Light" Buttons @bind-CheckedValue="@CatArea">
-    <Radio Value="@Contract.Entities.CatArea.SmallEnclosure">KLeine ren</Radio>
+    <Radio Value="@Contract.Entities.CatArea.SmallEnclosure">Kleine ren</Radio>
     <Radio Value="@Contract.Entities.CatArea.BigEnclosure">Grote ren</Radio>
 </RadioGroup>
 @if(CanEnterHokNumber)
 {
     <p>Hok: </p> <NumericEdit Min="1" Max="@MAX_HOKNUMBER_ALLOWED" TValue="int" @bind-Value="@CageNumber" />
 }
-<HeaderItem Titel="Gender"></HeaderItem>
+<HeaderItem Titel="Geslacht"></HeaderItem>
 <RadioGroup TValue="@Contract.Entities.Gender" Color="Color.Light" Buttons @bind-CheckedValue="@Gender">
     <Radio Value="@Contract.Entities.Gender.Unknown">Onbekend</Radio>
     <Radio Value="@Contract.Entities.Gender.Molly">Poes</Radio>
@@ -124,3 +123,8 @@
     <Radio Value="@Contract.Entities.LitterGranuleType.Clumping">Klontvormend</Radio>
     <Radio Value="@Contract.Entities.LitterGranuleType.Wood">Hout korrels</Radio>
 </RadioGroup>
+
+<Divider />
+<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnAddSuperkat">Toevoegen</Button>
+
+<Divider />
