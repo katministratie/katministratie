@@ -1,13 +1,12 @@
 ﻿@page "/"
 
+@using Superkatten.Katministratie.Contract.ApiInterface.Reporting
 @using Superkatten.Katministratie.Host.Components
 @using Superkatten.Katministratie.Host.Helpers
 @using Superkatten.Katministratie.Host.Services
+@using Superkatten.Katministratie.Host.Services.Interfaces
 @using Superkatten.Katministratie.Host.Services.Authentication
 
-@inject Navigation _navigation
-@inject ISuperkattenListService _superkattenService
-@inject IAuthenticationService _authenticationService
 
 <PageTitle>Superkatten</PageTitle>
 
@@ -19,12 +18,20 @@
 else
 {
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnLogout">Logout</Button>
+    
     <Divider />
+    
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateSuperkat">Nieuwe kat</Button>
+    
     <Divider />
+    
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowOverviewSuperkatten">Katten</Button>
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowOverviewGastgezinnen">Gastgezinnen</Button>
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowMedicalProcedures">Medische handelingen</Button>
+
+    <Divider />
+
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateWakkerDierInventoryReport">Wakker dier inventarisatie formulier</Button>
 }
 
 <Modal @ref="modalRef">
@@ -71,6 +78,19 @@ else
     private Modal modalRef;
     private bool IsAuthenticated => _authenticationService.IsAuthenticated;
 
+    [Inject]
+    public Navigation _navigation { get; set; }
+
+    [Inject]
+    public ISuperkattenListService _superkattenService { get; set; }
+
+    [Inject]
+    public IAuthenticationService _authenticationService { get; set; }
+
+    [Inject]
+    public IReportingService ReportingService { get; set; }
+
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -102,7 +122,7 @@ else
     {
         _navigation.NavigateTo("OverviewSuperkatten");
     }
-    
+
     private void OnShowOverviewGastgezinnen()
     {
         _navigation.NavigateTo("OverviewGastgezinnen");
@@ -120,17 +140,33 @@ else
 
     private async Task SaveAndHideModal()
     {
-        await _authenticationService.AuthenticateUserAsync(loginModel.Username, loginModel.Password);
+        if (loginModel is not null)
+        {
+            await _authenticationService.AuthenticateUserAsync(loginModel.Username, loginModel.Password);
+        }
+
         await modalRef.Hide();
     }
 
     private async Task OnKeyPress(KeyboardEventArgs eventArgs)
     {
-        if(eventArgs.Key != "Enter" || !loginModel.AllFilledIn)
+        if(eventArgs.Key != "Enter" || loginModel is not null && !loginModel.AllFilledIn)
         {
             return;
         }
 
         await SaveAndHideModal();        
+    }
+
+    private async Task OnCreateWakkerDierInventoryReport()
+    {
+        var requestParameters = new RequestCatchLocationEmailParameters
+        {
+            Email = "johandekroon@gmail.com",
+            From = DateTime.UtcNow.AddDays(-1),
+            To = DateTime.UtcNow.AddDays(1)
+        };
+
+        await ReportingService.EmailInventoryDetailsReport(requestParameters);
     }
 }

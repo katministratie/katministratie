@@ -7,7 +7,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 
-namespace Superkatten.Katministratie.Host.Services.Authentication;
+namespace Superkatten.Katministratie.Host.Services.Http;
 
 public class HttpService : IHttpService
 {
@@ -36,6 +36,28 @@ public class HttpService : IHttpService
         return await SendRequest<T>(request);
     }
 
+    public async Task<T?> Get<T>(string uri, object? value = null)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, uri);
+
+        if (value is not null)
+        {
+            request.Content = new StringContent(JsonSerializer.Serialize(value), Encoding.UTF8, "application/json");
+        }
+
+        //{
+        //    Content = new StringContent(JsonSerializer.Serialize(value), Encoding.UTF8, "application/json")
+        //};
+
+        return await SendRequest<T>(request);
+    }
+
+    public async Task<T?> Post<T>(string uri)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Post, uri);
+        return await SendRequest<T>(request);
+    }
+
     public async Task<T?> Post<T>(string uri, object value)
     {
         var request = new HttpRequestMessage(HttpMethod.Post, uri)
@@ -44,11 +66,7 @@ public class HttpService : IHttpService
         };
         return await SendRequest<T>(request);
     }
-    public async Task<T?> Post<T>(string uri)
-    {
-        var request = new HttpRequestMessage(HttpMethod.Post, uri);
-        return await SendRequest<T>(request);
-    }
+
     public async Task<T?> Put<T>(string uri, object value)
     {
         var request = new HttpRequestMessage(HttpMethod.Put, uri)
@@ -112,7 +130,7 @@ public class HttpService : IHttpService
             {
                 throw new Exception($"unsuccesfull; response is: {response.StatusCode}");
             }
-            
+
             if (response.Content is null)
             {
                 throw new Exception("No content available, reason of failure unknown");

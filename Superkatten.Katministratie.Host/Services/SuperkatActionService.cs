@@ -1,6 +1,5 @@
 ﻿using Superkatten.Katministratie.Host.Entities;
-using Superkatten.Katministratie.Host.Services.Authentication;
-
+using Superkatten.Katministratie.Host.Services.Http;
 
 namespace Superkatten.Katministratie.Host.Services
 {
