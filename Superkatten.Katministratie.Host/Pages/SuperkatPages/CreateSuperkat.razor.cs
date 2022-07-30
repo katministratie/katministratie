@@ -1,4 +1,5 @@
 ﻿using Blazorise;
+using Blazorise.Snackbar;
 using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Contract.Entities;
@@ -29,18 +30,14 @@ public partial class CreateSuperkat
     public int EstimatedWeeksOld = 0;
 
 
-    [Inject]
-    public Navigation? Navigation { get; set; }
+    [Inject] public Navigation? Navigation { get; set; }
 
-    [Inject]
-    public ISuperkattenListService? SuperkattenService { get; set; }
+    [Inject] public ISuperkattenListService? SuperkattenService { get; set; }
 
-    [Inject]
-    public AntDesign.MessageService? Message { get; set; }
+    [Inject] public AntDesign.MessageService? Message { get; set; }
 
-    [Inject]
-    public AntDesign.NotificationService? Notice { get; set; }
-
+    private Snackbar _notification;
+    private string _notificationString;
     private bool CanEnterHokNumber => CatArea != CatArea.SmallEnclosure && CatArea != CatArea.BigEnclosure;
 
     public async Task OnAddSuperkat()
@@ -62,7 +59,8 @@ public partial class CreateSuperkat
 
         if (string.IsNullOrEmpty(CatchLocationName))
         {
-            _ = Message?.Error($"Vul de plaats waar de kat gevangen is in.", 1);
+            _notificationString = $"Vul de plaats waar de kat gevangen is in.";
+            _ = _notification.Show();
             return false;
         }
 
@@ -93,11 +91,13 @@ public partial class CreateSuperkat
         var superkat = await SuperkattenService.CreateSuperkatAsync(createSuperkatParameters);
         if (superkat is null)
         {
-            _ = Message?.Error($"Fout bij het opslaan van de nieuwe superkat.", 1);
+            _notificationString = $"Fout bij het opslaan van de nieuwe superkat.";
+            _ = _notification.Show();
             return false;
         }
 
-        _ = Message?.Success($"Superkat {superkat.CatchDate.Year % 100}-{superkat.Number:000} is aangemaakt", 2);
+        _notificationString = $"Superkat {superkat.CatchDate.Year % 100}-{superkat.Number:000} is aangemaakt";
+        _ = _notification.Show();
         return true;
     }
 }

@@ -1,5 +1,6 @@
 ﻿@page "/"
 
+@using Blazorise.Snackbar
 @using Superkatten.Katministratie.Contract.ApiInterface.Reporting
 @using Superkatten.Katministratie.Host.Components
 @using Superkatten.Katministratie.Host.Helpers
@@ -7,6 +8,12 @@
 @using Superkatten.Katministratie.Host.Services.Interfaces
 @using Superkatten.Katministratie.Host.Services.Authentication
 
+
+<Snackbar @ref="_notification">
+    <SnackbarBody>
+        @_notificationString
+    </SnackbarBody>
+</Snackbar>
 
 <PageTitle>Superkatten</PageTitle>
 
@@ -31,7 +38,9 @@ else
 
     <Divider />
 
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateWakkerDierInventoryReport">Wakker dier inventarisatie formulier</Button>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateWakkerDierInventoryReport">
+        Wakker dier inventarisatie formulier
+    </Button>
 }
 
 <Modal @ref="modalRef">
@@ -74,6 +83,8 @@ else
         public bool AllFilledIn => !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password);
     }
 
+    private Snackbar _notification;
+    private string _notificationString;
     private LoginModel? loginModel;
     private Modal modalRef;
     private bool IsAuthenticated => _authenticationService.IsAuthenticated;
@@ -89,6 +100,9 @@ else
 
     [Inject]
     public IReportingService ReportingService { get; set; }
+
+    [Inject]
+    public IAuthenticationService AuthenticationService { get; set; }
 
 
     protected override async Task OnInitializedAsync()
@@ -160,11 +174,28 @@ else
 
     private async Task OnCreateWakkerDierInventoryReport()
     {
+        if (AuthenticationService is null)
+        {
+            return;
+        }
+
+        if (AuthenticationService.User is null)
+        {
+            return;
+        }
+
+        var email = AuthenticationService.User.Email;
+        if (email is null || string.IsNullOrEmpty(email))
+        {
+            _notificationString = "Email van ingelogde gebruiker is niet ingevuld. De email kan niet worden verstuurd.";
+            await _notification.Show();
+        }
+
         var requestParameters = new RequestCatchLocationEmailParameters
         {
-            Email = "johandekroon@gmail.com",
-            From = DateTime.UtcNow.AddDays(-1),
-            To = DateTime.UtcNow.AddDays(1)
+            Email = email,
+            From = DateTime.UtcNow.AddMonths(-3),
+            To = DateTime.UtcNow
         };
 
         await ReportingService.EmailInventoryDetailsReport(requestParameters);
