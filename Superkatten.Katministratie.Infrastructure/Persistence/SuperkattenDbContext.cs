@@ -19,6 +19,6 @@ public class SuperkattenDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Superkat>().HasOne(e => e.CatchLocation);
+
     }
 }

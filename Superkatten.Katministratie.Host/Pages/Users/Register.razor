@@ -74,7 +74,7 @@
         {
             await AuthenticationService.RegisterAsync(model.Username, model.Password, model.Name, model.Email);
 
-            var returnUrl = NavigationManager.QueryString("returnUrl") ?? "";
+            var returnUrl = NavigationManager.QueryString("returnUrl");
             NavigationManager.NavigateTo(returnUrl);
         }
         catch (Exception ex)

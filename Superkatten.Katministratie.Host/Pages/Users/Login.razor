@@ -25,7 +25,6 @@
 
     protected override void OnInitialized()
     {
-        // redirect to home if already logged in
         if (AuthenticationService.User != null)
         {
             NavigationManager.NavigateTo("");
@@ -38,7 +37,7 @@
         {
             await AuthenticationService.AuthenticateUserAsync(model.Username, model.Password);
 
-            var returnUrl = NavigationManager.QueryString("returnUrl") ?? "";
+            var returnUrl = NavigationManager.QueryString("returnUrl");
             NavigationManager.NavigateTo(returnUrl);
         }
         catch (Exception ex)

@@ -9,56 +9,68 @@ public class ReportBuilder : IReportBuilder
 {
     public string BuildSuperkattenInventory(IReadOnlyCollection<Superkat> superkatten)
     {
-        var sortedByLocation = superkatten
-            .OrderBy(o => o.CatchDate)
-            .ToList();
+        var result = "Location type;Location name;Total catched;Totaal poezen retour;Totaal katten retour;Totaal kittens retour;Totaal niet retour\n";
 
-        var locations = sortedByLocation.DistinctBy(o => o.CatchLocation.Type).Select(o => o.CatchLocation).ToList();
+        var locationTypes = (LocationType[])Enum.GetValues(typeof(LocationType));
 
-        var result = "Location type;Total catched;Totaal poezen retour;Totaal katten retour;Totaal kittens retour;Totaal niet retour\n";
-        foreach(var location in locations)
+        foreach (var locationType in locationTypes)
         {
-            result += location.Type;
-            result += ";";
+            var superkattenAtLocationType = superkatten
+                .Where(o => o.CatchLocation.Type == locationType)
+                .ToList();
 
-            // Total cats catched in total
-            result += superkatten
-                .Count(o => o.CatchLocation.Type == location.Type)
-                .ToString("00");
-            result += ";";
+            var locationNames = superkattenAtLocationType
+                .DistinctBy(o => o.CatchLocation.Name)
+                .Select(o => o.CatchLocation.Name)
+                .ToList();
 
-            // total count of molly's returned
-            result += superkatten
-                .Where(o => o.CatchLocation.Type == location.Type)
-                .Where(o => o.AgeCategory == AgeCategory.Adult || o.AgeCategory == AgeCategory.Juvenile)
-                .Where(o => o.Gender == Gender.Molly)
-                .Count(o => o.Retour)
-                .ToString("00");
-            result += ";";
+            foreach (var locationName in locationNames)
+            {
+                result += locationType;
+                result += ";";
 
-            // total count of molly's returned
-            result += superkatten
-                .Where(o => o.CatchLocation.Type == location.Type)
-                .Where(o => o.AgeCategory == AgeCategory.Adult || o.AgeCategory == AgeCategory.Juvenile)
-                .Where(o => o.Gender == Gender.Tomcat)
-                .Count(o => o.Retour)
-                .ToString("00");
-            result += ";";
+                result += locationName;
+                result += ";";
 
-            // total count of kittens returned
-            result += superkatten
-                .Where(o => o.CatchLocation.Type == location.Type)
-                .Where(o => o.AgeCategory == AgeCategory.Kitten)
-                .Count(o => o.Retour)
-                .ToString("00");
-            result += ";";
+                var superkattenAtLocation = superkattenAtLocationType
+                    .Where(o => o.CatchLocation.Name == locationName)
+                    .ToList();
 
-            // Total count of cats socialized and not returned
-            result += superkatten
-                .Where(o => o.CatchLocation.Type == location.Type)
-                .Count(o => !o.Retour)
-                .ToString("00");
-            result += "\n";
+                // Total cats catched in total
+                result += superkattenAtLocation
+                    .Count(o => o.CatchLocation.Name == locationName)
+                    .ToString("00");
+                result += ";";
+
+                // total count of molly's returned
+                result += superkattenAtLocation
+                    .Where(o => o.AgeCategory == AgeCategory.Adult || o.AgeCategory == AgeCategory.Juvenile)
+                    .Where(o => o.Gender == Gender.Molly)
+                    .Count(o => o.Retour)
+                    .ToString("00");
+                result += ";";
+
+                // total count of molly's returned
+                result += superkattenAtLocation
+                    .Where(o => o.AgeCategory == AgeCategory.Adult || o.AgeCategory == AgeCategory.Juvenile)
+                    .Where(o => o.Gender == Gender.Tomcat)
+                    .Count(o => o.Retour)
+                    .ToString("00");
+                result += ";";
+
+                // total count of kittens returned
+                result += superkattenAtLocation
+                    .Where(o => o.AgeCategory == AgeCategory.Kitten)
+                    .Count(o => o.Retour)
+                    .ToString("00");
+                result += ";";
+
+                // Total count of cats socialized and not returned
+                result += superkattenAtLocation
+                    .Count(o => !o.Retour)
+                    .ToString("00");
+                result += "\n";
+            }
         }
 
         return result;

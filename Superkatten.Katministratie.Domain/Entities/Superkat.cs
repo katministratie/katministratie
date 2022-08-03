@@ -32,6 +32,11 @@ namespace Superkatten.Katministratie.Domain.Entities
             Location catchLocation
         )
         {
+            if (catchLocation is null)
+            {
+                throw new DomainException($"{nameof(catchLocation)} may not be null");
+            }
+
             Id = Guid.NewGuid();
 
             Number = number;

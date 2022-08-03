@@ -16,8 +16,15 @@ public class SuperkattenListService : ISuperkattenListService
     public async Task<Superkat?> CreateSuperkatAsync(CreateSuperkatParameters newSuperkat)
     {
         var uri = $"api/Superkatten";
-        var superkat = await _httpService.Put<Superkat>(uri, newSuperkat);
-        return superkat;
+        try
+        {
+            var superkat = await _httpService.Put<Superkat>(uri, newSuperkat);
+            return superkat;
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
     }
 
     public async Task UpdateSuperkatAsync(Guid id, UpdateSuperkatParameters updateSuperkat)

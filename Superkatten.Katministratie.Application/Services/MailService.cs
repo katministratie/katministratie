@@ -14,7 +14,7 @@ public class MailService : IMailService
         var message = new MimeMessage();
         message.To.Add(new MailboxAddress("Requester", email));
         message.From.Add(new MailboxAddress("Katministrator", "katministratie@superkatten.nl"));
-        message.Subject = "Requeste report";
+        message.Subject = "Inventarisatieformulier Wakker Dier";
         message.Body = new TextPart("plain")
         {
             Text = data
@@ -30,7 +30,7 @@ public class MailService : IMailService
             }
             catch(Exception x)
             {
-
+                //todo; hoe deze zichtbaar maken in UI
             }
             client.Disconnect(true);
         }
