@@ -21,13 +21,7 @@ public class LocationService : ILocationService
         var locations = await _httpService.Get<List<Location>>(uri);
 
         return locations is null
-            ? new List<Location>() { 
-                new Location { Name="Rhenoy", Type=LocationType.Farm},
-                new Location { Name="Tiel", Type=LocationType.Farm},
-                new Location { Name="Leerdam", Type=LocationType.Farm},
-                new Location { Name="Tuilen", Type=LocationType.Farm},
-                new Location { Name="Aquoiy", Type=LocationType.Farm}
-            }
+            ? new List<Location>()
             : locations;
     }
 }
