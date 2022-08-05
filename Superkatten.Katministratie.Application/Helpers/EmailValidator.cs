@@ -47,12 +47,12 @@ class EmailValidator
 
         try
         {
-            return Regex.IsMatch(
+            var result = Regex.IsMatch(
                 email,
-                @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
-                RegexOptions.IgnoreCase, 
-                TimeSpan.FromMilliseconds(250)
+                @"/^[^@\s]+@[^@\s]+\.[^@\s]+$/g",
+                RegexOptions.IgnoreCase | RegexOptions.Singleline
             );
+            return result;
         }
         catch (RegexMatchTimeoutException)
         {
