@@ -50,7 +50,7 @@ public partial class CreateSuperkat
             return;
         }
 
-        var locations = await LocationService.GetLocationsAsync();
+        Locations = await LocationService.GetLocationsAsync();
 
         await base.OnInitializedAsync();
     }
