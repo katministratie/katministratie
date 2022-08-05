@@ -1,10 +1,11 @@
 ﻿using Blazorise;
-using Blazorise.Snackbar;
 using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services;
+using Superkatten.Katministratie.Host.Services.Interfaces;
+using System.Linq;
 
 namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 
@@ -14,6 +15,7 @@ public partial class CreateSuperkat
 
     public DatePicker<DateTime?> datePicker;
     public DateTime? CatchDate = DateTime.UtcNow;
+    private Guid CatchLocationNameId;
     public string CatchLocationName = string.Empty;
     public LocationType CatchLocationType = LocationType.Farm;
     public CatArea CatArea = CatArea.Quarantine;
@@ -29,16 +31,30 @@ public partial class CreateSuperkat
     public bool StrongHoldGiven = false;
     public int EstimatedWeeksOld = 0;
 
-
     [Inject] public Navigation? Navigation { get; set; }
 
     [Inject] public ISuperkattenListService? SuperkattenService { get; set; }
 
     [Inject] public AntDesign.MessageService? Message { get; set; }
 
-    private Snackbar _notification;
-    private string _notificationString;
+    [Inject] public ILocationService? LocationService { get; set; }
+
+
+    public IEnumerable<Location> Locations = new List<Location>();
     private bool CanEnterHokNumber => CatArea != CatArea.SmallEnclosure && CatArea != CatArea.BigEnclosure;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (LocationService is null)
+        {
+            return;
+        }
+
+        var locations = await LocationService.GetLocationsAsync();
+
+        await base.OnInitializedAsync();
+    }
+
 
     public async Task OnAddSuperkat()
     {
@@ -59,8 +75,8 @@ public partial class CreateSuperkat
 
         if (string.IsNullOrEmpty(CatchLocationName))
         {
-            _notificationString = $"Vul de plaats waar de kat gevangen is in.";
-            _ = _notification.Show();
+            //_notificationString = $"Vul de plaats waar de kat gevangen is in.";
+            //_ = _notification.Show();
             return false;
         }
 
@@ -91,13 +107,13 @@ public partial class CreateSuperkat
         var superkat = await SuperkattenService.CreateSuperkatAsync(createSuperkatParameters);
         if (superkat is null)
         {
-            _notificationString = $"Fout bij het opslaan van de nieuwe superkat.";
-            _ = _notification.Show();
+            //_notificationString = $"Fout bij het opslaan van de nieuwe superkat.";
+            //_ = _notification.Show();
             return false;
         }
 
-        _notificationString = $"Superkat {superkat.CatchDate.Year % 100}-{superkat.Number:000} is aangemaakt";
-        _ = _notification.Show();
+        //_notificationString = $"Superkat {superkat.CatchDate.Year % 100}-{superkat.Number:000} is aangemaakt";
+        //_ = _notification.Show();
         return true;
     }
 }

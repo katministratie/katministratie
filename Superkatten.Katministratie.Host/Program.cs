@@ -21,6 +21,7 @@ builder.Services.AddTransient<ISuperkatActionService, SuperkatActionService>();
 builder.Services.AddTransient<IGastgezinService, GastgezinService>();
 builder.Services.AddTransient<IMedicalProcedureService, MedicalProcedureService>();
 builder.Services.AddTransient<IReportingService, ReportingService>();
+builder.Services.AddTransient<ILocationService, LocationService>();
 
 var urlApi = Environment.GetEnvironmentVariable("UriSuperkattenApi");
 if (urlApi is null)

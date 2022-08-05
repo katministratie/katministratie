@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Superkatten.Katministratie.Infrastructure.Interfaces;
+namespace Superkatten.Katministratie.Application.Interfaces;
 
-public interface ILocationRepository
+public interface ILocationService
 {
-    Task<Location> CreateOrGetLocationAsync(LocationType type, string name);
-
     Task<IReadOnlyCollection<Location>> GetLocationsAsync();
 }

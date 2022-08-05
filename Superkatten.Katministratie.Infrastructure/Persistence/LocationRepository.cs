@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -37,5 +38,13 @@ public class LocationRepository : ILocationRepository
         }
 
         return location;
+    }
+
+    public async Task<IReadOnlyCollection<Location>> GetLocationsAsync()
+    {
+        return await _context
+            .Locations
+            .AsNoTracking()
+            .ToListAsync();
     }
 }
