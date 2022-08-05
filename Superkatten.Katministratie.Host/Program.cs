@@ -8,6 +8,7 @@ using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.LocalStorage;
 using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Authentication;
+using Superkatten.Katministratie.Host.Services.Http;
 using Superkatten.Katministratie.Host.Services.Interfaces;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -19,6 +20,7 @@ builder.Services.AddTransient<ISuperkattenListService, SuperkattenListService>()
 builder.Services.AddTransient<ISuperkatActionService, SuperkatActionService>();
 builder.Services.AddTransient<IGastgezinService, GastgezinService>();
 builder.Services.AddTransient<IMedicalProcedureService, MedicalProcedureService>();
+builder.Services.AddTransient<IReportingService, ReportingService>();
 
 var urlApi = Environment.GetEnvironmentVariable("UriSuperkattenApi");
 if (urlApi is null)

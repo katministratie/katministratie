@@ -1,22 +1,15 @@
 ﻿using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Contract.Entities;
-using Superkatten.Katministratie.Host.Services.Authentication;
-
-using ContractEntities = Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Host.Services.Http;
 
 namespace Superkatten.Katministratie.Host.Services;
 
 public class SuperkattenListService : ISuperkattenListService
 {
-    private readonly HttpClient _client;
     private readonly IHttpService _httpService;
 
-    public SuperkattenListService(
-        HttpClient client,
-        IHttpService httpService
-    )
+    public SuperkattenListService(IHttpService httpService)
     {
-        _client = client;
         _httpService = httpService;
     }
     
@@ -36,7 +29,7 @@ public class SuperkattenListService : ISuperkattenListService
     public async Task DeleteSuperkatAsync(Guid id)
     {
         var uri = $"api/Superkatten?Id={id}";
-        _ = await _client.DeleteAsync(uri);
+        await _httpService.Delete(uri);
     }
 
     public async Task<Superkat> GetSuperkatAsync(Guid id)

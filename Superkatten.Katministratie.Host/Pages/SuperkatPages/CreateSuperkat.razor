@@ -1,5 +1,6 @@
 ﻿@page "/CreateSuperkat"
 
+@using Blazorise.Snackbar
 @using Superkatten.Katministratie.Host.Api
 @using Superkatten.Katministratie.Host.Components.SuperkatComponents
 @using Superkatten.Katministratie.Host.Entities
@@ -128,3 +129,9 @@
 <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnAddSuperkat">Toevoegen</Button>
 
 <Divider />
+
+<Snackbar @ref="_notification">
+    <SnackbarBody>
+        @_notificationString
+    </SnackbarBody>
+</Snackbar>

@@ -2,6 +2,7 @@
 using Superkatten.Katministratie.Contract.Authenticate;
 using Superkatten.Katministratie.Host.Entities;
 using Superkatten.Katministratie.Host.LocalStorage;
+using Superkatten.Katministratie.Host.Services.Http;
 
 namespace Superkatten.Katministratie.Host.Services.Authentication
 {

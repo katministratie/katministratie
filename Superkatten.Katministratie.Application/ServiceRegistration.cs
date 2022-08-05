@@ -6,6 +6,7 @@ using Superkatten.Katministratie.Application.Authorization;
 using Superkatten.Katministratie.Application.CageCard;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
+using Superkatten.Katministratie.Application.Reporting;
 using Superkatten.Katministratie.Application.Services;
 
 namespace Superkatten.Katministratie.Application
@@ -24,6 +25,9 @@ namespace Superkatten.Katministratie.Application
             services.AddTransient<IGastgezinMapper, GastgezinMapper>();
             services.AddTransient<IUserAuthorisationMapper, UserAuthorisationMapper>();
             services.AddTransient<IMedicalProcedureMapper, MedicalProcedureMapper>();
+            services.AddTransient<IReportBuilder, ReportBuilder>();
+            services.AddTransient<IMailService, MailService>();
+            services.AddTransient<IReportingService, ReportingService>();
             
             services.AddScoped<IJwtUtils, JwtUtils>();
             services.AddScoped<IUserService, UserService>();

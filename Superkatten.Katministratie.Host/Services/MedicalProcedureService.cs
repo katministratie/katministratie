@@ -1,5 +1,5 @@
 ﻿using Superkatten.Katministratie.Contract.ApiInterface;
-using Superkatten.Katministratie.Host.Services.Authentication;
+using Superkatten.Katministratie.Host.Services.Http;
 using Superkatten.Katministratie.Host.Services.Interfaces;
 
 namespace Superkatten.Katministratie.Host.Services;
