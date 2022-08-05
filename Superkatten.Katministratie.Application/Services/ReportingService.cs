@@ -1,4 +1,6 @@
-﻿using Superkatten.Katministratie.Application.Interfaces;
+﻿
+using Superkatten.Katministratie.Application.Helpers;
+using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Reporting;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
 using System;
@@ -25,6 +27,11 @@ public class ReportingService : IReportingService
 
     public async Task EmailCatchLocationReport(string email, DateTime from, DateTime to)
     {
+        if (EmailValidator.IsValidEmail(email))
+        {
+            throw new ApplicationException($"'{email}' is not a valid email address.");
+        }
+
         var superkatten = await _reportingRepository.GetSuperkattenBetweenFromToAsync(from, to);
 
         var reportCsvData = _reportBuilder.BuildSuperkattenInventory(superkatten);

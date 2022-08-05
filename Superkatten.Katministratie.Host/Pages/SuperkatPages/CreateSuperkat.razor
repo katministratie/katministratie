@@ -17,8 +17,22 @@
 <HeaderItem Titel="Vang informatie:"></HeaderItem>
 <Field>
     <FieldLabel>Locatie</FieldLabel>
-    <TextEdit Placeholder="Waar gevangen" @bind-Text="@CatchLocationName"/>
+
+    <Autocomplete TItem="Location"
+              TValue="Guid"
+              Data="@Locations"
+              TextField="@(( item ) => item.Name)"
+              ValueField="@(( item ) => item.Id)"
+              @bind-SelectedValue="@CatchLocationNameId"
+              @bind-SelectedText="@CatchLocationName"
+              Placeholder="Search..."
+              Filter="AutocompleteFilter.StartsWith"
+              FreeTyping
+              CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
+        <NotFoundContent> Sorry... @context niet gevonden :( </NotFoundContent>
+    </Autocomplete>
 </Field>
+
 <Field>
     <FieldLabel>Type locatie</FieldLabel>
     <RadioGroup TValue="@Contract.Entities.LocationType" Color="Color.Light" Buttons @bind-CheckedValue="@CatchLocationType">
@@ -129,9 +143,3 @@
 <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnAddSuperkat">Toevoegen</Button>
 
 <Divider />
-
-<Snackbar @ref="_notification">
-    <SnackbarBody>
-        @_notificationString
-    </SnackbarBody>
-</Snackbar>

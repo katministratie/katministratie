@@ -121,7 +121,8 @@ namespace Superkatten.Katministratie.Application.Mappers
             var superkat = new Superkat(
                 contractSuperkat.Number,
                 contractSuperkat.CatchDate,
-                MapContractToDomain(contractSuperkat.CatchLocation))
+                MapContractToDomain(contractSuperkat.CatchLocation)
+            )
             {
                 Id = contractSuperkat.Id,
                 State = MapContractToDomain(contractSuperkat.State)
@@ -219,6 +220,12 @@ namespace Superkatten.Katministratie.Application.Mappers
             };
         }
 
+        public Location MapContractToDomain(contractEntities.Location location)
+        {
+            var locationType = MapContractToDomain(location.Type);
+            return new Location(location.Name, locationType);
+        }
+
         private static LocationType MapContractToDomain(contractEntities.LocationType locationType)
         {
             return locationType switch
@@ -235,12 +242,6 @@ namespace Superkatten.Katministratie.Application.Mappers
                 contractEntities.LocationType.NatureReserve => LocationType.NatureReserve,
                 _ => throw new InvalidEnumArgumentException(nameof(locationType), (int)locationType, typeof(contractEntities.LocationType))
             };
-        }
-
-        public Location MapContractToDomain(contractEntities.Location location)
-        {
-            var locationType = MapContractToDomain(location.Type);
-            return new Location(location.Name, locationType);
         }
     }
 }

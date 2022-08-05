@@ -18,8 +18,6 @@ public static class ExtensionMethods
             throw new ApplicationException("Key empty or null is not allowed");
         }
 
-        var result =  navigationManager.QueryString()[key];
-
-        return result ?? string.Empty;
+        return navigationManager.QueryString()[key] ?? navigationManager.BaseUri;
     }
 }

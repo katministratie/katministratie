@@ -9,12 +9,6 @@
 @inject IAuthenticationService AuthenticationService
 @inject NavigationManager NavigationManager
 
-<AntDesign.Row Class="mb-2">
-    <AntDesign.Col Class="col-12">
-        <AntDesign.Button Block="@true" OnClick="@OnBackHome">Terug</AntDesign.Button>
-    </AntDesign.Col>
-</AntDesign.Row>
-
 <div class="card">
         <h4 class="card-header">Katministratie Login</h4>
         <div class="card-body">
@@ -40,16 +34,18 @@
                     <InputText @bind-Value="model.Email"  type="email" class="form-control" />
                     <ValidationMessage For="@(() => model.Email)" />
                 </div>
+
                 <button class="btn btn-primary">
-                    @if (loading) {
-                        <span class="spinner-border spinner-border-sm mr-1"></span>
-                    }
                     Register
                 </button>
                 @if (!string.IsNullOrEmpty(error)) {
                     <div class="alert alert-danger mt-3 mb-0">@error</div>
-                }
+                }                
             </EditForm>
+
+            <Divider />
+            
+            <Button Size="Size.Medium" Color="Color.Primary" Clicked="@OnBackHome">Terug</Button>
         </div>
     </div>
 
@@ -60,10 +56,9 @@
 
     protected override void OnInitialized()
     {
-        // redirect to home if already logged in
         if (AuthenticationService.User != null)
         {
-            NavigationManager.NavigateTo("");
+            NavigationManager.NavigateTo("/");
         }
     }
 
@@ -74,7 +69,7 @@
         {
             await AuthenticationService.RegisterAsync(model.Username, model.Password, model.Name, model.Email);
 
-            var returnUrl = NavigationManager.QueryString("returnUrl") ?? "";
+            var returnUrl = NavigationManager.QueryString("returnUrl");
             NavigationManager.NavigateTo(returnUrl);
         }
         catch (Exception ex)
@@ -88,7 +83,7 @@
 
     private void OnBackHome()
     {
-        NavigationManager.NavigateTo("");
+        NavigationManager.NavigateTo("/");
     }
 
     private class Model
