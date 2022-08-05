@@ -18,10 +18,12 @@ public class LocationService : ILocationService
     {
         var uri = "api/Locations";
 
-        var locations = await _httpService.Get<List<Location>>(uri);
+        var allLocations = await _httpService.Get<List<Location>>(uri);
 
-        return locations is null
+        return allLocations is null
             ? new List<Location>()
-            : locations;
+            : allLocations
+                .DistinctBy(o => o.Name)
+                .ToList();
     }
 }
