@@ -26,7 +26,7 @@ public class LocationRepository : ILocationRepository
     {
         var location = await _context
             .Locations
-            .Where(l => l.Type == type && l.Name.Equals(name))
+            .Where(l => l.Type == type && l.Name.ToLower().Equals(name.ToLower()))
             .FirstOrDefaultAsync();
 
         if (location is null)
