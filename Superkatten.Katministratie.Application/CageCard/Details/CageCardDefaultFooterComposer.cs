@@ -27,6 +27,7 @@ namespace Superkatten.Katministratie.Application.CageCard.Details
                     column.Item()
                         .BorderBottom(1)
                         .PaddingBottom(5)
+                        .AlignCenter()
                         .Text($"Kooikaart superkatten (c) {DateTime.UtcNow.Year}")
                         .SemiBold();
                 });

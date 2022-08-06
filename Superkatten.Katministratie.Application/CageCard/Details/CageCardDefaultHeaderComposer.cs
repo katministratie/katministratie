@@ -27,6 +27,7 @@ public class CageCardDefaultHeaderComposer : IComponent
         container.Column(column =>
         {
             column.Item()
+                .AlignCenter()
                 .Text($"Locatie: {_superkatten.First().CatArea} Hok: {_superkatten.First().CageNumber}")
                 .Style(titleStyle)
                 .FontSize(40);
@@ -35,13 +36,12 @@ public class CageCardDefaultHeaderComposer : IComponent
                 .Row(row =>
                 {
                     row.RelativeItem()
-                    .Padding(5)
+                    .Padding(2)
                     .Border(1)
                     .Column(column =>
                     {
                         column.Item()
                             .AlignMiddle()
-                            .AlignCenter()
                             .Text($"Aantal:\n{_superkatten.Count}")
                             .Style(titleStyle);
                     });
@@ -59,8 +59,9 @@ public class CageCardDefaultHeaderComposer : IComponent
                             column.Item()
                                 .AlignMiddle()
                                 .AlignCenter()
-                                .Text($"{_superkatten.First().CatchLocation}")
-                                .Style(titleStyle);
+                                .Text($"{_superkatten.First().CatchLocation.Name}")
+                                .Style(titleStyle)
+                                .FontSize(18);
                         });
                 });
         });

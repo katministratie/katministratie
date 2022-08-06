@@ -18,35 +18,40 @@ public class CageCardSuperkatDetailsComponent : IComponent
     public void Compose(IContainer container)
     {
         container
-            .Padding(10)
+            .Padding(2)
             .Border(1)
-            .BorderColor(Colors.Amber.Accent1)
+            .BorderColor(Colors.Grey.Darken3)
             .Column(column =>
             {
                 column.Spacing(2);
 
                 column.Item()
                     .Padding(2)
-                    .Background(Colors.White)
+                    .PaddingLeft(15)
+                    .Background(Colors.BlueGrey.Darken3)
                     .PaddingBottom(5)
                     .Text(_superkat.UniqueNumber)
                     .SemiBold();
 
                 column.Item()
                     .Padding(2)
+                    .PaddingLeft(15)
                     .Text($"Verjaardag: {_superkat.Birthday.ToShortDateString()}");
 
                 column.Item()
                     .Padding(2)
+                    .PaddingLeft(15)
                     .Text($"Kleur: {_superkat.Color}");
 
                 column.Item()
                     .Padding(2)
+                    .PaddingLeft(15)
                     .Text($"Age categorie: {GetAgeCategoryText(_superkat.AgeCategory)}");
 
 
                 column.Item()
                     .Padding(2)
+                    .PaddingLeft(15)
                     .Text($"Gedrag: {GetGedragText(_superkat.Behaviour)}");
             });
     }
