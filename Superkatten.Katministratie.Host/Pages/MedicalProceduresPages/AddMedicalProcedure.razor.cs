@@ -80,27 +80,28 @@ partial class AddMedicalProcedure
 
         _navigation.NavigateBack();
     }
+
     public class MySelectModel
     {
         public int MyValueField { get; set; }
         public string MyTextField { get; set; } = string.Empty;
     }
 
-    static readonly string[] _medicalProcedureNames = { 
+    private static readonly string[] _medicalProcedureNames = { 
         "Stronghold", 
         "Neutraliseren", 
         "Controle", 
         "Bezoek dierenarts"
     };
     
-    IEnumerable<MySelectModel> myDdlData = Enumerable
+    private IEnumerable<MySelectModel> myDdlData = Enumerable
         .Range(1, _medicalProcedureNames.Length)
         .Select(x => new MySelectModel { 
             MyTextField = _medicalProcedureNames[x - 1], 
             MyValueField = x 
         });
 
-    int SelectedListValue
+    private int SelectedListValue
     {
         get
         {
@@ -117,7 +118,7 @@ partial class AddMedicalProcedure
         }
     }
 
-    void MyListValueChangedHandler(int newValue)
+    private void MyListValueChangedHandler(int newValue)
     {
         SelectedListValue = newValue;
         StateHasChanged();

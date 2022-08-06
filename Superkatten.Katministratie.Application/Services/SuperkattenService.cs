@@ -42,8 +42,12 @@ namespace Superkatten.Katministratie.Application.Services
             var maxSuperkatNumberForYear = await _superkattenRepository.GetMaxSuperkatNumberForYear(DateTimeOffset.Now.Year);
 
             var locationData = _superkattenMapper.MapContractToDomain(createSuperkatParameters.CatchLocation);
-            var location = await _locationRepository.CreateOrGetLocationAsync(locationData.Type, locationData.Name);
 
+            var location = await _locationRepository.GetLocationAsync(locationData.Type, locationData.Name);
+            if (location is null)
+            {
+                location = await _locationRepository.CreateLocationAsync(locationData.Type, locationData.Name);
+            }
             var superkat = new Superkat(
                 maxSuperkatNumberForYear + 1, 
                 createSuperkatParameters.CatchDate,

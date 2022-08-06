@@ -10,32 +10,27 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence;
 
 public class LocationRepository : ILocationRepository
 {
-    private readonly ILogger<LocationRepository> _logger;
     private readonly SuperkattenDbContext _context;
 
-    public LocationRepository(
-        ILogger<LocationRepository> logger,
-        SuperkattenDbContext context
-    )
+    public LocationRepository(SuperkattenDbContext context)
     {
-        _logger = logger;
         _context = context;
     }
 
-    public async Task<Location> CreateOrGetLocationAsync(LocationType type, string name)
+    public async Task<Location?> GetLocationAsync(LocationType type, string name)
     {
-        var location = await _context
+        return await _context
             .Locations
             .Where(l => l.Type == type && l.Name.ToLower().Equals(name.ToLower()))
             .FirstOrDefaultAsync();
+    }
 
-        if (location is null)
-        {
-            location = new Location(name, type);
+    public async Task<Location> CreateLocationAsync(LocationType type, string name)
+    {
+        var location = new Location(name, type);
 
-            await _context.Locations.AddAsync(location);
-            await _context.SaveChangesAsync();
-        }
+        await _context.Locations.AddAsync(location);
+        await _context.SaveChangesAsync();
 
         return location;
     }

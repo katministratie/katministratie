@@ -13,9 +13,15 @@ public class ReportingService : IReportingService
         _httpService = httpService;
     }
 
-    public async Task EmailInventoryDetailsReport(RequestCatchLocationEmailParameters requestPeriod)
+    public async Task EmailInventoryDetailsReportAsync(RequestCatchLocationEmailParameters requestPeriod)
     {
         var uri = "api/Reporting/reports/catchlocation";
         await _httpService.Put(uri, requestPeriod);
+    }
+
+    public async Task EmailCageCardAsync(RequestCageCardEmailParameters cageCardRequestParameters)
+    {
+        var uri = "api/Reporting/reports/cagecard";
+        await _httpService.Put(uri, cageCardRequestParameters);
     }
 }

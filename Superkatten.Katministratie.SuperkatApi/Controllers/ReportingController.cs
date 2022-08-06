@@ -21,12 +21,23 @@ public class ReportingController
 
     [HttpPut]
     [Route("reports/catchlocation")]
-    public async Task EmailCatchLocationReport([FromBody] RequestCatchLocationEmailParameters requestParameters)
+    public async Task EmailCatchLocationReport([FromBody] RequestCatchLocationEmailParameters requestCatchLocationParameters)
     {
         await _reportingService.EmailCatchLocationReport(
-            requestParameters.Email,
-            requestParameters.From,
-            requestParameters.To
+            requestCatchLocationParameters.Email,
+            requestCatchLocationParameters.From,
+            requestCatchLocationParameters.To
+        );
+    }
+
+    [HttpPut]
+    [Route("reports/cagecard")]
+    public async Task EmailCageCard([FromBody] RequestCageCardEmailParameters requestCageCardParameters)
+    {
+        await _reportingService.EmailCageCard(
+            requestCageCardParameters.Email,
+            requestCageCardParameters.CatArea,
+            requestCageCardParameters.CageNumber
         );
     }
 }

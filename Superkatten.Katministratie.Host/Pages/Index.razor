@@ -36,10 +36,14 @@ else
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowOverviewGastgezinnen">Gastgezinnen</Button>
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowMedicalProcedures">Medische handelingen</Button>
 
-    <Divider />
+    <Divider />    
+
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnEmailCageCard">
+        Email mij een kooikaart
+    </Button>
 
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateWakkerDierInventoryReport">
-        email mij het wakker dier inventarisatie formulier
+        Email mij het wakker dier inventarisatie formulier
     </Button>
 }
 
@@ -172,6 +176,11 @@ else
         await SaveAndHideModal();        
     }
 
+    private void OnEmailCageCard()
+    {   
+        _navigation.NavigateTo("CageCard");
+    }
+
     private async Task OnCreateWakkerDierInventoryReport()
     {
         if (AuthenticationService is null)
@@ -198,6 +207,6 @@ else
             To = DateTime.UtcNow
         };
 
-        await ReportingService.EmailInventoryDetailsReport(requestParameters);
+        await ReportingService.EmailInventoryDetailsReportAsync(requestParameters);
     }
 }

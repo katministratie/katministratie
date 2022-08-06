@@ -5,7 +5,7 @@ namespace Superkatten.Katministratie.Domain.Entities;
 
 public class Location
 {
-    public Guid Id { get; private set; } = Guid.Empty;
+    public Guid Id { get; init; } = Guid.Empty;
     public string Name { get; private set; }
     public LocationType Type { get; private set; }
 

@@ -10,15 +10,10 @@ namespace Superkatten.Katministratie.Application.Services;
 public class SuperkatAction : ISuperkatAction
 {
     public readonly ISuperkattenRepository SuperkattenRepository;
-    public readonly ISuperkatCageCard CageCardGenerator;
 
-    public SuperkatAction(
-        ISuperkattenRepository superkattenRepository,
-        ISuperkatCageCard cageCardGenerator
-    )
+    public SuperkatAction(ISuperkattenRepository superkattenRepository)
     {
         SuperkattenRepository = superkattenRepository;
-        CageCardGenerator = cageCardGenerator;
     }
 
     public async Task ToggleRetourAsync(Guid id)
@@ -33,10 +28,5 @@ public class SuperkatAction : ISuperkatAction
         var superkat = await SuperkattenRepository.GetSuperkatAsync(id);
         superkat.SetReserved(!superkat.Reserved);
         await SuperkattenRepository.UpdateSuperkatAsync(superkat);
-    }
-
-    public async Task CreateSuperkatCageCardAsync(SuperkatCageCardPrintParameters parameters)
-    {
-        _ = await CageCardGenerator.CreateCageCardAsync(parameters.Id);
     }
 }

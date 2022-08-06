@@ -9,7 +9,7 @@ namespace Superkatten.Katministratie.Domain.Entities
         public int Number { get; private set; }
         public SuperkatState State { get; init; } = SuperkatState.Trapped;
         public DateTime Birthday { get; private set; }
-        public DateTime CatchDate { get; private set; }
+        public DateTime CatchDate { get; private set; } = DateTime.UtcNow;
         public Location CatchLocation { get; private set; }
         public string Name { get; private set; } = string.Empty;
         public bool Reserved { get; private set; }
@@ -24,7 +24,11 @@ namespace Superkatten.Katministratie.Domain.Entities
         public FoodType FoodType { get; private set; } = FoodType.FirstPhase;
         public string Color { get; private set; } = string.Empty;
         public Guid? GastgezinId { get; private set; }
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        // Constructor is needed for EF
         public Superkat() { }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         public Superkat(
             int number,
@@ -42,6 +46,14 @@ namespace Superkatten.Katministratie.Domain.Entities
             Number = number;
             CatchDate = catchDate;
             CatchLocation = catchLocation;
+        }
+
+        public string UniqueNumber
+        {
+            get
+            {
+                return CatchDate.Year.ToString() + "-" + Number.ToString("000");
+            }
         }
 
         public void SetBirthday(DateTime birthday)

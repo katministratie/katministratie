@@ -1,4 +1,5 @@
 ﻿using Superkatten.Katministratie.Domain.Entities;
+using System;
 using System.ComponentModel;
 using ContractEntities = Superkatten.Katministratie.Contract.Entities;
 
@@ -16,7 +17,16 @@ public class LocationMapper : ILocationMapper
         };
     }
 
-    private ContractEntities.LocationType MapDomainToContract(LocationType locationType)
+    public Location MapContractToDomain(ContractEntities.Location location)
+    {
+        var locationType = MapContractToDomain(location.Type);
+        return new Location(location.Name, locationType)
+        {
+            Id = location.Id
+        };
+    }
+
+    private static ContractEntities.LocationType MapDomainToContract(LocationType locationType)
     {
         return locationType switch
         {
@@ -31,6 +41,25 @@ public class LocationMapper : ILocationMapper
             LocationType.RuralArea => ContractEntities.LocationType.RuralArea,
             LocationType.NatureReserve => ContractEntities.LocationType.NatureReserve,
             _ => throw new InvalidEnumArgumentException(nameof(locationType), (int)locationType, typeof(LocationType))
+        };
+    }
+
+
+    public LocationType MapContractToDomain(ContractEntities.LocationType locationType)
+    {
+        return locationType switch
+        { 
+            ContractEntities.LocationType.Farm => LocationType.Farm,
+            ContractEntities.LocationType.PrivateProperty => LocationType.PrivateProperty,
+            ContractEntities.LocationType.AllotmentGarden => LocationType.AllotmentGarden,
+            ContractEntities.LocationType.Camping => LocationType.Camping,
+            ContractEntities.LocationType.Farmhouse => LocationType.Farmhouse,
+            ContractEntities.LocationType.Stable => LocationType.Stable,
+            ContractEntities.LocationType.BusinessPark => LocationType.BusinessPark,
+            ContractEntities.LocationType.UrbanArea => LocationType.UrbanArea,
+            ContractEntities.LocationType.RuralArea => LocationType.RuralArea,
+            ContractEntities.LocationType.NatureReserve => LocationType.NatureReserve,
+            _ => throw new InvalidEnumArgumentException(nameof(locationType), (int)locationType, typeof(ContractEntities.LocationType))
         };
     }
 }
