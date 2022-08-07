@@ -8,13 +8,6 @@
 @using Superkatten.Katministratie.Host.Services.Interfaces
 @using Superkatten.Katministratie.Host.Services.Authentication
 
-
-<Snackbar @ref="_notification">
-    <SnackbarBody>
-        @_notificationString
-    </SnackbarBody>
-</Snackbar>
-
 <PageTitle>Superkatten</PageTitle>
 
 @if (!IsAuthenticated)
@@ -47,7 +40,7 @@ else
     </Button>
 }
 
-<Modal @ref="modalRef">
+<Modal @ref="modalDialogboxRef">
     <ModalContent Centered>
         <ModalHeader>
             <ModalTitle>Inloggen</ModalTitle>
@@ -87,26 +80,19 @@ else
         public bool AllFilledIn => !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password);
     }
 
-    private Snackbar _notification;
-    private string _notificationString;
     private LoginModel? loginModel;
-    private Modal modalRef;
+    private Modal modalDialogboxRef;
     private bool IsAuthenticated => _authenticationService.IsAuthenticated;
 
-    [Inject]
-    public Navigation _navigation { get; set; }
+    [Inject] public Navigation _navigation { get; set; }
 
-    [Inject]
-    public ISuperkattenListService _superkattenService { get; set; }
+    [Inject] public ISuperkattenListService _superkattenService { get; set; }
 
-    [Inject]
-    public IAuthenticationService _authenticationService { get; set; }
+    [Inject] public IAuthenticationService _authenticationService { get; set; }
 
-    [Inject]
-    public IReportingService ReportingService { get; set; }
+    [Inject] public IReportingService ReportingService { get; set; }
 
-    [Inject]
-    public IAuthenticationService AuthenticationService { get; set; }
+    [Inject] public IAuthenticationService AuthenticationService { get; set; }
 
 
     protected override async Task OnInitializedAsync()
@@ -123,7 +109,7 @@ else
     private async Task OnLogin()
     {
         loginModel = new();
-        await modalRef.Show();
+        await modalDialogboxRef.Show();
     }
 
     private async Task OnLogout()
@@ -153,7 +139,7 @@ else
 
     private Task HideModal()
     {
-        return modalRef.Hide();
+        return modalDialogboxRef.Hide();
     }
 
     private async Task SaveAndHideModal()
@@ -163,7 +149,7 @@ else
             await _authenticationService.AuthenticateUserAsync(loginModel.Username, loginModel.Password);
         }
 
-        await modalRef.Hide();
+        await modalDialogboxRef.Hide();
     }
 
     private async Task OnKeyPress(KeyboardEventArgs eventArgs)
@@ -196,8 +182,9 @@ else
         var email = AuthenticationService.User.Email;
         if (email is null || string.IsNullOrEmpty(email))
         {
-            _notificationString = "Email van ingelogde gebruiker is niet ingevuld. De email kan niet worden verstuurd.";
-            await _notification.Show();
+            //_notificationString = "Email van ingelogde gebruiker is niet ingevuld. De email kan niet worden verstuurd.";
+            //await _notification.Show();
+            return;
         }
 
         var requestParameters = new RequestCatchLocationEmailParameters

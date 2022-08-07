@@ -1,4 +1,5 @@
 ﻿using Superkatten.Katministratie.Contract.ApiInterface;
+using Superkatten.Katministratie.Contract.ApiInterface.Reporting;
 using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Services.Http;
 
@@ -21,7 +22,7 @@ public class SuperkattenListService : ISuperkattenListService
             var superkat = await _httpService.Put<Superkat>(uri, newSuperkat);
             return superkat;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return null;
         }
@@ -64,6 +65,21 @@ public class SuperkattenListService : ISuperkattenListService
         var superkatten = await _httpService.Get<List<Superkat>>(uri);
 
         return superkatten is null
+            ? new()
+            : superkatten;
+    }
+
+    public async Task<List<Superkat>> GetCageCardEmailSuperkattenAsync(RequestCageCardEmailParameters requestParameters)
+    {
+        var uri = "api/Superkatten/NotAssigned";
+        var notAssignedSuperkatten = await _httpService.Get<List<Superkat>>(uri);
+
+        var superkatten = notAssignedSuperkatten
+            .Where(s => s.CatArea == requestParameters.CatArea)
+            .Where(s => s.CageNumber == requestParameters.CageNumber)
+            .ToList();
+
+        return notAssignedSuperkatten is null
             ? new()
             : superkatten;
     }

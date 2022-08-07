@@ -51,7 +51,6 @@
 
 @code {
     private Model model = new Model();
-    private bool loading;
     private string error = string.Empty;
 
     protected override void OnInitialized()
@@ -64,7 +63,6 @@
 
     private async void HandleValidSubmit()
     {
-        loading = true;
         try
         {
             await AuthenticationService.RegisterAsync(model.Username, model.Password, model.Name, model.Email);
@@ -77,8 +75,6 @@
             error = ex.Message;
             StateHasChanged();
         }
-
-        loading = false;
     }
 
     private void OnBackHome()

@@ -36,8 +36,6 @@ public partial class CreateSuperkat
 
     [Inject] public ISuperkattenListService? SuperkattenService { get; set; }
 
-    [Inject] public AntDesign.MessageService? Message { get; set; }
-
     [Inject] public ILocationService? LocationService { get; set; }
 
 

@@ -45,10 +45,6 @@ public class HttpService : IHttpService
             request.Content = new StringContent(JsonSerializer.Serialize(value), Encoding.UTF8, "application/json");
         }
 
-        //{
-        //    Content = new StringContent(JsonSerializer.Serialize(value), Encoding.UTF8, "application/json")
-        //};
-
         return await SendRequest<T>(request);
     }
 

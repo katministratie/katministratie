@@ -45,7 +45,7 @@ public class MailService : IMailService
         {
             //TODO: tijdelijk gmail account login gebruiken
             client.Connect("smtp.gmail.com", 587, SecureSocketOptions.Auto);
-            client.Authenticate("johandekroon@gmail.com", "pofhcoxtzxkkejxc");
+            client.Authenticate("johandekroon@gmail.com", "bctlyadxlapktqdc"); // LET OP -> MOET ENV VAR Worden in azure
             try
             {
                 var result = client.Send(message);
@@ -56,8 +56,6 @@ public class MailService : IMailService
             }
             client.Disconnect(true);
         }
-
-        Thread.Sleep(5000);
 
         File.Delete(fileName);
 

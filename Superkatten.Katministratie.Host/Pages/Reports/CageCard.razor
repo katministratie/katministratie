@@ -1,14 +1,11 @@
 ﻿@page "/CageCard"
 
+@using Superkatten.Katministratie.Host.Components.SuperkatComponents
+
 <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Ok</Button>
 <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
 
 <Divider />
-
-<Field>
-    <FieldLabel>Hoknummer</FieldLabel>
-    <NumericPicker @bind-Value="@CageNumber" Min="1" Max="60" />
-</Field>
 
 <SelectList TItem="MySelectModel"
             TValue="int"
@@ -18,3 +15,21 @@
             SelectedValue="@SelectedListValue"
             SelectedValueChanged="@MyListValueChangedHandler"
             DefaultItemText="Selecteer type handeling" />
+
+<Field>
+    <FieldLabel>Hoknummer</FieldLabel>
+    <NumericEdit Min="1" Max="60" TValue="int" @bind-Value="@CageNumber" Autofocus/>
+</Field>
+
+<Divider />
+
+<Button Size="Size.Small" Color="Color.Primary" Clicked="@OnGetSuperkatten">Superkatten</Button>
+
+<Divider />
+
+<Field>
+    @foreach (var superkat in _superkatten)
+    {
+        <SimpleSuperkatComponent Superkat=superkat />
+    }
+</Field>
