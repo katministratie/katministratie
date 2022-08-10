@@ -1,0 +1,28 @@
+﻿@using Superkatten.Katministratie.Host.Entities;
+
+@typeparam TItem
+
+@if (_selectionListData is null || !_selectionListData.Any())
+{
+  <Field>
+    <FieldLabel>Selecteer hok:</FieldLabel>
+    <FieldBody>
+      <p>Lege lijst, geen keuze beschikbaar</p>
+    </FieldBody>
+  </Field>
+  return;
+}
+
+<Field>
+  <FieldLabel>Selecteer hok:</FieldLabel>
+  <FieldBody>
+    <SelectList TItem="SelectionListModel<TItem>"
+                TValue=TItem
+                Data="@_selectionListData"
+                TextField="@((item) => item.Key)"
+                ValueField="@((item) => item.Value)"
+                SelectedValue="@SelectedListValue"
+                SelectedValueChanged="@OnSelectedValueChanged"
+                DefaultItemText="@DefaultText" />
+  </FieldBody>
+</Field>

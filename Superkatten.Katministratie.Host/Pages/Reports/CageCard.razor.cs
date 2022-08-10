@@ -10,56 +10,59 @@ namespace Superkatten.Katministratie.Host.Pages.Reports;
 
 partial class CageCard
 {
-    [Inject] public IAuthenticationService AuthenticationService { get; set; }
-    [Inject] public IReportingService ReportingService{ get; set; }
-    [Inject] public Navigation Navigation { get; set; }
+    [Inject] public IAuthenticationService? AuthenticationService { get; init; }
+    [Inject] public IReportingService? ReportingService { get; init; }
+    [Inject] public Navigation? Navigation { get; init; }
 
-    private int CageNumber = 1;
 
-    private CatArea SelectedItem { get; set; }
+    private readonly List<CatArea> _areaSelectionList = Enum.GetValues(typeof(CatArea)).Cast<CatArea>().ToList();
+    private List<int> _cageNumberSelectionList = Array.Empty<int>().ToList();
+    private CatArea _catArea { get; set; } = CatArea.Quarantine;
+    private int _cageNumber { get; set; } = 1;
 
-    public class MySelectModel
+    public CageCard()
     {
-        public int MyValueField { get; set; }
-        public string MyTextField { get; set; } = string.Empty;
+        UpdateCatAreaHokNumbers();
     }
 
-    private static readonly string[] _selectionItems = Enum.GetNames<CatArea>();
-
-    private IEnumerable<MySelectModel> myDdlData = Enumerable
-        .Range(1, _selectionItems.Length)
-        .Select(x => new MySelectModel
-        {
-            MyTextField = _selectionItems[x - 1],
-            MyValueField = x
-        });
-
-    private int SelectedListValue
+    private void OnCatAreaChanged(CatArea catArea)
     {
-        get
-        {
-            return (int)SelectedItem + 1;
-        }
-        set
-        {
-            if (value < 0)
-            {
-                SelectedItem = CatArea.Quarantine;
-            }
+        _catArea = catArea;
 
-            SelectedItem = (CatArea)(value - 1);
-        }
-    }
-
-    private void MyListValueChangedHandler(int newValue)
-    {
-        SelectedListValue = newValue;
+        UpdateCatAreaHokNumbers();
         StateHasChanged();
+    }
+
+    private void UpdateCatAreaHokNumbers()
+    {
+        // TODO: haal hoknummers uit applicatielaag, voor nu hardcoded
+        _cageNumberSelectionList = _catArea switch
+        {
+            CatArea.Quarantine => new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 },
+            CatArea.Room2 => new List<int>() { 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 },
+            CatArea.Infirmary => new List<int>() { 1, 2, 3, 4, 5, 6, 7},
+            CatArea.SmallEnclosure => new List<int>() { 1, 2, 3, 4 },
+            CatArea.BigEnclosure => new List<int>() { 1 },
+            _ => new List<int>()
+        };
+    }
+
+    private void OnCageNumberChanged(int cageNumber)
+    {
+        _cageNumber = cageNumber;
     }
 
     private async Task OnOk()
     {
-        var email = AuthenticationService.User?.Email;
+        if (AuthenticationService is null 
+            || AuthenticationService.User is null 
+            || ReportingService is null
+            || Navigation is null)
+        {
+            return;
+        }
+
+        var email = AuthenticationService.User.Email;
         if (email is null || string.IsNullOrEmpty(email))
         {
             return;
@@ -68,8 +71,8 @@ partial class CageCard
         var parameters = new RequestCageCardEmailParameters
         {
             Email = email,
-            CageNumber = CageNumber,
-            CatArea = SelectedItem        
+            CageNumber = _cageNumber,
+            CatArea = _catArea        
         };
 
         await ReportingService.EmailCageCardAsync(parameters);
@@ -79,8 +82,12 @@ partial class CageCard
 
     public void OnCancel()
     {
+        if (Navigation is null)
+        {
+            return;
+        }
+
         Navigation.NavigateBack();
     }
-
 }
 

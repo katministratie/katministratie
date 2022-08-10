@@ -26,7 +26,6 @@ public class SuperkattenRepository : ISuperkattenRepository
 
     public async Task CreateSuperkatAsync(Superkat superkat)
     {
-        // Check naar applicatielaag
         var superkatDtoExsist = await _context
             .SuperKatten
             .AnyAsync(s => s.Id == superkat.Id);            

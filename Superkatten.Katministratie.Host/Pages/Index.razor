@@ -93,20 +93,15 @@ else
     private Modal modalRef;
     private bool IsAuthenticated => _authenticationService.IsAuthenticated;
 
-    [Inject]
-    public Navigation _navigation { get; set; }
+    [Inject] public Navigation _navigation { get; set; }
 
-    [Inject]
-    public ISuperkattenListService _superkattenService { get; set; }
+    [Inject] public ISuperkattenListService _superkattenService { get; set; }
 
-    [Inject]
-    public IAuthenticationService _authenticationService { get; set; }
+    [Inject] public IAuthenticationService _authenticationService { get; set; }
 
-    [Inject]
-    public IReportingService ReportingService { get; set; }
+    [Inject] public IReportingService ReportingService { get; set; }
 
-    [Inject]
-    public IAuthenticationService AuthenticationService { get; set; }
+    [Inject] public IAuthenticationService AuthenticationService { get; set; }
 
 
     protected override async Task OnInitializedAsync()
@@ -194,7 +189,7 @@ else
         }
 
         var email = AuthenticationService.User.Email;
-        if (email is null || string.IsNullOrEmpty(email))
+        if (string.IsNullOrEmpty(email))
         {
             _notificationString = "Email van ingelogde gebruiker is niet ingevuld. De email kan niet worden verstuurd.";
             await _notification.Show();

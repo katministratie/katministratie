@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Infrastructure.Entities;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Superkatten.Katministratie.Infrastructure.Persistence;
 

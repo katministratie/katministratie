@@ -1,20 +1,20 @@
 ﻿@page "/CageCard"
+@using Superkatten.Katministratie.Contract.Entities
+@using Superkatten.Katministratie.Host.Components
 
 <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Ok</Button>
 <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
 
 <Divider />
+            
+<SelectListComponent 
+  TItem="CatArea" 
+  DefaultText="Selecteer area" 
+  SelectionItems="@_areaSelectionList" 
+  OnSelectedItem="OnCatAreaChanged"/>
 
-<Field>
-    <FieldLabel>Hoknummer</FieldLabel>
-    <NumericPicker @bind-Value="@CageNumber" Min="1" Max="60" />
-</Field>
-
-<SelectList TItem="MySelectModel"
-            TValue="int"
-            Data="@myDdlData"
-            TextField="@((item) => item.MyTextField)"
-            ValueField="@((item) => item.MyValueField)"
-            SelectedValue="@SelectedListValue"
-            SelectedValueChanged="@MyListValueChangedHandler"
-            DefaultItemText="Selecteer type handeling" />
+<SelectListComponent 
+  TItem="int" 
+  DefaultText="Selecteer hok nummer" 
+  SelectionItems="@_cageNumberSelectionList" 
+  OnSelectedItem="OnCageNumberChanged"/>
