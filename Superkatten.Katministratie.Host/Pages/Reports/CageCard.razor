@@ -1,20 +1,35 @@
 ﻿@page "/CageCard"
+
 @using Superkatten.Katministratie.Contract.Entities
 @using Superkatten.Katministratie.Host.Components
+@using Superkatten.Katministratie.Host.Components.SuperkatComponents
+
 
 <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Ok</Button>
 <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
 
 <Divider />
             
-<SelectListComponent 
-  TItem="CatArea" 
-  DefaultText="Selecteer area" 
-  SelectionItems="@_areaSelectionList" 
-  OnSelectedItem="OnCatAreaChanged"/>
+
 
 <SelectListComponent 
   TItem="int" 
   DefaultText="Selecteer hok nummer" 
   SelectionItems="@_cageNumberSelectionList" 
-  OnSelectedItem="OnCageNumberChanged"/>
+  OnSelectedItem="@OnCageNumberChanged"/>
+
+<SelectListComponent 
+  TItem="CatArea" 
+  DefaultText="Selecteer opvang locatie" 
+  SelectionItems="@_areaSelectionList" 
+  OnSelectedItem="@OnCatAreaChanged"/>
+
+<Field>
+  <FieldLabel>Superkatten in gekozen hok:</FieldLabel>
+    <FieldBody>
+      @foreach(var superkat in Superkatten)
+      {
+        <Field>@superkat.Number</Field>
+      }
+    </FieldBody>
+</Field>

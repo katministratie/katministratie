@@ -2,38 +2,53 @@
 using Superkatten.Katministratie.Contract.ApiInterface.Reporting;
 using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Helpers;
+using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Authentication;
 using Superkatten.Katministratie.Host.Services.Interfaces;
+using System.Linq;
 
 
 namespace Superkatten.Katministratie.Host.Pages.Reports;
 
 partial class CageCard
 {
+    [Inject] private ISuperkattenListService? SuperkattenService { get; set; }
     [Inject] public IAuthenticationService? AuthenticationService { get; init; }
     [Inject] public IReportingService? ReportingService { get; init; }
     [Inject] public Navigation? Navigation { get; init; }
 
 
-    private readonly List<CatArea> _areaSelectionList = Enum.GetValues(typeof(CatArea)).Cast<CatArea>().ToList();
+    private List<CatArea> _areaSelectionList = new();
     private List<int> _cageNumberSelectionList = Array.Empty<int>().ToList();
     private CatArea _catArea { get; set; } = CatArea.Quarantine;
     private int _cageNumber { get; set; } = 1;
+    private IReadOnlyCollection<Superkat> Superkatten { get; set; } = Array.Empty<Superkat>();
 
-    public CageCard()
+    protected override async Task OnInitializedAsync()
     {
-        UpdateCatAreaHokNumbers();
+        UpdateCatAreaHokNumbersList();
+        PopulateCatAreaSelectionList();
+
+        await UpdateSuperkattenListAsync();
+
+        StateHasChanged();
+    }
+
+    private void PopulateCatAreaSelectionList()
+    {
+        _areaSelectionList.Add(CatArea.Quarantine);
     }
 
     private void OnCatAreaChanged(CatArea catArea)
     {
         _catArea = catArea;
 
-        UpdateCatAreaHokNumbers();
+        UpdateCatAreaHokNumbersList();
+        _cageNumber = 1;
         StateHasChanged();
     }
 
-    private void UpdateCatAreaHokNumbers()
+    private void UpdateCatAreaHokNumbersList()
     {
         // TODO: haal hoknummers uit applicatielaag, voor nu hardcoded
         _cageNumberSelectionList = _catArea switch
@@ -47,9 +62,11 @@ partial class CageCard
         };
     }
 
-    private void OnCageNumberChanged(int cageNumber)
+    private async Task OnCageNumberChanged(int cageNumber)
     {
         _cageNumber = cageNumber;
+
+        await UpdateSuperkattenListAsync();
     }
 
     private async Task OnOk()
@@ -88,6 +105,21 @@ partial class CageCard
         }
 
         Navigation.NavigateBack();
+    }
+
+    public async Task UpdateSuperkattenListAsync()
+    {
+        if (SuperkattenService is null)
+        {
+            return;
+        }
+
+        var superkatten = await SuperkattenService.GetAllNotAssignedSuperkattenAsync();
+
+        Superkatten = superkatten
+            .Where(s => s.CageNumber == _cageNumber && s.CatArea == _catArea)
+            .ToList();
+        StateHasChanged();
     }
 }
 
