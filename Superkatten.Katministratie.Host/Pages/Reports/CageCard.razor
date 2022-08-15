@@ -9,27 +9,29 @@
 <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
 
 <Divider />
-            
-
 
 <SelectListComponent 
-  TItem="int" 
-  DefaultText="Selecteer hok nummer" 
-  SelectionItems="@_cageNumberSelectionList" 
-  OnSelectedItem="@OnCageNumberChanged"/>
+    TItem="CatArea" 
+    DefaultText="Selecteer ruimte"
+    ItemNames="@_catAreaNames"
+    Items="@_catAreas" 
+    OnSelectionChanged="@UpdateCatAreaDataAsync"/>
+    
+<SelectListComponent
+    TItem="int" 
+    DefaultText="Selecteer hok nummer"
+    EmptyListText="Selecteer eerst gebied"
+    ItemNames="@_cageNumberNames"
+    Items="@_cageNumbers"
+    OnSelectionChanged="@UpdateSuperkattenListAsync"/>
 
-<SelectListComponent 
-  TItem="CatArea" 
-  DefaultText="Selecteer opvang locatie" 
-  SelectionItems="@_areaSelectionList" 
-  OnSelectedItem="@OnCatAreaChanged"/>
-
-<Field>
-  <FieldLabel>Superkatten in gekozen hok:</FieldLabel>
-    <FieldBody>
+<Field>@SuperkattenMessage</Field>
+@if (Superkatten.Count > 1)
+{
+  <Field Border="Border.Is1">
       @foreach(var superkat in Superkatten)
       {
-        <Field>@superkat.Number</Field>
+        <Button Disabled Color="Color.Primary">@superkat.UniqueNumber</Button>
       }
-    </FieldBody>
-</Field>
+  </Field>
+}

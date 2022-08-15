@@ -2,26 +2,23 @@
 
 @typeparam TItem
 
-@if (_selectionListData is null || !_selectionListData.Any())
+@if (!_selectionItemData.Any())
 {
-  <Field>
-    <FieldLabel>Selecteer hok:</FieldLabel>
-    <FieldBody>
-      <p>Lege lijst, geen keuze beschikbaar</p>
-    </FieldBody>
-  </Field>
-  return;
+    <Field>
+        <FieldLabel>@DefaultText</FieldLabel>
+        <TextEdit Text=@EmptyListText Disabled />
+    </Field>  
+    return;
 }
 
 <Field>
-  <FieldLabel>Selecteer hok:</FieldLabel>
+  <FieldLabel>@DefaultText</FieldLabel>
   <FieldBody>
-    <SelectList TItem="SelectionListModel<TItem>"
-                TValue=TItem
-                Data="@_selectionListData"
-                TextField="@((item) => item.Key)"
-                ValueField="@((item) => item.Value)"
-                SelectedValue="@SelectedListValue"
+    <SelectList TItem="SelectListItem<TItem>"
+                TValue="int"
+                Data="@_selectionItemData"
+                TextField="@((item) => item.ItemName)"
+                ValueField="@((item) => item.KeyId)"
                 SelectedValueChanged="@OnSelectedValueChanged"
                 DefaultItemText="@DefaultText" />
   </FieldBody>

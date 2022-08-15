@@ -62,6 +62,11 @@ public partial class AssignSuperkatten
 
     private Task AddSuperkatToSelectionAsync(Superkat superkat)
     {
+        if (_gastgezin is null)
+        {
+            return Task.CompletedTask;
+        }
+
         if (_superkattenService is null)
         {
             return Task.CompletedTask;

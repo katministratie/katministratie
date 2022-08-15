@@ -30,6 +30,7 @@ namespace Superkatten.Katministratie.Application
             services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<ILocationMapper, LocationMapper>();
             services.AddTransient<ICageCardComposerFactory, CageCardComposerFactory>();
+            services.AddTransient<ISettingsService, SettingsService>();
             
             services.AddScoped<IJwtUtils, JwtUtils>();
             services.AddScoped<IUserService, UserService>();

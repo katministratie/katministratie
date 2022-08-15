@@ -1,18 +1,27 @@
-﻿
-using Microsoft.AspNetCore.Components;
-using Superkatten.Katministratie.Host.Entities;
+﻿using Microsoft.AspNetCore.Components;
+using MoreLinq;
+using Superkatten.Katministratie.Contract.Entities;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Superkatten.Katministratie.Host.Components;
 
 public partial class SelectListComponent<TItem>
 {
+    [Parameter]
+    public string DefaultText { get;  set; } = string.Empty;
 
     [Parameter]
-    public List<TItem> SelectionItems
+    public string EmptyListText { get; set; } = "...";
+
+    [Parameter]
+    public IReadOnlyCollection<string> ItemNames { get; set; } = Array.Empty<string>();
+
+    [Parameter]
+    public IReadOnlyCollection<TItem> Items
     {
         get
         {
-            return _selectionItems;
+            return _items;
         }
 
         set
@@ -22,52 +31,78 @@ public partial class SelectListComponent<TItem>
                 return;
             }
 
-            _selectionItems = value;
-            UpdateSelectionListData();
-        }
-    }
+            if (!value.Any())
+            { 
+                return;
+            }
 
-    [Parameter]
-    public EventCallback<TItem> OnSelectedItem { get; set; }
-
-    [Parameter]
-    public string DefaultText { get; set; } = string.Empty;
-
-
-
-    private List<TItem> _selectionItems = Array.Empty<TItem>().ToList();
-
-    private IEnumerable<SelectionListModel<TItem>>? _selectionListData;
-    private TItem? SelectedListValue { get; set; }
-
-    private void UpdateSelectionListData()
-    {
-        _selectionListData = Enumerable
-            .Range(1, _selectionItems.Count)
-            .Select(x => new SelectionListModel<TItem>
+            if (_items == value)
             {
-                Value = _selectionItems[x - 1],
-                Key = GetItemName(x)
-            });
+                return;
+            }
+
+            _items = value;
+            if (!ItemNames.Any())
+            {
+                ItemNames = _items.Select(x => x?.ToString() ?? String.Empty).ToList();
+            }
+
+            UpdateItems();
+        }
     }
 
-    private string GetItemName(int itemIndex)
+    [Parameter]
+    public EventCallback<TItem> OnSelectionChanged { get; set; }
+
+    private IReadOnlyCollection<TItem> _items = Array.Empty<TItem>();
+
+    private IEnumerable<SelectListItem<TItem>> _selectionItemData = Array.Empty<SelectListItem<TItem>>();
+
+    protected async override Task OnInitializedAsync()
     {
-        if (itemIndex <= 0)
+        if (ItemNames is null || Items is null)
         {
-            throw new Exception($"Index '{itemIndex}' is not allowed to be lower or equal to 0.");
+            return;
         }
 
-        var item = _selectionItems[itemIndex - 1];
-        return item is null 
-            ? throw new Exception($"No item found at index '{itemIndex}'") 
-            : item.ToString() ?? string.Empty;
+        UpdateItems();
+        await OnSelectedValueChanged(0);
     }
 
-    private async Task OnSelectedValueChanged(TItem newValue)
+    public void UpdateItems()
+    { 
+        _selectionItemData = _items
+            .Select((itemObject, index) =>
+            {
+                return new SelectListItem<TItem>
+                {
+                    KeyId = index + 1,
+                    ItemName = ItemNames.ElementAt(index),
+                    Item = itemObject
+                };
+            })
+            .ToList();
+    }
+
+    private async Task OnSelectedValueChanged(int selectedListIndex)
     {
-        SelectedListValue = newValue;
-        await OnSelectedItem.InvokeAsync(newValue);
+        if (selectedListIndex > 0)
+        {
+            // index 0 is actually the remark placeholder of the SelectList component
+            // therefore the selected list index == the item key
+            var item = GetSelectedItem(selectedListIndex);
+            await OnSelectionChanged.InvokeAsync(item);
+        }
     }
 
+    private TItem? GetSelectedItem(int keyId)
+    {
+        var selectedListItem = _selectionItemData
+            .Where(x => x.KeyId == keyId)
+            .FirstOrDefault();
+
+        return selectedListItem is null || selectedListItem.Item is null
+            ? default
+            : selectedListItem.Item;
+    }
 }

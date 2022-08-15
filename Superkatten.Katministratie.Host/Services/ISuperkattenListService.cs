@@ -5,11 +5,11 @@ namespace Superkatten.Katministratie.Host.Services
 {
     public interface ISuperkattenListService
     {
-        public Task<List<Superkat>> GetAllSuperkattenAsync();
-        public Task<List<Superkat>> GetAllNotAssignedSuperkattenAsync();
-        public Task<Superkat> GetSuperkatAsync(Guid id);
-        public Task<Superkat?> CreateSuperkatAsync(CreateSuperkatParameters newSuperkat);
-        public Task UpdateSuperkatAsync(Guid id, UpdateSuperkatParameters updateSuperkat);
-        public Task DeleteSuperkatAsync(Guid id);
+        Task<List<Superkat>> GetAllSuperkattenAsync();
+        Task<List<Superkat>> GetAllNotAssignedSuperkattenAsync();
+        Task<Superkat> GetSuperkatAsync(Guid id);
+        Task<Superkat?> CreateSuperkatAsync(CreateSuperkatParameters newSuperkat);
+        Task UpdateSuperkatAsync(Guid id, UpdateSuperkatParameters updateSuperkat);
+        Task DeleteSuperkatAsync(Guid id);
     }
 }

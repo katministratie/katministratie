@@ -94,7 +94,7 @@ partial class AddMedicalProcedure
         "Bezoek dierenarts"
     };
     
-    private IEnumerable<MySelectModel> myDdlData = Enumerable
+    private readonly IEnumerable<MySelectModel> _procedureTypeListData = Enumerable
         .Range(1, _medicalProcedureNames.Length)
         .Select(x => new MySelectModel { 
             MyTextField = _medicalProcedureNames[x - 1], 

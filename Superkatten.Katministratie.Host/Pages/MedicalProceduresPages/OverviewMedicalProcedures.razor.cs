@@ -8,10 +8,11 @@ namespace Superkatten.Katministratie.Host.Pages.MedicalProceduresPages;
 public partial class OverviewMedicalProcedures
 {
     [Inject]
-    private Navigation? _navigation { get; set; }
+    private Navigation _navigation { get; set; } = null!;
 
     [Inject]
-    private IMedicalProcedureService? _medicalProcedureService { get; set; }
+    private IMedicalProcedureService _medicalProcedureService { get; set; } = null!;
+
 
     private Dictionary<string, List<MedicalProcedureInformation>> MedicalProcedureInformationDictionary { get; set; } = new();
 

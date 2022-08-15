@@ -8,14 +8,9 @@ namespace Superkatten.Katministratie.Host.Pages.GastgezinPages;
 public partial class CreateGastgezin
 {
 
-    [Inject] 
-    public NavigationManager? NavigationManager { get; set; }
+    [Inject] public NavigationManager NavigationManager { get; set; } = null!;
 
-    [Inject]
-    public IGastgezinService? GastgezinService { get; set; }
-
-    [Inject]
-    public AntDesign.MessageService? Message { get; set; }
+    [Inject] public IGastgezinService GastgezinService { get; set; } = null!;
 
 
     public HostFamilyNawData GastgezinData { get; set; } = new();
@@ -45,16 +40,6 @@ public partial class CreateGastgezin
 
     private async Task StoreGastgezin()
     {
-        if (Message is null)
-        {
-            return;
-        }
-
-        if (GastgezinService is null)
-        {
-            return;
-        }
-
         var createGastgezin = new CreateUpdateGastgezinParameters
         {
             Name = GastgezinData.Name,
@@ -66,10 +51,10 @@ public partial class CreateGastgezin
         var gastgezin = await GastgezinService.CreateGastgezinAsync(createGastgezin);
         if (gastgezin is null)
         {
-            await Message.Error($"Fout bij het opslaan van een nieuw gastgezin.", 1);
+//TODO            await Message.Error($"Fout bij het opslaan van een nieuw gastgezin.", 1);
             return;
         }
 
-        await Message.Success($"Gastgezin {gastgezin.Name} is opgeslagen.", 1);        
+//TODO        await Message.Success($"Gastgezin {gastgezin.Name} is opgeslagen.", 1);        
     }
 }

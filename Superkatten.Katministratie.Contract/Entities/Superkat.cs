@@ -17,4 +17,7 @@ public class Superkat
     public AgeCategory AgeCategory { get; init; }
     public Gender Gender { get; set; }
     public Guid? GastgezinId { get; set; }
+
+    // Volgende moet eigenlijk uit het domain komen en niet hier worden bepaald
+    public string UniqueNumber => CatchDate.Year.ToString() + "-" + Number.ToString("000");
 }

@@ -1,85 +1,96 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.ApiInterface.Reporting;
 using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Host.Components;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Authentication;
 using Superkatten.Katministratie.Host.Services.Interfaces;
-using System.Linq;
-
+using System.Diagnostics.CodeAnalysis;
 
 namespace Superkatten.Katministratie.Host.Pages.Reports;
 
 partial class CageCard
 {
-    [Inject] private ISuperkattenListService? SuperkattenService { get; set; }
-    [Inject] public IAuthenticationService? AuthenticationService { get; init; }
-    [Inject] public IReportingService? ReportingService { get; init; }
-    [Inject] public Navigation? Navigation { get; init; }
+    [Inject] private ISettingsService SettingsService { get; set; } = null!;
+    [Inject] private ISuperkattenListService SuperkattenService { get; set; } = null!;
+    [Inject] public IAuthenticationService AuthenticationService { get; init; } = null!;
+    [Inject] public IReportingService ReportingService { get; init; } = null!;
+    [Inject] public Navigation Navigation { get; init; } = null!;
 
-
-    private List<CatArea> _areaSelectionList = new();
-    private List<int> _cageNumberSelectionList = Array.Empty<int>().ToList();
-    private CatArea _catArea { get; set; } = CatArea.Quarantine;
-    private int _cageNumber { get; set; } = 1;
     private IReadOnlyCollection<Superkat> Superkatten { get; set; } = Array.Empty<Superkat>();
 
-    protected override async Task OnInitializedAsync()
+    private static List<CatArea> _catAreas = null!;
+    private static List<string> _catAreaNames = null!;
+
+    private static IReadOnlyCollection<int> _cageNumbers = null!;
+    private static IReadOnlyCollection<string> _cageNumberNames = null!;
+
+    private CatArea _selectedCatArea;
+    private int _selectedCageNumber;
+
+    private string SuperkattenMessage
     {
-        UpdateCatAreaHokNumbersList();
-        PopulateCatAreaSelectionList();
-
-        await UpdateSuperkattenListAsync();
-
-        StateHasChanged();
-    }
-
-    private void PopulateCatAreaSelectionList()
-    {
-        _areaSelectionList.Add(CatArea.Quarantine);
-    }
-
-    private void OnCatAreaChanged(CatArea catArea)
-    {
-        _catArea = catArea;
-
-        UpdateCatAreaHokNumbersList();
-        _cageNumber = 1;
-        StateHasChanged();
-    }
-
-    private void UpdateCatAreaHokNumbersList()
-    {
-        // TODO: haal hoknummers uit applicatielaag, voor nu hardcoded
-        _cageNumberSelectionList = _catArea switch
+        get
         {
-            CatArea.Quarantine => new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 },
-            CatArea.Room2 => new List<int>() { 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 },
-            CatArea.Infirmary => new List<int>() { 1, 2, 3, 4, 5, 6, 7},
-            CatArea.SmallEnclosure => new List<int>() { 1, 2, 3, 4 },
-            CatArea.BigEnclosure => new List<int>() { 1 },
-            _ => new List<int>()
-        };
+            if (_selectedCageNumber == 0)
+            {
+                return string.Empty;
+            }
+
+            if (Superkatten.Count == 0)
+            {
+                return "Er zitten geen superkatten in deze kooi";
+            }
+
+            if (Superkatten.Count > 1)
+            {
+                return $"Er zitten {Superkatten.Count} katten in deze kooi";
+            }
+
+            return $"Er zit 1 superkat in deze kooi met nunmmer {Superkatten.First().UniqueNumber}";
+        }
     }
 
-    private async Task OnCageNumberChanged(int cageNumber)
+    [MemberNotNull(nameof(_catAreas), nameof(_catAreaNames))]
+    protected override Task OnInitializedAsync()
     {
-        _cageNumber = cageNumber;
+        _catAreas = Enum.GetValues(typeof(CatArea)).Cast<CatArea>().ToList();
+        _catAreaNames = _catAreas.Select(x => x.ToString()).ToList();
 
-        await UpdateSuperkattenListAsync();
+        return Task.CompletedTask;
+    }
+
+    public async Task UpdateCatAreaDataAsync(CatArea catArea)
+    {
+        _selectedCatArea = catArea;
+        var cageNumbers = await SettingsService.GetCageNumbersForCatAreaAsync(catArea);
+        _cageNumbers = cageNumbers is null
+            ? Array.Empty<int>()
+            : cageNumbers;
+        
+        var cageNumberNames = _cageNumbers.Select(x => x.ToString()).ToList();
+        _cageNumberNames = cageNumberNames is null
+            ? Array.Empty<string>()
+            : cageNumberNames;
+
+        await UpdateSuperkattenListAsync(0);
+    }
+
+    public async Task UpdateSuperkattenListAsync(int selectedCageNumber)
+    {
+        _selectedCageNumber = selectedCageNumber;
+        var superkatten = await SuperkattenService.GetAllNotAssignedSuperkattenAsync();
+        
+        Superkatten = superkatten
+            .Where(s => s.CageNumber == selectedCageNumber && s.CatArea == _selectedCatArea)
+            .OrderBy(s => s.Number)
+            .ToList();
     }
 
     private async Task OnOk()
     {
-        if (AuthenticationService is null 
-            || AuthenticationService.User is null 
-            || ReportingService is null
-            || Navigation is null)
-        {
-            return;
-        }
-
-        var email = AuthenticationService.User.Email;
+        var email = AuthenticationService?.User?.Email;
         if (email is null || string.IsNullOrEmpty(email))
         {
             return;
@@ -88,8 +99,8 @@ partial class CageCard
         var parameters = new RequestCageCardEmailParameters
         {
             Email = email,
-            CageNumber = _cageNumber,
-            CatArea = _catArea        
+            CageNumber = _selectedCageNumber,
+            CatArea = _selectedCatArea
         };
 
         await ReportingService.EmailCageCardAsync(parameters);
@@ -99,27 +110,7 @@ partial class CageCard
 
     public void OnCancel()
     {
-        if (Navigation is null)
-        {
-            return;
-        }
-
         Navigation.NavigateBack();
-    }
-
-    public async Task UpdateSuperkattenListAsync()
-    {
-        if (SuperkattenService is null)
-        {
-            return;
-        }
-
-        var superkatten = await SuperkattenService.GetAllNotAssignedSuperkattenAsync();
-
-        Superkatten = superkatten
-            .Where(s => s.CageNumber == _cageNumber && s.CatArea == _catArea)
-            .ToList();
-        StateHasChanged();
     }
 }
 

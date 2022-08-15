@@ -22,12 +22,14 @@ builder.Services.AddTransient<IGastgezinService, GastgezinService>();
 builder.Services.AddTransient<IMedicalProcedureService, MedicalProcedureService>();
 builder.Services.AddTransient<IReportingService, ReportingService>();
 builder.Services.AddTransient<ILocationService, LocationService>();
+builder.Services.AddTransient<ISettingsService, SettingsService>();
 
 var urlApi = Environment.GetEnvironmentVariable("UriSuperkattenApi");
 if (urlApi is null)
 {
     // geen exceptie maar standaard setting voor nu
     urlApi = "https://superkattenapi-dev.azurewebsites.net/";
+//    urlApi = "https://localhost:7171/";
 }
 
 builder.Services.AddTransient(s =>
@@ -53,7 +55,7 @@ builder.Services
     .AddFontAwesomeIcons();
 
 // Add the ANT design from https://antblazor.com/
-builder.Services.AddAntDesign();
+//builder.Services.AddAntDesign();
 
 
 
