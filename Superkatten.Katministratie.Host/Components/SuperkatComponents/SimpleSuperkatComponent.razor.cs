@@ -25,7 +25,7 @@ public partial class SimpleSuperkatComponent : ComponentBase
         }
     }
 
-    private SuperkatView SuperkatView { get; set; }
+    private SuperkatView SuperkatView { get; set; } = null!;
 
     private async Task ReloadSuperkatData()
     {

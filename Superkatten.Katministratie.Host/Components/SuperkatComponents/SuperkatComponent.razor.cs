@@ -9,7 +9,7 @@ namespace Superkatten.Katministratie.Host.Components.SuperkatComponents;
 public partial class SuperkatComponent : ComponentBase
 {
     [Inject]
-    private ISuperkattenListService? _superkattenService { get; set; }
+    private ISuperkattenListService _superkattenService { get; set; } = null!;
 
     [Parameter]
     public Superkat? Superkat
@@ -21,25 +21,20 @@ public partial class SuperkatComponent : ComponentBase
                 return;
             }
 
-            SuperkatView = new SuperkatView(value);
+            _superkatView = new SuperkatView(value);
         }
     }
 
-    private SuperkatView SuperkatView { get; set; }
+    private SuperkatView? _superkatView;
 
     private async Task ReloadSuperkatData()
     {
-        if (SuperkatView is null)
+        if (_superkatView is null)
         {
             return;
         }
 
-        if (_superkattenService is null)
-        {
-            return;
-        }
-
-        var superkat = await _superkattenService.GetSuperkatAsync(SuperkatView.Id);
-        SuperkatView = new SuperkatView(superkat);
+        var superkat = await _superkattenService.GetSuperkatAsync(_superkatView.Id);
+        _superkatView = new SuperkatView(superkat);
     }
 }

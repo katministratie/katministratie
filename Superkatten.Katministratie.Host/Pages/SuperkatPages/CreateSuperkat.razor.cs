@@ -14,9 +14,8 @@ public partial class CreateSuperkat
 {
     public const int MAX_HOKNUMBER_ALLOWED = 50;
 
-    public DatePicker<DateTime?> datePicker;
     public DateTime? CatchDate = DateTime.UtcNow;
-    private Guid CatchLocationNameId;
+    private Guid _catchLocationNameId = Guid.NewGuid();
     public string CatchLocationName = string.Empty;
     public LocationType CatchLocationType = LocationType.Farm;
     public CatArea CatArea = CatArea.Quarantine;
@@ -32,16 +31,21 @@ public partial class CreateSuperkat
     public bool StrongHoldGiven = false;
     public int EstimatedWeeksOld = 0;
 
+
+    [Inject] IPageProgressService PageProgressService { get; set; } = null!;
+
     [Inject] public Navigation? Navigation { get; set; }
 
     [Inject] public ISuperkattenListService? SuperkattenService { get; set; }
 
-    [Inject] public AntDesign.MessageService? Message { get; set; }
-
     [Inject] public ILocationService? LocationService { get; set; }
 
+    private const int NOTIFICATION_SHOW_TIME = 2500;
+
+    private SnackbarStack _snackbarStack = null!;
 
     public IEnumerable<Location> Locations = new List<Location>();
+    
     private bool CanEnterHokNumber => CatArea != CatArea.SmallEnclosure && CatArea != CatArea.BigEnclosure;
 
     protected override async Task OnInitializedAsync()
@@ -69,6 +73,8 @@ public partial class CreateSuperkat
 
     private async Task<bool> StoreSuperkatAsync()
     {
+        await PageProgressService.Go(null, options => { options.Color = Color.Info; });
+
         if (SuperkattenService is null)
         {
             return false;
@@ -76,8 +82,15 @@ public partial class CreateSuperkat
 
         if (string.IsNullOrEmpty(CatchLocationName))
         {
-            //_notificationString = $"Vul de plaats waar de kat gevangen is in.";
-            //_ = _notification.Show();
+            await _snackbarStack.PushAsync("Vangplaats is leeg",
+            SnackbarColor.Info,
+            options =>
+            {
+                options.IntervalBeforeClose = NOTIFICATION_SHOW_TIME;
+            });
+
+            await PageProgressService.Go(-1);
+
             return false;
         }
 
@@ -106,15 +119,27 @@ public partial class CreateSuperkat
         };
 
         var superkat = await SuperkattenService.CreateSuperkatAsync(createSuperkatParameters);
+
+        await PageProgressService.Go(-1);
+
         if (superkat is null)
         {
-            //_notificationString = $"Fout bij het opslaan van de nieuwe superkat.";
-            //_ = _notification.Show();
+            await _snackbarStack.PushAsync($"Fout bij het opslaan van de gegevens",
+            SnackbarColor.Danger,
+            options =>
+            {
+                options.IntervalBeforeClose = NOTIFICATION_SHOW_TIME;
+            });
             return false;
         }
 
-        //_notificationString = $"Superkat {superkat.CatchDate.Year % 100}-{superkat.Number:000} is aangemaakt";
-        //_ = _notification.Show();
+        await _snackbarStack.PushAsync($"Superkat toegevoegd met nummer: {superkat.Number}",
+            SnackbarColor.Info,
+            options =>
+            {
+                options.IntervalBeforeClose = NOTIFICATION_SHOW_TIME;
+            });
+
         return true;
     }
 }

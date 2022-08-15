@@ -3,7 +3,7 @@
 @using Superkatten.Katministratie.Host.Components.SuperkatComponents.Action
 @using Superkatten.Katministratie.Host.Entities
 
-@if (SuperkatView is null)
+@if (_superkatView is null)
 {
     <SpinKit Type="SpinKitType.Chase" Size="60px"/>
     return;
@@ -17,25 +17,25 @@
     </Column>
     <Column>
         <Div>
-            <BehaviourComponent Behaviour="@SuperkatView.Behaviour" />
+            <BehaviourComponent Behaviour="@_superkatView.Behaviour" />
             <Field>
                 <FieldLabel>
-                    @SuperkatView.UserFriendlyNumber
+                    @_superkatView.UserFriendlyNumber
                 </FieldLabel>
             </Field>
             <Div>
-                <SuperkatGenderComponent GenderIcon="@SuperkatView.GenderIcon"/>
+                <SuperkatGenderComponent GenderIcon="@_superkatView.GenderIcon"/>
             </Div>
             <Div>
-                <SuperkatStateComponent State="@SuperkatView.State" />
+                <SuperkatStateComponent State="@_superkatView.State" />
             </Div>
         </Div>
 
         <Div>
-            <SuperkatDetailsComponent SuperkatView="@SuperkatView" />
+            <SuperkatDetailsComponent SuperkatView="@_superkatView" />
         </Div>
         <Div>
-            <SuperkatActions SuperkatView="@SuperkatView" OnActionExecuted="@ReloadSuperkatData" />
+            <SuperkatActions SuperkatView="@_superkatView" OnActionExecuted="@ReloadSuperkatData" />
         </Div>
     </Column>
 </Row>

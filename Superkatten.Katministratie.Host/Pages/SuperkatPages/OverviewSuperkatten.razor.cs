@@ -8,17 +8,13 @@ namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 
 public partial class OverviewSuperkatten
 {
-    [Inject]
-    private Navigation  _navigation { get; set; }
+    [Inject] private Navigation _navigation { get; set; } = null!;
 
-    [Inject]
-    private ISuperkattenListService? _superkattenService { get; set; }
+    [Inject] private ISuperkattenListService _superkattenService { get; set; } = null!;
 
-    [Inject]
-    private ILocalStorageService _localStorageService { get; set; }
+    [Inject] private ILocalStorageService _localStorageService { get; set; } = null!;
 
-    [Inject]
-    private ISuperkatActionService _superkatActionService { get; set; }
+    [Inject] private ISuperkatActionService _superkatActionService { get; set; } = null!;
 
 
     private List<Superkat> Superkatten { get; set; } = new();
@@ -51,16 +47,10 @@ public partial class OverviewSuperkatten
         var superkatten = await _superkattenService.GetAllSuperkattenAsync();
         _totalPageCount = superkatten is null ? 0 : (superkatten.Count / _itemsPerPage) + 1;
         _maxDisplayedPageNumber = CalculateMaxDisplayedPageNumber();
-
     }
 
     private async Task UpdateListAsync()
     {
-        if (_superkattenService is null)
-        {
-            return;
-        }
-
         var superkatten = await _superkattenService.GetAllSuperkattenAsync();
         if (superkatten is null)
         {
@@ -90,9 +80,9 @@ public partial class OverviewSuperkatten
         return _superkatActionService.CreateSuperkatCageCardAsync(new());
     }
 
-    private int _itemsPerPage = 10;
+    private readonly int _itemsPerPage = 10;
+    private readonly int _displayedPageSetCount = 4;
     private int _currentPage = 1;
-    private int _displayedPageSetCount = 4;
     private int _totalPageCount = 10;
     private int _startPageNumber = 1;
 

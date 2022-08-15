@@ -8,13 +8,14 @@ namespace Superkatten.Katministratie.Host.Components.SuperkatComponents.Action;
 public partial class SuperkatActions: ComponentBase
 {
     [Inject]
-    public Navigation Navigation { get; set; }
+    public Navigation Navigation { get; set; } = null!;
 
     [Parameter]
-    public SuperkatView SuperkatView { get; set; }
+    public SuperkatView SuperkatView { get; set; } = null!;
 
     [Parameter]
     public EventCallback OnActionExecuted { get; set; }
+
 
     private async Task ToggleReserve()
     {

@@ -21,7 +21,7 @@ public class SuperkattenListService : ISuperkattenListService
             var superkat = await _httpService.Put<Superkat>(uri, newSuperkat);
             return superkat;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return null;
         }
@@ -66,5 +66,15 @@ public class SuperkattenListService : ISuperkattenListService
         return superkatten is null
             ? new()
             : superkatten;
+    }
+
+    public async Task<List<int>> GetCageNumbersForCatArea(CatArea selectedCatArea)
+    {
+        var uri = $"api/Settings/CatAreaCageNumbers?catarea={selectedCatArea}";
+        var cageNumber = await _httpService.Get<List<int>>(uri);
+
+        return cageNumber is null
+            ? new()
+            : cageNumber;
     }
 }

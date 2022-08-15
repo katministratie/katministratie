@@ -10,9 +10,7 @@
 
 <PageTitle>Nieuwe superkat</PageTitle>
 
-<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnStopAndReturn">Terug</Button>
-
-<Divider />
+<SnackbarStack @ref="_snackbarStack" Location="SnackbarStackLocation.Center" />
 
 <HeaderItem Titel="Vang informatie:"></HeaderItem>
 <Field>
@@ -23,7 +21,7 @@
               Data="@Locations"
               TextField="@(( item ) => item.Name)"
               ValueField="@(( item ) => item.Id)"
-              @bind-SelectedValue="@CatchLocationNameId"
+              @bind-SelectedValue="@_catchLocationNameId"
               @bind-SelectedText="@CatchLocationName"
               Placeholder="Search..."
               Filter="AutocompleteFilter.StartsWith"
@@ -128,6 +126,7 @@
 </RadioGroup>
 
 <HeaderItem Titel="Voer"></HeaderItem>
+<Check TValue="bool" @bind-Checked="@WetFoodAllowed">Nat voer toegestaan</Check>
 <RadioGroup TValue="@Contract.Entities.FoodType" Color="Color.Light" Buttons @bind-CheckedValue="@FoodType">
     <Radio Value="@Contract.Entities.FoodType.FirstPhase">Eerste Fase</Radio>
     <Radio Value="@Contract.Entities.FoodType.SecondPhase">Tweede Fase</Radio>
@@ -140,6 +139,14 @@
 </RadioGroup>
 
 <Divider />
-<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnAddSuperkat">Toevoegen</Button>
+
+<Row>
+  <Column>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnStopAndReturn">Terug</Button>
+  </Column>
+  <Column>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnAddSuperkat">Toevoegen</Button>
+  </Column>
+</Row>
 
 <Divider />

@@ -34,9 +34,11 @@ public class MailService : IMailService
 
         // now create the multipart/mixed container to hold the message text and the
         // image attachment
-        var multipart = new Multipart("mixed");
-        multipart.Add(body);
-        multipart.Add(attachment);
+        var multipart = new Multipart("mixed")
+        { 
+            body,
+            attachment
+        };
 
         // now set the multipart/mixed as the message body
         message.Body = multipart;
@@ -45,7 +47,7 @@ public class MailService : IMailService
         {
             //TODO: tijdelijk gmail account login gebruiken
             client.Connect("smtp.gmail.com", 587, SecureSocketOptions.Auto);
-            client.Authenticate("johandekroon@gmail.com", "pofhcoxtzxkkejxc");
+            client.Authenticate("johandekroon@gmail.com", "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");
             try
             {
                 var result = client.Send(message);
