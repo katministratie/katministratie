@@ -12,41 +12,39 @@ namespace Superkatten.Katministratie.Application.Services;
 
 public class MailService : IMailService
 {
-    public async Task MailToAsync(string email, string subject, string content, byte[] documentData)
+    private const string CAGEFORM_FILENAME = "kooikaart.pdf";
+    private const string SENDER_NAME = "Katministrator";
+    private const string SENDER_EMAIL_ADDRESS = "katministratie@superkatten.nl";
+
+    public async Task MailToAsync(string email, string subject, string bodyText, byte[] documentData)
     {
         var message = new MimeMessage();
         message.To.Add(new MailboxAddress("Requester", email));
-        message.From.Add(new MailboxAddress("Katministrator", "katministratie@superkatten.nl"));
+        message.From.Add(new MailboxAddress(SENDER_NAME, SENDER_EMAIL_ADDRESS));
         message.Subject = subject;
         
-        var body = new TextPart("plain")
+        var body = new TextPart(MimeKit.Text.TextFormat.Plain)
         {
-            Text = content
+            Text = bodyText
         };
 
         var stream = new MemoryStream(documentData);
-        var filename = "kooikaart.pdf";
+
         // create an image attachment for the file located at path
         // see: http://ibgwww.colorado.edu/~lessem/psyc5112/usail/mail/mime/typetxt.html
         var attachment = new MimePart(MediaTypeNames.Application.Pdf)
         {
-            Content = new MimeContent(stream), //File.OpenRead(fileName), ContentEncoding.Default),
-            ContentId = filename,
-            //ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+            Content = new MimeContent(stream),
+            ContentId = CAGEFORM_FILENAME,
             ContentTransferEncoding = ContentEncoding.Base64,
-            FileName = filename //Path.GetFileName(filename)
+            FileName = CAGEFORM_FILENAME
         };
 
-        // now create the multipart/mixed container to hold the message text and the
-        // image attachment
-        var multipart = new Multipart("mixed")
-        { 
+        message.Body = new Multipart("mixed")
+        {
             body,
             attachment
         };
-
-        // now set the multipart/mixed as the message body
-        message.Body = multipart;
 
         using var client = new SmtpClient();
         client.Connect(
@@ -60,7 +58,5 @@ public class MailService : IMailService
         var result = await client.SendAsync(message);
 
         client.Disconnect(true);
-
-        //File.Delete(fileName);
     }
 }
