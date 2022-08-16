@@ -49,10 +49,10 @@ public class ReportingService : IReportingService
         var reportCsvData = _reportBuilder.BuildSuperkattenInventory(superkatten);
 
         await _mailService.MailToAsync(
-            email, 
-            "Superkatten inventarisatie csv-data", 
-            reportCsvData, 
-            null
+            email: email, 
+            subject: "Superkatten inventarisatie csv-data", 
+            bodyText: reportCsvData, 
+            documentData: Array.Empty<byte>()
         );
     }
 
@@ -74,10 +74,10 @@ public class ReportingService : IReportingService
         var pdfData = _cageCardProducer.CreateCageCard(superkatten);
         
         await _mailService.MailToAsync(
-            email,
-            $"Kooikaart van gebied {catArea} en nummer {CageNumber}.",
-            $"Hallo,\n\nHierbij de gevraagde kooikaart. Print deze uit en hang de kaart aan de juiste kooi {CageNumber} \n\nGroet,\nKatministrator",
-            pdfData
+            email: email,
+            subject:  $"Kooikaart van gebied {catArea} en nummer {CageNumber}.",
+            bodyText: $"Hallo,\n\nHierbij de gevraagde kooikaart. Print deze uit en hang de kaart aan de juiste kooi {CageNumber} \n\nGroet,\nKatministrator",
+            documentData: pdfData ?? Array.Empty<byte>()
         );
     }
 }
