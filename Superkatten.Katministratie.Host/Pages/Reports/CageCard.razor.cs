@@ -18,6 +18,7 @@ partial class CageCard
     [Inject] public IReportingService ReportingService { get; init; } = null!;
     [Inject] public Navigation Navigation { get; init; } = null!;
 
+    private bool _isSending = false;
     private IReadOnlyCollection<Superkat> Superkatten { get; set; } = Array.Empty<Superkat>();
 
     private static List<CatArea> _catAreas = null!;
@@ -90,22 +91,30 @@ partial class CageCard
 
     private async Task OnOk()
     {
-        var email = AuthenticationService?.User?.Email;
-        if (email is null || string.IsNullOrEmpty(email))
+        _isSending = true;
+
+        try
         {
-            return;
+            var email = AuthenticationService?.User?.Email;
+            if (email is null || string.IsNullOrEmpty(email))
+            {
+                return;
+            }
+
+            var parameters = new RequestCageCardEmailParameters
+            {
+                Email = email,
+                CageNumber = _selectedCageNumber,
+                CatArea = _selectedCatArea
+            };
+
+            await ReportingService.EmailCageCardAsync(parameters);
         }
-
-        var parameters = new RequestCageCardEmailParameters
+        finally 
         {
-            Email = email,
-            CageNumber = _selectedCageNumber,
-            CatArea = _selectedCatArea
-        };
-
-        await ReportingService.EmailCageCardAsync(parameters);
-
-        Navigation.NavigateBack();
+            _isSending = false;
+            Navigation.NavigateBack();
+        }
     }
 
     public void OnCancel()

@@ -4,9 +4,13 @@
 @using Superkatten.Katministratie.Host.Components
 @using Superkatten.Katministratie.Host.Components.SuperkatComponents
 
-
-<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Ok</Button>
-<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
+@if (_isSending)
+{
+  <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
+      <SpinKit Type="SpinKitType.Chase" Size="160px"/>
+  </Div>
+  return;
+}
 
 <Divider />
 
@@ -35,3 +39,14 @@
       }
   </Field>
 }
+
+<Row>
+  <Column>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Ok</Button>
+  </Column>
+
+  <Column>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
+  </Column>
+</Row>
+

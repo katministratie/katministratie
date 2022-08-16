@@ -1,8 +1,10 @@
 ﻿using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
+using Superkatten.Katministratie.Application.Helpers;
 using System;
 using System.IO;
+using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,7 +12,7 @@ namespace Superkatten.Katministratie.Application.Services;
 
 public class MailService : IMailService
 {
-    public Task MailToAsync(string email, string subject, string content, string fileName)
+    public async Task MailToAsync(string email, string subject, string content, byte[] documentData)
     {
         var message = new MimeMessage();
         message.To.Add(new MailboxAddress("Requester", email));
@@ -22,14 +24,17 @@ public class MailService : IMailService
             Text = content
         };
 
+        var stream = new MemoryStream(documentData);
+        var filename = "kooikaart.pdf";
         // create an image attachment for the file located at path
         // see: http://ibgwww.colorado.edu/~lessem/psyc5112/usail/mail/mime/typetxt.html
-        var attachment = new MimePart("application", "pdf")
+        var attachment = new MimePart(MediaTypeNames.Application.Pdf)
         {
-            Content = new MimeContent(File.OpenRead(fileName), ContentEncoding.Default),
-            ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+            Content = new MimeContent(stream), //File.OpenRead(fileName), ContentEncoding.Default),
+            ContentId = filename,
+            //ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
             ContentTransferEncoding = ContentEncoding.Base64,
-            FileName = Path.GetFileName(fileName)
+            FileName = filename //Path.GetFileName(filename)
         };
 
         // now create the multipart/mixed container to hold the message text and the
@@ -43,26 +48,19 @@ public class MailService : IMailService
         // now set the multipart/mixed as the message body
         message.Body = multipart;
 
-        using (var client = new SmtpClient())
-        {
-            //TODO: tijdelijk gmail account login gebruiken
-            client.Connect("smtp.gmail.com", 587, SecureSocketOptions.Auto);
-            client.Authenticate("johandekroon@gmail.com", "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");
-            try
-            {
-                var result = client.Send(message);
-            }
-            catch(Exception x)
-            {
-                //todo; hoe deze zichtbaar maken in UI
-            }
-            client.Disconnect(true);
-        }
+        using var client = new SmtpClient();
+        client.Connect(
+            EmailSettings.SmtpHost,
+            EmailSettings.SmtpPortNumber,
+            SecureSocketOptions.Auto);
+        client.Authenticate(
+            ClientSecrets.GmailClientId,
+            ClientSecrets.GmailClientSecret);
 
-        Thread.Sleep(5000);
+        var result = await client.SendAsync(message);
 
-        File.Delete(fileName);
+        client.Disconnect(true);
 
-        return Task.CompletedTask;
+        //File.Delete(fileName);
     }
 }

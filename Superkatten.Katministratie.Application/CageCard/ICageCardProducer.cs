@@ -5,5 +5,5 @@ namespace Superkatten.Katministratie.Application.CageCard;
 
 public interface ICageCardProducer
 {
-    string CreateCageCard(IReadOnlyCollection<Superkat> superkatten);
+    byte[]? CreateCageCard(IReadOnlyCollection<Superkat> superkatten);
 }

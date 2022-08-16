@@ -7,7 +7,7 @@ using Superkatten.Katministratie.Application.Mappers;
 using Superkatten.Katministratie.Application.Reporting;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
 using System;
-using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 using ContractEntities = Superkatten.Katministratie.Contract.Entities;
@@ -52,7 +52,7 @@ public class ReportingService : IReportingService
             email, 
             "Superkatten inventarisatie csv-data", 
             reportCsvData, 
-            string.Empty
+            null
         );
     }
 
@@ -71,13 +71,13 @@ public class ReportingService : IReportingService
             throw new ServiceException($"No superkatten at area '{nameof(catArea)}' and cage number '{CageNumber}'");
         }
 
-        var fileName = _cageCardProducer.CreateCageCard(superkatten);
-
+        var pdfData = _cageCardProducer.CreateCageCard(superkatten);
+        
         await _mailService.MailToAsync(
-            email, 
+            email,
             $"Kooikaart van gebied {catArea} en nummer {CageNumber}.",
             $"Hallo,\n\nHierbij de gevraagde kooikaart. Print deze uit en hang de kaart aan de juiste kooi {CageNumber} \n\nGroet,\nKatministrator",
-            fileName
+            pdfData
         );
     }
 }
