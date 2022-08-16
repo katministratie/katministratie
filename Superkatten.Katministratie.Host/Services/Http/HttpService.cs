@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.Authenticate;
+using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.LocalStorage;
 using System.Net;
 using System.Net.Http.Headers;
@@ -12,20 +13,23 @@ namespace Superkatten.Katministratie.Host.Services.Http;
 public class HttpService : IHttpService
 {
     private readonly HttpClient _httpClient;
-    private readonly NavigationManager _navigationManager;
+    //    private readonly NavigationManager _navigationManager;
+    private Navigation _navigation;
     private readonly ILocalStorageService _localStorageService;
 
     private readonly IConfiguration _configuration;
 
     public HttpService(
         HttpClient httpClient,
-        NavigationManager navigationManager,
+//        NavigationManager navigationManager,
+        Navigation navigation,
         ILocalStorageService localStorageService,
         IConfiguration configuration
     )
     {
         _httpClient = httpClient;
-        _navigationManager = navigationManager;
+//        _navigationManager = navigationManager;
+        _navigation = navigation;
         _localStorageService = localStorageService;
         _configuration = configuration;
     }
@@ -44,10 +48,6 @@ public class HttpService : IHttpService
         {
             request.Content = new StringContent(JsonSerializer.Serialize(value), Encoding.UTF8, "application/json");
         }
-
-        //{
-        //    Content = new StringContent(JsonSerializer.Serialize(value), Encoding.UTF8, "application/json")
-        //};
 
         return await SendRequest<T>(request);
     }
@@ -92,8 +92,6 @@ public class HttpService : IHttpService
         await SendRequest(request);
     }
 
-    // helper methods
-
     private async Task SendRequest(HttpRequestMessage request)
     {
         var response = await SendWithAutorisationHeader(request);
@@ -113,12 +111,17 @@ public class HttpService : IHttpService
         // auto logout on 401 response
         if (response.StatusCode == HttpStatusCode.Unauthorized)
         {
-            _navigationManager.NavigateTo("/");
+            // _navigationManager.NavigateTo("/");
+            _navigation.Reset();
+            _navigation.NavigateTo("/");
             return;
         }
 
         if (response.StatusCode == HttpStatusCode.Forbidden)
         {
+            //_navigationManager.NavigateTo("/");
+            _navigation.Reset();
+            _navigation.NavigateTo("/");
             return;
         }
 

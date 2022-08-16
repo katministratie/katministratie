@@ -112,7 +112,6 @@ builder.Configuration.AddEnvironmentVariables();
     builder.Services.AddLogging();
 }
 
-
 //----------------------------------------------------------------------------------------------------------
 var app = builder.Build();
 

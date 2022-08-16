@@ -41,6 +41,12 @@ public class Navigation : IDisposable
         _navigationManager.NavigateTo(backPageUrl);
     }
 
+    public void Reset()
+    {
+        _history.Clear();
+        _history.Add(_navigationManager.Uri);
+    }
+
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
     {
         EnsureSize();

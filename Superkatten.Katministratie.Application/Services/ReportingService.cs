@@ -75,7 +75,7 @@ public class ReportingService : IReportingService
         
         await _mailService.MailToAsync(
             email: email,
-            subject:  $"Kooikaart van gebied {catArea} en nummer {CageNumber}.",
+            subject:  $"Kooikaart van ruimte: {catArea} en kooinummer: {CageNumber}.",
             bodyText: $"Hallo,\n\nHierbij de gevraagde kooikaart. Print deze uit en hang de kaart aan de juiste kooi {CageNumber} \n\nGroet,\nKatministrator",
             documentData: pdfData ?? Array.Empty<byte>()
         );
