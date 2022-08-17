@@ -159,7 +159,7 @@ public partial class CreateSuperkat
             return false;
         }
 
-        await _snackbarStack.PushAsync($"Superkat toegevoegd met nummer: {superkat.Number}",
+        await _snackbarStack.PushAsync($"Superkat toegevoegd met nummer: {superkat.UniqueNumber}",
             SnackbarColor.Info,
             options =>
             {
