@@ -20,7 +20,7 @@ public class CageCardDefaultHeaderComposer : IComponent
     {
         var titleStyle = TextStyle
             .Default
-            .FontSize(30)
+            .FontSize(20)
             .SemiBold()
             .FontColor(Colors.Blue.Medium);
 
@@ -29,7 +29,7 @@ public class CageCardDefaultHeaderComposer : IComponent
             column.Item()
                 .Text($"Locatie: {_superkatten.First().CatArea} Hok: {_superkatten.First().CageNumber}")
                 .Style(titleStyle)
-                .FontSize(40);
+                .FontSize(30);
 
             column.Item()
                 .Row(row =>
@@ -54,7 +54,7 @@ public class CageCardDefaultHeaderComposer : IComponent
                             column.Item()
                                 .AlignMiddle()
                                 .AlignCenter()
-                                .Text($"{_superkatten.First().CatchDate.ToString("dd.MMMM yyyy")}")
+                                .Text($"{_superkatten.First().CatchDate:dd.MMMM yyyy}")
                                 .Style(titleStyle);
                             column.Item()
                                 .AlignMiddle()

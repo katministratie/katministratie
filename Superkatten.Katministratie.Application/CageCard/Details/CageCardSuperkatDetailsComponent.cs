@@ -23,7 +23,8 @@ public class CageCardSuperkatDetailsComponent : IComponent
             .BorderColor(Colors.Amber.Accent1)
             .Column(column =>
             {
-                column.Spacing(2);
+                column.Item()
+                    .Image(GetBehaviourImageFileName(_superkat.Behaviour));
 
                 column.Item()
                     .Padding(2)
@@ -33,32 +34,25 @@ public class CageCardSuperkatDetailsComponent : IComponent
                     .SemiBold();
 
                 column.Item()
-                    .Padding(2)
-                    .Text($"Verjaardag: {_superkat.Birthday.ToShortDateString()}");
+                    .Text($"Jarig op {_superkat.Birthday.ToShortDateString()}");
 
                 column.Item()
-                    .Padding(2)
                     .Text($"Kleur: {_superkat.Color}");
 
                 column.Item()
-                    .Padding(2)
-                    .Text($"Age categorie: {GetAgeCategoryText(_superkat.AgeCategory)}");
+                    .Text($"{GetAgeCategoryText(_superkat.AgeCategory)}");
 
-
-                column.Item()
-                    .Padding(2)
-                    .Text($"Gedrag: {GetGedragText(_superkat.Behaviour)}");
             });
     }
 
-    private string GetGedragText(CatBehaviour behaviour)
+    private string GetBehaviourImageFileName(CatBehaviour behaviour)
     {
         return behaviour switch
         {
-            CatBehaviour.Social => "Sociaal",
-            CatBehaviour.Unknown => "Onbekend",
-            CatBehaviour.Shy => "Schuw",
-            _ => string.Empty
+            CatBehaviour.Social => "./Images/Behavour/Sociaal.jpg",
+            CatBehaviour.Unknown => "./Images/Behavour/Onbekend.jpg",
+            CatBehaviour.Shy => "./Images/Behavour/Schuw.jpg",
+            _ => "./Images/Behavour/Error.jpg"
         };
     }
 
