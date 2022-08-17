@@ -2,6 +2,7 @@
 
 @using Blazorise.Snackbar
 @using Superkatten.Katministratie.Host.Api
+@using Superkatten.Katministratie.Host.Components
 @using Superkatten.Katministratie.Host.Components.SuperkatComponents
 @using Superkatten.Katministratie.Host.Entities
 @using Superkatten.Katministratie.Host.Services
@@ -10,15 +11,33 @@
 
 <PageTitle>Nieuwe superkat</PageTitle>
 
+@if (CatchLocations is null)
+{
+    <Field>CatchLocations check</Field>
+    return;
+}
+
+@if(_selections is null)
+{
+    <Field>_selections check</Field>
+    return;
+}
+
+@if (_cageNumbers is null)
+{
+    <Field>_cageNumbers check</Field>
+    return;
+}
+
+
 <SnackbarStack @ref="_snackbarStack" Location="SnackbarStackLocation.Center" />
 
-<HeaderItem Titel="Vang informatie:"></HeaderItem>
+<HeaderItem Titel="Vang informatie"></HeaderItem>
 <Field>
     <FieldLabel>Locatie</FieldLabel>
-
     <Autocomplete TItem="Location"
               TValue="Guid"
-              Data="@Locations"
+              Data="@CatchLocations"
               TextField="@(( item ) => item.Name)"
               ValueField="@(( item ) => item.Id)"
               @bind-SelectedValue="@_catchLocationNameId"
@@ -32,112 +51,112 @@
 </Field>
 
 <Field>
-    <FieldLabel>Type locatie</FieldLabel>
-    <RadioGroup TValue="@Contract.Entities.LocationType" Color="Color.Light" Buttons @bind-CheckedValue="@CatchLocationType">
-        <Radio Value="@Contract.Entities.LocationType.Farm">Boerderij</Radio>
-        <Radio Value="@Contract.Entities.LocationType.PrivateProperty">Particulier terein</Radio>
-        <Radio Value="@Contract.Entities.LocationType.AllotmentGarden">Volkstuin</Radio>
-    </RadioGroup>
-    <RadioGroup TValue="@Contract.Entities.LocationType" Color="Color.Light" Buttons @bind-CheckedValue="@CatchLocationType">
-        <Radio Value="@Contract.Entities.LocationType.Camping">Camping</Radio>
-        <Radio Value="@Contract.Entities.LocationType.Farmhouse">Woonboerderij</Radio>
-        <Radio Value="@Contract.Entities.LocationType.Stable">Paardenstal</Radio>
-    </RadioGroup>
-    <RadioGroup TValue="@Contract.Entities.LocationType" Color="Color.Light" Buttons @bind-CheckedValue="@CatchLocationType">
-        <Radio Value="@Contract.Entities.LocationType.BusinessPark">Bedrijventerein</Radio>
-        <Radio Value="@Contract.Entities.LocationType.UrbanArea">Stedelijk gebied</Radio>
-        <Radio Value="@Contract.Entities.LocationType.RuralArea">Landelijk gebied</Radio>
-    </RadioGroup>
-    <RadioGroup TValue="@Contract.Entities.LocationType" Color="Color.Light" Buttons @bind-CheckedValue="@CatchLocationType">
-        <Radio Value="@Contract.Entities.LocationType.NatureReserve">Natuurgebied</Radio>
-    </RadioGroup>
+  <SelectListComponent DefaultText="Locatie type"
+    TItem="LocationType" 
+    Items="@_catchLocationTypes" 
+    ItemNames="@_catchLocationTypeNames"
+    OnSelectionChanged="@_selections.Store"/>
 </Field>
 <Field>
     <FieldLabel>Datum</FieldLabel>
     <DateEdit TValue="DateTime?" @bind-Date="@CatchDate" />
 </Field>
 
-<HeaderItem Titel="Gedrag:"></HeaderItem>
-<RadioGroup TValue="@Contract.Entities.CatBehaviour" Color="Color.Light" Buttons @bind-CheckedValue="@Behaviour">
-    <Radio Value="@Contract.Entities.CatBehaviour.Social"><BehaviourComponent Behaviour="@CatBehaviour.Social" /></Radio>
-    <Radio Value="@Contract.Entities.CatBehaviour.Unknown"><BehaviourComponent Behaviour="@CatBehaviour.Unknown" /></Radio>
-    <Radio Value="@Contract.Entities.CatBehaviour.Shy"><BehaviourComponent Behaviour="@CatBehaviour.Shy" /></Radio>
-</RadioGroup>
+<SelectListComponent DefaultText="Gedrag"
+    TItem="CatBehaviour" 
+    Items="@_catBehaviourTypes" 
+    ItemNames="@_catBehaviourTypeNames"
+    OnSelectionChanged="@_selections.Store"/>
 
-<HeaderItem Titel="Medicatie:"></HeaderItem>
+<HeaderItem Titel="Medicatie"></HeaderItem>
 <Check TValue="bool" @bind-Checked="@StrongHoldGiven">Stronghold gegeven</Check>
 
-<HeaderItem Titel="Extra info:"></HeaderItem>
+<HeaderItem Titel="Extra info"></HeaderItem>
 <Check TValue="bool" @bind-Checked="@Retour">Retour</Check>
 
-<HeaderItem Titel="Leeftijd info:"></HeaderItem>
-<RadioGroup TValue="@Contract.Entities.AgeCategory" Color="Color.Light" Buttons @bind-CheckedValue="@AgeCategory">
-    <Radio Value="@Contract.Entities.AgeCategory.Kitten">Kitten</Radio>
-    <Radio Value="@Contract.Entities.AgeCategory.Juvenile">Junior</Radio>
-    <Radio Value="@Contract.Entities.AgeCategory.Adult">Volwassen</Radio>
-</RadioGroup>
+<SelectListComponent DefaultText="Leeftijdscategorie"
+    TItem="AgeCategory" 
+    Items="@_ageCategoryTypes" 
+    ItemNames="@_ageCategoryTypeNames"
+    OnSelectionChanged="@_selections.Store"/>
 <Row>
     <Column ColumnSize="ColumnSize.Is3">
         <NumericEdit Value="5" @bind-Text="@EstimatedWeeksOld"/>
     </Column>
     <Column ColumnSize="ColumnSize.Is9">
-        @switch (AgeCategory)
+        @switch (_selections.AgeCategory)
         {
         case AgeCategory.Kitten:
-            <TextEdit Placeholder="weken oud" />
+            <TextEdit Readonly Placeholder="weken oud" />
             break;
         case AgeCategory.Juvenile:
-            <TextEdit Placeholder="maanden oud" />
+            <TextEdit Readonly Placeholder="maanden oud" />
             break;
         case AgeCategory.Adult:
-            <TextEdit Placeholder="jaren oud" />
+            <TextEdit Readonly Placeholder="jaren oud" />
             break;
         default:
-            <TextEdit Placeholder="??" />
+            <TextEdit Readonly Placeholder="??" />
             break;
         }
     </Column>
 </Row>
 
-<HeaderItem Titel="Kleur:"></HeaderItem>
+<HeaderItem Titel="Kleur"></HeaderItem>
 <Field>
     <TextEdit Placeholder="Kleur kat" @bind-Text="@CatColor"/>
 </Field>
 
-<HeaderItem Titel="Ruimte"></HeaderItem>
-<RadioGroup TValue="@Contract.Entities.CatArea" Color="Color.Light" Buttons @bind-CheckedValue="@CatArea">
-    <Radio Value="@Contract.Entities.CatArea.Quarantine">Quarantaine</Radio>
-    <Radio Value="@Contract.Entities.CatArea.Infirmary">Ziekenboeg</Radio>
-    <Radio Value="@Contract.Entities.CatArea.Room2">Kamer 2</Radio>
-</RadioGroup>
-<RadioGroup TValue="@Contract.Entities.CatArea" Color="Color.Light" Buttons @bind-CheckedValue="@CatArea">
-    <Radio Value="@Contract.Entities.CatArea.SmallEnclosure">Kleine ren</Radio>
-    <Radio Value="@Contract.Entities.CatArea.BigEnclosure">Grote ren</Radio>
-</RadioGroup>
-@if(CanEnterHokNumber)
+<Row>
+    <Column ColumnSize="ColumnSize.Is8">
+      <SelectListComponent DefaultText="Ruimte"
+        TItem="CatArea" 
+        Items="@_catAreaTypes" 
+        ItemNames="@_catAreaTypeNames"
+        OnSelectionChanged="@OnSelectCatArea"/>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is4">
+@if (_cageNumbers.Count > 1)
 {
-    <p>Hok: </p> <NumericEdit Min="1" Max="@MAX_HOKNUMBER_ALLOWED" TValue="int" @bind-Value="@CageNumber" />
+        <SelectListComponent DefaultText="Hok"
+          TItem="int" 
+          Items="@_cageNumbers" 
+          ItemNames="@_cageNumberNames"
+          OnSelectionChanged="@_selections.Store"/>
 }
-<HeaderItem Titel="Geslacht"></HeaderItem>
-<RadioGroup TValue="@Contract.Entities.Gender" Color="Color.Light" Buttons @bind-CheckedValue="@Gender">
-    <Radio Value="@Contract.Entities.Gender.Unknown">Onbekend</Radio>
-    <Radio Value="@Contract.Entities.Gender.Molly">Poes</Radio>
-    <Radio Value="@Contract.Entities.Gender.Tomcat">Kater</Radio>
-</RadioGroup>
+else
+{
+      <HeaderItem Titel="Hok"></HeaderItem>
+      <Field>Geen hokken</Field>
+}
+    </Column>
+</Row>
+
+<SelectListComponent DefaultText="Geslacht"
+    TItem="Gender" 
+    Items="@_genderTypes" 
+    ItemNames="@_genderTypeNames"
+    OnSelectionChanged="@_selections.Store"/>
 
 <HeaderItem Titel="Voer"></HeaderItem>
-<Check TValue="bool" @bind-Checked="@WetFoodAllowed">Nat voer toegestaan</Check>
-<RadioGroup TValue="@Contract.Entities.FoodType" Color="Color.Light" Buttons @bind-CheckedValue="@FoodType">
-    <Radio Value="@Contract.Entities.FoodType.FirstPhase">Eerste Fase</Radio>
-    <Radio Value="@Contract.Entities.FoodType.SecondPhase">Tweede Fase</Radio>
-    <Radio Value="@Contract.Entities.FoodType.Rc365">RC 365</Radio>
-</RadioGroup>
-<RadioGroup TValue="@Contract.Entities.LitterGranuleType" Color="Color.Light" Buttons @bind-CheckedValue="@LitterType">
-    <Radio Value="@Contract.Entities.LitterGranuleType.Normal">Normaal</Radio>
-    <Radio Value="@Contract.Entities.LitterGranuleType.Clumping">Klontvormend</Radio>
-    <Radio Value="@Contract.Entities.LitterGranuleType.Wood">Hout korrels</Radio>
-</RadioGroup>
+<Row>
+  <Column ColumnSize="ColumnSize.Is2.OnDesktop.Is4.OnMobile">
+    <Check TValue="bool" @bind-Checked="@WetFoodAllowed">Nat voer toegestaan</Check>
+  </Column>
+  <Column ColumnSize="ColumnSize.Is10.OnDesktop.Is7.OnMobile">
+    <SelectListComponent DefaultText="Type eten"
+        TItem="FoodType" 
+        Items="@_foodTypes" 
+        ItemNames="@_foodTypeNames"
+        OnSelectionChanged="@_selections.Store"/>
+  </Column>
+</Row>
 
+<SelectListComponent DefaultText="Soort grit"
+    TItem="LitterGranuleType" 
+    Items="@_litterGranuleTypes" 
+    ItemNames="@_litterGranuleTypeNames"
+    OnSelectionChanged="@_selections.Store"/>
 <Divider />
 
 <Row>

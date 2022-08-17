@@ -11,7 +11,6 @@ namespace Superkatten.Katministratie.Host.Services.Authentication
         private const string STORAGE_USER_KEY = "user";
 
         private readonly IHttpService _httpService;
-        private readonly NavigationManager _navigationManager;
         private readonly ILocalStorageService _localStorageService;
 
         public User? User { get; private set; }
@@ -19,12 +18,10 @@ namespace Superkatten.Katministratie.Host.Services.Authentication
 
         public AuthenticationService(
             IHttpService httpService,
-            NavigationManager navigationManager,
             ILocalStorageService localStorageService
         )
         {
             _httpService = httpService;
-            _navigationManager = navigationManager;
             _localStorageService = localStorageService;
         }
 

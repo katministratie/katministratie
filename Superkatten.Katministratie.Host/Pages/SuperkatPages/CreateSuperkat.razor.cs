@@ -3,9 +3,11 @@ using Blazorise.Snackbar;
 using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Host.Entities;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Interfaces;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
@@ -13,51 +15,77 @@ namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 public partial class CreateSuperkat
 {
     public const int MAX_HOKNUMBER_ALLOWED = 50;
+    private const int NOTIFICATION_SHOW_TIME = 2500;
+
+    [Inject] IPageProgressService PageProgressService { get; set; } = null!;
+    [Inject] public Navigation? Navigation { get; set; } = null!;
+    [Inject] public ISuperkattenListService SuperkattenService { get; set; } = null!;
+    [Inject] public ILocationService LocationService { get; set; } = null!;
+    [Inject] private ISettingsService SettingsService { get; set; } = null!;
+
+    private static readonly CreateSuperkatSelections _selections = new();
 
     public DateTime? CatchDate = DateTime.UtcNow;
     private Guid _catchLocationNameId = Guid.NewGuid();
     public string CatchLocationName = string.Empty;
-    public LocationType CatchLocationType = LocationType.Farm;
-    public CatArea CatArea = CatArea.Quarantine;
     public int CageNumber = 1;
-    public CatBehaviour Behaviour = CatBehaviour.Unknown;
     public bool Retour = false;
-    public AgeCategory AgeCategory = AgeCategory.Kitten;
-    public Gender Gender = Gender.Unknown;
-    public LitterGranuleType LitterType = LitterGranuleType.Normal;
     public bool WetFoodAllowed = true;
-    public FoodType FoodType = FoodType.FirstPhase;
     public string CatColor = string.Empty;
     public bool StrongHoldGiven = false;
     public int EstimatedWeeksOld = 0;
-
-
-    [Inject] IPageProgressService PageProgressService { get; set; } = null!;
-
-    [Inject] public Navigation? Navigation { get; set; }
-
-    [Inject] public ISuperkattenListService? SuperkattenService { get; set; }
-
-    [Inject] public ILocationService? LocationService { get; set; }
-
-    private const int NOTIFICATION_SHOW_TIME = 2500;
-
     private SnackbarStack _snackbarStack = null!;
+    public IEnumerable<Location> CatchLocations = new List<Location>();
 
-    public IEnumerable<Location> Locations = new List<Location>();
-    
-    private bool CanEnterHokNumber => CatArea != CatArea.SmallEnclosure && CatArea != CatArea.BigEnclosure;
+    private readonly static List<LocationType> _catchLocationTypes = Enum.GetValues(typeof(LocationType)).Cast<LocationType>().ToList();
+    private readonly static List<CatBehaviour> _catBehaviourTypes = Enum.GetValues(typeof(CatBehaviour)).Cast<CatBehaviour>().ToList();
+    private readonly static List<AgeCategory> _ageCategoryTypes = Enum.GetValues(typeof(AgeCategory)).Cast<AgeCategory>().ToList();
+    private readonly static List<CatArea> _catAreaTypes = Enum.GetValues(typeof(CatArea)).Cast<CatArea>().ToList();
+    private readonly static List<Gender> _genderTypes = Enum.GetValues(typeof(Gender)).Cast<Gender>().ToList();
+    private readonly static List<FoodType> _foodTypes = Enum.GetValues(typeof(FoodType)).Cast<FoodType>().ToList();
+    private readonly static List<LitterGranuleType> _litterGranuleTypes = Enum.GetValues(typeof(LitterGranuleType)).Cast<LitterGranuleType>().ToList();
+
+    private static List<string> _catchLocationTypeNames = null!;
+    private static List<string> _catBehaviourTypeNames = null!;
+    private static List<string> _ageCategoryTypeNames = null!;
+    private static List<string> _catAreaTypeNames = null!;
+    private static List<string> _genderTypeNames = null!;
+    private static List<string> _foodTypeNames = null!;
+    private static List<string> _litterGranuleTypeNames = null!;
+
+    private static IReadOnlyCollection<int> _cageNumbers = Array.Empty<int>();
+    private static IReadOnlyCollection<string> _cageNumberNames = Array.Empty<string>();
+
+    public async Task OnSelectCatArea(CatArea catArea)
+    {
+        _selections.Store(catArea);
+
+        _cageNumbers = Array.Empty<int>();
+        StateHasChanged();
+
+        var cageNumbers = await SettingsService.GetCageNumbersForCatAreaAsync(catArea);
+        _cageNumbers = cageNumbers is null
+            ? Array.Empty<int>()
+            : cageNumbers;
+        _cageNumberNames = _cageNumbers.Select(x => x.ToString()).ToList();
+
+        var selectedCageNumber = _cageNumbers.FirstOrDefault();
+        _selections.Store(selectedCageNumber);
+
+        StateHasChanged();
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        if (LocationService is null)
-        {
-            return;
-        }
+        _litterGranuleTypeNames = _litterGranuleTypes.Select(x => x.ToString()).ToList();
+        _catchLocationTypeNames = _catchLocationTypes.Select(x => x.ToString()).ToList();
+        _catBehaviourTypeNames = _catBehaviourTypes.Select(x => x.ToString()).ToList();
+        _ageCategoryTypeNames = _ageCategoryTypes.Select(x => x.ToString()).ToList();
+        _catAreaTypeNames = _catAreaTypes.Select(x => x.ToString()).ToList();
+        _genderTypeNames = _genderTypes.Select(x => x.ToString()).ToList();
+        _foodTypeNames = _foodTypes.Select(x => x.ToString()).ToList();
 
-        Locations = await LocationService.GetLocationsAsync();
-
-        await base.OnInitializedAsync();
+        CatchLocations = await LocationService.GetLocationsAsync();
     }
 
 
@@ -83,11 +111,9 @@ public partial class CreateSuperkat
         if (string.IsNullOrEmpty(CatchLocationName))
         {
             await _snackbarStack.PushAsync("Vangplaats is leeg",
-            SnackbarColor.Info,
-            options =>
-            {
-                options.IntervalBeforeClose = NOTIFICATION_SHOW_TIME;
-            });
+                SnackbarColor.Info,
+                options => options.IntervalBeforeClose = NOTIFICATION_SHOW_TIME
+            );
 
             await PageProgressService.Go(-1);
 
@@ -97,22 +123,22 @@ public partial class CreateSuperkat
         var catchLocation = new Location
         {
             Name = CatchLocationName,
-            Type = CatchLocationType
+            Type = _selections.LocationType
         };
 
         var createSuperkatParameters = new CreateSuperkatParameters()
         {
             CatchDate = CatchDate ?? DateTime.UtcNow,
             CatchLocation = catchLocation,
-            CatArea = CatArea,
+            CatArea = _selections.CatArea,
             CageNumber = CageNumber,
-            Behaviour = Behaviour,
+            Behaviour = _selections.CatBehaviour,
             Retour = Retour,
-            AgeCategory = AgeCategory,
-            Gender = Gender,
-            LitterType = LitterType,
+            AgeCategory = _selections.AgeCategory,
+            Gender = _selections.Gender,
+            LitterType = _selections.LitterGranuleType,
             WetFoodAllowed = WetFoodAllowed,
-            FoodType = FoodType,
+            FoodType = _selections.FoodType,
             CatColor = CatColor,
             EstimatedWeeksOld = EstimatedWeeksOld,
             StrongholdGiven = StrongHoldGiven

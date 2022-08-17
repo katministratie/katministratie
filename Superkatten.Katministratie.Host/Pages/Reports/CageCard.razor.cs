@@ -71,9 +71,7 @@ partial class CageCard
             : cageNumbers;
         
         var cageNumberNames = _cageNumbers.Select(x => x.ToString()).ToList();
-        _cageNumberNames = cageNumberNames is null
-            ? Array.Empty<string>()
-            : cageNumberNames;
+        _cageNumberNames = cageNumberNames;
 
         await UpdateSuperkattenListAsync(0);
     }

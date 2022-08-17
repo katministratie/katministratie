@@ -5,26 +5,9 @@
 
 <PageTitle>Superkatten</PageTitle>
 
-<Row>
-    <Column ColumnSize="ColumnSize.Is7.OnDesktop.Is5.OnMobile">
-        <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnBackHome">Terug</Button>
-    </Column>
-    <Column ColumnSize="ColumnSize.Is2.OnDesktop.Is3.OnMobile">
-        <Check TValue="bool" Checked="@_showSimpleListView" CheckedChanged="@OnChangeSimpleListViewAsync" >Simple</Check>
-    </Column>
-</Row>
-
 <Divider />
 
-@if (!Superkatten.Any())
-{    
-    <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
-        <SpinKit Type="SpinKitType.Chase" Size="60px"/>
-    </Div>
-    return;
-}
-
-<Pagination>
+<Pagination Padding="Padding.Is1">
     <PaginationItem Disabled="@IsFirstPage" @onclick="Previous">
         <PaginationLink>
             <span aria-hidden="true">«</span>
@@ -63,6 +46,15 @@
 
 </Pagination>
 
+<Divider />
+@if (!Superkatten.Any())
+{    
+    <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
+        <SpinKit Type="SpinKitType.Chase" Size="60px"/>
+    </Div>
+    return;
+}
+
 @foreach (var superkat in Superkatten)
 {
     if (_showSimpleListView)
@@ -73,4 +65,17 @@
 
     <SuperkatComponent Superkat=superkat />
 }
+
+<Divider />
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is7.OnDesktop.Is5.OnMobile">
+        <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnBackHome">Terug</Button>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is2.OnDesktop.Is3.OnMobile">
+        <Check TValue="bool" Checked="@_showSimpleListView" CheckedChanged="@OnChangeSimpleListViewAsync" >Simple</Check>
+    </Column>
+</Row>
+
+
 

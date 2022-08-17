@@ -1,11 +1,15 @@
 ﻿@page "/AddMedicalProcedure/{SuperkatId:guid}"
 
 @using Blazorise.Components
+@using Superkatten.Katministratie.Host.Components
+@using Superkatten.Katministratie.Contract.Entities;
 
-<h3>Toevoegen medische handeling voor kat @SuperkatNumber</h3>
+@if (_superkat is null)
+{
+    return;
+}
 
-<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Ok</Button>
-<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
+<h3>Toevoegen medische handeling voor kat @_superkat.UniqueNumber</h3>
 
 <Divider />
 
@@ -14,16 +18,23 @@
     <DateEdit TValue="DateTime" @bind-Date="@TimeStamp" />
 </Field>
 
-<SelectList TItem="MySelectModel"
-            TValue="int"
-            Data="@_procedureTypeListData"
-            TextField="@((item) => item.MyTextField)"
-            ValueField="@((item) => item.MyValueField)"
-            SelectedValue="@SelectedListValue"
-            SelectedValueChanged="@MyListValueChangedHandler"
-            DefaultItemText="Selecteer type handeling" />
+<SelectListComponent 
+    TItem="MedicalProcedureType" 
+    DefaultText="Selecteer handeling"
+    ItemNames="@_medialProcedureNames"
+    Items="@_medicalProcedures" 
+    OnSelectionChanged="@OnSelectMedialProcedure"/>
 
 <Field Margin="Margin.Is1">
     <FieldLabel>Opmerkingen</FieldLabel>
     <MemoEdit @bind-Text="@Remark" AutoSize />
 </Field>
+
+<Row>
+    <Column>
+        <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Ok</Button>
+    </Column>
+    <Column>
+        <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
+    </Column>
+</Row>

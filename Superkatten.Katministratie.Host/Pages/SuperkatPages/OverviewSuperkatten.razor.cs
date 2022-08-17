@@ -20,6 +20,18 @@ public partial class OverviewSuperkatten
     private List<Superkat> Superkatten { get; set; } = new();
 
     private bool _showSimpleListView = false;
+    private readonly int _itemsPerPage = 7;
+    private readonly int _displayedPageSetCount = 5;
+    private int _currentPage = 1;
+    private int _totalPageCount = 10;
+    private int _startPageNumber = 1;
+
+    private bool IsActive(int pageNumber) => _currentPage == pageNumber;
+    private bool IsFirstPageSet => _startPageNumber == 1;
+    private int _maxDisplayedPageNumber;
+    private bool IsLastPageSet => _maxDisplayedPageNumber > _totalPageCount;
+    private bool IsFirstPage => _currentPage == 1;
+    private bool IsLastPage => _currentPage == _totalPageCount;
 
     private async Task OnChangeSimpleListViewAsync()
     {
@@ -56,13 +68,13 @@ public partial class OverviewSuperkatten
         {
             return;
         }
-
-        if (superkatten?.Count == 0)
+        
+        if (superkatten.Count == 0)
         {
             return;
         }
 
-        Superkatten = superkatten!
+        Superkatten = superkatten
             .AsQueryable()
             .OrderByDescending(sk => sk.Number)
             .Skip((_currentPage - 1) * _itemsPerPage)
@@ -74,25 +86,6 @@ public partial class OverviewSuperkatten
     {
         _navigation.NavigateTo("/");
     }
-
-    private Task Print(string printername)
-    {
-        return _superkatActionService.CreateSuperkatCageCardAsync(new());
-    }
-
-    private readonly int _itemsPerPage = 10;
-    private readonly int _displayedPageSetCount = 4;
-    private int _currentPage = 1;
-    private int _totalPageCount = 10;
-    private int _startPageNumber = 1;
-
-    private bool IsActive(int pageNumber) => _currentPage == pageNumber;
-    private bool IsFirstPageSet => _startPageNumber == 1;
-
-    private int _maxDisplayedPageNumber;
-    private bool IsLastPageSet => _maxDisplayedPageNumber > _totalPageCount;
-    private bool IsFirstPage => _currentPage == 1;
-    private bool IsLastPage => _currentPage == _totalPageCount;
 
     private async Task Previous()
     {

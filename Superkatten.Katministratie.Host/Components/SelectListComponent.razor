@@ -1,4 +1,5 @@
 ﻿@using Superkatten.Katministratie.Host.Entities;
+@using Superkatten.Katministratie.Host.Components.Helpers
 
 @typeparam TItem
 
@@ -12,7 +13,12 @@
 }
 
 <Field>
-  <FieldLabel>@DefaultText</FieldLabel>
+  
+  @if (!string.IsNullOrEmpty(DefaultText))
+  {
+      <HeaderItem Titel="@DefaultText"></HeaderItem>
+  }
+
   <FieldBody>
     <SelectList TItem="SelectListItem<TItem>"
                 TValue="int"

@@ -24,11 +24,9 @@ public class LocationsController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult /*async Task<IReadOnlyCollection<ContractEntities.Location>> */GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        var locations = _locationService.GetLocationsAsync();
+        var locations = await _locationService.GetLocationsAsync();
         return Ok(locations);
-//            .Select(_locationMapper.MapDomainToContract)
-//            .ToList();
     }
 }

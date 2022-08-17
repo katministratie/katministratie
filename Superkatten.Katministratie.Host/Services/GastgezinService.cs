@@ -6,15 +6,10 @@ namespace Superkatten.Katministratie.Host.Services;
 
 public class GastgezinService : IGastgezinService
 {
-    private readonly HttpClient _client;
     private readonly IHttpService _httpService;
 
-    public GastgezinService(
-        HttpClient client,
-        IHttpService httpService
-    )
+    public GastgezinService(IHttpService httpService)
     {
-        _client = client;
         _httpService = httpService;
     }
 

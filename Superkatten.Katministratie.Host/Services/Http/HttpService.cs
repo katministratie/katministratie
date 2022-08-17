@@ -13,7 +13,6 @@ namespace Superkatten.Katministratie.Host.Services.Http;
 public class HttpService : IHttpService
 {
     private readonly HttpClient _httpClient;
-    //    private readonly NavigationManager _navigationManager;
     private Navigation _navigation;
     private readonly ILocalStorageService _localStorageService;
 
@@ -21,14 +20,12 @@ public class HttpService : IHttpService
 
     public HttpService(
         HttpClient httpClient,
-//        NavigationManager navigationManager,
         Navigation navigation,
         ILocalStorageService localStorageService,
         IConfiguration configuration
     )
     {
         _httpClient = httpClient;
-//        _navigationManager = navigationManager;
         _navigation = navigation;
         _localStorageService = localStorageService;
         _configuration = configuration;
@@ -108,10 +105,8 @@ public class HttpService : IHttpService
 
     private async Task CheckResponseForErrors(HttpResponseMessage response)
     {
-        // auto logout on 401 response
         if (response.StatusCode == HttpStatusCode.Unauthorized)
         {
-            // _navigationManager.NavigateTo("/");
             _navigation.Reset();
             _navigation.NavigateTo("/");
             return;
@@ -119,13 +114,11 @@ public class HttpService : IHttpService
 
         if (response.StatusCode == HttpStatusCode.Forbidden)
         {
-            //_navigationManager.NavigateTo("/");
             _navigation.Reset();
             _navigation.NavigateTo("/");
             return;
         }
 
-        // throw exception on error response
         if (!response.IsSuccessStatusCode)
         {
             var mediaType = response.Content?.Headers.ContentType?.MediaType;
@@ -161,6 +154,8 @@ public class HttpService : IHttpService
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
         }
 
-        return await _httpClient.SendAsync(request);
+        var result = await _httpClient.SendAsync(request);
+
+        return result;
     }
 }
