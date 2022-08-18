@@ -77,4 +77,10 @@ public class SuperkattenListService : ISuperkattenListService
             ? new()
             : cageNumber;
     }
+
+    public async Task<Superkat?> UpdateSuperkatPhoto(Guid id, UpdateSuperkatPhotoParameters updateSuperkatPhotoParameters)
+    {
+        var uri = $"api/Superkatten/photo?Id={id}";
+        return await _httpService.Post<Superkat?>(uri, updateSuperkatPhotoParameters);
+    }
 }

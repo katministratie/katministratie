@@ -11,5 +11,6 @@ namespace Superkatten.Katministratie.Host.Services
         Task<Superkat?> CreateSuperkatAsync(CreateSuperkatParameters newSuperkat);
         Task UpdateSuperkatAsync(Guid id, UpdateSuperkatParameters updateSuperkat);
         Task DeleteSuperkatAsync(Guid id);
+        Task<Superkat?> UpdateSuperkatPhoto(Guid id, UpdateSuperkatPhotoParameters updateSuperkatPhotoParameters);
     }
 }

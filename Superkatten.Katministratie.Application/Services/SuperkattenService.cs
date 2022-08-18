@@ -109,22 +109,38 @@ namespace Superkatten.Katministratie.Application.Services
                 .ToList();
         }
 
-        public async Task<Superkat> ReadSuperkatAsync(Guid id)
+        public async Task<Superkat> ReadSuperkatAsync(Guid guid)
         {
-            var superkat = await _superkattenRepository.GetSuperkatAsync(id);
+            var superkat = await _superkattenRepository.GetSuperkatAsync(guid);
             return superkat;
         }
 
-        public async Task<Superkat> UpdateSuperkatAsync(Guid id, UpdateSuperkatParameters updateSuperkatParameters)
+        public async Task<Superkat> UpdateSuperkatAsync(Guid guid, UpdateSuperkatParameters updateSuperkatParameters)
         {
-            var superkat = await _superkattenRepository.GetSuperkatAsync(id);
+            var superkat = await _superkattenRepository.GetSuperkatAsync(guid);
             if (superkat is null)
             {
-                throw new ServiceException($"Superkat cannot be found for id {id}");
+                throw new ServiceException($"Superkat cannot be found for id {guid}");
             }
 
             var updatedSuperkat = superkat
                 .WithGastgezinId(updateSuperkatParameters.GastgezinId);
+
+            await _superkattenRepository.UpdateSuperkatAsync(updatedSuperkat);
+
+            return superkat;
+        }
+
+        public async Task<Superkat> UpdateSuperkatAsync(Guid guid, UpdateSuperkatPhotoParameters updateSuperkatPhotoParameters)
+        {
+            var superkat = await _superkattenRepository.GetSuperkatAsync(guid);
+            if (superkat is null)
+            {
+                throw new ServiceException($"Superkat cannot be found for id {guid}");
+            }
+
+            var updatedSuperkat = superkat
+                .WithPhoto(updateSuperkatPhotoParameters.PhotoData);
 
             await _superkattenRepository.UpdateSuperkatAsync(updatedSuperkat);
 

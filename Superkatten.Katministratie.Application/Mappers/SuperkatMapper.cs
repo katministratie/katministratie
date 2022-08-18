@@ -26,7 +26,8 @@ namespace Superkatten.Katministratie.Application.Mappers
                 Behaviour = MapToContract(superkat.Behaviour),
                 CatArea = MapToContract(superkat.CatArea),
                 Gender = MapToContract(superkat.Gender),
-                GastgezinId = superkat.GastgezinId
+                GastgezinId = superkat.GastgezinId,
+                Photo = superkat.Photo
             };
         }
 
@@ -136,7 +137,9 @@ namespace Superkatten.Katministratie.Application.Mappers
             superkat.SetAgeCategory(MapContractToDomain(contractSuperkat.AgeCategory));
             superkat.SetName(contractSuperkat.Name ?? string.Empty);
 
-            return superkat.WithGastgezinId(contractSuperkat.GastgezinId);
+            return superkat
+                .WithGastgezinId(contractSuperkat.GastgezinId)
+                .WithPhoto(contractSuperkat.Photo);
         }
 
         public CatArea MapContractToDomain(contractEntities.CatArea area)

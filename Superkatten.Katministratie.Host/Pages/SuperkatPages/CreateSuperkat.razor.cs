@@ -18,7 +18,7 @@ public partial class CreateSuperkat
     private const int NOTIFICATION_SHOW_TIME = 2500;
 
     [Inject] IPageProgressService PageProgressService { get; set; } = null!;
-    [Inject] public Navigation? Navigation { get; set; } = null!;
+    [Inject] public Navigation Navigation { get; set; } = null!;
     [Inject] public ISuperkattenListService SuperkattenService { get; set; } = null!;
     [Inject] public ILocationService LocationService { get; set; } = null!;
     [Inject] private ISettingsService SettingsService { get; set; } = null!;

@@ -61,5 +61,13 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         {
             await _service.DeleteSuperkatAsync(id);
         }
+
+        [HttpPost]
+        [Route("Photo")]
+        public async Task<ContractEntities.Superkat> PostSuperkat(Guid id, [FromBody] UpdateSuperkatPhotoParameters updateSuperkatPhotoParameters)
+        {
+            var superkat = await _service.UpdateSuperkatAsync(id, updateSuperkatPhotoParameters);
+            return _mapper.MapDomainToContract(superkat);
+        }
     }
 }
