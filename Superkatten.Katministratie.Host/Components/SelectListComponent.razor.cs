@@ -11,6 +11,9 @@ public partial class SelectListComponent<TItem>
     public string DefaultText { get;  set; } = string.Empty;
 
     [Parameter]
+    public TItem? InitialSelectedItem { get;  set; }
+
+    [Parameter]
     public string EmptyListText { get; set; } = "...";
 
     [Parameter]
@@ -41,7 +44,7 @@ public partial class SelectListComponent<TItem>
                 return;
             }
 
-            _items = value;
+            _items = (List<TItem>)value;
             if (!ItemNames.Any())
             {
                 ItemNames = _items.Select(x => x?.ToString() ?? String.Empty).ToList();
@@ -54,8 +57,8 @@ public partial class SelectListComponent<TItem>
     [Parameter]
     public EventCallback<TItem> OnSelectionChanged { get; set; }
 
-    private IReadOnlyCollection<TItem> _items = Array.Empty<TItem>();
-
+    private int _selectedValueIndex = 0;
+    private List<TItem> _items = Array.Empty<TItem>().ToList();
     private IEnumerable<SelectListItem<TItem>> _selectionItemData = Array.Empty<SelectListItem<TItem>>();
 
     protected async override Task OnInitializedAsync()
@@ -66,7 +69,12 @@ public partial class SelectListComponent<TItem>
         }
 
         UpdateItems();
-        await OnSelectedValueChanged(0);
+
+        var selectedValueIndex = InitialSelectedItem is null
+            ? 0
+            : GetInitialIndex(InitialSelectedItem);
+
+        await OnSelectedValueChanged(selectedValueIndex);
     }
 
     public void UpdateItems()
@@ -93,6 +101,8 @@ public partial class SelectListComponent<TItem>
             var item = GetSelectedItem(selectedListIndex);
             await OnSelectionChanged.InvokeAsync(item);
         }
+
+        _selectedValueIndex = selectedListIndex;
     }
 
     private TItem? GetSelectedItem(int keyId)
@@ -104,5 +114,12 @@ public partial class SelectListComponent<TItem>
         return selectedListItem is null || selectedListItem.Item is null
             ? default
             : selectedListItem.Item;
+    }
+
+    private int GetInitialIndex(TItem? item)
+    {
+        return item is null
+            ? 0
+            : _items.FindIndex(i => i?.Equals(item) ?? false) + 1;
     }
 }

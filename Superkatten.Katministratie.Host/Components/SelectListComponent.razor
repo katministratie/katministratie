@@ -25,6 +25,7 @@
                 Data="@_selectionItemData"
                 TextField="@((item) => item.ItemName)"
                 ValueField="@((item) => item.KeyId)"
+                SelectedValue="_selectedValueIndex"
                 SelectedValueChanged="@OnSelectedValueChanged"
                 DefaultItemText="@DefaultText" />
   </FieldBody>
