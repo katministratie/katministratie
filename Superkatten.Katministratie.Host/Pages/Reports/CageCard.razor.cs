@@ -65,6 +65,8 @@ partial class CageCard
     public async Task UpdateCatAreaDataAsync(CatArea catArea)
     {
         _selectedCatArea = catArea;
+        _cageNumbers = Array.Empty<int>();
+
         var cageNumbers = await SettingsService.GetCageNumbersForCatAreaAsync(catArea);
         _cageNumbers = cageNumbers is null
             ? Array.Empty<int>()
