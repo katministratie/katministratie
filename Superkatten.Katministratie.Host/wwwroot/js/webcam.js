@@ -1,10 +1,13 @@
-function startVideo(src)
+function startVideo(src, selectedVideo)
 {
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia)
   {
     navigator
       .mediaDevices
-      .getUserMedia({ video: true })
+      .getUserMedia(
+        {
+          video: selectedVideo
+        })
       .then(function (stream)
       {
         let video = document.getElementById(src);
@@ -24,8 +27,8 @@ function startVideo(src)
         };
 
         //mirror image
-        video.style.webkitTransform = "scaleX(-1)";
-        video.style.transform = "scaleX(-1)";
+        //video.style.webkitTransform = "scaleX(1)";
+        //video.style.transform = "scaleX(1)";
       });
   }
 }

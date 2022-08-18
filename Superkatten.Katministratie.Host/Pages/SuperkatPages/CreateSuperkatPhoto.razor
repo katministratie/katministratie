@@ -1,10 +1,9 @@
 ﻿@page "/CreateSuperkatPhoto"
 
-<h1>Blazor Webcam</h1>
-<video id="videoFeed" width="320" height="240" />
+<video id="videoFeed" width="640" height="480" />
 <canvas class="d-none" id="currentFrame" width="320" height="240" />
 <br />
-<input class="form-control mb-3" style="width:320px;" type="text" @bind="_captionText" placeholder="superkatten (c)" />
+
 <button class="btn btn-primary mb-3" @onclick="CaptureFrame">Capture Frame</button> 
 <br />
 

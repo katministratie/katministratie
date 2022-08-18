@@ -20,7 +20,8 @@ public partial class CreateSuperkatPhoto
 
     protected override async Task OnInitializedAsync()
     {
-        await JSRuntime.InvokeVoidAsync("startVideo", "videoFeed");
+        var selectedVideo = "{ facingMode: { exact: \"environment\" } ";
+        await JSRuntime.InvokeVoidAsync("startVideo", "videoFeed", selectedVideo);
     }
 
     private async Task CaptureFrame()
