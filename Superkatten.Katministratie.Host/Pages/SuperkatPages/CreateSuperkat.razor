@@ -52,6 +52,7 @@
 
 <Field>
   <SelectListComponent DefaultText="Locatie type"
+    InitialSelectedItem="@_selections.LocationType"
     TItem="LocationType" 
     Items="@_catchLocationTypes" 
     ItemNames="@_catchLocationTypeNames"
@@ -63,6 +64,7 @@
 </Field>
 
 <SelectListComponent DefaultText="Gedrag"
+    InitialSelectedItem="@_selections.CatBehaviour"
     TItem="CatBehaviour" 
     Items="@_catBehaviourTypes" 
     ItemNames="@_catBehaviourTypeNames"
@@ -75,6 +77,7 @@
 <Check TValue="bool" @bind-Checked="@Retour">Retour</Check>
 
 <SelectListComponent DefaultText="Leeftijdscategorie"
+    InitialSelectedItem="_selections.AgeCategory"
     TItem="AgeCategory" 
     Items="@_ageCategoryTypes" 
     ItemNames="@_ageCategoryTypeNames"
@@ -110,6 +113,7 @@
 <Row>
     <Column ColumnSize="ColumnSize.Is8">
       <SelectListComponent DefaultText="Ruimte"
+        InitialSelectedItem="_selections.CatArea"
         TItem="CatArea" 
         Items="@_catAreaTypes" 
         ItemNames="@_catAreaTypeNames"
@@ -133,6 +137,7 @@ else
 </Row>
 
 <SelectListComponent DefaultText="Geslacht"
+    InitialSelectedItem="_selections.Gender"
     TItem="Gender" 
     Items="@_genderTypes" 
     ItemNames="@_genderTypeNames"
@@ -141,10 +146,12 @@ else
 <HeaderItem Titel="Voer"></HeaderItem>
 <Row>
   <Column ColumnSize="ColumnSize.Is2.OnDesktop.Is4.OnMobile">
-    <Check TValue="bool" @bind-Checked="@WetFoodAllowed">Nat voer toegestaan</Check>
+    <HeaderItem Titel="Nat voer"></HeaderItem>
+    <Check TValue="bool" @bind-Checked="@WetFoodAllowed">toegestaan ?</Check>
   </Column>
   <Column ColumnSize="ColumnSize.Is10.OnDesktop.Is7.OnMobile">
     <SelectListComponent DefaultText="Type eten"
+        InitialSelectedItem="_selections.FoodType"
         TItem="FoodType" 
         Items="@_foodTypes" 
         ItemNames="@_foodTypeNames"
@@ -153,6 +160,7 @@ else
 </Row>
 
 <SelectListComponent DefaultText="Soort grit"
+    InitialSelectedItem="_selections.LitterGranuleType"
     TItem="LitterGranuleType" 
     Items="@_litterGranuleTypes" 
     ItemNames="@_litterGranuleTypeNames"
