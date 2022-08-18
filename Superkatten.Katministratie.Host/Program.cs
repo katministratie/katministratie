@@ -54,11 +54,6 @@ builder.Services
     .AddBootstrapProviders()
     .AddFontAwesomeIcons();
 
-// Add the ANT design from https://antblazor.com/
-//builder.Services.AddAntDesign();
-
-
-
 await builder.Build().RunAsync();
 
 //
