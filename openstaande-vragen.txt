@@ -6,6 +6,8 @@ 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
 Database migration done with:
 PM> dotnet ef migrations --project Superkatten.Katministratie.Infrastructure --startup-project Superkatten.Katministratie.SuperkatApi add InitialCreate
 
+Localization:
+https://docs.microsoft.com/en-us/aspnet/core/blazor/globalization-localization?view=aspnetcore-6.0&pivots=webassembly
 
 Application:
 
