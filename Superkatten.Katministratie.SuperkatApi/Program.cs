@@ -103,7 +103,7 @@ builder.Configuration.AddEnvironmentVariables();
             name: CORS_POLICY_NAME, 
             builder => 
             {
-                builder.WithOrigins();
+                builder.WithOrigins("https://localhost:7171");
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();
             });
@@ -119,7 +119,14 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dataContext = scope.ServiceProvider.GetRequiredService<SuperkattenDbContext>();
-    dataContext.Database.EnsureCreated();
+    try
+    {
+        var isCreated = dataContext.Database.EnsureCreated();
+    }
+    catch(Exception ex)
+    {
+
+    }
 }
 
 app.UseSwagger();

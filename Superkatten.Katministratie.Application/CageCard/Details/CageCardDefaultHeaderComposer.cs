@@ -2,6 +2,7 @@
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using Superkatten.Katministratie.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -27,42 +28,58 @@ public class CageCardDefaultHeaderComposer : IComponent
         container.Column(column =>
         {
             column.Item()
-                .Text($"Locatie: {_superkatten.First().CatArea} Hok: {_superkatten.First().CageNumber}")
+                .Text(GetCageNumberHeaderText(_superkatten))
                 .Style(titleStyle)
-                .FontSize(30);
+                .FontSize(20);
 
             column.Item()
-                .Row(row =>
-                {
-                    row.RelativeItem()
-                    .Padding(5)
-                    .Border(1)
-                    .Column(column =>
-                    {
-                        column.Item()
-                            .AlignMiddle()
-                            .AlignCenter()
-                            .Text($"Aantal:\n{_superkatten.Count}")
-                            .Style(titleStyle);
-                    });
+                .Text(GetFirstCatchDate(_superkatten))
+                .Style(titleStyle)
+                .FontSize(20);
 
-                    row.RelativeItem()
-                        .Padding(5)
-                        .Border(1)
-                        .Column(column =>
-                        {
-                            column.Item()
-                                .AlignMiddle()
-                                .AlignCenter()
-                                .Text($"{_superkatten.First().CatchDate:dd.MMMM yyyy}")
-                                .Style(titleStyle);
-                            column.Item()
-                                .AlignMiddle()
-                                .AlignCenter()
-                                .Text($"{_superkatten.First().CatchLocation}")
-                                .Style(titleStyle);
-                        });
-                });
+            column.Item()
+                .Text(GetCatchLocation(_superkatten))
+                .Style(titleStyle)
+                .FontSize(20);
         });
+    }
+
+    private string GetCatchLocation(IReadOnlyCollection<Superkat> superkatten)
+    {
+        var catchLocations = superkatten
+            .OrderBy(s => s.CatchDate)
+            .ToList()
+            .Select(s => s.CatchLocation)
+            .ToList();
+
+        return catchLocations?.ToString() ?? string.Empty;
+    }
+
+    private static string GetFirstCatchDate(IReadOnlyCollection<Superkat> superkatten)
+    {
+        var firstCatchDate = superkatten
+            .OrderBy(s => s.CatchDate)
+            .ToList()
+            .Select(s => s.CatchDate)
+            .FirstOrDefault();
+
+        return firstCatchDate.ToShortDateString();
+    }
+
+    private static string GetCageNumberHeaderText(IReadOnlyCollection<Superkat> superkatten)
+    {
+        var catArea = superkatten
+            .Select(s => s.CatArea)
+            .Distinct()
+            .ToList()
+            .First();
+
+        var cageNumber = superkatten
+            .Select(s => s.CageNumber)
+            .Distinct()
+            .ToList()
+            .First();
+
+        return catArea.ToString() + "-" + cageNumber.ToString();
     }
 }

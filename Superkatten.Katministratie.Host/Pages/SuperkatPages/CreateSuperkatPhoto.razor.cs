@@ -3,6 +3,7 @@ using Microsoft.JSInterop;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services;
+using Superkatten.Katministratie.Contract.Entities;
 
 namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 
@@ -14,17 +15,21 @@ public partial class CreateSuperkatPhoto
 
     [Inject] public ISuperkattenListService SuperkattenService { get; set; } = null!;
 
-    private string _captionText = "superkatten (c)";
+    private IReadOnlyCollection<Superkat> _superkatten = Array.Empty<Superkat>();
+    private IReadOnlyCollection<string> _superkatNames = null!;
 
-    private byte[]? _imageData;
+    private Superkat? _selectedSuperkat;
 
     protected override async Task OnInitializedAsync()
     {
         var selectedVideo = "{ facingMode: { exact: \"environment\" } ";
         await JSRuntime.InvokeVoidAsync("startVideo", "videoFeed", selectedVideo);
+
+        _superkatten = await SuperkattenService.GetAllSuperkattenAsync();
+        _superkatNames = _superkatten.OrderBy(s => s.UniqueNumber).Select(s => s.UniqueNumber).ToList();
     }
 
-    private async Task CaptureFrame()
+    private async Task OnOk()
     {
         await JSRuntime.InvokeAsync<string>(
             "getFrame", 
@@ -34,23 +39,31 @@ public partial class CreateSuperkatPhoto
         );
     }
 
+    private void OnCancel()
+    {
+        Navigation.NavigateBack();
+    }
+
+    private void OnSelectSuperkat(Superkat superkat)
+    {
+        _selectedSuperkat = superkat;
+    }
+
     [JSInvokable]
     public async Task ProcessImage(string imageString)
     {
+        if (_selectedSuperkat is null)
+        {
+            return;
+        }
+
         var updateSuperkatPhotoParameters = new UpdateSuperkatPhotoParameters
         {
             PhotoData = Convert.FromBase64String(imageString.Split(',')[1])
         };
 
-        // TODO: superkat selecteren
-        try
-        {
-            await SuperkattenService.UpdateSuperkatPhoto(Guid.NewGuid(), updateSuperkatPhotoParameters);
-        }
-        catch(Exception ex)
-        {
+        await SuperkattenService.UpdateSuperkatPhoto(_selectedSuperkat.Id, updateSuperkatPhotoParameters);
 
-        }
-        Navigation.NavigateTo("/");
+        Navigation.NavigateBack();
     }
 }

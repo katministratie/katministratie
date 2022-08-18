@@ -153,9 +153,7 @@ public class HttpService : IHttpService
         {
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
         }
-
-        var result = await _httpClient.SendAsync(request);
-
-        return result;
+        
+        return await _httpClient.SendAsync(request);
     }
 }

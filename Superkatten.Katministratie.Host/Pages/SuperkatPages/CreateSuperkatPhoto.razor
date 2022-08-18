@@ -1,13 +1,30 @@
 ﻿@page "/CreateSuperkatPhoto"
 
-<video id="videoFeed" width="640" height="480" />
-<canvas class="d-none" id="currentFrame" width="320" height="240" />
-<br />
+@using Superkatten.Katministratie.Host.Components
+@using Superkatten.Katministratie.Contract.Entities
 
-<button class="btn btn-primary mb-3" @onclick="CaptureFrame">Capture Frame</button> 
-<br />
 
-@if (_imageData is not null)
-{
-    <img src="@_imageData" />
-}
+<SelectListComponent 
+    TItem="Superkat" 
+    DefaultText="Selecteer superkat"
+    ItemNames="@_superkatNames"
+    Items="@_superkatten" 
+    OnSelectionChanged="@OnSelectSuperkat" />
+
+<Row>
+  <Column Margin="Margin.Is2">
+      <video class="p-1" id="videoFeed" width="640" height="480" />
+      <canvas class="d-none" id="currentFrame" width="320" height="240" />
+  </Column>
+</Row>
+
+<Row>
+  <Column>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Ok</Button>
+  </Column>
+
+  <Column>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
+  </Column>
+</Row>
+
