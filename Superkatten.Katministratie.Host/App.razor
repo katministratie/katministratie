@@ -1,7 +1,5 @@
 ﻿ @inject NavigationManager NavigationManager
- 
-
- 
+  
 <Router AppAssembly="@typeof(App).Assembly">
 
     <Found Context="routeData">
@@ -11,8 +9,8 @@
 
     <NotFound>
         @{ 
-            // redirect to home page if not found
-            NavigationManager.NavigateTo(""); 
+            // redirect to login page if not found
+            NavigationManager.NavigateTo("login"); 
         }
     </NotFound>
 
