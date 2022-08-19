@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AntDesign" Version="0.10.5" />
     <PackageReference Include="Blazorise.Bootstrap" Version="1.0.5" />
     <PackageReference Include="Blazorise.Components" Version="1.0.5" />
     <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.0.5" />
@@ -49,6 +48,10 @@
     <Content Update="wwwroot\Images\superkat.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
 </Project>

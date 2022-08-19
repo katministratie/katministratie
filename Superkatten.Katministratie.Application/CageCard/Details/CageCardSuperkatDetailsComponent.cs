@@ -24,7 +24,7 @@ public class CageCardSuperkatDetailsComponent : IComponent
             .Column(column =>
             {
                 column.Item()
-                    .Image(GetBehaviourImageFileName(_superkat.Behaviour));
+                    .Image(_superkat.Photo ?? Array.Empty<byte>());
 
                 column.Item()
                     .Padding(2)
@@ -43,17 +43,6 @@ public class CageCardSuperkatDetailsComponent : IComponent
                     .Text($"{GetAgeCategoryText(_superkat.AgeCategory)}");
 
             });
-    }
-
-    private string GetBehaviourImageFileName(CatBehaviour behaviour)
-    {
-        return behaviour switch
-        {
-            CatBehaviour.Social => "./Images/Behavour/Sociaal.jpg",
-            CatBehaviour.Unknown => "./Images/Behavour/Onbekend.jpg",
-            CatBehaviour.Shy => "./Images/Behavour/Schuw.jpg",
-            _ => "./Images/Behavour/Error.jpg"
-        };
     }
 
     private static string GetAgeCategoryText(AgeCategory ageCategory)

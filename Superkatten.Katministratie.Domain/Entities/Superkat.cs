@@ -24,6 +24,7 @@ namespace Superkatten.Katministratie.Domain.Entities
         public FoodType FoodType { get; private set; } = FoodType.FirstPhase;
         public string Color { get; private set; } = string.Empty;
         public Guid? GastgezinId { get; private set; }
+        public byte[]? Photo { get; private set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         // Constructor is needed for EF
@@ -128,6 +129,13 @@ namespace Superkatten.Katministratie.Domain.Entities
         public Superkat WithGastgezinId(Guid? gastgezinId)
         {
             GastgezinId = gastgezinId;
+
+            return this;
+        }
+
+        public Superkat WithPhoto(byte[] photo)
+        {
+            Photo = photo;
 
             return this;
         }

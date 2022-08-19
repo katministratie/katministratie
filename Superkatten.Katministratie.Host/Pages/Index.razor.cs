@@ -30,93 +30,53 @@ public partial class Index
 
     protected override async Task OnInitializedAsync()
     {
-        if (AuthenticationService is null)
-        {
-            return;
-        }
-
         await base.OnInitializedAsync();
         await AuthenticationService.InitializeAsync();
     }
 
     private void OnRegister()
     {
-        if (Navigation is null)
-        {
-            return;
-        }
-
         Navigation.NavigateTo("Register");
     }
 
     private async Task OnLogin()
     {
-        if (_authenticationDialog is null)
-        {
-            return;
-        }
-
         _loginModel = new();
         await _authenticationDialog.Show();
     }
 
     private async Task OnLogout()
-    {
-        if (AuthenticationService is null)
-        {
-            return;
-        }
-
+    {        
         await AuthenticationService.LogoutAsync();
+    }
+
+    private void OnCreateSuperkatPhoto()
+    {
+        Navigation.NavigateTo("CreateSuperkatPhoto");
     }
 
     private void OnCreateSuperkat()
     {
-        if (Navigation is null)
-        {
-            return;
-        }
-
         Navigation.NavigateTo("CreateSuperkat");
     }
 
     private void OnShowOverviewSuperkatten()
     {
-        if (Navigation is null)
-        {
-            return;
-        }
-
         Navigation.NavigateTo("OverviewSuperkatten");
     }
 
     private void OnShowOverviewGastgezinnen()
     {
-        if (Navigation is null)
-        {
-            return;
-        }
-
         Navigation.NavigateTo("OverviewGastgezinnen");
     }
 
     private void OnShowMedicalProcedures()
     {
-        if (Navigation is null)
-        {
-            return;
-        }
-
         Navigation.NavigateTo("OverviewMedicalProcedures");
     }
 
     private Task HideModal()
     {
-        if (_authenticationDialog is null)
-        {
-            return Task.CompletedTask;
-        }
-
         return _authenticationDialog.Hide();
     }
 
@@ -145,11 +105,6 @@ public partial class Index
 
     private void OnEmailCageCard()
     {
-        if (Navigation is null)
-        {
-            return;
-        }
-
         Navigation.NavigateTo("CageCard");
     }
 

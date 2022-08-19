@@ -34,20 +34,10 @@ public partial class SelectListComponent<TItem>
                 return;
             }
 
-            if (!value.Any())
-            { 
-                return;
-            }
-
-            if (_items == value)
-            {
-                return;
-            }
-
             _items = (List<TItem>)value;
             if (!ItemNames.Any())
             {
-                ItemNames = _items.Select(x => x?.ToString() ?? String.Empty).ToList();
+                ItemNames = _items.Select(x => x?.ToString() ?? string.Empty).ToList();
             }
 
             UpdateItems();
