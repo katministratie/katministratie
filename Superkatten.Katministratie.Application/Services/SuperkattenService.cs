@@ -140,11 +140,11 @@ namespace Superkatten.Katministratie.Application.Services
             }
 
             var updatedSuperkat = superkat
-                .WithPhoto(updateSuperkatPhotoParameters.PhotoData);
+                .WithPhoto(updateSuperkatPhotoParameters.PhotoData ?? Array.Empty<byte>());
 
             await _superkattenRepository.UpdateSuperkatAsync(updatedSuperkat);
 
-            return superkat;
+            return updatedSuperkat;
         }
     }
 }

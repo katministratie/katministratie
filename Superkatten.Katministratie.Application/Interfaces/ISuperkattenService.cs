@@ -8,16 +8,12 @@ namespace Superkatten.Katministratie.Application.Interfaces
 {
     public interface ISuperkattenService
     {
-        Task<Superkat> CreateSuperkatAsync(CreateSuperkatParameters createSuperkatDto);
-        
+        Task<Superkat> CreateSuperkatAsync(CreateSuperkatParameters createSuperkatDto);        
         Task<Superkat> ReadSuperkatAsync(Guid guid);
         Task<IReadOnlyCollection<Superkat>> ReadAllSuperkattenAsync();
         Task<IReadOnlyCollection<Superkat>> ReadAvailableSuperkattenAsync();
-
         Task<Superkat> UpdateSuperkatAsync(Guid guid, UpdateSuperkatParameters updateSuperkatParameters);
         Task<Superkat> UpdateSuperkatAsync(Guid guid, UpdateSuperkatPhotoParameters updateSuperkatPhotoParameters);
-
-        Task DeleteSuperkatAsync(Guid guid);
-        
+        Task DeleteSuperkatAsync(Guid guid);        
     }
 }

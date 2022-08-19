@@ -24,7 +24,7 @@ public class CageCardSuperkatDetailsComponent : IComponent
             .Column(column =>
             {
                 column.Item()
-                    .Image(_superkat.Photo);
+                    .Image(_superkat.Photo ?? Array.Empty<byte>());
 
                 column.Item()
                     .Padding(2)

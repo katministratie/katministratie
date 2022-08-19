@@ -4,8 +4,11 @@ using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Host.Entities;
 
 namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
+
+// Javascript from https://wellsb.com/csharp/aspnet/blazor-webcam-capture
 
 public partial class CreateSuperkatPhoto
 {
@@ -16,17 +19,27 @@ public partial class CreateSuperkatPhoto
     [Inject] public ISuperkattenListService SuperkattenService { get; set; } = null!;
 
     private IReadOnlyCollection<Superkat> _superkatten = Array.Empty<Superkat>();
-    private IReadOnlyCollection<string> _superkatNames = null!;
-
+    private IReadOnlyCollection<string> _superkatNames = Array.Empty<string>();
+    private IReadOnlyCollection<MediaDeviceInfoModel> _cameraDevices = new List<MediaDeviceInfoModel>();
+    private IReadOnlyCollection<string> _cameraDeviceNames = new List<string>();
     private Superkat? _selectedSuperkat;
+    private bool IsInitializing { get; set; } = true;
 
-    protected override async Task OnInitializedAsync()
+    protected async override Task OnInitializedAsync()
     {
-        var selectedVideo = "{ facingMode: { exact: \"environment\" } ";
-        await JSRuntime.InvokeVoidAsync("startVideo", "videoFeed", selectedVideo);
+        // See https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+        var cameraDevices = await JSRuntime.InvokeAsync<MediaDeviceInfoModel[]>("getCameraDeviceList");
+        var cameraDeviceNames = _cameraDevices.Select(c => c.Label).ToList();
 
         _superkatten = await SuperkattenService.GetAllSuperkattenAsync();
         _superkatNames = _superkatten.OrderBy(s => s.UniqueNumber).Select(s => s.UniqueNumber).ToList();
+
+        _cameraDevices = cameraDevices;
+        _cameraDeviceNames = cameraDeviceNames;
+
+        await OnSelectCameraDeviceAsync(_cameraDevices.First());
+
+        IsInitializing = false;
     }
 
     private async Task OnOk()
@@ -47,6 +60,11 @@ public partial class CreateSuperkatPhoto
     private void OnSelectSuperkat(Superkat superkat)
     {
         _selectedSuperkat = superkat;
+    }
+
+    private async Task OnSelectCameraDeviceAsync(MediaDeviceInfoModel selectedCameraDevice)
+    {
+        await JSRuntime.InvokeVoidAsync("startVideo", "videoFeed", selectedCameraDevice.DeviceId);
     }
 
     [JSInvokable]

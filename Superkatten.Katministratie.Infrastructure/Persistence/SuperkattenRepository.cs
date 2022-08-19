@@ -69,6 +69,7 @@ public class SuperkattenRepository : ISuperkattenRepository
         var superkat = await _context
             .SuperKatten
             .AsNoTracking()
+            .Include(o => o.CatchLocation)
             .FirstOrDefaultAsync(s => s.Id == id);
 
         return superkat is null 

@@ -1,13 +1,16 @@
-function startVideo(src, selectedVideo)
+function startVideo(src, cameraDeviceId)
 {
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia)
   {
     navigator
       .mediaDevices
-      .getUserMedia(
-        {
-          video: selectedVideo
-        })
+      .getUserMedia({
+        video: {
+          deviceId: {
+            exact: cameraDeviceId
+          }
+        }
+      })
       .then(function (stream)
       {
         let video = document.getElementById(src);
@@ -25,10 +28,6 @@ function startVideo(src, selectedVideo)
         {
           video.play();
         };
-
-        //mirror image
-        //video.style.webkitTransform = "scaleX(1)";
-        //video.style.transform = "scaleX(1)";
       });
   }
 }
@@ -44,4 +43,12 @@ function getFrame(src, dest, dotNetHelper)
 
   let dataUrl = canvas.toDataURL("image/jpeg");
   dotNetHelper.invokeMethodAsync('ProcessImage', dataUrl);
+}
+
+function getCameraDeviceList()
+{
+  return navigator
+    .mediaDevices
+    .enumerateDevices()
+    .then(c => c.filter(o => o.kind === "videoinput"));
 }

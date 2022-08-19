@@ -1,22 +1,44 @@
 ﻿@page "/CreateSuperkatPhoto"
 
 @using Superkatten.Katministratie.Host.Components
-@using Superkatten.Katministratie.Contract.Entities
+@using Superkatten.Katministratie.Host.Entities
+
+@using ContractEntities = Superkatten.Katministratie.Contract.Entities
+
+@if (IsInitializing)
+{
+    <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
+      <SpinKit Type="SpinKitType.Chase" Size="30px"/>
+    </Div>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
+    return;
+}
+
+@if (_superkatten is not null && _superkatten.Count > 0)
+{
+  <SelectListComponent DefaultText="Selecteer superkat"
+      TItem="ContractEntities.Superkat"     
+      ItemNames="@_superkatNames"
+      Items="@_superkatten" 
+      OnSelectionChanged="@OnSelectSuperkat" />
+}
+
+@if (_cameraDevices is not null && _cameraDevices.Count > 0)
+{
+    <SelectListComponent DefaultText="Selecteer camera"
+      TItem="MediaDeviceInfoModel"     
+      ItemNames="@_cameraDeviceNames"
+      Items="@_cameraDevices" 
+      OnSelectionChanged="@OnSelectCameraDeviceAsync" />
 
 
-<SelectListComponent 
-    TItem="Superkat" 
-    DefaultText="Selecteer superkat"
-    ItemNames="@_superkatNames"
-    Items="@_superkatten" 
-    OnSelectionChanged="@OnSelectSuperkat" />
-
-<Row>
-  <Column Margin="Margin.Is2">
-      <video class="p-1" id="videoFeed" width="640" height="480" />
-      <canvas class="d-none" id="currentFrame" width="320" height="240" />
-  </Column>
-</Row>
+    <Row>
+        <Column Margin="Margin.Is2">
+            <video class="p-1" id="videoFeed" width="640" height="480" />
+            <canvas class="d-none" id="currentFrame" width="320" height="240" />
+        </Column>
+    </Row>
+}
 
 <Row>
   <Column>
