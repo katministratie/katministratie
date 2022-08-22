@@ -4,6 +4,11 @@
 @using Superkatten.Katministratie.Host.Components
 @using Superkatten.Katministratie.Host.Components.SuperkatComponents
 
+@if (_catAreas is null)
+{
+    return;
+}
+
 @if (_isSending)
 {
   <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">

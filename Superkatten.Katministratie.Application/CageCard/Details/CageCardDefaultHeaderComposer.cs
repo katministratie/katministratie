@@ -21,38 +21,40 @@ public class CageCardDefaultHeaderComposer : IComponent
     {
         var titleStyle = TextStyle
             .Default
-            .FontSize(20)
-            .SemiBold()
-            .FontColor(Colors.Blue.Medium);
+            .FontSize(18)
+            .SemiBold();
 
-        container.Column(column =>
-        {
-            column.Item()
-                .Text(GetCageNumberHeaderText(_superkatten))
-                .Style(titleStyle)
-                .FontSize(20);
+        container
+            .Border(1)
+            .PaddingBottom(5)
+            .Row(row =>
+            {
+                row.RelativeItem()
+                    .Text(GetCageNumberHeaderText(_superkatten))
+                    .Style(titleStyle)
+                    .FontSize(20);
 
-            column.Item()
-                .Text(GetFirstCatchDate(_superkatten))
-                .Style(titleStyle)
-                .FontSize(20);
+                row.RelativeItem()
+                    .Text(GetFirstCatchDate(_superkatten))
+                    .Style(titleStyle)
+                    .FontSize(20);
 
-            column.Item()
-                .Text(GetCatchLocation(_superkatten))
-                .Style(titleStyle)
-                .FontSize(20);
-        });
+                row.RelativeItem()
+                    .Text(GetCatchLocation(_superkatten))
+                    .Style(titleStyle)
+                    .FontSize(20);
+            });
     }
 
-    private string GetCatchLocation(IReadOnlyCollection<Superkat> superkatten)
+    private static string GetCatchLocation(IReadOnlyCollection<Superkat> superkatten)
     {
-        var catchLocations = superkatten
+        var firstCatchLocation = superkatten
             .OrderBy(s => s.CatchDate)
             .ToList()
             .Select(s => s.CatchLocation)
-            .ToList();
+            .FirstOrDefault();
 
-        return catchLocations?.ToString() ?? string.Empty;
+        return firstCatchLocation?.Name ?? string.Empty;
     }
 
     private static string GetFirstCatchDate(IReadOnlyCollection<Superkat> superkatten)
@@ -80,6 +82,19 @@ public class CageCardDefaultHeaderComposer : IComponent
             .ToList()
             .First();
 
-        return catArea.ToString() + "-" + cageNumber.ToString();
+        return ConvertCatAreaToShowString(catArea) + "-" + cageNumber.ToString();
+    }
+
+    private static string ConvertCatAreaToShowString(CatArea catArea)
+    {
+        return catArea switch
+        {
+            CatArea.Quarantine => "Q",
+            CatArea.Infirmary => "ZB",
+            CatArea.SmallEnclosure => string.Empty,
+            CatArea.BigEnclosure => string.Empty,
+            CatArea.Room2 => string.Empty,
+            _ => string.Empty
+        };
     }
 }
