@@ -1,18 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Superkatten.Katministratie.Application.Authorization;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Domain.Entities;
-using ContractEntities = Superkatten.Katministratie.Contract.Entities;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers
 {
     [AuthorizeRoles(PermissionEnum.Administrator, PermissionEnum.Coordinator)]
     [Route("api/[controller]")]
     [ApiController]
-    public class GastgezinnenController
+    public class GastgezinnenController : ControllerBase
     {
         private readonly IGastgezinnenService _service;
         private readonly IGastgezinMapper _mapper;
@@ -24,33 +22,43 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IReadOnlyCollection<ContractEntities.Gastgezin>?> GetAllGastgezinnen()
+        public async Task<IActionResult> GetAllGastgezinnen()
         {
             var gastgezinnen = await _service.ReadAvailableGastgezinAsync();
 
-            return gastgezinnen
+            return Ok(
+                gastgezinnen
                 .Select(s => _mapper.MapDomainToContract(s))
-                .ToList();
+                .ToList()
+            );
         }
 
         [HttpPut]
-        public async Task<ContractEntities.Gastgezin> PutGastgezin([FromBody] CreateUpdateGastgezinParameters createGastgezinParameters)
+        public async Task<IActionResult> PutGastgezin([FromBody] CreateUpdateGastgezinParameters createGastgezinParameters)
         {
             var gastgezin = await _service.CreateGastgezinAsync(createGastgezinParameters);
-            return _mapper.MapDomainToContract(gastgezin);
+            
+            return Ok(
+                _mapper.MapDomainToContract(gastgezin)
+            );
         }
 
         [HttpPost]
-        public async Task<ContractEntities.Gastgezin> PostGastgezin(Guid id, [FromBody] CreateUpdateGastgezinParameters updateGastgezinParameters)
+        public async Task<IActionResult> PostGastgezin(Guid id, [FromBody] CreateUpdateGastgezinParameters updateGastgezinParameters)
         {
             var gastgezin = await _service.UpdateGastgezinAsync(id, updateGastgezinParameters);
-            return _mapper.MapDomainToContract(gastgezin);
+
+            return Ok(
+                _mapper.MapDomainToContract(gastgezin)
+            );
         }
 
         [HttpDelete]
-        public async Task DeleteGastgezin(Guid id)
+        public async Task<IActionResult> DeleteGastgezin(Guid id)
         {
             await _service.DeleteGastgezinAsync(id);
+
+            return Ok();
         }
     }
 }

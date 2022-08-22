@@ -25,6 +25,7 @@ public class UsersController : ControllerBase
     {
         Console.WriteLine($"Authenticate {model.Username}");
         var response = _userService.Authenticate(model);
+
         return Ok(response);
     }
 
@@ -33,13 +34,15 @@ public class UsersController : ControllerBase
     public IActionResult Register(RegisterRequest model)
     {
         _userService.Register(model);
-        return Ok(new { message = "Registration successful" });
+
+        return Ok();
     }
 
     [HttpGet]
     public IActionResult GetAll()
     {
         var users = _userService.GetAll();
+
         return Ok(users);
     }
 
@@ -47,6 +50,7 @@ public class UsersController : ControllerBase
     public IActionResult GetById(int id)
     {
         var user = _userService.GetById(id);
+
         return Ok(user);
     }
 
@@ -54,13 +58,15 @@ public class UsersController : ControllerBase
     public IActionResult Update(int id, UpdateRequest model)
     {
         _userService.Update(id, model);
-        return Ok(new { message = "User updated successfully" });
+
+        return Ok();
     }
 
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
         _userService.Delete(id);
-        return Ok(new { message = "User deleted successfully" });
+
+        return Ok();
     }
 }
