@@ -74,15 +74,19 @@ public class CageCardDefaultHeaderComposer : IComponent
             .Select(s => s.CatArea)
             .Distinct()
             .ToList()
-            .First();
+            .FirstOrDefault();
 
         var cageNumber = superkatten
             .Select(s => s.CageNumber)
             .Distinct()
             .ToList()
-            .First();
+            .FirstOrDefault();
+        
+        var catAreaCode = ConvertCatAreaToShowString(catArea);
 
-        return ConvertCatAreaToShowString(catArea) + "-" + cageNumber.ToString();
+        return string.IsNullOrEmpty(catAreaCode)
+            ? $"{cageNumber}"
+            : $"{catAreaCode}-{cageNumber}";
     }
 
     private static string ConvertCatAreaToShowString(CatArea catArea)
