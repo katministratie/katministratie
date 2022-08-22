@@ -29,13 +29,17 @@ public class CageCardDefaultContentComposer : IComponent
 
     private void ComposeTable(IContainer container)
     {
+        var columns = _superkatten.Count < 4
+            ? _superkatten.Count
+            : _superkatten.Count;
+
         container
             .PaddingBottom(5)
             .Grid(grid =>
             {
                 grid.Spacing(5);
                 grid.AlignCenter();
-                grid.Columns(4);
+                grid.Columns(columns);
 
                 foreach (var superkat in _superkatten)
                 {
@@ -43,8 +47,8 @@ public class CageCardDefaultContentComposer : IComponent
                     grid.Item().Element(superkatElement.Compose);
                 }
 
-                var filling = _superkatten.Count % 4;
-                for(var fillingIndex = 0; fillingIndex < filling; fillingIndex++)
+                var filling = _superkatten.Count % columns;
+                for (var fillingIndex = 0; fillingIndex < filling; fillingIndex++)
                 {
                     grid.Item().Border(1);
                 }

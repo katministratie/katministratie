@@ -29,7 +29,7 @@ public partial class CreateSuperkatPhoto
     {
         // See https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
         var cameraDevices = await JSRuntime.InvokeAsync<MediaDeviceInfoModel[]>("getCameraDeviceList");
-        var cameraDeviceNames = _cameraDevices.Select(c => c.Label).ToList();
+        var cameraDeviceNames = cameraDevices.Select(c => c.Label).ToList();
 
         var superkatten = await SuperkattenService.GetAllSuperkattenAsync();
 
