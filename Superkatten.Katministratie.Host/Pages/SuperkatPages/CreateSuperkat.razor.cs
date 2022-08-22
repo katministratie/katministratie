@@ -131,7 +131,7 @@ public partial class CreateSuperkat
             CatchDate = CatchDate ?? DateTime.UtcNow,
             CatchLocation = catchLocation,
             CatArea = _selections.CatArea,
-            CageNumber = CageNumber,
+            CageNumber = _selections.CageNumber,
             Behaviour = _selections.CatBehaviour,
             Retour = Retour,
             AgeCategory = _selections.AgeCategory,

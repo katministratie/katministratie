@@ -104,7 +104,7 @@ builder.Configuration.AddEnvironmentVariables();
             builder => 
             {
                 builder.WithOrigins(
-                    "https://localhost:7192"
+//                    "https://localhost:7292"
                 );
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();

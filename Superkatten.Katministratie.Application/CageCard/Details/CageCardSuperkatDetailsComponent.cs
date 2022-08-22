@@ -22,8 +22,13 @@ public class CageCardSuperkatDetailsComponent : IComponent
         var cardBody = new SuperktCardBodyComponent(_superkat);
         container.Column(column =>
             {
-                column.Item().Element(cardHeader.Compose);
-                column.Item().Element(cardBody.Compose);
+                column.Item()
+                    .Background(Colors.Black)
+                    .Element(cardHeader.Compose);
+
+                column.Item()
+                    .Background(Colors.White)
+                    .Element(cardBody.Compose);
             });
     }
 }

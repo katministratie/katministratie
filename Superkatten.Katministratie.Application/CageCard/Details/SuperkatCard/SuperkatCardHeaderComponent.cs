@@ -1,4 +1,6 @@
-﻿using QuestPDF.Infrastructure;
+﻿using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 using Superkatten.Katministratie.Domain.Entities;
 
 namespace Superkatten.Katministratie.Application.CageCard.Details.SuperkatCard;
@@ -14,6 +16,19 @@ internal class SuperkatCardHeaderComponent : IComponent
 
     public void Compose(IContainer container)
     {
-        throw new System.NotImplementedException();
+        container.Row(row =>
+        {
+            row.RelativeItem()
+                .PaddingLeft(2)
+                .AlignLeft()
+                .Text(_superkat.UniqueNumber)
+                .FontColor(Colors.White);
+
+            row.RelativeItem()
+                .PaddingRight(2)
+                .AlignRight()
+                .Text("TNRC")
+                .FontColor(Colors.White);
+        });
     }
 }

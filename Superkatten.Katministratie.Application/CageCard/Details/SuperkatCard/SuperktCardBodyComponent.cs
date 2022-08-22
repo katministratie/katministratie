@@ -1,4 +1,5 @@
-﻿using QuestPDF.Infrastructure;
+﻿using QuestPDF.Fluent;
+using QuestPDF.Infrastructure;
 using Superkatten.Katministratie.Domain.Entities;
 
 namespace Superkatten.Katministratie.Application.CageCard.Details.SuperkatCard;
@@ -14,6 +15,19 @@ internal class SuperktCardBodyComponent : IComponent
 
     public void Compose(IContainer container)
     {
-        throw new System.NotImplementedException();
+        var superkatPhoto = new SuperkatPhotoOrNameComponent(_superkat);
+        var superkatDetails = new SuperkatDetailsComponent(_superkat);
+        container.Row(row =>
+        {
+            row.RelativeItem()
+                .Padding(2)
+                .Element(superkatPhoto
+                .Compose);
+
+            row.RelativeItem()
+                .PaddingLeft(2)
+                .PaddingRight(2)
+                .Element(superkatDetails.Compose);
+        });
     }
 }

@@ -30,9 +30,7 @@ public class CageCardDefaultContentComposer : IComponent
     private void ComposeTable(IContainer container)
     {
         container
-            .BorderBottom(1)
-            .BorderColor(Colors.Blue.Lighten1)
-            .Padding(1)
+            .PaddingBottom(5)
             .Grid(grid =>
             {
                 grid.Spacing(5);
@@ -43,6 +41,12 @@ public class CageCardDefaultContentComposer : IComponent
                 {
                     var superkatElement = new CageCardSuperkatDetailsComponent(superkat);
                     grid.Item().Element(superkatElement.Compose);
+                }
+
+                var filling = _superkatten.Count % 4;
+                for(var fillingIndex = 0; fillingIndex < filling; fillingIndex++)
+                {
+                    grid.Item().Border(1);
                 }
             });
     }

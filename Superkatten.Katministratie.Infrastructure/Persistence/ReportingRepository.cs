@@ -30,6 +30,7 @@ internal class ReportingRepository : IReportingRepository
     {
         return await _context.SuperKatten
             .AsNoTracking()
+            .Include(o => o.CatchLocation)
             .Where(o => o.CatArea == catArea && o.CageNumber == cageNumber)
             .ToListAsync();
     }

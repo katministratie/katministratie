@@ -31,8 +31,10 @@ public partial class CreateSuperkatPhoto
         var cameraDevices = await JSRuntime.InvokeAsync<MediaDeviceInfoModel[]>("getCameraDeviceList");
         var cameraDeviceNames = _cameraDevices.Select(c => c.Label).ToList();
 
-        _superkatten = await SuperkattenService.GetAllSuperkattenAsync();
-        _superkatNames = _superkatten.OrderBy(s => s.UniqueNumber).Select(s => s.UniqueNumber).ToList();
+        var superkatten = await SuperkattenService.GetAllSuperkattenAsync();
+
+        _superkatten = superkatten.OrderBy(s => s.UniqueNumber).ToList();
+        _superkatNames = _superkatten.Select(s => s.UniqueNumber).ToList();
 
         _cameraDevices = cameraDevices;
         _cameraDeviceNames = cameraDeviceNames;
