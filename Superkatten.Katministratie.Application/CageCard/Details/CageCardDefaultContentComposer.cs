@@ -37,7 +37,7 @@ public class CageCardDefaultContentComposer : IComponent
             {
                 grid.Spacing(5);
                 grid.AlignCenter();
-                grid.Columns(3);
+                grid.Columns(4);
 
                 foreach (var superkat in _superkatten)
                 {

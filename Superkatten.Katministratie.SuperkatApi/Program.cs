@@ -103,7 +103,9 @@ builder.Configuration.AddEnvironmentVariables();
             name: CORS_POLICY_NAME, 
             builder => 
             {
-                builder.WithOrigins();
+                builder.WithOrigins(
+                    "https://localhost:7192"
+                );
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();
             });

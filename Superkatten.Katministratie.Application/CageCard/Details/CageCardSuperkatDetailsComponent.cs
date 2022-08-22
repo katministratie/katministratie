@@ -1,6 +1,7 @@
 ﻿using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using Superkatten.Katministratie.Application.CageCard.Details.SuperkatCard;
 using Superkatten.Katministratie.Domain.Entities;
 using System;
 
@@ -17,42 +18,12 @@ public class CageCardSuperkatDetailsComponent : IComponent
 
     public void Compose(IContainer container)
     {
-        container
-            .Padding(10)
-            .Border(1)
-            .BorderColor(Colors.Amber.Accent1)
-            .Column(column =>
+        var cardHeader = new SuperkatCardHeaderComponent(_superkat);
+        var cardBody = new SuperktCardBodyComponent(_superkat);
+        container.Column(column =>
             {
-                column.Item()
-                    .Image(_superkat.Photo ?? Array.Empty<byte>());
-
-                column.Item()
-                    .Padding(2)
-                    .Background(Colors.White)
-                    .PaddingBottom(5)
-                    .Text(_superkat.UniqueNumber)
-                    .SemiBold();
-
-                column.Item()
-                    .Text($"Jarig op {_superkat.Birthday.ToShortDateString()}");
-
-                column.Item()
-                    .Text($"Kleur: {_superkat.Color}");
-
-                column.Item()
-                    .Text($"{GetAgeCategoryText(_superkat.AgeCategory)}");
-
+                column.Item().Element(cardHeader.Compose);
+                column.Item().Element(cardBody.Compose);
             });
-    }
-
-    private static string GetAgeCategoryText(AgeCategory ageCategory)
-    {
-        return ageCategory switch
-        {
-            AgeCategory.Juvenile => "",
-            AgeCategory.Adult => "Volwassen",
-            AgeCategory.Kitten => "Kitten",
-            _ => string.Empty
-        };
     }
 }

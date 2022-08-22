@@ -71,13 +71,22 @@ public class ReportingService : IReportingService
             throw new ServiceException($"No superkatten at area '{nameof(catArea)}' and cage number '{CageNumber}'");
         }
 
-        var pdfData = _cageCardProducer.CreateCageCard(superkatten);
+        try
+        {
+            var pdfData = _cageCardProducer.CreateCageCard(superkatten);
         
-        await _mailService.MailToAsync(
-            email: email,
-            subject:  $"Kooikaart van ruimte: {catArea} en kooinummer: {CageNumber}.",
-            bodyText: $"Hallo,\n\nHierbij de gevraagde kooikaart. Print deze uit en hang de kaart aan de juiste kooi {CageNumber} \n\nGroet,\nKatministrator",
-            documentData: pdfData ?? Array.Empty<byte>()
-        );
+            await _mailService.MailToAsync(
+                email: email,
+                subject: $"Kooikaart van ruimte: {catArea} en kooinummer: {CageNumber}.",
+                bodyText: $"Hallo,\n\nHierbij de gevraagde kooikaart. Print deze uit en hang de kaart aan de juiste kooi {CageNumber} \n\nGroet,\nKatministrator",
+                documentData: pdfData ?? Array.Empty<byte>()
+            );
+        }
+        catch(Exception ex)
+        {
+
+        }
+
+        
     }
 }
