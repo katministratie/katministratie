@@ -10,7 +10,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers;
 [AuthorizeRoles(PermissionEnum.Administrator, PermissionEnum.Coordinator)]
 [Route("api/[Controller]")]
 [ApiController]
-public class SettingsController
+public class SettingsController : ControllerBase
 {
     private readonly ISettingsService _settingsService;
 
@@ -21,9 +21,10 @@ public class SettingsController
 
     [HttpPut]
     [Route("CageNumbersForCatArea")]
-    public IReadOnlyCollection<int> GetCageNumbersForCageArea([FromBody]ContractEntities.CatArea cageArea)
+    public IActionResult GetCageNumbersForCageArea([FromBody]ContractEntities.CatArea cageArea)
     {
         var cageNumbers = _settingsService.GetCageNumbersForCageAreaAsync(cageArea);
-        return cageNumbers;
+
+        return Ok(cageNumbers);
     }
 }

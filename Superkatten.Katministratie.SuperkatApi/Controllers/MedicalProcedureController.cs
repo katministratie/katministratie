@@ -1,19 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Superkatten.Katministratie.Application.Authorization;
 using Superkatten.Katministratie.Application.Interfaces;
-using Superkatten.Katministratie.Application.Mappers;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Domain.Entities;
-
-using ContractEntities = Superkatten.Katministratie.Contract.Entities;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers;
 
 [AuthorizeRoles(PermissionEnum.Administrator, PermissionEnum.Coordinator, PermissionEnum.Gastgezin)]
 [Route("api/[Controller]")]
 [ApiController]
-public class MedicalProcedureController
+public class MedicalProcedureController : ControllerBase
 {
     private readonly IMedicalProcedureService _medicalProcedureService;
 
@@ -23,14 +19,18 @@ public class MedicalProcedureController
     }
 
     [HttpGet]
-    public async Task<IReadOnlyCollection<MedicalProcedureInformation>> GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        return await _medicalProcedureService.GetAllMedicalProceduresAsync();
+        var medicalProcedures = await _medicalProcedureService.GetAllMedicalProceduresAsync();
+
+        return Ok(medicalProcedures);
     }
 
     [HttpPut]
-    public Task AddMedicalProcedure(AddMedicalProcedureParameters medicalProcedureParameters)
+    public async Task<IActionResult> AddMedicalProcedure(AddMedicalProcedureParameters medicalProcedureParameters)
     {
-        return _medicalProcedureService.AddMedicalProcedureAsync(medicalProcedureParameters);
+        await _medicalProcedureService.AddMedicalProcedureAsync(medicalProcedureParameters);
+
+        return Ok();
     }
 }
