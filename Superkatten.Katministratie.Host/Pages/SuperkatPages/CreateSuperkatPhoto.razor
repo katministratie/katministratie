@@ -5,6 +5,17 @@
 
 @using ContractEntities = Superkatten.Katministratie.Contract.Entities
 
+
+<Row>
+  <Column>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Ok</Button>
+  </Column>
+
+  <Column>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
+  </Column>
+</Row>
+
 @if (IsInitializing)
 {
     <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
@@ -19,6 +30,7 @@
   ItemNames="@_cameraDeviceNames"
   Items="@_cameraDevices" 
   OnSelectionChanged="@OnSelectCameraDeviceAsync" />
+  
 
 @if (_superkatten is not null && _superkatten.Count > 0)
 {
@@ -37,13 +49,4 @@
 </Row>
 
 
-<Row>
-  <Column>
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Ok</Button>
-  </Column>
-
-  <Column>
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
-  </Column>
-</Row>
 

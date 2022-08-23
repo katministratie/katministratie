@@ -40,7 +40,7 @@ public partial class CreateSuperkatPhoto
         _cameraDevices = cameraDevices.ToList();
         _cameraDeviceNames = cameraDeviceNames;
 
-        await OnSelectCameraDeviceAsync(_cameraDevices.First());
+        await OnSelectCameraDeviceAsync(_cameraDevices.Last());
 
         IsInitializing = false;
     }
