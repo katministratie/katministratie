@@ -30,13 +30,13 @@ public class Navigation : IDisposable
 
     public void NavigateBack()
     {
-        if (!CanNavigateBack)
-        {
-            return;
-        }
+        var backPageUrl = "/";
 
-        var backPageUrl = _history[^2];
-        _history.RemoveRange(_history.Count - 2, 2);
+        if (CanNavigateBack)
+        {
+            backPageUrl = _history[^2];
+            _history.RemoveRange(_history.Count - 2, 2);
+        }
 
         _navigationManager.NavigateTo(backPageUrl);
     }
