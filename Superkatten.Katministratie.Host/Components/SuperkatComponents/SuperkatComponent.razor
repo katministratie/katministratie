@@ -12,19 +12,19 @@
 <Row>
     <Column ColumnSize="ColumnSize.Is2">
         <Figure>
-            @if (@_superkatView.Photo is null)
+            @if (@_superkatView.Superkat.Photo is null)
             {
                 <FigureImage Source=".\images\superkat.jpg" />
             }
             else
             {
-              <FigureImage Source="@GetSuperkatImage(_superkatView.Photo)" />
+              <FigureImage Source="@GetSuperkatImage(_superkatView.Superkat.Photo)" />
             }
         </Figure>
     </Column>
     <Column>
         <Div>
-            <BehaviourComponent Behaviour="@_superkatView.Behaviour" />
+            <BehaviourComponent Behaviour="@_superkatView.Superkat.Behaviour" />
             <Field>
                 <FieldLabel>
                     @_superkatView.UserFriendlyNumber
@@ -34,7 +34,7 @@
                 <SuperkatGenderComponent GenderIcon="@_superkatView.GenderIcon"/>
             </Div>
             <Div>
-                <SuperkatStateComponent State="@_superkatView.State" />
+                <SuperkatStateComponent State="@_superkatView.Superkat.State" />
             </Div>
         </Div>
 
