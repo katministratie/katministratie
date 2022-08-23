@@ -9,6 +9,7 @@ using Superkatten.Katministratie.Host.Entities;
 namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 
 // Javascript from https://wellsb.com/csharp/aspnet/blazor-webcam-capture
+// see also https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
 
 public partial class CreateSuperkatPhoto
 {
