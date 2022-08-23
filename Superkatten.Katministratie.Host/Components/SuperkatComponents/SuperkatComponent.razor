@@ -12,7 +12,14 @@
 <Row>
     <Column ColumnSize="ColumnSize.Is2">
         <Figure>
-            <FigureImage Source=".\images\superkat.jpg" />
+            @if (@_superkatView.Photo is null)
+            {
+                <FigureImage Source=".\images\superkat.jpg" />
+            }
+            else
+            {
+              <img src="@GetSuperkatImage(_superkatView.Photo)" />
+            }
         </Figure>
     </Column>
     <Column>

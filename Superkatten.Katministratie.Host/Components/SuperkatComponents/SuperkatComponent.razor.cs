@@ -37,4 +37,9 @@ public partial class SuperkatComponent : ComponentBase
         var superkat = await _superkattenService.GetSuperkatAsync(_superkatView.Id);
         _superkatView = new SuperkatView(superkat);
     }
+
+    private static string GetSuperkatImage(byte[] imageData)
+    {
+        return $"data:image/png;base64, {Convert.ToBase64String(imageData)}";
+    }
 }

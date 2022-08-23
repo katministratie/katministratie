@@ -1,4 +1,4 @@
-function startVideo(src, cameraDeviceId)
+function startVideo(src, preferredCameraDeviceId)
 {
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia)
   {
@@ -6,30 +6,31 @@ function startVideo(src, cameraDeviceId)
       .mediaDevices
       .getUserMedia({
         video: {
-          deviceId: {
-            exact: cameraDeviceId
-          }
+          deviceId: preferredCameraDeviceId
         }
       })
-      .then(function (stream)
-      {
+      .then(function (stream) {
         let video = document.getElementById(src);
 
-        if ("srcObject" in video)
-        {
+        if ("srcObject" in video) {
           video.srcObject = stream;
         }
-        else
-        {
+        else {
           video.src = window.URL.createObjectURL(stream);
         }
 
-        video.onloadedmetadata = function (e)
-        {
+        video.onloadedmetadata = function (e) {
           video.play();
         };
+      })
+      .catch((err) => {
+        console.error(`${err.name}: ${err.message}`);
       });
   }
+}
+
+function stopVideo() {
+
 }
 
 function getFrame(src, dest, dotNetHelper)

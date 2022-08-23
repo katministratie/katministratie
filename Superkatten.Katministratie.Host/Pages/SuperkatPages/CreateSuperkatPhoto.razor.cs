@@ -23,6 +23,7 @@ public partial class CreateSuperkatPhoto
     private IReadOnlyCollection<MediaDeviceInfoModel> _cameraDevices = new List<MediaDeviceInfoModel>();
     private IReadOnlyCollection<string> _cameraDeviceNames = new List<string>();
     private Superkat? _selectedSuperkat;
+
     private bool IsInitializing { get; set; } = true;
 
     protected async override Task OnInitializedAsync()
@@ -36,7 +37,7 @@ public partial class CreateSuperkatPhoto
         _superkatten = superkatten.OrderBy(s => s.UniqueNumber).ToList();
         _superkatNames = _superkatten.Select(s => s.UniqueNumber).ToList();
 
-        _cameraDevices = cameraDevices;
+        _cameraDevices = cameraDevices.ToList();
         _cameraDeviceNames = cameraDeviceNames;
 
         await OnSelectCameraDeviceAsync(_cameraDevices.First());
@@ -83,6 +84,8 @@ public partial class CreateSuperkatPhoto
         };
 
         await SuperkattenService.UpdateSuperkatPhoto(_selectedSuperkat.Id, updateSuperkatPhotoParameters);
+
+        await JSRuntime.InvokeVoidAsync("stopVideo");
 
         Navigation.NavigateBack();
     }

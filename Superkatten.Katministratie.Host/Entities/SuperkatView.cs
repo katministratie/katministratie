@@ -16,6 +16,7 @@ namespace Superkatten.Katministratie.Host.Entities
         public string CatArea { get; }
         public string? CageNumber { get; }
         public bool IsAtGastgezin { get; }
+        public byte[]? Photo { get; }
 
         public string UserFriendlyNumber => CatchDate.Year.ToString() + "-" + Number.ToString("000");
 
@@ -40,6 +41,7 @@ namespace Superkatten.Katministratie.Host.Entities
             CatArea = superkat.CatArea.ToString();
             CageNumber = superkat.CageNumber is not null ? superkat.CageNumber.ToString() : string.Empty;
             IsAtGastgezin = superkat.GastgezinId is not null;
+            Photo = superkat.Photo;
         }
     }
 }

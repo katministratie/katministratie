@@ -14,6 +14,12 @@
     return;
 }
 
+<SelectListComponent DefaultText="Selecteer camera"
+  TItem="MediaDeviceInfoModel"     
+  ItemNames="@_cameraDeviceNames"
+  Items="@_cameraDevices" 
+  OnSelectionChanged="@OnSelectCameraDeviceAsync" />
+
 @if (_superkatten is not null && _superkatten.Count > 0)
 {
   <SelectListComponent DefaultText="Selecteer superkat"
@@ -23,22 +29,13 @@
       OnSelectionChanged="@OnSelectSuperkat" />
 }
 
-@if (_cameraDevices is not null && _cameraDevices.Count > 0)
-{
-    <SelectListComponent DefaultText="Selecteer camera"
-      TItem="MediaDeviceInfoModel"     
-      ItemNames="@_cameraDeviceNames"
-      Items="@_cameraDevices" 
-      OnSelectionChanged="@OnSelectCameraDeviceAsync" />
+<Row Border="Border.Is1.Danger" Margin="Margin.Is2" Padding="Padding.Is1">
+    <Column Margin="Margin.Is2" TextAlignment="TextAlignment.Center">
+        <video class="p-1" id="videoFeed" width="640" height="480" />
+        <canvas class="d-none" id="currentFrame" width="320" height="240" />
+    </Column>
+</Row>
 
-
-    <Row>
-        <Column Margin="Margin.Is2">
-            <video class="p-1" id="videoFeed" width="640" height="480" />
-            <canvas class="d-none" id="currentFrame" width="320" height="240" />
-        </Column>
-    </Row>
-}
 
 <Row>
   <Column>
