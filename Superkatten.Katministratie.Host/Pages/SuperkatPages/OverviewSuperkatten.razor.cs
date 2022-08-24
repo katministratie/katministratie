@@ -14,8 +14,6 @@ public partial class OverviewSuperkatten
 
     [Inject] private ILocalStorageService _localStorageService { get; set; } = null!;
 
-    [Inject] private ISuperkatActionService _superkatActionService { get; set; } = null!;
-
 
     private List<Superkat> Superkatten { get; set; } = new();
 
@@ -49,6 +47,7 @@ public partial class OverviewSuperkatten
     protected override async Task OnInitializedAsync()
     {
         _showSimpleListView = await _localStorageService.GetItem<bool>(LocalStorageItems.LOCALSTORAGE_SETTING_SUPERKATTENLIST_TYPE);
+        
         await UpdateListAsync();
 
         await InitializePaginationAsync();
@@ -64,22 +63,15 @@ public partial class OverviewSuperkatten
     private async Task UpdateListAsync()
     {
         var superkatten = await _superkattenService.GetAllSuperkattenAsync();
-        if (superkatten is null)
-        {
-            return;
-        }
         
-        if (superkatten.Count == 0)
-        {
-            return;
-        }
-
-        Superkatten = superkatten
+        var partialList = superkatten
             .AsQueryable()
             .OrderByDescending(sk => sk.Number)
             .Skip((_currentPage - 1) * _itemsPerPage)
             .Take(_itemsPerPage)
             .ToList();
+
+        Superkatten = partialList;
     }
 
     private void OnBackHome()

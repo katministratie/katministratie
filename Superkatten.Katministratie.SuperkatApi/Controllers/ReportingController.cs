@@ -3,9 +3,11 @@ using Superkatten.Katministratie.Application.Authorization;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Contract.ApiInterface.Reporting;
 using Superkatten.Katministratie.Domain.Entities;
+using Superkatten.Katministratie.Infrastructure.Interfaces;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers;
 
+[AuthorizeRoles(PermissionEnum.Administrator, PermissionEnum.Coordinator)]
 [Route("api/[Controller]")]
 [ApiController]
 public class ReportingController : ControllerBase
@@ -47,8 +49,7 @@ public class ReportingController : ControllerBase
     [Route("reports/cagecard/notNeutralizedAdoptees")]
     public async Task<IActionResult> EmailNotNeutralizedAdoptees([FromBody] string email)
     {
-        await _reportingService.EmailNotNeutralizedAdoptees(email);
-
+        await _reportingService.EmailNotNeutralizedAdopteesReport(email);
         return Ok();
     }
 
@@ -56,8 +57,7 @@ public class ReportingController : ControllerBase
     [Route("reports/cagecard/notNeutralizedRefuge")]
     public async Task<IActionResult> EmailNotNeutralizedRefuge([FromBody] string email)
     {
-        await _reportingService.EmailNotNeutralizedRefuge(email);
-
+        await _reportingService.EmailNotNeutralizedRefugeReport(email);
         return Ok();
     }
 }

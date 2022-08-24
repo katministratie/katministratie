@@ -8,6 +8,7 @@ using Superkatten.Katministratie.Application.Reporting;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
 using Superkatten.Katministratie.Infrastructure.Persistence;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -82,20 +83,19 @@ public class ReportingService : IReportingService
         );       
     }
 
-    public async Task EmailNotNeutralizedAdoptees(string email)
+    public async Task EmailNotNeutralizedAdopteesReport(string email)
     {
         if (EmailValidator.IsValidEmail(email))
         {
             throw new ApplicationException($"'{email}' is not a valid email address.");
         }
 
-        var superkatten = await _reportingRepository.GetSuperkattenAtAdopteesNotNeutralized();
-        if (superkatten.Count == 0)
-        {
-            throw new ServiceException("No superkatten at adoptees");
-        }
+        var allNotNeutralizedSuperkatten = await _reportingRepository.GetNotNeutralizedSuperkatten();
+        var allNotNeutralizedSuperkattenAtHostFamily = allNotNeutralizedSuperkatten
+            .Where(o => o.GastgezinId != null)
+            .ToList();
 
-        var pdfData = _cageCardProducer.CreateSuperkattenReport(superkatten);
+        var pdfData = _cageCardProducer.CreateSuperkattenReport(allNotNeutralizedSuperkattenAtHostFamily);
 
         await _mailService.MailToAsync(
             email: email,
@@ -105,20 +105,19 @@ public class ReportingService : IReportingService
         );
     }
 
-    public async Task EmailNotNeutralizedRefuge(string email)
+    public async Task EmailNotNeutralizedRefugeReport(string email)
     {
         if (EmailValidator.IsValidEmail(email))
         {
             throw new ApplicationException($"'{email}' is not a valid email address.");
         }
 
-        var superkatten = await _reportingRepository.GetSuperkattenAtRefugeNotNeutralized();
-        if (superkatten.Count == 0)
-        {
-            throw new ServiceException("No superkatten at refuge");
-        }
+        var allNotNeutralizedSuperkatten = await _reportingRepository.GetNotNeutralizedSuperkatten();
+        var allNotNeutralizedSuperkattenAtRefuge = allNotNeutralizedSuperkatten
+            .Where(o => o.GastgezinId != null)
+            .ToList();
 
-        var pdfData = _cageCardProducer.CreateSuperkattenReport(superkatten);
+        var pdfData = _cageCardProducer.CreateSuperkattenReport(allNotNeutralizedSuperkattenAtRefuge);
 
         await _mailService.MailToAsync(
            email: email,

@@ -25,11 +25,9 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         public async Task<IActionResult> GetAllSuperkatten()
         {
             var superkatten = await _service.ReadAllSuperkattenAsync();
-            return Ok(
-                superkatten
+            return Ok(superkatten
                 .Select(_mapper.MapDomainToContract)
-                .ToList()
-            );
+                .ToList());
         }
 
         [HttpGet]
@@ -38,11 +36,9 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         {
             var superkatten = await _service.ReadAvailableSuperkattenAsync();
 
-            return Ok(
-                superkatten
+            return Ok(superkatten
                 .Select(_mapper.MapDomainToContract)
-                .ToList()
-            );
+                .ToList());
         }
 
         [HttpPut]
@@ -50,9 +46,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         {
             var superkat = await _service.CreateSuperkatAsync(newSuperkatParameters);
 
-            return Ok(
-                _mapper.MapDomainToContract(superkat)
-            );
+            return Ok(_mapper.MapDomainToContract(superkat));
         }
 
         [HttpPost]
@@ -60,16 +54,13 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         {
             var superkat = await _service.UpdateSuperkatAsync(id, updateSuperkatParameters);
 
-            return Ok(
-                _mapper.MapDomainToContract(superkat)
-            );
+            return Ok(_mapper.MapDomainToContract(superkat));
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeleteSuperkat(Guid id)
         {
             await _service.DeleteSuperkatAsync(id);
-
             return Ok();
         }
 
@@ -79,9 +70,25 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         {
             var superkat = await _service.UpdateSuperkatAsync(id, updateSuperkatPhotoParameters);
 
-            return Ok(
-                _mapper.MapDomainToContract(superkat)
-            );
+            return Ok(_mapper.MapDomainToContract(superkat));
+        }
+
+        [HttpGet]
+        [Route("NotNeutralized")]
+        public async Task<IActionResult> GetNotNeutralizedSuperkatten()
+        {
+            try
+            {
+                var superkatten = await _service.ReadNotNeutralizedSuperkattenAsync();
+
+                return Ok(superkatten
+                    .Select(_mapper.MapDomainToContract)
+                    .ToList());
+            }
+            catch(Exception ex)
+            {
+                return Problem(ex.Message, null, null, "Error bij ophalen data");
+            }
         }
     }
 }

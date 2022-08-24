@@ -1,6 +1,7 @@
 ﻿@page "/OverviewSuperkatten"
 
 @using Blazorise.SpinKit
+@using Superkatten.Katministratie.Host.Components.Helpers
 @using Superkatten.Katministratie.Host.Components.SuperkatComponents
 
 <PageTitle>Superkatten</PageTitle>
@@ -14,13 +15,7 @@
     </Column>
 </Row>
 
-@if (!Superkatten.Any())
-{
-    <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
-        <SpinKit Type="SpinKitType.Chase" Size="60px" />
-    </Div>
-    return;
-}
+<WaitForItComponent Visible="Superkatten.Any()" />
 
 <Divider />
 
@@ -41,11 +36,11 @@
         for (var i = _startPageNumber; i <= _maxDisplayedPageNumber; i++)
         {
             var pageNumberAsString = i.ToString().PadLeft(2, '0');
-            <PaginationItem @key="pageNumberAsString" Active="@IsActive(i)">
-                <PaginationLink Page="@pageNumberAsString" Clicked="SetActive">
-                    @pageNumberAsString
-                </PaginationLink>
-            </PaginationItem>
+                <PaginationItem @key="pageNumberAsString" Active="@IsActive(i)">
+                    <PaginationLink Page="@pageNumberAsString" Clicked="SetActive">
+                        @pageNumberAsString
+                    </PaginationLink>
+                </PaginationItem>
         } 
     }
 
@@ -65,15 +60,13 @@
 
 <Divider />
 
-<Accordion>
-@foreach (var superkat in Superkatten)
+@if (_showSimpleListView)
 {
-    if (_showSimpleListView)
-    {
-        <SimpleSuperkatComponent Superkat=superkat />
-        continue;
-    }
-
-    <SuperkatComponent Superkat=superkat />
+  @foreach (var superkat in Superkatten)
+  {
+      <SimpleSuperkatComponent Superkat=superkat />
+  }
+  return;
 }
-</Accordion>
+
+<SuperkattenListComponent SuperkatItems="@Superkatten"/>

@@ -22,7 +22,7 @@ internal class ReportingRepository : IReportingRepository
         return await _context.SuperKatten
             .AsNoTracking()
             .Include(o => o.CatchLocation)
-            .Where(o => o.CatchDate >= from && o.CatchDate < to)
+            .Where(o => o.CatchDate >= from && o.CatchDate < to && o.State != SuperkatState.Done)
             .ToListAsync();
     }
 
@@ -31,11 +31,11 @@ internal class ReportingRepository : IReportingRepository
         return await _context.SuperKatten
             .AsNoTracking()
             .Include(o => o.CatchLocation)
-            .Where(o => o.CatArea == catArea && o.CageNumber == cageNumber)
+            .Where(o => o.CatArea == catArea && o.CageNumber == cageNumber && o.State != SuperkatState.Done)
             .ToListAsync();
     }
 
-    public async Task<IReadOnlyCollection<Superkat>> GetSuperkattenAtAdopteesNotNeutralized()
+    public async Task<IReadOnlyCollection<Superkat>> GetNotNeutralizedSuperkatten()
     {
         var neutralizedSuperkatten = _context.MedicalProcedures
             .AsNoTracking()
@@ -43,29 +43,10 @@ internal class ReportingRepository : IReportingRepository
             .Select(m => m.SuperkatId)
             .ToList();
 
-        var superkatten = await _context.SuperKatten
+        return await _context.SuperKatten
             .AsNoTracking()
             .Include(o => o.CatchLocation)
-            .Where(o => o.GastgezinId != null && o.State != SuperkatState.Done && !neutralizedSuperkatten.Contains(o.Id))
+            .Where(o => !neutralizedSuperkatten.Contains(o.Id) && o.State != SuperkatState.Done)
             .ToListAsync();
-
-        return Array.Empty<Superkat>();
-    }
-
-    public async Task<IReadOnlyCollection<Superkat>> GetSuperkattenAtRefugeNotNeutralized()
-    {
-        var neutralizedSuperkatten = _context.MedicalProcedures
-            .AsNoTracking()
-            .Where(m => m.ProcedureType == MedicalProcedureType.Neutralize)
-            .Select(m => m.SuperkatId)
-            .ToList();
-
-        var superkatten = await _context.SuperKatten
-            .AsNoTracking()
-            .Include(o => o.CatchLocation)
-            .Where(o => o.GastgezinId == null && o.State != SuperkatState.Done && !neutralizedSuperkatten.Contains(o.Id))
-            .ToListAsync();
-
-        return Array.Empty<Superkat>();
     }
 }

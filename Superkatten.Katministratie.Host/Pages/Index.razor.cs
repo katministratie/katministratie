@@ -65,6 +65,11 @@ public partial class Index
         Navigation.NavigateTo("OverviewSuperkatten");
     }
 
+    private void OnShowNotNeutralized()
+    {
+        Navigation.NavigateTo("NotNeutralized");
+    }
+
     private void OnShowOverviewGastgezinnen()
     {
         Navigation.NavigateTo("OverviewGastgezinnen");

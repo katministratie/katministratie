@@ -19,6 +19,7 @@ namespace Superkatten.Katministratie.Application.Services
 
         private readonly ILogger<SuperkattenService> _logger;
         private readonly ISuperkattenRepository _superkattenRepository;
+        private readonly IReportingRepository _reportingRepository;
         private readonly IMedicalProceduresRepository _medicalProceduresRepository;
         private readonly ISuperkatMapper _superkattenMapper;
         private readonly ILocationRepository _locationRepository;
@@ -26,12 +27,14 @@ namespace Superkatten.Katministratie.Application.Services
         public SuperkattenService(
             ILogger<SuperkattenService> logger,
             ISuperkattenRepository superkattenRepository,
+            IReportingRepository reportingRepository,
             IMedicalProceduresRepository medicalProceduresRepository,
             ILocationRepository locationRepository,
             ISuperkatMapper superkattenMapper)
         {
             _logger = logger;
             _superkattenRepository = superkattenRepository;
+            _reportingRepository = reportingRepository;
             _medicalProceduresRepository = medicalProceduresRepository;
             _superkattenMapper = superkattenMapper;
             _locationRepository = locationRepository;
@@ -145,6 +148,12 @@ namespace Superkatten.Katministratie.Application.Services
             await _superkattenRepository.UpdateSuperkatAsync(updatedSuperkat);
 
             return updatedSuperkat;
+        }
+
+
+        public Task<IReadOnlyCollection<Superkat>> ReadNotNeutralizedSuperkattenAsync()
+        {
+            return _reportingRepository.GetNotNeutralizedSuperkatten();
         }
     }
 }

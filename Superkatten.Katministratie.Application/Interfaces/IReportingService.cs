@@ -8,6 +8,6 @@ public interface IReportingService
 {
     Task EmailCatchLocationReport(string email, DateTime from, DateTime to);
     Task EmailCageCard(string email, CatArea catArea, int? CageNumber);
-    Task EmailNotNeutralizedAdoptees(string email);
-    Task EmailNotNeutralizedRefuge(string email);
+    Task EmailNotNeutralizedAdopteesReport(string email);
+    Task EmailNotNeutralizedRefugeReport(string email);
 }
