@@ -126,4 +126,19 @@ public partial class Index
 
         await ReportingService.EmailInventoryDetailsReportAsync(requestParameters);
     }
+
+    private async Task OnNotNeutralizedInRefugeReport()
+    {
+        var email = AuthenticationService?.User?.Email ?? string.Empty;
+
+        await ReportingService.EmailNotNeutralizedInRefugeReportAsync(email);
+    }
+
+    private async Task OnNotNeutralizedAdopteesReport()
+    {
+
+        var email = AuthenticationService?.User?.Email ?? string.Empty;
+
+        await ReportingService.EmailNotNeutralizedAdopteesReportAsync(email);
+    }
 }

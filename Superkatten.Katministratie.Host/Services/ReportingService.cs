@@ -24,4 +24,16 @@ public class ReportingService : IReportingService
         var uri = "api/Reporting/reports/cagecard";
         await _httpService.Put(uri, cageCardRequestParameters);
     }
+
+    public async Task EmailNotNeutralizedAdopteesReportAsync(string email)
+    {
+        var uri = "api/Reporting/reports/notNeutralizedAdoptees";
+        await _httpService.Put(uri, email);
+    }
+
+    public async Task EmailNotNeutralizedInRefugeReportAsync(string email)
+    {
+        var uri = "api/Reporting/reports/notNeutralizedRefuge";
+        await _httpService.Put(uri, email);
+    }
 }

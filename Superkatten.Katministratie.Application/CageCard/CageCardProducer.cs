@@ -19,9 +19,15 @@ public class CageCardProducer : ICageCardProducer
 
     public byte[]? CreateCageCard(IReadOnlyCollection<Superkat> superkatten)
     {
-        //var fileName = $"{Guid.NewGuid().ToString()}.{EXTENTION_PDF}";
-
         var document = new CageCardDocument(_composerFactory, superkatten);
+        var data = document.GeneratePdf();
+
+        return data;
+    }
+
+    public byte[]? CreateSuperkattenReport(IReadOnlyCollection<Superkat> superkatten)
+    {
+        var document = new SuperkattenListDocument(_composerFactory, superkatten);
         var data = document.GeneratePdf();
 
         return data;

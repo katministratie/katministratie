@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using Superkatten.Katministratie.Host.Components.Helpers
 
 <PageTitle>Superkatten</PageTitle>
 
@@ -31,14 +32,24 @@ else
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowOverviewGastgezinnen">Gastgezinnen</Button>
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowMedicalProcedures">Medische handelingen</Button>
 
-    <Divider />    
+    <Divider /> 
+    
+    <HeaderItem Titel="Rapporten"/>
 
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnEmailCageCard">
         Email mij een kooikaart
     </Button>
 
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateWakkerDierInventoryReport">
-        Email mij het wakker dier inventarisatie formulier
+        Email wakker dier inventarisatie data
+    </Button>
+
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnNotNeutralizedInRefugeReport">
+        Email niet geneutraliseerde katten in opvang
+    </Button>
+
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnNotNeutralizedAdopteesReport">
+        Email niet geneutraliseerde geplaatste katten
     </Button>
 }
 

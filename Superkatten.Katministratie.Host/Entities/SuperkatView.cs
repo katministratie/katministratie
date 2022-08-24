@@ -21,5 +21,7 @@ namespace Superkatten.Katministratie.Host.Entities
 
             Superkat = superkat;
         }
+
+        public bool IsVisible { get; set; } = false;
     }
 }

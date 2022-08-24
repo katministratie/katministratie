@@ -14,6 +14,7 @@ public class CageCardComposerFactory : ICageCardComposerFactory
         return cageCardType switch
         {
             CageCardType.Default => new CageCardDefaultContentComposer(superkatten),
+            CageCardType.List => new SuperkattenListContentComponent(superkatten),
             _ => throw new InvalidEnumArgumentException(nameof(cageCardType), (int)cageCardType, typeof(CageCardType))
         };
     }
@@ -23,6 +24,7 @@ public class CageCardComposerFactory : ICageCardComposerFactory
         return cageCardType switch
         {
             CageCardType.Default => new CageCardDefaultFooterComposer(superkatten),
+            CageCardType.List => new CageCardDefaultFooterComposer(superkatten),
             _ => throw new InvalidEnumArgumentException(nameof(cageCardType), (int)cageCardType, typeof(CageCardType))
         };
     }
@@ -32,6 +34,7 @@ public class CageCardComposerFactory : ICageCardComposerFactory
         return cageCardType switch
         {
             CageCardType.Default => new CageCardDefaultHeaderComposer(superkatten),
+            CageCardType.List => new CageCardDefaultHeaderComposer(superkatten),
             _ => throw new InvalidEnumArgumentException(nameof(cageCardType), (int)cageCardType, typeof(CageCardType))
         };
     }
