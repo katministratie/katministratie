@@ -7,7 +7,7 @@ namespace Superkatten.Katministratie.Domain.Entities
     {
         public Guid Id { get; init; }
         public int Number { get; private set; }
-        public SuperkatState State { get; init; } = SuperkatState.Trapped;
+        public SuperkatState State { get; init; } = SuperkatState.Monitoring;
         public DateTime Birthday { get; private set; }
         public DateTime CatchDate { get; private set; } = DateTime.UtcNow;
         public Location CatchLocation { get; private set; }
@@ -129,6 +129,12 @@ namespace Superkatten.Katministratie.Domain.Entities
         public Superkat WithGastgezinId(Guid? gastgezinId)
         {
             GastgezinId = gastgezinId;
+
+            if (gastgezinId is not null)
+            {
+                CageNumber = 1;
+                CatArea = CatArea.HostFamily;
+            }
 
             return this;
         }

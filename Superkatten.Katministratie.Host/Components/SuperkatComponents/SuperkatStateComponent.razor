@@ -4,23 +4,24 @@
     <Fields TextWeight="TextWeight.Light">
         @switch(State)
         {
-            case SuperkatState.Trapped:
-                <FieldLabel TextColor="TextColor.Danger">T</FieldLabel>
-                <FieldLabel TextColor="TextColor.Dark">NRC</FieldLabel>
+            case SuperkatState.Monitoring:
+                <FieldLabel class="text-white bg-dark">T</FieldLabel>
+                <FieldLabel>NRC</FieldLabel>
                 break;
 
-            case SuperkatState.Neutralized:
-                <FieldLabel TextColor="TextColor.Danger">TN</FieldLabel>
-                <FieldLabel TextColor="TextColor.Dark">RC</FieldLabel>
+            case SuperkatState.ReadyForAdoption:
+                <FieldLabel class="text-white bg-dark">TN</FieldLabel>
+                <FieldLabel>RC</FieldLabel>
                 break;
 
-            case SuperkatState.Returnable:
-                <FieldLabel TextColor="TextColor.Danger">TNR</FieldLabel>
-                <FieldLabel TextColor="TextColor.Dark">C</FieldLabel>
+            case SuperkatState.WaitForPayment:
+                <FieldLabel class="text-white bg-dark">TNR</FieldLabel>
+                <FieldLabel>C</FieldLabel>
                 break;
 
-            case SuperkatState.Checked:
-                <FieldLabel TextColor="TextColor.Danger">TNRC</FieldLabel>
+            case SuperkatState.FinalizeChecks:
+                <FieldLabel><div class="text-white bg-dark">TNRC</div></FieldLabel>
+                <FieldLabel><div class="">C</div></FieldLabel>
                 break;            
         }
     </Fields>

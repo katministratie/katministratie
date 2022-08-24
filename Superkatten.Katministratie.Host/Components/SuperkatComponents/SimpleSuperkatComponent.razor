@@ -18,7 +18,7 @@
       <SuperkatGenderComponent GenderIcon="@SuperkatView.GenderIcon" />
     </Field>
     <Field Margin="Margin.Is2" VerticalAlignment="VerticalAlignment.Middle">
-      @CageNumberDescription()
+        @SuperkatView.CatLocationAsString
     </Field>
     <Field Margin="Margin.Is3">
       <SuperkatActions SuperkatView="@SuperkatView" OnActionExecuted="@ReloadSuperkatData" />
