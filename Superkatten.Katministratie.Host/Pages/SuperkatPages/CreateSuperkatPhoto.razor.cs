@@ -27,6 +27,8 @@ public partial class CreateSuperkatPhoto
 
     private bool IsInitializing { get; set; } = true;
 
+    private bool SuperkatIsSelected => _selectedSuperkat is null;
+
     protected async override Task OnInitializedAsync()
     {
         // See https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia

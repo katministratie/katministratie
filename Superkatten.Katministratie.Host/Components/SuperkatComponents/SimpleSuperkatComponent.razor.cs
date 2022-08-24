@@ -9,7 +9,7 @@ namespace Superkatten.Katministratie.Host.Components.SuperkatComponents;
 public partial class SimpleSuperkatComponent : ComponentBase
 {
     [Inject]
-    private ISuperkattenListService? _superkattenService { get; set; }
+    private ISuperkattenListService _superkattenService { get; set; } = null!;
 
     [Parameter]
     public Superkat? Superkat
@@ -34,12 +34,29 @@ public partial class SimpleSuperkatComponent : ComponentBase
             return;
         }
 
-        if (_superkattenService is null)
-        {
-            return;
-        }
-
-        var superkat = await _superkattenService.GetSuperkatAsync(SuperkatView.Id);
+        var superkat = await _superkattenService.GetSuperkatAsync(SuperkatView.Superkat.Id);
         SuperkatView = new SuperkatView(superkat);
+    }
+
+    private string CageNumberDescription()
+    {
+        var catAreaCode = ConvertCatAreaToShowString(SuperkatView.Superkat.CatArea);
+
+        return string.IsNullOrEmpty(catAreaCode)
+            ? $"{SuperkatView.Superkat.CageNumber}"
+            : $"{catAreaCode}-{SuperkatView.Superkat.CageNumber}";
+    }
+
+    private static string ConvertCatAreaToShowString(CatArea catArea)
+    {
+        return catArea switch
+        {
+            CatArea.Quarantine => "Q",
+            CatArea.Infirmary => "ZB",
+            CatArea.SmallEnclosure => string.Empty,
+            CatArea.BigEnclosure => string.Empty,
+            CatArea.Room2 => string.Empty,
+            _ => string.Empty
+        };
     }
 }

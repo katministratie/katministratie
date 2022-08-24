@@ -6,6 +6,7 @@ using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
 using Superkatten.Katministratie.Application.Reporting;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
+using Superkatten.Katministratie.Infrastructure.Persistence;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -71,22 +72,59 @@ public class ReportingService : IReportingService
             throw new ServiceException($"No superkatten at area '{nameof(catArea)}' and cage number '{CageNumber}'");
         }
 
-        try
-        {
-            var pdfData = _cageCardProducer.CreateCageCard(superkatten);
+        var pdfData = _cageCardProducer.CreateCageCard(superkatten);
         
-            await _mailService.MailToAsync(
-                email: email,
-                subject: $"Kooikaart van ruimte: {catArea} en kooinummer: {CageNumber}.",
-                bodyText: $"Hallo,\n\nHierbij de gevraagde kooikaart. Print deze uit en hang de kaart aan de juiste kooi {CageNumber} \n\nGroet,\nKatministrator",
-                documentData: pdfData ?? Array.Empty<byte>()
-            );
-        }
-        catch(Exception ex)
+        await _mailService.MailToAsync(
+            email: email,
+            subject: $"Kooikaart van ruimte: {catArea} en kooinummer: {CageNumber}.",
+            bodyText: $"Hallo,\n\nHierbij de gevraagde kooikaart. Print deze uit en hang de kaart aan de juiste kooi {CageNumber} \n\nGroet,\nKatministrator",
+            documentData: pdfData ?? Array.Empty<byte>()
+        );       
+    }
+
+    public async Task EmailNotNeutralizedAdoptees(string email)
+    {
+        if (EmailValidator.IsValidEmail(email))
         {
-
+            throw new ApplicationException($"'{email}' is not a valid email address.");
         }
 
-        
+        var superkatten = await _reportingRepository.GetSuperkattenAtAdopteesNotNeutralized();
+        if (superkatten.Count == 0)
+        {
+            throw new ServiceException("No superkatten at adoptees");
+        }
+
+        var pdfData = _cageCardProducer.CreateSuperkattenReport(superkatten);
+
+        await _mailService.MailToAsync(
+            email: email,
+            subject: $"Rapport",
+            bodyText: $"Hallo,\n\nHierbij de gevraagde informatie over alle niet geneutraliseerde katten die zijn geadopteerd. \n\nGroet,\nKatministrator",
+            documentData: pdfData ?? Array.Empty<byte>()
+        );
+    }
+
+    public async Task EmailNotNeutralizedRefuge(string email)
+    {
+        if (EmailValidator.IsValidEmail(email))
+        {
+            throw new ApplicationException($"'{email}' is not a valid email address.");
+        }
+
+        var superkatten = await _reportingRepository.GetSuperkattenAtRefugeNotNeutralized();
+        if (superkatten.Count == 0)
+        {
+            throw new ServiceException("No superkatten at refuge");
+        }
+
+        var pdfData = _cageCardProducer.CreateSuperkattenReport(superkatten);
+
+        await _mailService.MailToAsync(
+           email: email,
+           subject: $"Rapport",
+           bodyText: $"Hallo,\n\nHierbij de gevraagde informatie over alle niet geneutraliseerde katten in de opvang. \n\nGroet,\nKatministrator",
+           documentData: pdfData ?? Array.Empty<byte>()
+       );
     }
 }

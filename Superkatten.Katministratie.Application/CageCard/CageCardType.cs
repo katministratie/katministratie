@@ -2,5 +2,6 @@
 
 public enum CageCardType
 {
-    Default
+    Default,
+    List
 }

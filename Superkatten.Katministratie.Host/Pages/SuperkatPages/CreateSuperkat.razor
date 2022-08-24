@@ -147,9 +147,9 @@ else
 <Row>
   <Column ColumnSize="ColumnSize.Is2.OnDesktop.Is4.OnMobile">
     <HeaderItem Titel="Nat voer"></HeaderItem>
-    <Check TValue="bool" @bind-Checked="@WetFoodAllowed">toegestaan ?</Check>
+    <Check TextAlignment="TextAlignment.Start" TValue="bool" @bind-Checked="@WetFoodAllowed">is dit toegestaan ?</Check>
   </Column>
-  <Column ColumnSize="ColumnSize.Is10.OnDesktop.Is7.OnMobile">
+  <Column ColumnSize="ColumnSize.Is10.OnDesktop.Is8.OnMobile">
     <SelectListComponent DefaultText="Type eten"
         InitialSelectedItem="_selections.FoodType"
         TItem="FoodType" 
