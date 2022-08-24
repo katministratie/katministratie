@@ -9,40 +9,56 @@
     return;
 }
 
-<Row>
-    <Column ColumnSize="ColumnSize.Is2">
-        <Figure>
-            @if (@_superkatView.Photo is null)
-            {
-                <FigureImage Source=".\images\superkat.jpg" />
-            }
-            else
-            {
-              <FigureImage Source="@GetSuperkatImage(_superkatView.Photo)" />
-            }
-        </Figure>
-    </Column>
-    <Column>
-        <Div>
-            <BehaviourComponent Behaviour="@_superkatView.Behaviour" />
-            <Field>
-                <FieldLabel>
-                    @_superkatView.UserFriendlyNumber
-                </FieldLabel>
-            </Field>
-            <Div>
-                <SuperkatGenderComponent GenderIcon="@_superkatView.GenderIcon"/>
-            </Div>
-            <Div>
-                <SuperkatStateComponent State="@_superkatView.State" />
-            </Div>
-        </Div>
+<Collapse Visible="@_superkatView.IsVisible">
+    <CollapseHeader Margin="Margin.Is0">
+        <Heading Size="HeadingSize.Is4">
 
-        <Div>
+          <Row>
+             <Column ColumnSize="ColumnSize.Is2" Margin="Margin.Is0">
+              <Button Clicked="@(()=>_superkatView.IsVisible = !_superkatView.IsVisible)">
+                  <span class="material-icons">
+                      reorder
+                  </span>
+              </Button>
+            </Column>
+
+                <Column ColumnSize="ColumnSize.Is3" Margin="Margin.Is0">
+              @_superkatView.UserFriendlyNumber
+            </Column>            
+            
+            <Column ColumnSize="ColumnSize.Is7">
+              @if (@_superkatView.Superkat.Photo is not null)
+            {
+              if (_superkatView.IsVisible)
+              {
+                <Figure Size="FigureSize.Is128x128">
+                  <FigureImage Source="@GetSuperkatImage(_superkatView.Superkat.Photo)" />
+                </Figure>
+              }
+              else
+              {
+                <Figure>
+                  <FigureImage Source="@GetSuperkatImage(_superkatView.Superkat.Photo)" />
+                </Figure>
+              }
+            }
+            </Column>
+          </Row>
+        </Heading>
+    </CollapseHeader>
+    <CollapseBody>
+        <Row>
+            <BehaviourComponent Behaviour="@_superkatView.Superkat.Behaviour" />
+            <SuperkatGenderComponent GenderIcon="@_superkatView.GenderIcon" />
+            <SuperkatStateComponent State="@_superkatView.Superkat.State" />
+        </Row>
+        <Row>
             <SuperkatDetailsComponent SuperkatView="@_superkatView" />
-        </Div>
-        <Div>
+        </Row>
+        <Row>
             <SuperkatActions SuperkatView="@_superkatView" OnActionExecuted="@ReloadSuperkatData" />
-        </Div>
-    </Column>
-</Row>
+        </Row>
+    </CollapseBody>
+  </Collapse>
+
+

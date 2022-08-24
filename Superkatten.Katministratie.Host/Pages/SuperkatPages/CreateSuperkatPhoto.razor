@@ -5,48 +5,43 @@
 
 @using ContractEntities = Superkatten.Katministratie.Contract.Entities
 
-
-<Row>
-  <Column>
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Ok</Button>
-  </Column>
-
-  <Column>
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
-  </Column>
-</Row>
-
 @if (IsInitializing)
 {
-    <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
-      <SpinKit Type="SpinKitType.Chase" Size="30px"/>
-    </Div>
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
-    return;
-}
+  <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
+    <SpinKit Type="SpinKitType.Chase" Size="30px"/>
+  </Div>
+  <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
+  return;
+}  
+
+<SelectListComponent DefaultText="Selecteer superkat"
+  TItem="ContractEntities.Superkat"     
+  ItemNames="@_superkatNames"
+  Items="@_superkatten" 
+  OnSelectionChanged="@OnSelectSuperkat" />
+
+<Field Border="Border.Is1.Danger" Margin="Margin.Is2">
+  <Row Margin="Margin.Is2" TextAlignment="TextAlignment.Center">
+        <video class="p-5" id="videoFeed" style="width:100%" width="640" height="480" />
+        <canvas class="d-none" id="currentFrame" width="640" height="480" />
+  </Row>
+</Field>
+
+<Row>
+  <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnOk" Disabled="@SuperkatIsSelected">
+    <span class="material-icons" fontSize="large">
+      fiber_manual_record
+    </span>
+  </Button>
+</Row>
+
+<Divider />
 
 <SelectListComponent DefaultText="Selecteer camera"
-  TItem="MediaDeviceInfoModel"     
+  TItem="MediaDeviceInfoModel"
   ItemNames="@_cameraDeviceNames"
-  Items="@_cameraDevices" 
+  Items="@_cameraDevices"
   OnSelectionChanged="@OnSelectCameraDeviceAsync" />
-  
-
-@if (_superkatten is not null && _superkatten.Count > 0)
-{
-  <SelectListComponent DefaultText="Selecteer superkat"
-      TItem="ContractEntities.Superkat"     
-      ItemNames="@_superkatNames"
-      Items="@_superkatten" 
-      OnSelectionChanged="@OnSelectSuperkat" />
-}
-
-<Row Border="Border.Is1.Danger" Margin="Margin.Is2" Padding="Padding.Is1">
-    <Column Margin="Margin.Is2" TextAlignment="TextAlignment.Center">
-        <video class="p-1" id="videoFeed" style="width:100%"/>
-        <canvas class="d-none" id="currentFrame" />
-    </Column>
-</Row>
 
 
 

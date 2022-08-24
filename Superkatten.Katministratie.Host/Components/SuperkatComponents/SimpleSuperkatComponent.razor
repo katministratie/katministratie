@@ -10,21 +10,18 @@
 }
 
 <Row>
-    <Column Padding="Padding.Is0" Margin="Margin.Is0" ColumnSize="ColumnSize.Is1.OnDesktop.Is2.OnMobile">
-        <BehaviourComponent Behaviour="@SuperkatView.Behaviour" />
-    </Column>
-    <Column Padding="Padding.Is0" Margin="Margin.Is0" ColumnSize="ColumnSize.Is1.OnDesktop.Is2.OnMobile">
-        <SuperkatGenderComponent GenderIcon="@SuperkatView.GenderIcon"/>
-    </Column>
-    <Column Padding="Padding.Is0" Margin="Margin.Is0" ColumnSize="ColumnSize.Is5.OnDesktop.Is5.OnMobile">
-        <Field>
-            <FieldLabel>
-                @SuperkatView.UserFriendlyNumber
-            </FieldLabel>
-        </Field>
-    </Column>
-    <Column Padding="Padding.Is0" Margin="Margin.Is0" ColumnSize="ColumnSize.Is5.OnDesktop.Is3.OnMobile">
-        <SuperkatActions SuperkatView="@SuperkatView" OnActionExecuted="@ReloadSuperkatData" />
-    </Column>
+    <Field Margin="Margin.Is2">
+      @SuperkatView.UserFriendlyNumber
+        <BehaviourComponent Behaviour="@SuperkatView.Superkat.Behaviour"  />
+    </Field>
+    <Field Margin="Margin.Is2" >
+      <SuperkatGenderComponent GenderIcon="@SuperkatView.GenderIcon" />
+    </Field>
+    <Field Margin="Margin.Is2" VerticalAlignment="VerticalAlignment.Middle">
+      @CageNumberDescription()
+    </Field>
+    <Field Margin="Margin.Is3">
+      <SuperkatActions SuperkatView="@SuperkatView" OnActionExecuted="@ReloadSuperkatData" />
+    </Field>
 </Row>
 

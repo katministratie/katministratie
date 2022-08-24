@@ -34,7 +34,7 @@ public partial class SuperkatComponent : ComponentBase
             return;
         }
 
-        var superkat = await _superkattenService.GetSuperkatAsync(_superkatView.Id);
+        var superkat = await _superkattenService.GetSuperkatAsync(_superkatView.Superkat.Id);
         _superkatView = new SuperkatView(superkat);
     }
 

@@ -4,23 +4,13 @@ namespace Superkatten.Katministratie.Host.Entities
 {
     public class SuperkatView
     {
-        public Guid Id { get; }
-        public SuperkatState State { get; }
-        public bool Retour { get; }
-        public bool Reserved { get; }
-        public int Number { get; }
-        public CatBehaviour Behaviour { get; }
-        public Gender Gender { get; }
-        public DateTime CatchDate { get; }
-        public Location CatchLocation { get; }
-        public string CatArea { get; }
-        public string? CageNumber { get; }
-        public bool IsAtGastgezin { get; }
-        public byte[]? Photo { get; }
+        public Superkat Superkat { get; set; }
 
-        public string UserFriendlyNumber => CatchDate.Year.ToString() + "-" + Number.ToString("000");
+        public string UserFriendlyNumber => Superkat.CatchDate.Year.ToString() + "-" + Superkat.Number.ToString("000");
 
-        public string GenderIcon => $"./images/Gender/{Gender}.png";
+        public string GenderIcon => $"./images/Gender/{Superkat.Gender}.png";
+
+        public bool IsAtGastgezin => Superkat.GastgezinId is not null;
 
         public SuperkatView(Superkat superkat)
         {
@@ -29,19 +19,9 @@ namespace Superkatten.Katministratie.Host.Entities
                 throw new ArgumentNullException(nameof(superkat));
             }
 
-            Id = superkat.Id;
-            State = superkat.State;
-            Retour = superkat.Retour;
-            Reserved = superkat.Reserved;
-            CatchDate = superkat.CatchDate;
-            Number = superkat.Number;
-            Behaviour = superkat.Behaviour;
-            Gender = superkat.Gender;
-            CatchLocation = superkat.CatchLocation;
-            CatArea = superkat.CatArea.ToString();
-            CageNumber = superkat.CageNumber is not null ? superkat.CageNumber.ToString() : string.Empty;
-            IsAtGastgezin = superkat.GastgezinId is not null;
-            Photo = superkat.Photo;
+            Superkat = superkat;
         }
+
+        public bool IsVisible { get; set; } = false;
     }
 }

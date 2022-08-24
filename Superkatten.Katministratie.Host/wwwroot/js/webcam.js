@@ -6,6 +6,8 @@ function startVideo(src, preferredCameraDeviceId)
       .mediaDevices
       .getUserMedia({
         video: {
+          width: 640,
+          height: 480,
           deviceId: preferredCameraDeviceId
         }
       })
@@ -40,7 +42,7 @@ function getFrame(src, dest, dotNetHelper)
 
   canvas
     .getContext('2d')
-    .drawImage(video, 0, 0, 320, 240);
+    .drawImage(video, 0, 0, 640, 480);
 
   let dataUrl = canvas.toDataURL("image/jpeg");
   dotNetHelper.invokeMethodAsync('ProcessImage', dataUrl);

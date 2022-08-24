@@ -6,7 +6,6 @@ using Superkatten.Katministratie.Domain.Entities;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers;
 
-[AuthorizeRoles(PermissionEnum.Administrator, PermissionEnum.Coordinator)]
 [Route("api/[Controller]")]
 [ApiController]
 public class ReportingController : ControllerBase
@@ -40,6 +39,24 @@ public class ReportingController : ControllerBase
             requestCageCardParameters.CatArea,
             requestCageCardParameters.CageNumber
         );
+
+        return Ok();
+    }
+
+    [HttpPut]
+    [Route("reports/cagecard/notNeutralizedAdoptees")]
+    public async Task<IActionResult> EmailNotNeutralizedAdoptees([FromBody] string email)
+    {
+        await _reportingService.EmailNotNeutralizedAdoptees(email);
+
+        return Ok();
+    }
+
+    [HttpPut]
+    [Route("reports/cagecard/notNeutralizedRefuge")]
+    public async Task<IActionResult> EmailNotNeutralizedRefuge([FromBody] string email)
+    {
+        await _reportingService.EmailNotNeutralizedRefuge(email);
 
         return Ok();
     }
