@@ -31,7 +31,7 @@ public class CageCardDefaultContentComposer : IComponent
     {
         var columns = _superkatten.Count < 4
             ? _superkatten.Count
-            : _superkatten.Count;
+            : _superkatten.Count % 4;
 
         container
             .PaddingBottom(5)
