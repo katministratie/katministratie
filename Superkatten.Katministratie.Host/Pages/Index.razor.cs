@@ -146,4 +146,16 @@ public partial class Index
 
         await ReportingService.EmailNotNeutralizedAdopteesReportAsync(email);
     }
+    public async Task OnLoginLogout()
+    {
+        if (AuthenticationService.User is null)
+        {
+            _loginModel = new();
+            await _authenticationDialog.Show();
+            return;
+        }
+
+        Navigation.NavigateTo("/");
+        await AuthenticationService.LogoutAsync();
+    }
 }

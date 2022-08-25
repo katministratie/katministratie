@@ -25,7 +25,7 @@ public class Navigation : IDisposable
 
     public void NavigateTo(string url)
     {
-        _navigationManager.NavigateTo(url);
+        _navigationManager.NavigateTo(url, forceLoad: true);
     }
 
     public void NavigateBack()
@@ -38,7 +38,7 @@ public class Navigation : IDisposable
             _history.RemoveRange(_history.Count - 2, 2);
         }
 
-        _navigationManager.NavigateTo(backPageUrl);
+        _navigationManager.NavigateTo(backPageUrl, forceLoad:true);
     }
 
     public void Reset()

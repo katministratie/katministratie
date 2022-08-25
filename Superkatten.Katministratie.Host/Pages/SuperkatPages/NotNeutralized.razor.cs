@@ -25,9 +25,13 @@ public partial class NotNeutralized
 
 
 
-    protected override async Task OnInitializedAsync()
+    protected override Task OnInitializedAsync()
     {
-        _neutralizeFilterOptionNames = _neutralizeFilterOptions.Select(x => x.ToString()).ToList();
+        _neutralizeFilterOptionNames = _neutralizeFilterOptions
+            .Select(x => x.ToString())
+            .ToList();
+
+        return Task.CompletedTask;
     }
 
     private async Task UpdateListAsync(NeutralizedLocationView filter)

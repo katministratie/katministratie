@@ -9,8 +9,54 @@
     || ReportingService is null
     || _loginModel is null)
 {
+  <Field>Initializing...</Field>
     return;
 }
+
+
+<Fields>
+    <Field Padding="Padding.Is1">
+        @if (AuthenticationService?.User is not null)
+        {
+          <Span>
+            <span class="material-icons">face</span>
+              <span>
+                @AuthenticationService?.User.Name
+              </span>
+          </Span>
+        }
+        else
+        {
+          <Field>niet ingelogged</Field>
+        }
+    </Field>
+
+    <Field TextAlignment="TextAlignment.End">
+        <Button Clicked="@OnLoginLogout">
+            @if (AuthenticationService.IsAuthenticated)
+            {   
+              <Tooltip Text="Logout">
+
+                  <span class="material-icons">logout</span>
+              </Tooltip>
+            }
+            else
+            {
+                <Tooltip Text="Login">
+                    <span class="material-icons">face</span>
+                </Tooltip>
+            }
+        </Button>
+   
+        <Button Clicked="@OnRegister">
+            <Tooltip Text="Register">
+                <span class="material-icons">
+                    add_circle_outline
+                </span>
+            </Tooltip>
+        </Button>
+    </Field>
+</Fields>
 
 @if (!IsAuthenticated)
 {
