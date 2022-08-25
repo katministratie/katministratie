@@ -6,8 +6,6 @@ namespace Superkatten.Katministratie.Host.Entities
     {
         public Superkat Superkat { get; set; }
 
-        public string UserFriendlyNumber => Superkat.CatchDate.Year.ToString() + "-" + Superkat.Number.ToString("000");
-
         public string GenderIcon => $"./images/Gender/{Superkat.Gender}.png";
 
         public bool IsAtGastgezin => Superkat.GastgezinId is not null;

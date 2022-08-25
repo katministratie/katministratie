@@ -41,7 +41,6 @@ builder.Services.AddTransient(s =>
 builder.Services.AddSingleton<IHttpService, HttpService>();
 builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
 builder.Services.AddSingleton<ILocalStorageService, LocalStorageService>();
-
 builder.Services.AddSingleton<Navigation>();
 
 builder.Services.AddLogging(configure => configure.SetMinimumLevel(LogLevel.Debug));

@@ -80,6 +80,11 @@ public partial class Index
         Navigation.NavigateTo("OverviewMedicalProcedures");
     }
 
+    private void OnShowSuperkatStatus()
+    {
+        Navigation.NavigateTo("SuperkatStatus");
+    }
+
     private Task HideModal()
     {
         return _authenticationDialog.Hide();

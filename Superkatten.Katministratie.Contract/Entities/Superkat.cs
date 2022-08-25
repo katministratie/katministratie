@@ -20,5 +20,5 @@ public class Superkat
     public byte[] Photo { get; init; } = Array.Empty<byte>();
 
     // Volgende moet eigenlijk uit het domain komen en niet hier worden bepaald
-    public string UniqueNumber => CatchDate.Year.ToString() + "-" + Number.ToString("000");
+    public string UniqueNumber => CatchDate.ToString("yy") + "-" + Number.ToString("000");
 }

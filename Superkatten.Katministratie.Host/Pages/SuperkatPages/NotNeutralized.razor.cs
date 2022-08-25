@@ -2,11 +2,8 @@
 using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Entities;
 using Superkatten.Katministratie.Host.Helpers;
-using Superkatten.Katministratie.Host.LocalStorage;
 using Superkatten.Katministratie.Host.Services;
-using Superkatten.Katministratie.Host.Services.Interfaces;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 
@@ -15,8 +12,6 @@ public partial class NotNeutralized
     [Inject] private Navigation _navigation { get; set; } = null!;
 
     [Inject] private ISuperkattenListService _superkattenListService { get; set; } = null!;
-
-    [Inject] private ILocalStorageService _localStorageService { get; set; } = null!;
 
 
     private List<Superkat> Superkatten { get; set; } = new();
