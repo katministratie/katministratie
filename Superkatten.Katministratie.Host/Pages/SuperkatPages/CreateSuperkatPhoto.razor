@@ -1,20 +1,22 @@
-﻿@page "/CreateSuperkatPhoto"
+﻿@page "/CreateSuperkatPhoto/{SuperkatId:guid?}"
 
 @using Superkatten.Katministratie.Host.Components
 @using Superkatten.Katministratie.Host.Entities
 
 @using ContractEntities = Superkatten.Katministratie.Contract.Entities
 
+<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
+
 @if (IsInitializing)
 {
   <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
     <SpinKit Type="SpinKitType.Chase" Size="30px"/>
   </Div>
-  <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
   return;
 }  
 
 <SelectListComponent DefaultText="Selecteer superkat"
+  InitialSelectedItem="@InitialSuperkat"
   TItem="ContractEntities.Superkat"     
   ItemNames="@_superkatNames"
   Items="@_superkatten" 

@@ -19,10 +19,14 @@ public partial class CreateSuperkatPhoto
 
     [Inject] public ISuperkattenListService SuperkattenService { get; set; } = null!;
 
+    [Parameter]
+    public Guid? SuperkatId { get; set; }
+
     private IReadOnlyCollection<Superkat> _superkatten = Array.Empty<Superkat>();
     private IReadOnlyCollection<string> _superkatNames = Array.Empty<string>();
     private IReadOnlyCollection<MediaDeviceInfoModel> _cameraDevices = new List<MediaDeviceInfoModel>();
     private IReadOnlyCollection<string> _cameraDeviceNames = new List<string>();
+    private Superkat? InitialSuperkat { get; set; }
     private Superkat? _selectedSuperkat;
 
     private bool IsInitializing { get; set; } = true;
@@ -44,6 +48,15 @@ public partial class CreateSuperkatPhoto
         _cameraDeviceNames = cameraDeviceNames;
 
         await OnSelectCameraDeviceAsync(_cameraDevices.Last());
+
+        if (SuperkatId is not null)
+        {
+            InitialSuperkat = superkatten
+                .Where(s => s.Id == SuperkatId)
+                .FirstOrDefault();
+
+            _selectedSuperkat = InitialSuperkat;
+        }
 
         IsInitializing = false;
     }
