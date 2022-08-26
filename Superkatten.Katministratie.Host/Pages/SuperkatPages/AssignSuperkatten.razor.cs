@@ -25,8 +25,8 @@ public partial class AssignSuperkatten
 
 
     private Gastgezin? _gastgezin;
-    private List<Superkat> AssignedSuperkatten { get; set; } = new();
-    private List<Superkat> AvailableSuperkatten { get; set; } = new();
+    private List<Superkat>? AssignedSuperkatten { get; set; }
+    private List<Superkat>? AvailableSuperkatten { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -57,8 +57,8 @@ public partial class AssignSuperkatten
             return Task.CompletedTask;
         }
 
-        AvailableSuperkatten.Remove(superkat);
-        AssignedSuperkatten.Add(superkat);
+        AvailableSuperkatten?.Remove(superkat);
+        AssignedSuperkatten?.Add(superkat);
 
         return SuperkattenService.UpdateSuperkatAsync(
             superkat.Id,
@@ -73,8 +73,8 @@ public partial class AssignSuperkatten
 
     private void RemoveSuperkatFromSelection(Superkat superkat)
     {
-        AvailableSuperkatten.Add(superkat);
-        AssignedSuperkatten.Remove(superkat);
+        AvailableSuperkatten?.Add(superkat);
+        AssignedSuperkatten?.Remove(superkat);
 
         Navigation.NavigateTo($"MoveSuperkat/{superkat.Id}");
     }

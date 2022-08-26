@@ -15,7 +15,7 @@ partial class MoveSuperkat
     [Inject] private ISuperkattenListService _superkattenListService { get; set; } = null!;
 
     [ParameterAttribute]
-    public Guid? SuperkatId { get; set; } 
+    public Guid? SuperkatId { get; set; }
 
     private Superkat? InitialSuperkat { get; set; } = null!;
 
@@ -74,6 +74,7 @@ partial class MoveSuperkat
             .Where(s => s.Id == SuperkatId)
             .FirstOrDefault();
 
+        _selectedSuperkat = initialSuperkat;
         InitialSuperkat = initialSuperkat;
     }
 
