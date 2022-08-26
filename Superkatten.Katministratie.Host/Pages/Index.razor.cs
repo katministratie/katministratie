@@ -96,6 +96,10 @@ public partial class Index
     {
         Navigation.NavigateTo("SuperkatStatus");
     }
+    private void OnShowReportingPage()
+    {
+        Navigation.NavigateTo("ReportsPage");
+    }
 
     private Task HideModal()
     {

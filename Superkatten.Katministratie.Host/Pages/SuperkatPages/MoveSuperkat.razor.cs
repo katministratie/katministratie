@@ -14,8 +14,8 @@ partial class MoveSuperkat
     [Inject] private Navigation _navigation { get; set; } = null!;
     [Inject] private ISuperkattenListService _superkattenListService { get; set; } = null!;
 
-    [Parameter]
-    public Guid? SuperkatId { get; set; }
+    [ParameterAttribute]
+    public Guid? SuperkatId { get; set; } 
 
     private Superkat? InitialSuperkat { get; set; } = null!;
 
@@ -32,26 +32,49 @@ partial class MoveSuperkat
     private Superkat? _selectedSuperkat = null;
 
     private bool IsSelectionComplete => _selectedSuperkat is not null && _selectedCageNumber > 0;
+    private string SuperkatUniqueNumber => _selectedSuperkat?.UniqueNumber ?? "???";
     protected override async Task OnInitializedAsync()
     {
         _catAreas = Enum.GetValues(typeof(CatArea)).Cast<CatArea>().ToList();
         _catAreaNames = _catAreas.Select(x => x.ToString()).ToList();
-               
+
+        await SetOrderedSuperkattenListAsync();
+        SetInitialSuperkat();
+    }
+
+    private async Task SetOrderedSuperkattenListAsync()
+    {
         var superkatten = await _superkattenListService.GetAllSuperkattenAsync();
+        if (superkatten is null)
+        {
+            return;
+        }
+
         _superkatten = superkatten
             .OrderBy(s => s.UniqueNumber)
-            .ToList() ?? Array.Empty<Superkat>().ToList();
-        _superkatNames = _superkatten
-            .Select(s => s.UniqueNumber)
-            .ToList() ?? Array.Empty<string>().ToList();
+            .ToList();
 
-        if (SuperkatId is not null)
+        var superkatNames = _superkatten
+            .Select(s => s.UniqueNumber)
+            .ToList();
+
+        _superkatNames = superkatNames ?? Array.Empty<string>().ToList();
+    }
+
+    private void SetInitialSuperkat()
+    {
+        if (SuperkatId is null)
         {
-            _forceSelectedSuperkat = true;
-            InitialSuperkat = _superkatten
-                .Where(s => s.Id == SuperkatId)
-                .FirstOrDefault();
+            InitialSuperkat = _superkatten.FirstOrDefault();
+            return;
         }
+
+        _forceSelectedSuperkat = true;
+        var initialSuperkat = _superkatten
+            .Where(s => s.Id == SuperkatId)
+            .FirstOrDefault();
+
+        InitialSuperkat = initialSuperkat;
     }
 
     private void OnSelectSuperkat(Superkat superkat)

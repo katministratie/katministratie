@@ -11,12 +11,12 @@
     return;
 }
 
-
 <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnBackHome">Terug</Button>
 
+<WaitForItComponent Visible="@_superkatten.Any()" />
 @if (_forceSelectedSuperkat)
 {
-    <TextEdit ReadOnly Text="@_selectedSuperkat.UniqueNumber" />
+    <TextEdit ReadOnly Text="@SuperkatUniqueNumber" />
 }
 else
 {
@@ -29,19 +29,19 @@ else
 }
 
 <HeaderItem Titel="Verplaats kat naar" />
-<Container>
-    <SelectListComponent DefaultText="Selecteer ruimte"
-                         TItem="CatArea"
-                         ItemNames="@_catAreaNames"
-                         Items="@_catAreas"
-                         OnSelectionChanged="@OnSelectCatArea" />
 
-    <SelectListComponent DefaultText="Selecteer hok nummer"
-                         TItem="int"
-                         EmptyListText="Selecteer eerst gebied"
-                         ItemNames="@_cageNumberNames"
-                         Items="@_cageNumbers"
-                         OnSelectionChanged="@OnSelectCageNumber" />
+<Container>
+<SelectListComponent DefaultText="Selecteer ruimte"
+                     TItem="CatArea"
+                     ItemNames="@_catAreaNames"
+                     Items="@_catAreas"
+                     OnSelectionChanged="@OnSelectCatArea" />
+
+<SelectListComponent DefaultText="Selecteer kooi"
+                     TItem="int"
+                     ItemNames="@_cageNumberNames"
+                     Items="@_cageNumbers"
+                     OnSelectionChanged="@OnSelectCageNumber" />
 </Container>
 
 @if (IsSelectionComplete)

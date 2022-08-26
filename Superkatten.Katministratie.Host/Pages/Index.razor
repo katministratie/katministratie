@@ -27,7 +27,7 @@
         }
         else
         {
-          <Field>niet ingelogged</Field>
+          <Field>Niet ingelogged</Field>
         }
     </Field>
 
@@ -58,47 +58,43 @@
     </Field>
 </Fields>
 
+
 @if (!UserLoginService.IsAuthenticated)
 {
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnRegister">Register</Button>
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnLogin">Login</Button>
-}
-else
-{
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnLogout">Logout</Button>
-
     <Divider />
     
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateSuperkatPhoto">Maak foto</Button>
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnMoveSuperkat">Verplaats kat</Button>
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateSuperkat">Nieuwe kat</Button>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateSuperkatPhoto">
+        <span class="material-icons">photo_camera</span> Maak foto
+    </Button>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnMoveSuperkat">
+        <span class="material-icons">exit_to_app</span> Verplaats kat
+    </Button>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateSuperkat">
+        <span class="material-icons">add</span> Nieuwe kat
+    </Button>
     
     <Divider />
 
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowSuperkatStatus">Bekijk superkat status</Button>
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowOverviewSuperkatten">Alle katten</Button>
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowNotNeutralized">Niet geneutraliseerde katten</Button>
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowOverviewGastgezinnen">Gastgezinnen</Button>
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowMedicalProcedures">Medische handelingen</Button>
-
-    <Divider /> 
-    
-    <HeaderItem Titel="Rapporten"/>
-
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnEmailCageCard">
-        Email mij een kooikaart
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowSuperkatStatus">
+        <span class="material-icons">visibility</span> Bekijk superkat status
+    </Button>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowOverviewSuperkatten">
+        <span class="material-icons">visibility</span> Alle katten
+    </Button>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowNotNeutralized">
+        <span class="material-icons">visibility</span> Niet geneutraliseerde katten
+    </Button>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowOverviewGastgezinnen">
+        <span class="material-icons">visibility</span> Gastgezinnen
+    </Button>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowMedicalProcedures">
+        <span class="material-icons">visibility</span> Medische handelingen
     </Button>
 
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateWakkerDierInventoryReport">
-        Email wakker dier inventarisatie data
-    </Button>
+    <Divider />
 
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnNotNeutralizedInRefugeReport">
-        Email niet geneutraliseerde katten in opvang
-    </Button>
-
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnNotNeutralizedAdopteesReport">
-        Email niet geneutraliseerde geplaatste katten
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowReportingPage">
+        <span class="material-icons">text_snippet</span> Rapportage
     </Button>
 }
 
