@@ -82,21 +82,6 @@ namespace Superkatten.Katministratie.Domain.Entities
             Reserved = reserved;
         }
 
-        public void SetArea(CatArea area)
-        {
-            CatArea = area;
-        }
-
-        public void SetCageNumber(int? cageNumber)
-        {
-            if (cageNumber < 0)
-            {
-                throw new DomainException($"Cagenumber {cageNumber} cannot be less than zero");
-            }
-
-            CageNumber = cageNumber;
-        }
-
         public void SetAgeCategory(AgeCategory ageCategory)
         {
             AgeCategory = AgeCategory;
@@ -146,9 +131,22 @@ namespace Superkatten.Katministratie.Domain.Entities
             return this;
         }
 
-        public Superkat WithColor(string color)
+
+        public Superkat WithCatArea(CatArea area)
         {
-            Color = color;
+            CatArea = area;
+
+            return this;
+        }
+
+        public Superkat WithCageNumber(int? cageNumber)
+        {
+            if (cageNumber < 0)
+            {
+                throw new DomainException($"Cagenumber {cageNumber} cannot be less than zero");
+            }
+
+            CageNumber = cageNumber;
 
             return this;
         }

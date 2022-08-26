@@ -12,7 +12,7 @@
 <Div Margin="Margin.Is2" Border="Border.Is3">
     @foreach(var superkat in AssignedSuperkatten)
     {
-        <Button Margin="Margin.Is1" Size="Size.Small" Color="Color.Primary" Clicked="async () => { await RemoveSuperkatFromSelection(superkat); }">
+        <Button Margin="Margin.Is1" Size="Size.Small" Color="Color.Primary" Clicked="() => { RemoveSuperkatFromSelection(superkat); }">
             @GetSuperkatNumber(superkat)<br>
             @superkat.Name
         </Button>

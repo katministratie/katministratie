@@ -9,13 +9,13 @@ namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 public partial class AssignSuperkatten
 {
     [Inject]
-    public ISuperkattenListService? _superkattenService { get; set; }
+    public ISuperkattenListService SuperkattenService { get; set; } = null!;
 
     [Inject]
-    public IGastgezinService? _gastgezinService { get; set; }
+    public IGastgezinService GastgezinService { get; set; } = null!;
 
     [Inject]
-    public Navigation? _navigation { get; set; }
+    public Navigation Navigation { get; set; } = null!;
 
     [Parameter]
     public Guid GastgezinId { get; set; }
@@ -30,25 +30,15 @@ public partial class AssignSuperkatten
 
     protected override async Task OnInitializedAsync()
     {
-        if (_superkattenService is null)
-        {
-            return;
-        }
+        _gastgezin = await GastgezinService.GetGastgezinAsync(GastgezinId);
 
-        if (_gastgezinService is null)
-        {
-            return;
-        }
-
-        _gastgezin = await _gastgezinService.GetGastgezinAsync(GastgezinId);
-
-        var superkatten = await _superkattenService.GetAllNotAssignedSuperkattenAsync();
+        var superkatten = await SuperkattenService.GetAllNotAssignedSuperkattenAsync();
         AvailableSuperkatten = superkatten
             .AsQueryable()
             .OrderByDescending(s => s.Number)
             .ToList();
 
-        superkatten = await _superkattenService.GetAllSuperkattenAsync();
+        superkatten = await SuperkattenService.GetAllSuperkattenAsync();
         AssignedSuperkatten = superkatten
             .Where(o => o.GastgezinId == _gastgezin?.Id)
             .OrderByDescending(s => s.Number)
@@ -67,45 +57,31 @@ public partial class AssignSuperkatten
             return Task.CompletedTask;
         }
 
-        if (_superkattenService is null)
-        {
-            return Task.CompletedTask;
-        }
-
         AvailableSuperkatten.Remove(superkat);
         AssignedSuperkatten.Add(superkat);
 
-        return _superkattenService.UpdateSuperkatAsync(
+        return SuperkattenService.UpdateSuperkatAsync(
             superkat.Id,
             new UpdateSuperkatParameters
             {
+                CatArea = CatArea.HostFamily,
+                CageNumber = 1,
                 GastgezinId = _gastgezin.Id
             }
         );
     }
 
-    private Task RemoveSuperkatFromSelection(Superkat superkat)
+    private void RemoveSuperkatFromSelection(Superkat superkat)
     {
-        if (_superkattenService is null)
-        {
-            return Task.CompletedTask;
-        }
-
         AvailableSuperkatten.Add(superkat);
         AssignedSuperkatten.Remove(superkat);
 
-        // Remove by having null as guid
-        return _superkattenService.UpdateSuperkatAsync(superkat.Id, new UpdateSuperkatParameters());
+        Navigation.NavigateTo($"MoveSuperkat/{superkat.Id}");
     }
 
     private async Task OnClose()
     {
-        if (_navigation is null)
-        {
-            return;
-        }
-
         await OnFinish.InvokeAsync();
-        _navigation.NavigateBack();
+        Navigation.NavigateBack();
     }
 }

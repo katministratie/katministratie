@@ -13,12 +13,9 @@ public partial class NotNeutralized
 
     [Inject] private ISuperkattenListService _superkattenListService { get; set; } = null!;
 
-
     private List<Superkat> Superkatten { get; set; } = new();
     private readonly static List<NeutralizedLocationView> _neutralizeFilterOptions = Enum.GetValues(typeof(NeutralizedLocationView)).Cast<NeutralizedLocationView>().ToList();
     private static List<string> _neutralizeFilterOptionNames = null!;
-
-
 
     protected override Task OnInitializedAsync()
     {
@@ -40,7 +37,6 @@ public partial class NotNeutralized
             NeutralizedLocationView.All => superkatten,
             NeutralizedLocationView.Refuge => superkatten.Where(o => o.GastgezinId == null).ToList(),
             NeutralizedLocationView.HostFamily => superkatten.Where(o => o.GastgezinId != null).ToList(),
-            _ => throw new InvalidEnumArgumentException(nameof(filter), (int)filter, typeof(NeutralizedLocationView))
         };
     }
 

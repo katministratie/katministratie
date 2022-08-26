@@ -62,6 +62,10 @@ public partial class Index
     {
         Navigation.NavigateTo("CreateSuperkatPhoto");
     }
+    private void OnMoveSuperkat()
+    {
+        Navigation.NavigateTo("MoveSuperkat");
+    }
 
     private void OnCreateSuperkat()
     {
