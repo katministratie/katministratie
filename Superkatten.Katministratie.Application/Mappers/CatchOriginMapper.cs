@@ -1,5 +1,4 @@
 ﻿using Superkatten.Katministratie.Domain.Entities;
-using System;
 using System.ComponentModel;
 
 using ContractEntities = Superkatten.Katministratie.Contract.Entities;
@@ -44,7 +43,6 @@ public class CatchOriginMapper : ICatchOriginMapper
             _ => throw new InvalidEnumArgumentException(nameof(catchOriginType), (int)catchOriginType, typeof(CatchOriginType))
         };
     }
-
 
     public CatchOriginType MapContractToDomain(ContractEntities.CatchOriginType catchOriginType)
     {
