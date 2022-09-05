@@ -27,7 +27,8 @@ namespace Superkatten.Katministratie.Application.Mappers
                 CatArea = MapToContract(superkat.CatArea),
                 Gender = MapToContract(superkat.Gender),
                 GastgezinId = superkat.GastgezinId,
-                Photo = superkat.Photo
+                Photo = superkat.Photo,
+                Color = superkat.Color,
             };
         }
 
@@ -140,7 +141,8 @@ namespace Superkatten.Katministratie.Application.Mappers
 
             return superkat
                 .WithGastgezinId(contractSuperkat.GastgezinId)
-                .WithPhoto(contractSuperkat.Photo);
+                .WithPhoto(contractSuperkat.Photo)
+                .WithColor(contractSuperkat.Color);
         }
 
         public CatArea MapContractToDomain(contractEntities.CatArea area)

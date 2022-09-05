@@ -17,6 +17,7 @@ public class Superkat
     public AgeCategory AgeCategory { get; init; }
     public Gender Gender { get; set; }
     public Guid? GastgezinId { get; set; }
+    public string Color { get; init; } = string.Empty;
     public byte[] Photo { get; init; } = Array.Empty<byte>();
 
     // Volgende moet eigenlijk uit het domain komen en niet hier worden bepaald

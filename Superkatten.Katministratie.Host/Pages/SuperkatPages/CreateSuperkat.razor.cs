@@ -1,16 +1,24 @@
 ﻿using Blazorise;
 using Blazorise.Snackbar;
 using Microsoft.AspNetCore.Components;
+using Newtonsoft.Json.Linq;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Entities;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Interfaces;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
+
+public class CatColor
+{
+    public string Id { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+}
 
 public partial class CreateSuperkat
 {
@@ -27,6 +35,7 @@ public partial class CreateSuperkat
 
     public DateTime? CatchDate = DateTime.UtcNow;
     private Guid _catchLocationNameId = Guid.NewGuid();
+
     public string CatchLocationName = string.Empty;
     public int CageNumber = 1;
     public bool Retour = false;
@@ -36,6 +45,7 @@ public partial class CreateSuperkat
     public int EstimatedWeeksOld = 0;
     private SnackbarStack _snackbarStack = null!;
     public IEnumerable<Location> CatchLocations = new List<Location>();
+    public IEnumerable<CatColor> CatColors = new List<CatColor>();
 
     private readonly static List<LocationType> _catchLocationTypes = Enum.GetValues(typeof(LocationType)).Cast<LocationType>().ToList();
     private readonly static List<CatBehaviour> _catBehaviourTypes = Enum.GetValues(typeof(CatBehaviour)).Cast<CatBehaviour>().ToList();
@@ -55,6 +65,9 @@ public partial class CreateSuperkat
 
     private static IReadOnlyCollection<int> _cageNumbers = Array.Empty<int>();
     private static IReadOnlyCollection<string> _cageNumberNames = Array.Empty<string>();
+
+    private string _selectedSearchValue = string.Empty;
+    private string _selectedAutoCompleteText = string.Empty;
 
     public async Task OnSelectCatArea(CatArea catArea)
     {
@@ -86,8 +99,22 @@ public partial class CreateSuperkat
         _foodTypeNames = _foodTypes.Select(x => x.ToString()).ToList();
 
         CatchLocations = await LocationService.GetLocationsAsync();
-    }
 
+        var allSuperkatten = await SuperkattenService.GetAllSuperkattenAsync();
+        var colors = allSuperkatten
+            .Select(s => s.Color)
+            .Distinct();
+
+        var catColors = colors
+            .Select((value, index) => new CatColor
+                {
+                    Id = $"{index}",
+                    Name = value
+                })
+            .ToList();
+
+        CatColors = catColors;
+    }
 
     public async Task OnAddSuperkat()
     {

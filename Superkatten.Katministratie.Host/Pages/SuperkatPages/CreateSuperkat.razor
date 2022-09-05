@@ -11,25 +11,6 @@
 
 <PageTitle>Nieuwe superkat</PageTitle>
 
-@if (CatchLocations is null)
-{
-    <Field>CatchLocations check</Field>
-    return;
-}
-
-@if(_selections is null)
-{
-    <Field>_selections check</Field>
-    return;
-}
-
-@if (_cageNumbers is null)
-{
-    <Field>_cageNumbers check</Field>
-    return;
-}
-
-
 <SnackbarStack @ref="_snackbarStack" Location="SnackbarStackLocation.Center" />
 
 <HeaderItem Titel="Vang informatie"></HeaderItem>
@@ -43,12 +24,29 @@
               @bind-SelectedValue="@_catchLocationNameId"
               @bind-SelectedText="@CatchLocationName"
               Placeholder="Search..."
-              Filter="AutocompleteFilter.StartsWith"
+              Filter="AutocompleteFilter.Contains"
               FreeTyping
               CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
         <NotFoundContent> Sorry... @context niet gevonden :( </NotFoundContent>
     </Autocomplete>
 </Field>
+
+<Field>
+    <Autocomplete TItem="CatColor"
+        TValue="string"
+        Data="@CatColors"
+        TextField="@((item) => item.Name)"
+        ValueField="@((item) => item.Id)"
+        @bind-SelectedValue="@_selectedSearchValue"
+        @bind-SelectedText="@_selectedAutoCompleteText"
+        Placeholder="Zoeken..."
+        Filter="AutocompleteFilter.Contains"
+        FreeTyping
+        CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
+        <NotFoundContent> Sorry... @context niet gevonden :( </NotFoundContent>
+    </Autocomplete>
+</Field>
+
 
 <Field>
   <SelectListComponent DefaultText="Locatie type"
