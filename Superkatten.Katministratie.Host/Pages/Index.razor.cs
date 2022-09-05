@@ -7,6 +7,7 @@ using Superkatten.Katministratie.Host.Pages.Users;
 using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Authentication;
 using Superkatten.Katministratie.Host.Services.Interfaces;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Superkatten.Katministratie.Host.Pages;
 
@@ -22,6 +23,7 @@ public partial class Index
 
     private LoginModel _loginModel = new()!;
     private Modal? _authenticationDialog = null!;
+    private bool _isLoggingIn = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -33,6 +35,8 @@ public partial class Index
         Navigation.NavigateTo("Register");
     }
 
+    private TextEdit? _textEditLoginName;
+
     private async Task OnLogin()
     {
         if (_authenticationDialog is null)
@@ -42,6 +46,11 @@ public partial class Index
 
         _loginModel = new();
         await _authenticationDialog.Show();
+
+        if (_textEditLoginName is not null)
+        {
+            _ = InvokeAsync(() => _textEditLoginName.Focus());
+        }
     }
 
     private async Task OnLogout()
@@ -100,6 +109,8 @@ public partial class Index
         {
             return;
         }
+
+        _isLoggingIn = true;
 
         await PageProgressService.Go(null, options => { options.Color = Color.Info;  });
 
