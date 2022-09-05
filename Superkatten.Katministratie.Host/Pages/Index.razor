@@ -16,12 +16,12 @@
 
 <Fields>
     <Field Padding="Padding.Is1">
-        @if (AuthenticationService?.User is not null)
+        @if (UserLoginService?.User is not null)
         {
           <Span>
             <span class="material-icons">face</span>
               <span>
-                @AuthenticationService?.User.Name
+                    @UserLoginService?.User.Name
               </span>
           </Span>
         }
@@ -33,7 +33,7 @@
 
     <Field TextAlignment="TextAlignment.End">
         <Button Clicked="@OnLoginLogout">
-            @if (AuthenticationService.IsAuthenticated)
+            @if (UserLoginService.IsAuthenticated)
             {   
               <Tooltip Text="Logout">
 
@@ -58,7 +58,7 @@
     </Field>
 </Fields>
 
-@if (!IsAuthenticated)
+@if (!UserLoginService.IsAuthenticated)
 {
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnRegister">Register</Button>
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnLogin">Login</Button>

@@ -15,6 +15,7 @@ partial class CageCard
     [Inject] private ISettingsService SettingsService { get; set; } = null!;
     [Inject] private ISuperkattenListService SuperkattenService { get; set; } = null!;
     [Inject] public IAuthenticationService AuthenticationService { get; init; } = null!;
+    [Inject] public IUserLoginService UserLoginService { get; init; } = null!;
     [Inject] public IReportingService ReportingService { get; init; } = null!;
     [Inject] public Navigation Navigation { get; init; } = null!;
 
@@ -95,7 +96,7 @@ partial class CageCard
 
         try
         {
-            var email = AuthenticationService?.User?.Email;
+            var email = UserLoginService?.User?.Email;
             if (email is null || string.IsNullOrEmpty(email))
             {
                 return;

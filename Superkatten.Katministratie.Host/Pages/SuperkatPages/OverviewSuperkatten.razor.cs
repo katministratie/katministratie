@@ -37,7 +37,7 @@ public partial class OverviewSuperkatten
         
         _showSimpleListView = !_showSimpleListView;
 
-        await _localStorageService.SetItem(
+        await _localStorageService.SetItemAsync(
             LocalStorageItems.LOCALSTORAGE_SETTING_SUPERKATTENLIST_TYPE,
             _showSimpleListView);
 
@@ -46,7 +46,7 @@ public partial class OverviewSuperkatten
 
     protected override async Task OnInitializedAsync()
     {
-        _showSimpleListView = await _localStorageService.GetItem<bool>(LocalStorageItems.LOCALSTORAGE_SETTING_SUPERKATTENLIST_TYPE);
+        _showSimpleListView = await _localStorageService.GetItemAsync<bool>(LocalStorageItems.LOCALSTORAGE_SETTING_SUPERKATTENLIST_TYPE);
         
         await UpdateListAsync();
 

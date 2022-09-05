@@ -43,7 +43,7 @@ public partial class CreateSuperkat
     public string CatColor = string.Empty;
     public bool StrongHoldGiven = false;
     public int EstimatedWeeksOld = 0;
-    private SnackbarStack _snackbarStack = null!;
+    private SnackbarStack? _snackbarStack;
     public IEnumerable<Location> CatchLocations = new List<Location>();
     public IEnumerable<CatColor> CatColors = new List<CatColor>();
 
@@ -67,7 +67,8 @@ public partial class CreateSuperkat
     private static IReadOnlyCollection<string> _cageNumberNames = Array.Empty<string>();
 
     private string _selectedSearchValue = string.Empty;
-    private string _selectedAutoCompleteText = string.Empty;
+
+    private bool _isInitialized = false;
 
     public async Task OnSelectCatArea(CatArea catArea)
     {
@@ -114,6 +115,8 @@ public partial class CreateSuperkat
             .ToList();
 
         CatColors = catColors;
+
+        _isInitialized = true;
     }
 
     public async Task OnAddSuperkat()
