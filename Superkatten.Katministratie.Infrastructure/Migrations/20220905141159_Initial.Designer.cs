@@ -12,8 +12,8 @@ using Superkatten.Katministratie.Infrastructure.Persistence;
 namespace Superkatten.Katministratie.Infrastructure.Migrations
 {
     [DbContext(typeof(SuperkattenDbContext))]
-    [Migration("20220818200118_AddPhotoColumn")]
-    partial class AddPhotoColumn
+    [Migration("20220905141159_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
