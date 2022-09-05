@@ -2,6 +2,7 @@
 using Superkatten.Katministratie.Contract.Authenticate;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.LocalStorage;
+using Superkatten.Katministratie.Host.Services.Authentication;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -17,18 +18,21 @@ public class HttpService : IHttpService
     private readonly ILocalStorageService _localStorageService;
 
     private readonly IConfiguration _configuration;
+    private readonly IUserLoginService _userLoginService;
 
     public HttpService(
         HttpClient httpClient,
         Navigation navigation,
         ILocalStorageService localStorageService,
-        IConfiguration configuration
+        IConfiguration configuration,
+        IUserLoginService userLoginService
     )
     {
         _httpClient = httpClient;
         _navigation = navigation;
         _localStorageService = localStorageService;
         _configuration = configuration;
+        _userLoginService = userLoginService;
     }
 
     public async Task<T?> Get<T>(string uri)
@@ -107,6 +111,7 @@ public class HttpService : IHttpService
     {
         if (response.StatusCode == HttpStatusCode.Unauthorized)
         {
+            await _userLoginService.ResetAsync();
             _navigation.Reset();
             _navigation.NavigateTo("/");
             return;
@@ -114,6 +119,7 @@ public class HttpService : IHttpService
 
         if (response.StatusCode == HttpStatusCode.Forbidden)
         {
+            await _userLoginService.ResetAsync();
             _navigation.Reset();
             _navigation.NavigateTo("/");
             return;
@@ -148,7 +154,7 @@ public class HttpService : IHttpService
         }
 
         // add jwt auth header if user is logged in and request is to the api url
-        var user = await _localStorageService.GetItem<AuthenticateResponse>(LocalStorageItems.LOCALSTORAGE_ITEM_USER);
+        var user = await _localStorageService.GetItemAsync<AuthenticateResponse>(LocalStorageItems.LOCALSTORAGE_ITEM_USER);
         if (user is not null)
         {
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);

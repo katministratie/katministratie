@@ -12,7 +12,7 @@ public class LocalStorageService : ILocalStorageService
         _jsRuntime = jsRuntime;
     }
 
-    public async Task<T?> GetItem<T>(string key)
+    public async Task<T?> GetItemAsync<T>(string key)
     {
         var json = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", key);
 
@@ -25,12 +25,12 @@ public class LocalStorageService : ILocalStorageService
         return result;
     }
 
-    public async Task SetItem<T>(string key, T value)
+    public async Task SetItemAsync<T>(string key, T value)
     {
         await _jsRuntime.InvokeVoidAsync("localStorage.setItem", key, JsonSerializer.Serialize(value));
     }
 
-    public async Task RemoveItem(string key)
+    public async Task RemoveItemAsync(string key)
     {
         await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", key);
     }

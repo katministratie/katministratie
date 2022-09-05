@@ -23,6 +23,7 @@ builder.Services.AddTransient<IMedicalProcedureService, MedicalProcedureService>
 builder.Services.AddTransient<IReportingService, ReportingService>();
 builder.Services.AddTransient<ILocationService, LocationService>();
 builder.Services.AddTransient<ISettingsService, SettingsService>();
+builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
 
 var urlApi = Environment.GetEnvironmentVariable("UriSuperkattenApi");
 urlApi ??= "https://superkattenapi-dev.azurewebsites.net/";
@@ -34,7 +35,7 @@ builder.Services.AddTransient(s =>
 
 // Add singleton services
 builder.Services.AddSingleton<IHttpService, HttpService>();
-builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
+builder.Services.AddSingleton<IUserLoginService, UserLoginService>();
 builder.Services.AddSingleton<ILocalStorageService, LocalStorageService>();
 builder.Services.AddSingleton<Navigation>();
 

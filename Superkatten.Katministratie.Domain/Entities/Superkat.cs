@@ -145,5 +145,12 @@ namespace Superkatten.Katministratie.Domain.Entities
 
             return this;
         }
+
+        public Superkat WithColor(string color)
+        {
+            Color = color;
+
+            return this;
+        }
     }
 }

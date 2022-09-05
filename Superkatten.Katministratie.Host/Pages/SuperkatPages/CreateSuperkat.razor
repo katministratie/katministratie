@@ -11,24 +11,13 @@
 
 <PageTitle>Nieuwe superkat</PageTitle>
 
-@if (CatchLocations is null)
+@if (!_isInitialized)
 {
-    <Field>CatchLocations check</Field>
+  <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
+        <SpinKit Type="SpinKitType.Chase" Size="40px"/>
+    </Div>
     return;
 }
-
-@if(_selections is null)
-{
-    <Field>_selections check</Field>
-    return;
-}
-
-@if (_cageNumbers is null)
-{
-    <Field>_cageNumbers check</Field>
-    return;
-}
-
 
 <SnackbarStack @ref="_snackbarStack" Location="SnackbarStackLocation.Center" />
 
@@ -43,7 +32,7 @@
               @bind-SelectedValue="@_catchLocationNameId"
               @bind-SelectedText="@CatchLocationName"
               Placeholder="Search..."
-              Filter="AutocompleteFilter.StartsWith"
+              Filter="AutocompleteFilter.Contains"
               FreeTyping
               CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
         <NotFoundContent> Sorry... @context niet gevonden :( </NotFoundContent>
@@ -107,7 +96,21 @@
 
 <HeaderItem Titel="Kleur"></HeaderItem>
 <Field>
-    <TextEdit Placeholder="Kleur kat" @bind-Text="@CatColor"/>
+    <Field>
+        <Autocomplete TItem="CatColor"
+                      TValue="string"
+                      Data="@CatColors"
+                      TextField="@((item) => item.Name)"
+                      ValueField="@((item) => item.Id)"
+                      @bind-SelectedValue="@_selectedSearchValue"
+                      @bind-SelectedText="@CatColor"
+                      Placeholder="Zoeken..."
+                      Filter="AutocompleteFilter.Contains"
+                      FreeTyping
+                      CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
+            <NotFoundContent> Sorry... @context niet gevonden :( </NotFoundContent>
+        </Autocomplete>
+    </Field>
 </Field>
 
 <Row>
