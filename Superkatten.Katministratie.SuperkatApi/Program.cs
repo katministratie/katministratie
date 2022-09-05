@@ -123,10 +123,10 @@ using (var scope = app.Services.CreateScope())
 {
     var dataContext = scope.ServiceProvider.GetRequiredService<SuperkattenDbContext>();
     var isCreated = dataContext.Database.EnsureCreated();
-    if (!isCreated)
-    {
-        await dataContext.Database.MigrateAsync();
-    }
+    //if (!isCreated)
+    //{
+    //    await dataContext.Database.MigrateAsync();
+    //}
 }
 
 app.UseSwagger();
