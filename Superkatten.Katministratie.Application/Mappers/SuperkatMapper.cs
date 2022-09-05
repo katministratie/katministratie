@@ -17,7 +17,7 @@ namespace Superkatten.Katministratie.Application.Mappers
                 Birthday = superkat.Birthday,
                 CageNumber = superkat.CageNumber,
                 CatchDate = superkat.CatchDate,
-                CatchLocation = MapToContract(superkat.CatchLocation),
+                CatchOrigin = MapToContract(superkat.CatchOrigin),
                 AgeCategory = MapToContract(superkat.AgeCategory),
                 Name = superkat.Name,
                 Number = superkat.Number,
@@ -27,7 +27,7 @@ namespace Superkatten.Katministratie.Application.Mappers
                 CatArea = MapToContract(superkat.CatArea),
                 Gender = MapToContract(superkat.Gender),
                 GastgezinId = superkat.GastgezinId,
-                Photo = superkat.Photo,
+                Photo = superkat.Photo ?? Array.Empty<byte>(),
                 Color = superkat.Color,
             };
         }
@@ -109,13 +109,13 @@ namespace Superkatten.Katministratie.Application.Mappers
             };
         }
 
-        private static contractEntities.Location MapToContract(Location location)
+        private static contractEntities.CatchOrigin MapToContract(CatchOrigin catchOrigin)
         {
-            return new contractEntities.Location
+            return new contractEntities.CatchOrigin
             {
-                Id = location.Id,
-                Name = location.Name,
-                Type = MapToContract(location.Type)
+                Id = catchOrigin.Id,
+                Name = catchOrigin.Name,
+                Type = MapToContract(catchOrigin.Type)
             };
         }
 
@@ -124,7 +124,7 @@ namespace Superkatten.Katministratie.Application.Mappers
             var superkat = new Superkat(
                 contractSuperkat.Number,
                 contractSuperkat.CatchDate,
-                MapContractToDomain(contractSuperkat.CatchLocation)
+                MapContractToDomain(contractSuperkat.CatchOrigin)
             )
             {
                 Id = contractSuperkat.Id,
@@ -227,10 +227,10 @@ namespace Superkatten.Katministratie.Application.Mappers
             };
         }
 
-        public Location MapContractToDomain(contractEntities.Location location)
+        public CatchOrigin MapContractToDomain(contractEntities.CatchOrigin catchOrigin)
         {
-            var catchOriginType = MapContractToDomain(location.Type);
-            return new Location(location.Name, catchOriginType);
+            var catchOriginType = MapContractToDomain(catchOrigin.Type);
+            return new CatchOrigin(catchOrigin.Name, catchOriginType);
         }
 
         private static CatchOriginType MapContractToDomain(contractEntities.CatchOriginType catchOriginType)

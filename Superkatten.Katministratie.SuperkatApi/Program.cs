@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Superkatten.Katministratie.Application;
@@ -122,6 +123,10 @@ using (var scope = app.Services.CreateScope())
 {
     var dataContext = scope.ServiceProvider.GetRequiredService<SuperkattenDbContext>();
     var isCreated = dataContext.Database.EnsureCreated();
+    if (!isCreated)
+    {
+        await dataContext.Database.MigrateAsync();
+    }
 }
 
 app.UseSwagger();

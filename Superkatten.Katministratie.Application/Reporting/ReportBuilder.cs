@@ -9,36 +9,36 @@ public class ReportBuilder : IReportBuilder
 {
     public string BuildSuperkattenInventory(IReadOnlyCollection<Superkat> superkatten)
     {
-        var result = "Location type;Location name;Total catched;Totaal poezen retour;Totaal katten retour;Totaal kittens retour;Totaal niet retour\n";
+        var result = "Vanglokatie type;vanglokatie name;Total catched;Totaal poezen retour;Totaal katten retour;Totaal kittens retour;Totaal niet retour\n";
 
         var catchOriginTypes = (CatchOriginType[])Enum.GetValues(typeof(CatchOriginType));
 
         foreach (var catchOriginType in catchOriginTypes)
         {
             var superkattenAtCatchOriginType = superkatten
-                .Where(o => o.CatchLocation.Type == catchOriginType)
+                .Where(o => o.CatchOrigin.Type == catchOriginType)
                 .ToList();
 
-            var locationNames = superkattenAtCatchOriginType
-                .DistinctBy(o => o.CatchLocation.Name)
-                .Select(o => o.CatchLocation.Name)
+            var catchOriginNames = superkattenAtCatchOriginType
+                .DistinctBy(o => o.CatchOrigin.Name)
+                .Select(o => o.CatchOrigin.Name)
                 .ToList();
 
-            foreach (var locationName in locationNames)
+            foreach (var catchOriginName in catchOriginNames)
             {
                 result += catchOriginType;
                 result += ";";
 
-                result += locationName;
+                result += catchOriginName;
                 result += ";";
 
                 var superkattenAtCatchOrigin = superkattenAtCatchOriginType
-                    .Where(o => o.CatchLocation.Name == locationName)
+                    .Where(o => o.CatchOrigin.Name == catchOriginName)
                     .ToList();
 
                 // Total cats catched in total
                 result += superkattenAtCatchOrigin
-                    .Count(o => o.CatchLocation.Name == locationName)
+                    .Count(o => o.CatchOrigin.Name == catchOriginName)
                     .ToString("00");
                 result += ";";
 

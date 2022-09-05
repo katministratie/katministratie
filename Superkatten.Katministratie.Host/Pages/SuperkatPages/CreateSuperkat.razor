@@ -23,14 +23,14 @@
 
 <HeaderItem Titel="Vang informatie"></HeaderItem>
 <Field>
-    <FieldLabel>Locatie</FieldLabel>
-    <Autocomplete TItem="Location"
+    <FieldLabel>Vanglokatie</FieldLabel>
+    <Autocomplete TItem="CatchOrigin"
               TValue="Guid"
-              Data="@CatchLocations"
+              Data="@CatchOrigins"
               TextField="@(( item ) => item.Name)"
               ValueField="@(( item ) => item.Id)"
-              @bind-SelectedValue="@_catchLocationNameId"
-              @bind-SelectedText="@CatchLocationName"
+              @bind-SelectedValue="@_catchOriginNameId"
+              @bind-SelectedText="@CatchOriginName"
               Placeholder="Search..."
               Filter="AutocompleteFilter.Contains"
               FreeTyping
@@ -40,7 +40,7 @@
 </Field>
 
 <Field>
-  <SelectListComponent DefaultText="Locatie type"
+  <SelectListComponent DefaultText="Vanglocatie type"
     InitialSelectedItem="@_selections.catchOriginType"
     TItem="CatchOriginType" 
     Items="@_catchOriginTypes" 

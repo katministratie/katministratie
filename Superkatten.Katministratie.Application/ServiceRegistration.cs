@@ -27,8 +27,8 @@ namespace Superkatten.Katministratie.Application
             services.AddTransient<IReportBuilder, ReportBuilder>();
             services.AddTransient<IMailService, MailService>();
             services.AddTransient<IReportingService, ReportingService>();
-            services.AddTransient<ILocationService, LocationService>();
-            services.AddTransient<ILocationMapper, LocationMapper>();
+            services.AddTransient<ICatchOriginService, CatchOriginService>();
+            services.AddTransient<ICatchOriginMapper, CatchOriginMapper>();
             services.AddTransient<ICageCardComposerFactory, CageCardComposerFactory>();
             services.AddTransient<ISettingsService, SettingsService>();
             

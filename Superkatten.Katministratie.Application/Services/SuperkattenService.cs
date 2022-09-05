@@ -22,14 +22,14 @@ namespace Superkatten.Katministratie.Application.Services
         private readonly IReportingRepository _reportingRepository;
         private readonly IMedicalProceduresRepository _medicalProceduresRepository;
         private readonly ISuperkatMapper _superkattenMapper;
-        private readonly ILocationRepository _locationRepository;
+        private readonly ICatchOriginRepository _catchOriginRepository;
 
         public SuperkattenService(
             ILogger<SuperkattenService> logger,
             ISuperkattenRepository superkattenRepository,
             IReportingRepository reportingRepository,
             IMedicalProceduresRepository medicalProceduresRepository,
-            ILocationRepository locationRepository,
+            ICatchOriginRepository catchOriginRepository,
             ISuperkatMapper superkattenMapper)
         {
             _logger = logger;
@@ -37,24 +37,24 @@ namespace Superkatten.Katministratie.Application.Services
             _reportingRepository = reportingRepository;
             _medicalProceduresRepository = medicalProceduresRepository;
             _superkattenMapper = superkattenMapper;
-            _locationRepository = locationRepository;
+            _catchOriginRepository = catchOriginRepository;
         }
 
         public async Task<Superkat> CreateSuperkatAsync(CreateSuperkatParameters createSuperkatParameters)
         {                        
             var maxSuperkatNumberForYear = await _superkattenRepository.GetMaxSuperkatNumberForYear(DateTimeOffset.Now.Year);
 
-            var locationData = _superkattenMapper.MapContractToDomain(createSuperkatParameters.CatchLocation);
+            var catchOriginData = _superkattenMapper.MapContractToDomain(createSuperkatParameters.CatchOrigin);
 
-            var location = await _locationRepository.GetLocationAsync(locationData.Type, locationData.Name);
-            if (location is null)
+            var catchOrigin = await _catchOriginRepository.GetCatchOriginAsync(catchOriginData.Type, catchOriginData.Name);
+            if (catchOrigin is null)
             {
-                location = await _locationRepository.CreateLocationAsync(locationData.Type, locationData.Name);
+                catchOrigin = await _catchOriginRepository.CreateCatchOriginAsync(catchOriginData.Type, catchOriginData.Name);
             }
             var superkat = new Superkat(
                 maxSuperkatNumberForYear + 1, 
                 createSuperkatParameters.CatchDate,
-                location
+                catchOrigin
             );
             
             UpdateSuperkatDetails(superkat, createSuperkatParameters);
@@ -76,17 +76,16 @@ namespace Superkatten.Katministratie.Application.Services
 
         private void UpdateSuperkatDetails(Superkat superkat, CreateSuperkatParameters createSuperkatParameters)
         {
+            var catchDate = createSuperkatParameters.CatchDate;
+            var estimatedBirthday = catchDate.AddDays(-DAY_IN_ONE_WEEK * createSuperkatParameters.EstimatedWeeksOld);
+
             superkat.SetCageNumber(createSuperkatParameters.CageNumber);
             superkat.SetRetour(createSuperkatParameters.Retour);
             superkat.SetAgeCategory(_superkattenMapper.MapContractToDomain(createSuperkatParameters.AgeCategory));
             superkat.SetBehaviour(_superkattenMapper.MapContractToDomain(createSuperkatParameters.Behaviour));
             superkat.SetArea(_superkattenMapper.MapContractToDomain(createSuperkatParameters.CatArea));
             superkat.SetGender(_superkattenMapper.MapContractToDomain(createSuperkatParameters.Gender));
-
-            var catchDate = createSuperkatParameters.CatchDate;
-            var estimatedBirthday = catchDate.AddDays(-DAY_IN_ONE_WEEK * createSuperkatParameters.EstimatedWeeksOld);
             superkat.SetBirthday(estimatedBirthday);
-
             superkat.SetLitterType(_superkattenMapper.MapContractToDomain(createSuperkatParameters.LitterType));
             superkat.SetWetFoodAllowed(createSuperkatParameters.WetFoodAllowed);
             superkat.SetFoodType(_superkattenMapper.MapContractToDomain(createSuperkatParameters.FoodType));
