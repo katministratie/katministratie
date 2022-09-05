@@ -112,11 +112,22 @@ else
             <ModalTitle>Inloggen</ModalTitle>
             <CloseButton />
         </ModalHeader>
-        <ModalBody>            
+        <ModalBody>
+          @if (@_isLoggingIn)
+          {
+            <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
+                <SpinKit Type="SpinKitType.Chase" Size="40px" />
+            </Div>
+            <Field>
+              <TextEdit Placeholder="@_loginModel.Username" />
+            </Field>
+          }
+          else
+          {
             <Field>
                 <FieldLabel>Gebruikersnaam</FieldLabel>
-                <TextEdit Role="TextRole.Text" 
-                            MaskType="MaskType.RegEx" 
+                <TextEdit @ref="_textEditLoginName" Role="TextRole.Text"
+                          MaskType="MaskType.RegEx" 
                             EditMask="^[a-z]*$" 
                             @bind-Text="@_loginModel.Username" 
                             Placeholder="Vul de gebruikersnaam in..." 
@@ -129,11 +140,15 @@ else
                             Placeholder="Vul je wachtwoord in..."
                             KeyPress="@OnKeyPress"/>
             </Field>
+          }
         </ModalBody>
         <ModalFooter>
-            <Button Color="Color.Secondary" Clicked="@HideModal">Sluiten</Button>
-            <Button Color="Color.Primary" Clicked="@SaveAndHideModal">Ok</Button>
-            
+            <Button Color="Color.Secondary" Clicked="@HideModal">
+              Sluiten
+            </Button>
+            <Button Disabled="@_isLoggingIn" Loading="@_isLoggingIn" Color="Color.Primary" Clicked="@SaveAndHideModal">
+              Ok
+            </Button>            
         </ModalFooter>
     </ModalContent>
 </Modal>

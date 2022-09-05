@@ -140,7 +140,7 @@ public partial class CreateSuperkat
 
         if (string.IsNullOrEmpty(CatchLocationName))
         {
-            await _snackbarStack.PushAsync("Vangplaats is leeg",
+            await _snackbarStack!.PushAsync("Vangplaats is leeg",
                 SnackbarColor.Info,
                 options => options.IntervalBeforeClose = NOTIFICATION_SHOW_TIME
             );
@@ -180,7 +180,7 @@ public partial class CreateSuperkat
 
         if (superkat is null)
         {
-            await _snackbarStack.PushAsync($"Fout bij het opslaan van de gegevens",
+            await _snackbarStack!.PushAsync($"Fout bij het opslaan van de gegevens",
             SnackbarColor.Danger,
             options =>
             {
@@ -189,7 +189,7 @@ public partial class CreateSuperkat
             return false;
         }
 
-        await _snackbarStack.PushAsync($"Superkat toegevoegd met nummer: {superkat.UniqueNumber}",
+        await _snackbarStack!.PushAsync($"Superkat toegevoegd met nummer: {superkat.UniqueNumber}",
             SnackbarColor.Info,
             options =>
             {
