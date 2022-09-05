@@ -13,7 +13,6 @@
     return;
 }
 
-
 <Fields>
     <Field Padding="Padding.Is1">
         @if (UserLoginService?.User is not null)
@@ -24,10 +23,6 @@
                     @UserLoginService?.User.Name
               </span>
           </Span>
-        }
-        else
-        {
-          <Field>niet ingelogged</Field>
         }
     </Field>
 

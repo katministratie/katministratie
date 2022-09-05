@@ -7,9 +7,9 @@ public class Location
 {
     public Guid Id { get; init; } = Guid.Empty;
     public string Name { get; private set; }
-    public LocationType Type { get; private set; }
+    public CatchOriginType Type { get; private set; }
 
-    public Location(string name, LocationType type)
+    public Location(string name, CatchOriginType type)
     {
         if (string.IsNullOrEmpty(name))
         {

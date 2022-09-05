@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Superkatten.Katministratie.Application.Authorization;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
 using Superkatten.Katministratie.Domain.Entities;
-
-using ContractEntities = Superkatten.Katministratie.Contract.Entities;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers;
 

@@ -19,47 +19,47 @@ public class LocationMapper : ILocationMapper
 
     public Location MapContractToDomain(ContractEntities.Location location)
     {
-        var locationType = MapContractToDomain(location.Type);
-        return new Location(location.Name, locationType)
+        var catchOriginType = MapContractToDomain(location.Type);
+        return new Location(location.Name, catchOriginType)
         {
             Id = location.Id
         };
     }
 
-    private static ContractEntities.LocationType MapDomainToContract(LocationType locationType)
+    private static ContractEntities.CatchOriginType MapDomainToContract(CatchOriginType catchOriginType)
     {
-        return locationType switch
+        return catchOriginType switch
         {
-            LocationType.Farm => ContractEntities.LocationType.Farm,
-            LocationType.PrivateProperty => ContractEntities.LocationType.PrivateProperty,
-            LocationType.AllotmentGarden => ContractEntities.LocationType.AllotmentGarden,
-            LocationType.Camping => ContractEntities.LocationType.Camping,
-            LocationType.Farmhouse => ContractEntities.LocationType.Farmhouse,
-            LocationType.Stable => ContractEntities.LocationType.Stable,
-            LocationType.BusinessPark => ContractEntities.LocationType.BusinessPark,
-            LocationType.UrbanArea => ContractEntities.LocationType.UrbanArea,
-            LocationType.RuralArea => ContractEntities.LocationType.RuralArea,
-            LocationType.NatureReserve => ContractEntities.LocationType.NatureReserve,
-            _ => throw new InvalidEnumArgumentException(nameof(locationType), (int)locationType, typeof(LocationType))
+            CatchOriginType.Farm => ContractEntities.CatchOriginType.Farm,
+            CatchOriginType.PrivateProperty => ContractEntities.CatchOriginType.PrivateProperty,
+            CatchOriginType.AllotmentGarden => ContractEntities.CatchOriginType.AllotmentGarden,
+            CatchOriginType.Camping => ContractEntities.CatchOriginType.Camping,
+            CatchOriginType.Farmhouse => ContractEntities.CatchOriginType.Farmhouse,
+            CatchOriginType.Stable => ContractEntities.CatchOriginType.Stable,
+            CatchOriginType.BusinessPark => ContractEntities.CatchOriginType.BusinessPark,
+            CatchOriginType.UrbanArea => ContractEntities.CatchOriginType.UrbanArea,
+            CatchOriginType.RuralArea => ContractEntities.CatchOriginType.RuralArea,
+            CatchOriginType.NatureReserve => ContractEntities.CatchOriginType.NatureReserve,
+            _ => throw new InvalidEnumArgumentException(nameof(catchOriginType), (int)catchOriginType, typeof(CatchOriginType))
         };
     }
 
 
-    public LocationType MapContractToDomain(ContractEntities.LocationType locationType)
+    public CatchOriginType MapContractToDomain(ContractEntities.CatchOriginType catchOriginType)
     {
-        return locationType switch
+        return catchOriginType switch
         { 
-            ContractEntities.LocationType.Farm => LocationType.Farm,
-            ContractEntities.LocationType.PrivateProperty => LocationType.PrivateProperty,
-            ContractEntities.LocationType.AllotmentGarden => LocationType.AllotmentGarden,
-            ContractEntities.LocationType.Camping => LocationType.Camping,
-            ContractEntities.LocationType.Farmhouse => LocationType.Farmhouse,
-            ContractEntities.LocationType.Stable => LocationType.Stable,
-            ContractEntities.LocationType.BusinessPark => LocationType.BusinessPark,
-            ContractEntities.LocationType.UrbanArea => LocationType.UrbanArea,
-            ContractEntities.LocationType.RuralArea => LocationType.RuralArea,
-            ContractEntities.LocationType.NatureReserve => LocationType.NatureReserve,
-            _ => throw new InvalidEnumArgumentException(nameof(locationType), (int)locationType, typeof(ContractEntities.LocationType))
+            ContractEntities.CatchOriginType.Farm => CatchOriginType.Farm,
+            ContractEntities.CatchOriginType.PrivateProperty => CatchOriginType.PrivateProperty,
+            ContractEntities.CatchOriginType.AllotmentGarden => CatchOriginType.AllotmentGarden,
+            ContractEntities.CatchOriginType.Camping => CatchOriginType.Camping,
+            ContractEntities.CatchOriginType.Farmhouse => CatchOriginType.Farmhouse,
+            ContractEntities.CatchOriginType.Stable => CatchOriginType.Stable,
+            ContractEntities.CatchOriginType.BusinessPark => CatchOriginType.BusinessPark,
+            ContractEntities.CatchOriginType.UrbanArea => CatchOriginType.UrbanArea,
+            ContractEntities.CatchOriginType.RuralArea => CatchOriginType.RuralArea,
+            ContractEntities.CatchOriginType.NatureReserve => CatchOriginType.NatureReserve,
+            _ => throw new InvalidEnumArgumentException(nameof(catchOriginType), (int)catchOriginType, typeof(ContractEntities.CatchOriginType))
         };
     }
 }

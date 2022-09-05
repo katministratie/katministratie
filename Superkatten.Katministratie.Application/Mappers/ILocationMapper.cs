@@ -8,5 +8,5 @@ public interface ILocationMapper
 {
     public ContractEntities.Location MapDomainToContract(Location location);
     public Location MapContractToDomain(ContractEntities.Location location);
-    public LocationType MapContractToDomain(ContractEntities.LocationType locationType);
+    public CatchOriginType MapContractToDomain(ContractEntities.CatchOriginType catchOriginType);
 }

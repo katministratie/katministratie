@@ -17,7 +17,7 @@ public class LocationRepository : ILocationRepository
         _context = context;
     }
 
-    public async Task<Location?> GetLocationAsync(LocationType type, string name)
+    public async Task<Location?> GetLocationAsync(CatchOriginType type, string name)
     {
         return await _context
             .Locations
@@ -25,7 +25,7 @@ public class LocationRepository : ILocationRepository
             .FirstOrDefaultAsync();
     }
 
-    public async Task<Location> CreateLocationAsync(LocationType type, string name)
+    public async Task<Location> CreateLocationAsync(CatchOriginType type, string name)
     {
         var location = new Location(name, type);
 

@@ -4,5 +4,5 @@ public class Location
 {
     public Guid Id { get; init; }
     public string Name { get; init; } = string.Empty;
-    public LocationType Type { get; init; }
+    public CatchOriginType Type { get; init; }
 }

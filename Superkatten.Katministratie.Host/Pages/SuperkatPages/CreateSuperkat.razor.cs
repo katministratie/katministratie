@@ -47,7 +47,7 @@ public partial class CreateSuperkat
     public IEnumerable<Location> CatchLocations = new List<Location>();
     public IEnumerable<CatColor> CatColors = new List<CatColor>();
 
-    private readonly static List<LocationType> _catchLocationTypes = Enum.GetValues(typeof(LocationType)).Cast<LocationType>().ToList();
+    private readonly static List<CatchOriginType> _catchOriginTypes = Enum.GetValues(typeof(CatchOriginType)).Cast<CatchOriginType>().ToList();
     private readonly static List<CatBehaviour> _catBehaviourTypes = Enum.GetValues(typeof(CatBehaviour)).Cast<CatBehaviour>().ToList();
     private readonly static List<AgeCategory> _ageCategoryTypes = Enum.GetValues(typeof(AgeCategory)).Cast<AgeCategory>().ToList();
     private readonly static List<CatArea> _catAreaTypes = Enum.GetValues(typeof(CatArea)).Cast<CatArea>().ToList();
@@ -55,7 +55,7 @@ public partial class CreateSuperkat
     private readonly static List<FoodType> _foodTypes = Enum.GetValues(typeof(FoodType)).Cast<FoodType>().ToList();
     private readonly static List<LitterGranuleType> _litterGranuleTypes = Enum.GetValues(typeof(LitterGranuleType)).Cast<LitterGranuleType>().ToList();
 
-    private static List<string> _catchLocationTypeNames = null!;
+    private static List<string> _catchOriginTypeNames = null!;
     private static List<string> _catBehaviourTypeNames = null!;
     private static List<string> _ageCategoryTypeNames = null!;
     private static List<string> _catAreaTypeNames = null!;
@@ -92,7 +92,7 @@ public partial class CreateSuperkat
     protected override async Task OnInitializedAsync()
     {
         _litterGranuleTypeNames = _litterGranuleTypes.Select(x => x.ToString()).ToList();
-        _catchLocationTypeNames = _catchLocationTypes.Select(x => x.ToString()).ToList();
+        _catchOriginTypeNames = _catchOriginTypes.Select(x => x.ToString()).ToList();
         _catBehaviourTypeNames = _catBehaviourTypes.Select(x => x.ToString()).ToList();
         _ageCategoryTypeNames = _ageCategoryTypes.Select(x => x.ToString()).ToList();
         _catAreaTypeNames = _catAreaTypes.Select(x => x.ToString()).ToList();
@@ -153,7 +153,7 @@ public partial class CreateSuperkat
         var catchLocation = new Location
         {
             Name = CatchLocationName,
-            Type = _selections.LocationType
+            Type = _selections.catchOriginType
         };
 
         var createSuperkatParameters = new CreateSuperkatParameters()

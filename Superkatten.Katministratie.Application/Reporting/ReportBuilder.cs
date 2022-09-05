@@ -11,39 +11,39 @@ public class ReportBuilder : IReportBuilder
     {
         var result = "Location type;Location name;Total catched;Totaal poezen retour;Totaal katten retour;Totaal kittens retour;Totaal niet retour\n";
 
-        var locationTypes = (LocationType[])Enum.GetValues(typeof(LocationType));
+        var catchOriginTypes = (CatchOriginType[])Enum.GetValues(typeof(CatchOriginType));
 
-        foreach (var locationType in locationTypes)
+        foreach (var catchOriginType in catchOriginTypes)
         {
-            var superkattenAtLocationType = superkatten
-                .Where(o => o.CatchLocation.Type == locationType)
+            var superkattenAtCatchOriginType = superkatten
+                .Where(o => o.CatchLocation.Type == catchOriginType)
                 .ToList();
 
-            var locationNames = superkattenAtLocationType
+            var locationNames = superkattenAtCatchOriginType
                 .DistinctBy(o => o.CatchLocation.Name)
                 .Select(o => o.CatchLocation.Name)
                 .ToList();
 
             foreach (var locationName in locationNames)
             {
-                result += locationType;
+                result += catchOriginType;
                 result += ";";
 
                 result += locationName;
                 result += ";";
 
-                var superkattenAtLocation = superkattenAtLocationType
+                var superkattenAtCatchOrigin = superkattenAtCatchOriginType
                     .Where(o => o.CatchLocation.Name == locationName)
                     .ToList();
 
                 // Total cats catched in total
-                result += superkattenAtLocation
+                result += superkattenAtCatchOrigin
                     .Count(o => o.CatchLocation.Name == locationName)
                     .ToString("00");
                 result += ";";
 
                 // total count of molly's returned
-                result += superkattenAtLocation
+                result += superkattenAtCatchOrigin
                     .Where(o => o.AgeCategory == AgeCategory.Adult || o.AgeCategory == AgeCategory.Juvenile)
                     .Where(o => o.Gender == Gender.Molly)
                     .Count(o => o.Retour)
@@ -51,7 +51,7 @@ public class ReportBuilder : IReportBuilder
                 result += ";";
 
                 // total count of molly's returned
-                result += superkattenAtLocation
+                result += superkattenAtCatchOrigin
                     .Where(o => o.AgeCategory == AgeCategory.Adult || o.AgeCategory == AgeCategory.Juvenile)
                     .Where(o => o.Gender == Gender.Tomcat)
                     .Count(o => o.Retour)
@@ -59,14 +59,14 @@ public class ReportBuilder : IReportBuilder
                 result += ";";
 
                 // total count of kittens returned
-                result += superkattenAtLocation
+                result += superkattenAtCatchOrigin
                     .Where(o => o.AgeCategory == AgeCategory.Kitten)
                     .Count(o => o.Retour)
                     .ToString("00");
                 result += ";";
 
                 // Total count of cats socialized and not returned
-                result += superkattenAtLocation
+                result += superkattenAtCatchOrigin
                     .Count(o => !o.Retour)
                     .ToString("00");
                 result += "\n";
