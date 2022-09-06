@@ -1,0 +1,34 @@
+﻿@using Superkatten.Katministratie.Contract.Entities
+
+<Field Horizontal Margin="Margin.Is2">
+    <Fields TextWeight="TextWeight.Light">
+        @switch(State)
+        {
+            case SuperkatState.Monitoring:
+                <FieldLabel class="text-white bg-dark">T</FieldLabel>
+                <FieldLabel>NRC</FieldLabel>
+                break;
+
+            case SuperkatState.ReadyForAdoption:
+                <FieldLabel class="text-white bg-dark">TN</FieldLabel>
+                <FieldLabel>RC</FieldLabel>
+                break;
+
+            case SuperkatState.WaitForPayment:
+                <FieldLabel class="text-white bg-dark">TNR</FieldLabel>
+                <FieldLabel>C</FieldLabel>
+                break;
+
+            case SuperkatState.FinalizeChecks:
+                <FieldLabel><div class="text-white bg-dark">TNRC</div></FieldLabel>
+                <FieldLabel><div class="">C</div></FieldLabel>
+                break;            
+        }
+    </Fields>
+</Field>
+
+
+@code {
+    [Parameter]
+    public SuperkatState State { get; set; }
+}

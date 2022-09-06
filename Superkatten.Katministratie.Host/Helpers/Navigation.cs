@@ -30,15 +30,21 @@ public class Navigation : IDisposable
 
     public void NavigateBack()
     {
-        if (!CanNavigateBack)
+        var backPageUrl = "/";
+
+        if (CanNavigateBack)
         {
-            return;
+            backPageUrl = _history[^2];
+            _history.RemoveRange(_history.Count - 2, 2);
         }
 
-        var backPageUrl = _history[^2];
-        _history.RemoveRange(_history.Count - 2, 2);
-
         _navigationManager.NavigateTo(backPageUrl);
+    }
+
+    public void Reset()
+    {
+        _history.Clear();
+        _history.Add(_navigationManager.Uri);
     }
 
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)

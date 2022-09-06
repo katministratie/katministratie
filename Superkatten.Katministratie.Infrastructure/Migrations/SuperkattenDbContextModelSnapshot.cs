@@ -137,6 +137,9 @@ namespace Superkatten.Katministratie.Infrastructure.Migrations
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("Photo")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<bool>("Reserved")
                         .HasColumnType("bit");
 

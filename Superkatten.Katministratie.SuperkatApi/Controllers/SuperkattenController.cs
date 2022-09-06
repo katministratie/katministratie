@@ -5,14 +5,12 @@ using Superkatten.Katministratie.Application.Mappers;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Domain.Entities;
 
-using ContractEntities = Superkatten.Katministratie.Contract.Entities;
-
 namespace Superkatten.Katministratie.SuperkatApi.Controllers
 {
     [AuthorizeRoles(PermissionEnum.Administrator, PermissionEnum.Coordinator)]
     [Route("api/[controller]")]
     [ApiController]
-    public class SuperkattenController
+    public class SuperkattenController : ControllerBase
     {
         private readonly ISuperkattenService _service;
         private readonly ISuperkatMapper _mapper;
@@ -24,42 +22,73 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IReadOnlyCollection<ContractEntities.Superkat>> GetAllSuperkatten()
+        public async Task<IActionResult> GetAllSuperkatten()
         {
             var superkatten = await _service.ReadAllSuperkattenAsync();
-            return superkatten
+            return Ok(superkatten
                 .Select(_mapper.MapDomainToContract)
-                .ToList();
+                .ToList());
         }
 
         [HttpGet]
         [Route("NotAssigned")]
-        public async Task<IReadOnlyCollection<ContractEntities.Superkat>> GetAllNotAssignedSuperkatten()
+        public async Task<IActionResult> GetAllNotAssignedSuperkatten()
         {
             var superkatten = await _service.ReadAvailableSuperkattenAsync();
-            return superkatten
+
+            return Ok(superkatten
                 .Select(_mapper.MapDomainToContract)
-                .ToList();
+                .ToList());
         }
 
         [HttpPut]
-        public async Task<ContractEntities.Superkat> PutSuperkat([FromBody] CreateSuperkatParameters newSuperkatParameters)
+        public async Task<IActionResult> PutSuperkat([FromBody] CreateSuperkatParameters newSuperkatParameters)
         {
             var superkat = await _service.CreateSuperkatAsync(newSuperkatParameters);
-            return _mapper.MapDomainToContract(superkat);
+
+            return Ok(_mapper.MapDomainToContract(superkat));
         }
 
         [HttpPost]
-        public async Task<ContractEntities.Superkat> PostSuperkat(Guid id, [FromBody] UpdateSuperkatParameters updateSuperkatParameters)
+        public async Task<IActionResult> PostSuperkat(Guid id, [FromBody] UpdateSuperkatParameters updateSuperkatParameters)
         {
             var superkat = await _service.UpdateSuperkatAsync(id, updateSuperkatParameters);
-            return _mapper.MapDomainToContract(superkat);
+
+            return Ok(_mapper.MapDomainToContract(superkat));
         }
 
         [HttpDelete]
-        public async Task DeleteSuperkat(Guid id)
+        public async Task<IActionResult> DeleteSuperkat(Guid id)
         {
             await _service.DeleteSuperkatAsync(id);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("Photo")]
+        public async Task<IActionResult> PostSuperkat(Guid id, [FromBody] UpdateSuperkatPhotoParameters updateSuperkatPhotoParameters)
+        {
+            var superkat = await _service.UpdateSuperkatAsync(id, updateSuperkatPhotoParameters);
+
+            return Ok(_mapper.MapDomainToContract(superkat));
+        }
+
+        [HttpGet]
+        [Route("NotNeutralized")]
+        public async Task<IActionResult> GetNotNeutralizedSuperkatten()
+        {
+            try
+            {
+                var superkatten = await _service.ReadNotNeutralizedSuperkattenAsync();
+
+                return Ok(superkatten
+                    .Select(_mapper.MapDomainToContract)
+                    .ToList());
+            }
+            catch(Exception ex)
+            {
+                return Problem(ex.Message, null, null, "Error bij ophalen data");
+            }
         }
     }
 }

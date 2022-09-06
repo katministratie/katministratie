@@ -1,120 +1,126 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.ApiInterface.Reporting;
 using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Host.Components;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Authentication;
 using Superkatten.Katministratie.Host.Services.Interfaces;
-
+using System.Diagnostics.CodeAnalysis;
 
 namespace Superkatten.Katministratie.Host.Pages.Reports;
 
 partial class CageCard
 {
-    public class MySelectModel
-    {
-        public int MyValueField { get; set; }
-        public string MyTextField { get; set; } = string.Empty;
-    }
+    [Inject] private ISettingsService SettingsService { get; set; } = null!;
+    [Inject] private ISuperkattenListService SuperkattenService { get; set; } = null!;
+    [Inject] public IAuthenticationService AuthenticationService { get; init; } = null!;
+    [Inject] public IUserLoginService UserLoginService { get; init; } = null!;
+    [Inject] public IReportingService ReportingService { get; init; } = null!;
+    [Inject] public Navigation Navigation { get; init; } = null!;
 
-    [Inject] private ISuperkattenListService SuperkattenService { get; set; }
-    [Inject] private IAuthenticationService AuthenticationService { get; set; }
-    [Inject] public IReportingService ReportingService{ get; set; }
-    [Inject] public Navigation Navigation { get; set; }
+    private bool _isSending = false;
+    private IReadOnlyCollection<Superkat> Superkatten { get; set; } = Array.Empty<Superkat>();
 
-    public int CageNumber
-    {
-        get;
-        set;
-    } = 1;
-    public async Task OnGetSuperkatten()
-    {
-        _superkatten = new List<Superkat>();
-        StateHasChanged();
-        await UpdateSuperkattenListAsync();
-        StateHasChanged();
-    }
+    private static List<CatArea> _catAreas = null!;
+    private static List<string> _catAreaNames = null!;
 
-    private CatArea SelectedItem { get; set; }
+    private static IReadOnlyCollection<int> _cageNumbers = null!;
+    private static IReadOnlyCollection<string> _cageNumberNames = null!;
 
-    private IReadOnlyCollection<Superkat> _superkatten = new List<Superkat>();
+    private CatArea _selectedCatArea;
+    private int _selectedCageNumber;
 
-    private static readonly string[] _selectionItems = Enum.GetNames<CatArea>();
-
-    private IEnumerable<MySelectModel> myDdlData = Enumerable
-        .Range(1, _selectionItems.Length)
-        .Select(x => new MySelectModel
-        {
-            MyTextField = _selectionItems[x - 1],
-            MyValueField = x
-        });
-
-    private int SelectedListValue
+    private string SuperkattenMessage
     {
         get
         {
-            return (int)SelectedItem + 1;
-        }
-        set
-        {
-            if (value < 0)
+            if (_selectedCageNumber == 0)
             {
-                SelectedItem = CatArea.Quarantine;
+                return string.Empty;
             }
 
-            SelectedItem = (CatArea)(value - 1);
+            if (Superkatten.Count == 0)
+            {
+                return "Er zitten geen superkatten in deze kooi";
+            }
+
+            if (Superkatten.Count > 1)
+            {
+                return $"Er zitten {Superkatten.Count} katten in deze kooi";
+            }
+
+            return $"Er zit 1 superkat in deze kooi met nunmmer {Superkatten.First().UniqueNumber}";
         }
     }
 
-    private async Task MyListValueChangedHandler(int newValue)
+    [MemberNotNull(nameof(_catAreas), nameof(_catAreaNames))]
+    protected override Task OnInitializedAsync()
     {
-        SelectedListValue = newValue;
+        _catAreas = Enum.GetValues(typeof(CatArea)).Cast<CatArea>().ToList();
+        _catAreaNames = _catAreas.Select(x => x.ToString()).ToList();
 
-        await UpdateSuperkattenListAsync();
-        StateHasChanged();
+        return Task.CompletedTask;
     }
 
-    private async Task UpdateSuperkattenListAsync()
+    public async Task UpdateCatAreaDataAsync(CatArea catArea)
     {
-        var requestParameters = new RequestCageCardEmailParameters
-        {
-            Email = string.Empty,
-            CatArea = SelectedItem,
-            CageNumber = CageNumber,
-        };
+        _selectedCatArea = catArea;
+        _cageNumbers = Array.Empty<int>();
 
-        var superkatten = await SuperkattenService.GetCageCardEmailSuperkattenAsync(requestParameters);
+        var cageNumbers = await SettingsService.GetCageNumbersForCatAreaAsync(catArea);
+        _cageNumbers = cageNumbers is null
+            ? Array.Empty<int>()
+            : cageNumbers;
+        
+        var cageNumberNames = _cageNumbers.Select(x => x.ToString()).ToList();
+        _cageNumberNames = cageNumberNames;
 
-        _superkatten = superkatten
-            .OrderBy(s => s.CatchDate.Year)
-            .ThenBy(s => s.Number)
+        await UpdateSuperkattenListAsync(0);
+    }
+
+    public async Task UpdateSuperkattenListAsync(int selectedCageNumber)
+    {
+        _selectedCageNumber = selectedCageNumber;
+        var superkatten = await SuperkattenService.GetAllNotAssignedSuperkattenAsync();
+        
+        Superkatten = superkatten
+            .Where(s => s.CageNumber == selectedCageNumber && s.CatArea == _selectedCatArea)
+            .OrderBy(s => s.Number)
             .ToList();
     }
 
     private async Task OnOk()
     {
-        var email = AuthenticationService.User?.Email;
-        if (email is null || string.IsNullOrEmpty(email))
+        _isSending = true;
+
+        try
         {
-            return;
+            var email = UserLoginService?.User?.Email;
+            if (email is null || string.IsNullOrEmpty(email))
+            {
+                return;
+            }
+
+            var parameters = new RequestCageCardEmailParameters
+            {
+                Email = email,
+                CageNumber = _selectedCageNumber,
+                CatArea = _selectedCatArea
+            };
+
+            await ReportingService.EmailCageCardAsync(parameters);
         }
-
-        var parameters = new RequestCageCardEmailParameters
+        finally 
         {
-            Email = email,
-            CageNumber = CageNumber,
-            CatArea = SelectedItem        
-        };
-
-        await ReportingService.EmailCageCardAsync(parameters);
-
-        Navigation.NavigateBack();
+            _isSending = false;
+            Navigation.NavigateBack();
+        }
     }
 
     public void OnCancel()
     {
         Navigation.NavigateBack();
     }
-
 }
 

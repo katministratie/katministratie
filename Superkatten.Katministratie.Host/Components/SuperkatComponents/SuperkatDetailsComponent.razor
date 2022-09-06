@@ -2,12 +2,12 @@
 
 @if (SuperkatView is null)
 {
-    <AntDesign.Spin />
+    <SpinKit Type="SpinKitType.CircleFade" />
     return;
 }
 
 <Div>
     <Field>
-        Locatie-hok: @SuperkatView.CatArea-@SuperkatView.CageNumber
+        Locatie-hok: @SuperkatView.Superkat.CatArea-@SuperkatView.Superkat.CageNumber
     </Field>
 </Div>

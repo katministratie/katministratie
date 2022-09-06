@@ -5,25 +5,24 @@
 
 @if (SuperkatView is null)
 {
-    <AntDesign.Spin />
+    <SpinKit Type="SpinKitType.CircleFade" />
     return;
 }
 
-<Row>
-    <Column Padding="Padding.Is0" Margin="Margin.Is0" ColumnSize="ColumnSize.Is1.OnDesktop.Is2.OnMobile">
-        <BehaviourComponent Behaviour="@SuperkatView.Behaviour" />
+<Row Style="color:#222222" Class="px-2">
+    <Column Padding="Padding.Is0" Class="col-2">
+        @SuperkatView.Superkat.UniqueNumber
     </Column>
-    <Column Padding="Padding.Is0" Margin="Margin.Is0" ColumnSize="ColumnSize.Is1.OnDesktop.Is2.OnMobile">
-        <SuperkatGenderComponent GenderIcon="@SuperkatView.GenderIcon"/>
+    <Column Padding="Padding.Is0" Class="col-2">
+        <BehaviourComponent Behaviour="@SuperkatView.Superkat.Behaviour" />
     </Column>
-    <Column Padding="Padding.Is0" Margin="Margin.Is0" ColumnSize="ColumnSize.Is5.OnDesktop.Is5.OnMobile">
-        <Field>
-            <FieldLabel>
-                @SuperkatView.UserFriendlyNumber
-            </FieldLabel>
-        </Field>
+    <Column Padding="Padding.Is0" Class="col-2">
+        <SuperkatGenderComponent GenderIcon="@SuperkatView.GenderIcon" />
     </Column>
-    <Column Padding="Padding.Is0" Margin="Margin.Is0" ColumnSize="ColumnSize.Is5.OnDesktop.Is3.OnMobile">
+    <Column Padding="Padding.Is0" Class="col-2">
+        @SuperkatView.CatLocationAsString
+    </Column>
+    <Column Padding="Padding.Is0" Class="col-3">
         <SuperkatActions SuperkatView="@SuperkatView" OnActionExecuted="@ReloadSuperkatData" />
     </Column>
 </Row>

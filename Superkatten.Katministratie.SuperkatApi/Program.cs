@@ -52,20 +52,18 @@ builder.Configuration.AddEnvironmentVariables();
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-        // Adding Jwt Bearer
-        .AddJwtBearer(options => {
-            options.SaveToken = true;
-            options.RequireHttpsMetadata = false;
-            options.TokenValidationParameters = new TokenValidationParameters()
-            {
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ValidAudience = null,
-                ValidIssuer = null,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(UserAuthorisationConfiguration.Secret))
-            };
-        });
+    }).AddJwtBearer(options => {
+        options.SaveToken = true;
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidAudience = null,
+            ValidIssuer = null,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(UserAuthorisationConfiguration.Secret))
+        };
+    });
 
     builder.Services.AddAuthorization(options =>
     {
@@ -105,7 +103,9 @@ builder.Configuration.AddEnvironmentVariables();
             name: CORS_POLICY_NAME, 
             builder => 
             {
-                builder.WithOrigins();
+                builder.WithOrigins(
+//                    "https://localhost:7292"
+                );
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();
             });
@@ -114,7 +114,6 @@ builder.Configuration.AddEnvironmentVariables();
     builder.Services.AddLogging();
 }
 
-
 //----------------------------------------------------------------------------------------------------------
 var app = builder.Build();
 
@@ -122,7 +121,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dataContext = scope.ServiceProvider.GetRequiredService<SuperkattenDbContext>();
-    dataContext.Database.EnsureCreated();
+    var isCreated = dataContext.Database.EnsureCreated();
 }
 
 app.UseSwagger();

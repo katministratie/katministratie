@@ -19,6 +19,7 @@ namespace Superkatten.Katministratie.Application.Services
 
         private readonly ILogger<SuperkattenService> _logger;
         private readonly ISuperkattenRepository _superkattenRepository;
+        private readonly IReportingRepository _reportingRepository;
         private readonly IMedicalProceduresRepository _medicalProceduresRepository;
         private readonly ISuperkatMapper _superkattenMapper;
         private readonly ILocationRepository _locationRepository;
@@ -26,12 +27,14 @@ namespace Superkatten.Katministratie.Application.Services
         public SuperkattenService(
             ILogger<SuperkattenService> logger,
             ISuperkattenRepository superkattenRepository,
+            IReportingRepository reportingRepository,
             IMedicalProceduresRepository medicalProceduresRepository,
             ILocationRepository locationRepository,
             ISuperkatMapper superkattenMapper)
         {
             _logger = logger;
             _superkattenRepository = superkattenRepository;
+            _reportingRepository = reportingRepository;
             _medicalProceduresRepository = medicalProceduresRepository;
             _superkattenMapper = superkattenMapper;
             _locationRepository = locationRepository;
@@ -54,7 +57,7 @@ namespace Superkatten.Katministratie.Application.Services
                 location
             );
             
-            UpdateSuperkatDetails(superkat, createSuperkatParameters);
+            superkat = UpdateSuperkatDetails(superkat, createSuperkatParameters);
 
             await _superkattenRepository.CreateSuperkatAsync(superkat);
 
@@ -71,13 +74,11 @@ namespace Superkatten.Katministratie.Application.Services
             return superkat;
         }
 
-        private void UpdateSuperkatDetails(Superkat superkat, CreateSuperkatParameters createSuperkatParameters)
+        private Superkat UpdateSuperkatDetails(Superkat superkat, CreateSuperkatParameters createSuperkatParameters)
         {
-            superkat.SetCageNumber(createSuperkatParameters.CageNumber);
             superkat.SetRetour(createSuperkatParameters.Retour);
             superkat.SetAgeCategory(_superkattenMapper.MapContractToDomain(createSuperkatParameters.AgeCategory));
             superkat.SetBehaviour(_superkattenMapper.MapContractToDomain(createSuperkatParameters.Behaviour));
-            superkat.SetArea(_superkattenMapper.MapContractToDomain(createSuperkatParameters.CatArea));
             superkat.SetGender(_superkattenMapper.MapContractToDomain(createSuperkatParameters.Gender));
 
             var catchDate = createSuperkatParameters.CatchDate;
@@ -88,6 +89,11 @@ namespace Superkatten.Katministratie.Application.Services
             superkat.SetWetFoodAllowed(createSuperkatParameters.WetFoodAllowed);
             superkat.SetFoodType(_superkattenMapper.MapContractToDomain(createSuperkatParameters.FoodType));
             superkat.SetColor(createSuperkatParameters.CatColor);
+
+
+            return superkat
+                .WithCageNumber(createSuperkatParameters.CageNumber)
+                .WithCatArea(_superkattenMapper.MapContractToDomain(createSuperkatParameters.CatArea));
         }
 
         public async Task DeleteSuperkatAsync(Guid guid)
@@ -109,26 +115,50 @@ namespace Superkatten.Katministratie.Application.Services
                 .ToList();
         }
 
-        public async Task<Superkat> ReadSuperkatAsync(Guid id)
+        public async Task<Superkat> ReadSuperkatAsync(Guid guid)
         {
-            var superkat = await _superkattenRepository.GetSuperkatAsync(id);
+            var superkat = await _superkattenRepository.GetSuperkatAsync(guid);
             return superkat;
         }
 
-        public async Task<Superkat> UpdateSuperkatAsync(Guid id, UpdateSuperkatParameters updateSuperkatParameters)
+        public async Task<Superkat> UpdateSuperkatAsync(Guid guid, UpdateSuperkatParameters updateSuperkatParameters)
         {
-            var superkat = await _superkattenRepository.GetSuperkatAsync(id);
+            var superkat = await _superkattenRepository.GetSuperkatAsync(guid);
             if (superkat is null)
             {
-                throw new ServiceException($"Superkat cannot be found for id {id}");
+                throw new ServiceException($"Superkat cannot be found for id {guid}");
             }
 
             var updatedSuperkat = superkat
-                .WithGastgezinId(updateSuperkatParameters.GastgezinId);
+                .WithGastgezinId(updateSuperkatParameters.GastgezinId)
+                .WithCatArea(_superkattenMapper.MapContractToDomain(updateSuperkatParameters.CatArea))
+                .WithCageNumber(updateSuperkatParameters.CageNumber);
 
             await _superkattenRepository.UpdateSuperkatAsync(updatedSuperkat);
 
             return superkat;
+        }
+
+        public async Task<Superkat> UpdateSuperkatAsync(Guid guid, UpdateSuperkatPhotoParameters updateSuperkatPhotoParameters)
+        {
+            var superkat = await _superkattenRepository.GetSuperkatAsync(guid);
+            if (superkat is null)
+            {
+                throw new ServiceException($"Superkat cannot be found for id {guid}");
+            }
+
+            var updatedSuperkat = superkat
+                .WithPhoto(updateSuperkatPhotoParameters.PhotoData ?? Array.Empty<byte>());
+
+            await _superkattenRepository.UpdateSuperkatAsync(updatedSuperkat);
+
+            return updatedSuperkat;
+        }
+
+
+        public Task<IReadOnlyCollection<Superkat>> ReadNotNeutralizedSuperkattenAsync()
+        {
+            return _reportingRepository.GetNotNeutralizedSuperkatten();
         }
     }
 }

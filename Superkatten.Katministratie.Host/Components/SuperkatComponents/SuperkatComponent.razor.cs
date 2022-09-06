@@ -2,14 +2,16 @@
 using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Entities;
+using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services;
 
 namespace Superkatten.Katministratie.Host.Components.SuperkatComponents;
 
 public partial class SuperkatComponent : ComponentBase
 {
-    [Inject]
-    private ISuperkattenListService? _superkattenService { get; set; }
+    [Inject] private ISuperkattenListService _superkattenService { get; set; } = null!;
+    [Inject] public Navigation Navigation { get; set; } = null!;
+
 
     [Parameter]
     public Superkat? Superkat
@@ -21,25 +23,30 @@ public partial class SuperkatComponent : ComponentBase
                 return;
             }
 
-            SuperkatView = new SuperkatView(value);
+            _superkatView = new SuperkatView(value);
         }
     }
 
-    private SuperkatView SuperkatView { get; set; }
+    private SuperkatView? _superkatView;
 
     private async Task ReloadSuperkatData()
     {
-        if (SuperkatView is null)
+        if (_superkatView is null)
         {
             return;
         }
 
-        if (_superkattenService is null)
-        {
-            return;
-        }
+        var superkat = await _superkattenService.GetSuperkatAsync(_superkatView.Superkat.Id);
+        _superkatView = new SuperkatView(superkat);
+    }
 
-        var superkat = await _superkattenService.GetSuperkatAsync(SuperkatView.Id);
-        SuperkatView = new SuperkatView(superkat);
+    private static string GetSuperkatImage(byte[] imageData)
+    {
+        return $"data:image/png;base64, {Convert.ToBase64String(imageData)}";
+    }
+
+    private void OnClickCreatePhoto(Superkat superkat)
+    {
+        Navigation.NavigateTo($"CreateSuperkatPhoto/{superkat.Id}");
     }
 }

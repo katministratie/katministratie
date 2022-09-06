@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Superkatten.Katministratie.Application.Authorization;
 using Superkatten.Katministratie.Application.Interfaces;
-using Superkatten.Katministratie.Application.Mappers;
 using Superkatten.Katministratie.Contract.ApiInterface.Reporting;
 using Superkatten.Katministratie.Domain.Entities;
+using Superkatten.Katministratie.Infrastructure.Interfaces;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers;
 
 [AuthorizeRoles(PermissionEnum.Administrator, PermissionEnum.Coordinator)]
 [Route("api/[Controller]")]
 [ApiController]
-public class ReportingController
+public class ReportingController : ControllerBase
 {
     private readonly IReportingService _reportingService;
 
@@ -21,23 +21,43 @@ public class ReportingController
 
     [HttpPut]
     [Route("reports/catchlocation")]
-    public async Task EmailCatchLocationReport([FromBody] RequestCatchLocationEmailParameters requestCatchLocationParameters)
+    public async Task<IActionResult> EmailCatchLocationReport([FromBody] RequestCatchLocationEmailParameters requestCatchLocationParameters)
     {
         await _reportingService.EmailCatchLocationReport(
             requestCatchLocationParameters.Email,
             requestCatchLocationParameters.From,
             requestCatchLocationParameters.To
         );
+
+        return Ok();
     }
 
     [HttpPut]
     [Route("reports/cagecard")]
-    public async Task EmailCageCard([FromBody] RequestCageCardEmailParameters requestCageCardParameters)
+    public async Task<IActionResult> EmailCageCard([FromBody] RequestCageCardEmailParameters requestCageCardParameters)
     {
         await _reportingService.EmailCageCard(
             requestCageCardParameters.Email,
             requestCageCardParameters.CatArea,
             requestCageCardParameters.CageNumber
         );
+
+        return Ok();
+    }
+
+    [HttpPut]
+    [Route("reports/cagecard/notNeutralizedAdoptees")]
+    public async Task<IActionResult> EmailNotNeutralizedAdoptees([FromBody] string email)
+    {
+        await _reportingService.EmailNotNeutralizedAdopteesReport(email);
+        return Ok();
+    }
+
+    [HttpPut]
+    [Route("reports/cagecard/notNeutralizedRefuge")]
+    public async Task<IActionResult> EmailNotNeutralizedRefuge([FromBody] string email)
+    {
+        await _reportingService.EmailNotNeutralizedRefugeReport(email);
+        return Ok();
     }
 }

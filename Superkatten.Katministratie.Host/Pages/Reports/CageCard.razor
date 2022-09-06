@@ -1,35 +1,57 @@
 ﻿@page "/CageCard"
 
+@using Superkatten.Katministratie.Contract.Entities
+@using Superkatten.Katministratie.Host.Components
 @using Superkatten.Katministratie.Host.Components.SuperkatComponents
 
-<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Ok</Button>
-<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
+@if (_catAreas is null)
+{
+    return;
+}
+
+@if (_isSending)
+{
+  <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
+      <SpinKit Type="SpinKitType.Chase" Size="60px"/>
+  </Div>
+  return;
+}
 
 <Divider />
 
-<SelectList TItem="MySelectModel"
-            TValue="int"
-            Data="@myDdlData"
-            TextField="@((item) => item.MyTextField)"
-            ValueField="@((item) => item.MyValueField)"
-            SelectedValue="@SelectedListValue"
-            SelectedValueChanged="@MyListValueChangedHandler"
-            DefaultItemText="Selecteer type handeling" />
+<SelectListComponent 
+    TItem="CatArea" 
+    DefaultText="Selecteer ruimte"
+    ItemNames="@_catAreaNames"
+    Items="@_catAreas" 
+    OnSelectionChanged="@UpdateCatAreaDataAsync"/>
+    
+<SelectListComponent
+    TItem="int" 
+    DefaultText="Selecteer hok nummer"
+    EmptyListText="Selecteer eerst gebied"
+    ItemNames="@_cageNumberNames"
+    Items="@_cageNumbers"
+    OnSelectionChanged="@UpdateSuperkattenListAsync"/>
 
-<Field>
-    <FieldLabel>Hoknummer</FieldLabel>
-    <NumericEdit Min="1" Max="60" TValue="int" @bind-Value="@CageNumber" Autofocus/>
-</Field>
+<Field>@SuperkattenMessage</Field>
+@if (Superkatten.Count > 1)
+{
+  <Field Border="Border.Is1">
+      @foreach(var superkat in Superkatten)
+      {
+        <Button Disabled Color="Color.Primary">@superkat.UniqueNumber</Button>
+      }
+  </Field>
+}
 
-<Divider />
+<Row>
+  <Column>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Ok</Button>
+  </Column>
 
-<Button Size="Size.Small" Color="Color.Primary" Clicked="@OnGetSuperkatten">Superkatten</Button>
+  <Column>
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
+  </Column>
+</Row>
 
-<Divider />
-
-<Field>
-    @foreach (var superkat in _superkatten)
-    {
-        <SimpleSuperkatComponent Superkat=superkat />
-    }
-</Field>

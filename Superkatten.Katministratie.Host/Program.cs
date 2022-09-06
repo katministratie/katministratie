@@ -22,13 +22,11 @@ builder.Services.AddTransient<IGastgezinService, GastgezinService>();
 builder.Services.AddTransient<IMedicalProcedureService, MedicalProcedureService>();
 builder.Services.AddTransient<IReportingService, ReportingService>();
 builder.Services.AddTransient<ILocationService, LocationService>();
+builder.Services.AddTransient<ISettingsService, SettingsService>();
+builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
 
 var urlApi = Environment.GetEnvironmentVariable("UriSuperkattenApi");
-if (urlApi is null)
-{
-    // geen exceptie maar standaard setting voor nu
-    urlApi = "https://superkattenapi-dev.azurewebsites.net/";
-}
+urlApi ??= "https://superkattenapi.azurewebsites.net/";
 
 builder.Services.AddTransient(s =>
 {
@@ -37,9 +35,8 @@ builder.Services.AddTransient(s =>
 
 // Add singleton services
 builder.Services.AddSingleton<IHttpService, HttpService>();
-builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
+builder.Services.AddSingleton<IUserLoginService, UserLoginService>();
 builder.Services.AddSingleton<ILocalStorageService, LocalStorageService>();
-
 builder.Services.AddSingleton<Navigation>();
 
 builder.Services.AddLogging(configure => configure.SetMinimumLevel(LogLevel.Debug));

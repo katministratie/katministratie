@@ -4,5 +4,5 @@ namespace Superkatten.Katministratie.Application.Services;
 
 public interface IMailService
 {
-    Task MailToAsync(string email, string data, string content, string fileName);
+    Task MailToAsync(string email, string subject, string bodyText, byte[] documentData);
 }

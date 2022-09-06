@@ -1,6 +1,7 @@
 ﻿@page "/OverviewSuperkatten"
 
 @using Blazorise.SpinKit
+@using Superkatten.Katministratie.Host.Components.Helpers
 @using Superkatten.Katministratie.Host.Components.SuperkatComponents
 
 <PageTitle>Superkatten</PageTitle>
@@ -10,21 +11,15 @@
         <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnBackHome">Terug</Button>
     </Column>
     <Column ColumnSize="ColumnSize.Is2.OnDesktop.Is3.OnMobile">
-        <Check TValue="bool" Checked="@_showSimpleListView" CheckedChanged="@OnChangeSimpleListViewAsync" >Simple</Check>
+        <Check TValue="bool" Checked="@_showSimpleListView" CheckedChanged="@OnChangeSimpleListViewAsync">Simple</Check>
     </Column>
 </Row>
 
+<WaitForItComponent Visible="Superkatten.Any()" />
+
 <Divider />
 
-@if (!Superkatten.Any())
-{    
-    <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
-        <SpinKit Type="SpinKitType.Chase" Size="60px"/>
-    </Div>
-    return;
-}
-
-<Pagination>
+<Pagination Padding="Padding.Is1">
     <PaginationItem Disabled="@IsFirstPage" @onclick="Previous">
         <PaginationLink>
             <span aria-hidden="true">«</span>
@@ -41,11 +36,11 @@
         for (var i = _startPageNumber; i <= _maxDisplayedPageNumber; i++)
         {
             var pageNumberAsString = i.ToString().PadLeft(2, '0');
-            <PaginationItem @key="pageNumberAsString" Active="@IsActive(i)">
-                <PaginationLink Page="@pageNumberAsString" Clicked="SetActive">
-                    @pageNumberAsString
-                </PaginationLink>
-            </PaginationItem>
+                <PaginationItem @key="pageNumberAsString" Active="@IsActive(i)">
+                    <PaginationLink Page="@pageNumberAsString" Clicked="SetActive">
+                        @pageNumberAsString
+                    </PaginationLink>
+                </PaginationItem>
         } 
     }
 
@@ -63,14 +58,15 @@
 
 </Pagination>
 
-@foreach (var superkat in Superkatten)
-{
-    if (_showSimpleListView)
-    {
-        <SimpleSuperkatComponent Superkat=superkat />
-        continue;
-    }
+<Divider />
 
-    <SuperkatComponent Superkat=superkat />
+@if (_showSimpleListView)
+{
+  @foreach (var superkat in Superkatten)
+  {
+      <SimpleSuperkatComponent Superkat=superkat />
+  }
+  return;
 }
 
+<SuperkattenListComponent SuperkatItems="@Superkatten"/>

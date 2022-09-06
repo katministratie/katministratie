@@ -6,5 +6,6 @@ public enum CatArea
     Room2,
     SmallEnclosure,
     BigEnclosure,
-    Infirmary
+    Infirmary,
+    HostFamily
 }

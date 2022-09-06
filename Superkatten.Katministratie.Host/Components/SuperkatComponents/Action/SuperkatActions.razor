@@ -3,13 +3,13 @@
 
 @inject ISuperkatActionService _superkatActionService
 
-@if(!SuperkatView.Retour)
+@if(!SuperkatView.Superkat.Retour)
 {
     <SuperkatAction
         OnClickCallback="@ToggleReserve"
-        ActionIcon="@(SuperkatView.Reserved 
-            ? "./images/actions/briefcase.svg" 
-            : "./images/actions/briefcase-fill.svg")" />
+        ActionIcon="@(SuperkatView.Superkat.Reserved 
+            ? "./images/actions/briefcase-fill.svg"
+            : "./images/actions/briefcase.svg")" />
 }
 else
 {
@@ -20,7 +20,7 @@ else
 {
     <SuperkatAction
         OnClickCallback="@ToggleRetour"
-        ActionIcon="@(SuperkatView.Retour 
+        ActionIcon="@(SuperkatView.Superkat.Retour 
             ? "./images/actions/arrow-90deg-right.svg" 
             : "./images/actions/box-arrow-in-right.svg")" />
 }

@@ -29,20 +29,28 @@ public class CageCardDefaultContentComposer : IComponent
 
     private void ComposeTable(IContainer container)
     {
+        var columns = _superkatten.Count < 4
+            ? _superkatten.Count
+            : _superkatten.Count % 4;
+
         container
-            .BorderBottom(1)
-            .BorderColor(Colors.Blue.Lighten1)
-            .Padding(1)
+            .PaddingBottom(5)
             .Grid(grid =>
             {
                 grid.Spacing(5);
                 grid.AlignCenter();
-                grid.Columns(3);
+                grid.Columns(columns);
 
                 foreach (var superkat in _superkatten)
                 {
                     var superkatElement = new CageCardSuperkatDetailsComponent(superkat);
                     grid.Item().Element(superkatElement.Compose);
+                }
+
+                var filling = _superkatten.Count % columns;
+                for (var fillingIndex = 0; fillingIndex < filling; fillingIndex++)
+                {
+                    grid.Item().Border(1);
                 }
             });
     }

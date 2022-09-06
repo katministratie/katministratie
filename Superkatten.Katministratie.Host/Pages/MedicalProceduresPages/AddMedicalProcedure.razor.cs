@@ -4,41 +4,46 @@ using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Interfaces;
-
+using System.Diagnostics.CodeAnalysis;
 
 namespace Superkatten.Katministratie.Host.Pages.MedicalProceduresPages;
 
 partial class AddMedicalProcedure
 {
-    [Inject]
-    private IMedicalProcedureService? _medicalprocedureService { get; set; }
+    [Inject] private IMedicalProcedureService _medicalprocedureService { get; set; } = null!;
 
-    [Inject]
-    private Navigation? _navigation { get; set; }
+    [Inject] private Navigation _navigation { get; set; } = null!;
 
-    [Inject]
-    private ISuperkattenListService? _superkattenService { get; set; }
+    [Inject] private ISuperkattenListService _superkattenService { get; set; } = null!;
 
-    [Parameter]
-    public Guid SuperkatId { get; set; }
+    
+    [Parameter] public Guid SuperkatId { get; set; }
 
     private Superkat? _superkat;
-    private string SuperkatNumber => _superkat?.CatchDate.Year.ToString() + "-" + _superkat?.Number.ToString("000");
+
     private DateTime TimeStamp { get; set; } = DateTime.UtcNow;
     private string Remark { get; set; } = string.Empty;
-    private MedicalProcedureType ProcedureType { get; set; }
 
+    private MedicalProcedureType _selectedMedicalProcedureType;
+    private static List<MedicalProcedureType> _medicalProcedures = null!;
+    private static List<string> _medialProcedureNames = null!;
 
+    [MemberNotNull(nameof(_medicalProcedures), nameof(_medialProcedureNames))]
     protected override async Task OnInitializedAsync()
     {
-        if (_superkattenService is null)
-        {
-            return;
-        }
+        _medicalProcedures = Enum.GetValues(typeof(MedicalProcedureType)).Cast<MedicalProcedureType>().ToList();
+        _medialProcedureNames = _medicalProcedures.Select(x => x.ToString()).ToList();
+        
+        var superkat = await _superkattenService.GetSuperkatAsync(SuperkatId);
+        _superkat = superkat ?? throw new ArgumentNullException(nameof(superkat));
+    }
 
-        SelectedListValue = (int)MedicalProcedureType.Sickness;
+    private Task OnSelectMedialProcedure(MedicalProcedureType medialProcedure)
+    {
+        _selectedMedicalProcedureType = medialProcedure;
+        StateHasChanged();
 
-        _superkat = await _superkattenService.GetSuperkatAsync(SuperkatId); 
+        return Task.CompletedTask;
     }
 
     private async Task OnOk()
@@ -48,21 +53,11 @@ partial class AddMedicalProcedure
             return;
         }
 
-        if (_medicalprocedureService is null)
-        {
-            return;
-        }
-
-        if (_navigation is null)
-        {
-            return;
-        }
-
         var parameters = new AddMedicalProcedureParameters
         {
             SuperkatId = _superkat.Id,
             Remark = Remark,
-            ProcedureType = ProcedureType,
+            ProcedureType = _selectedMedicalProcedureType,
             Timestamp = TimeStamp
         };
 
@@ -73,54 +68,6 @@ partial class AddMedicalProcedure
 
     private void OnCancel()
     {
-        if (_navigation is null)
-        {
-            return;
-        }
-
         _navigation.NavigateBack();
-    }
-
-    public class MySelectModel
-    {
-        public int MyValueField { get; set; }
-        public string MyTextField { get; set; } = string.Empty;
-    }
-
-    private static readonly string[] _medicalProcedureNames = { 
-        "Stronghold", 
-        "Neutraliseren", 
-        "Controle", 
-        "Bezoek dierenarts"
-    };
-    
-    private IEnumerable<MySelectModel> myDdlData = Enumerable
-        .Range(1, _medicalProcedureNames.Length)
-        .Select(x => new MySelectModel { 
-            MyTextField = _medicalProcedureNames[x - 1], 
-            MyValueField = x 
-        });
-
-    private int SelectedListValue
-    {
-        get
-        {
-            return (int)ProcedureType + 1;
-        }
-        set
-        {
-            if (value < 0)
-            {
-                ProcedureType = MedicalProcedureType.Checkup;
-            }
-
-            ProcedureType = (MedicalProcedureType)(value - 1);
-        }
-    }
-
-    private void MyListValueChangedHandler(int newValue)
-    {
-        SelectedListValue = newValue;
-        StateHasChanged();
     }
 }

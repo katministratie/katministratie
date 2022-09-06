@@ -17,15 +17,7 @@ public class SuperkattenListService : ISuperkattenListService
     public async Task<Superkat?> CreateSuperkatAsync(CreateSuperkatParameters newSuperkat)
     {
         var uri = $"api/Superkatten";
-        try
-        {
-            var superkat = await _httpService.Put<Superkat>(uri, newSuperkat);
-            return superkat;
-        }
-        catch (Exception)
-        {
-            return null;
-        }
+        return await _httpService.Put<Superkat>(uri, newSuperkat);
     }
 
     public async Task UpdateSuperkatAsync(Guid id, UpdateSuperkatParameters updateSuperkat)
@@ -55,7 +47,7 @@ public class SuperkattenListService : ISuperkattenListService
         var superkatten = await _httpService.Get<List<Superkat>>(uri);
         
         return superkatten is null 
-            ? new List<Superkat>() 
+            ? new() 
             : superkatten;
     }
 
@@ -69,17 +61,28 @@ public class SuperkattenListService : ISuperkattenListService
             : superkatten;
     }
 
-    public async Task<List<Superkat>> GetCageCardEmailSuperkattenAsync(RequestCageCardEmailParameters requestParameters)
+    public async Task<List<int>> GetCageNumbersForCatArea(CatArea selectedCatArea)
     {
-        var uri = "api/Superkatten/NotAssigned";
-        var notAssignedSuperkatten = await _httpService.Get<List<Superkat>>(uri);
+        var uri = $"api/Settings/CatAreaCageNumbers?catarea={selectedCatArea}";
+        var cageNumber = await _httpService.Get<List<int>>(uri);
 
-        var superkatten = notAssignedSuperkatten
-            .Where(s => s.CatArea == requestParameters.CatArea)
-            .Where(s => s.CageNumber == requestParameters.CageNumber)
-            .ToList();
+        return cageNumber is null
+            ? new()
+            : cageNumber;
+    }
 
-        return notAssignedSuperkatten is null
+    public async Task<Superkat?> UpdateSuperkatPhoto(Guid id, UpdateSuperkatPhotoParameters updateSuperkatPhotoParameters)
+    {
+        var uri = $"api/Superkatten/photo?Id={id}";
+        return await _httpService.Post<Superkat?>(uri, updateSuperkatPhotoParameters);
+    }
+
+    public async Task<List<Superkat>> GetAllNotNeutralizedSuperkattenAsync()
+    {
+        var uri = "api/Superkatten/NotNeutralized";
+        var superkatten = await _httpService.Get<List<Superkat>>(uri);
+
+        return superkatten is null
             ? new()
             : superkatten;
     }

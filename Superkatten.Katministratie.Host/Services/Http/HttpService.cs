@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.Authenticate;
+using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.LocalStorage;
+using Superkatten.Katministratie.Host.Services.Authentication;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -12,22 +14,25 @@ namespace Superkatten.Katministratie.Host.Services.Http;
 public class HttpService : IHttpService
 {
     private readonly HttpClient _httpClient;
-    private readonly NavigationManager _navigationManager;
+    private Navigation _navigation;
     private readonly ILocalStorageService _localStorageService;
 
     private readonly IConfiguration _configuration;
+    private readonly IUserLoginService _userLoginService;
 
     public HttpService(
         HttpClient httpClient,
-        NavigationManager navigationManager,
+        Navigation navigation,
         ILocalStorageService localStorageService,
-        IConfiguration configuration
+        IConfiguration configuration,
+        IUserLoginService userLoginService
     )
     {
         _httpClient = httpClient;
-        _navigationManager = navigationManager;
+        _navigation = navigation;
         _localStorageService = localStorageService;
         _configuration = configuration;
+        _userLoginService = userLoginService;
     }
 
     public async Task<T?> Get<T>(string uri)
@@ -88,8 +93,6 @@ public class HttpService : IHttpService
         await SendRequest(request);
     }
 
-    // helper methods
-
     private async Task SendRequest(HttpRequestMessage request)
     {
         var response = await SendWithAutorisationHeader(request);
@@ -106,19 +109,22 @@ public class HttpService : IHttpService
 
     private async Task CheckResponseForErrors(HttpResponseMessage response)
     {
-        // auto logout on 401 response
         if (response.StatusCode == HttpStatusCode.Unauthorized)
         {
-            _navigationManager.NavigateTo("/");
+            await _userLoginService.ResetAsync();
+            _navigation.Reset();
+            _navigation.NavigateTo("/");
             return;
         }
 
         if (response.StatusCode == HttpStatusCode.Forbidden)
         {
+            await _userLoginService.ResetAsync();
+            _navigation.Reset();
+            _navigation.NavigateTo("/");
             return;
         }
 
-        // throw exception on error response
         if (!response.IsSuccessStatusCode)
         {
             var mediaType = response.Content?.Headers.ContentType?.MediaType;
@@ -148,12 +154,12 @@ public class HttpService : IHttpService
         }
 
         // add jwt auth header if user is logged in and request is to the api url
-        var user = await _localStorageService.GetItem<AuthenticateResponse>(LocalStorageItems.LOCALSTORAGE_ITEM_USER);
+        var user = await _localStorageService.GetItemAsync<AuthenticateResponse>(LocalStorageItems.LOCALSTORAGE_ITEM_USER);
         if (user is not null)
         {
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
         }
-
+        
         return await _httpClient.SendAsync(request);
     }
 }

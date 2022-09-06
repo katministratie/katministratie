@@ -2,6 +2,7 @@
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using Superkatten.Katministratie.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,50 +21,84 @@ public class CageCardDefaultHeaderComposer : IComponent
     {
         var titleStyle = TextStyle
             .Default
-            .FontSize(30)
-            .SemiBold()
-            .FontColor(Colors.Blue.Medium);
+            .FontSize(18)
+            .SemiBold();
 
-        container.Column(column =>
+        container
+            .Border(1)
+            .PaddingBottom(5)
+            .Row(row =>
+            {
+                row.RelativeItem()
+                    .Text(GetCageNumberHeaderText(_superkatten))
+                    .Style(titleStyle)
+                    .FontSize(20);
+
+                row.RelativeItem()
+                    .Text(GetFirstCatchDate(_superkatten))
+                    .Style(titleStyle)
+                    .FontSize(20);
+
+                row.RelativeItem()
+                    .Text(GetCatchLocation(_superkatten))
+                    .Style(titleStyle)
+                    .FontSize(20);
+            });
+    }
+
+    private static string GetCatchLocation(IReadOnlyCollection<Superkat> superkatten)
+    {
+        var firstCatchLocation = superkatten
+            .OrderBy(s => s.CatchDate)
+            .ToList()
+            .Select(s => s.CatchLocation)
+            .FirstOrDefault();
+
+        return firstCatchLocation?.Name ?? string.Empty;
+    }
+
+    private static string GetFirstCatchDate(IReadOnlyCollection<Superkat> superkatten)
+    {
+        var firstCatchDate = superkatten
+            .OrderBy(s => s.CatchDate)
+            .ToList()
+            .Select(s => s.CatchDate)
+            .FirstOrDefault();
+
+        return firstCatchDate.ToShortDateString();
+    }
+
+    private static string GetCageNumberHeaderText(IReadOnlyCollection<Superkat> superkatten)
+    {
+        var catArea = superkatten
+            .Select(s => s.CatArea)
+            .Distinct()
+            .ToList()
+            .FirstOrDefault();
+
+        var cageNumber = superkatten
+            .Select(s => s.CageNumber)
+            .Distinct()
+            .ToList()
+            .FirstOrDefault();
+        
+        var catAreaCode = ConvertCatAreaToShowString(catArea);
+
+        return string.IsNullOrEmpty(catAreaCode)
+            ? $"{cageNumber}"
+            : $"{catAreaCode}-{cageNumber}";
+    }
+
+    private static string ConvertCatAreaToShowString(CatArea catArea)
+    {
+        return catArea switch
         {
-            column.Item()
-                .AlignCenter()
-                .Text($"Locatie: {_superkatten.First().CatArea} Hok: {_superkatten.First().CageNumber}")
-                .Style(titleStyle)
-                .FontSize(40);
-
-            column.Item()
-                .Row(row =>
-                {
-                    row.RelativeItem()
-                    .Padding(2)
-                    .Border(1)
-                    .Column(column =>
-                    {
-                        column.Item()
-                            .AlignMiddle()
-                            .Text($"Aantal:\n{_superkatten.Count}")
-                            .Style(titleStyle);
-                    });
-
-                    row.RelativeItem()
-                        .Padding(5)
-                        .Border(1)
-                        .Column(column =>
-                        {
-                            column.Item()
-                                .AlignMiddle()
-                                .AlignCenter()
-                                .Text($"{_superkatten.First().CatchDate.ToString("dd.MMMM yyyy")}")
-                                .Style(titleStyle);
-                            column.Item()
-                                .AlignMiddle()
-                                .AlignCenter()
-                                .Text($"{_superkatten.First().CatchLocation.Name}")
-                                .Style(titleStyle)
-                                .FontSize(18);
-                        });
-                });
-        });
+            CatArea.Quarantine => "Q",
+            CatArea.Infirmary => "ZB",
+            CatArea.SmallEnclosure => string.Empty,
+            CatArea.BigEnclosure => string.Empty,
+            CatArea.Room2 => string.Empty,
+            _ => string.Empty
+        };
     }
 }

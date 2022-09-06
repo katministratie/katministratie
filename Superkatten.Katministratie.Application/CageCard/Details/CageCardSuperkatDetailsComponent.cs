@@ -1,6 +1,7 @@
 ﻿using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using Superkatten.Katministratie.Application.CageCard.Details.SuperkatCard;
 using Superkatten.Katministratie.Domain.Entities;
 using System;
 
@@ -17,64 +18,18 @@ public class CageCardSuperkatDetailsComponent : IComponent
 
     public void Compose(IContainer container)
     {
-        container
-            .Padding(2)
-            .Border(1)
-            .BorderColor(Colors.Grey.Darken3)
-            .Column(column =>
+        var cardHeader = new SuperkatCardHeaderComponent(_superkat);
+        var cardBody = new SuperktCardBodyComponent(_superkat);
+        container.Column(column =>
             {
-                column.Spacing(2);
+                column.Item()
+                    .Background(Colors.Black)
+                    .Element(cardHeader.Compose);
 
                 column.Item()
-                    .Padding(2)
                     .PaddingLeft(15)
                     .Background(Colors.BlueGrey.Darken3)
-                    .PaddingBottom(5)
-                    .Text(_superkat.UniqueNumber)
-                    .SemiBold();
-
-                column.Item()
-                    .Padding(2)
-                    .PaddingLeft(15)
-                    .Text($"Verjaardag: {_superkat.Birthday.ToShortDateString()}");
-
-                column.Item()
-                    .Padding(2)
-                    .PaddingLeft(15)
-                    .Text($"Kleur: {_superkat.Color}");
-
-                column.Item()
-                    .Padding(2)
-                    .PaddingLeft(15)
-                    .Text($"Age categorie: {GetAgeCategoryText(_superkat.AgeCategory)}");
-
-
-                column.Item()
-                    .Padding(2)
-                    .PaddingLeft(15)
-                    .Text($"Gedrag: {GetGedragText(_superkat.Behaviour)}");
+                    .Element(cardBody.Compose);
             });
-    }
-
-    private string GetGedragText(CatBehaviour behaviour)
-    {
-        return behaviour switch
-        {
-            CatBehaviour.Social => "Sociaal",
-            CatBehaviour.Unknown => "Onbekend",
-            CatBehaviour.Shy => "Schuw",
-            _ => string.Empty
-        };
-    }
-
-    private static string GetAgeCategoryText(AgeCategory ageCategory)
-    {
-        return ageCategory switch
-        {
-            AgeCategory.Juvenile => "",
-            AgeCategory.Adult => "Volwassen",
-            AgeCategory.Kitten => "Kitten",
-            _ => string.Empty
-        };
     }
 }

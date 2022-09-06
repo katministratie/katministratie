@@ -22,7 +22,7 @@ internal class ReportingRepository : IReportingRepository
         return await _context.SuperKatten
             .AsNoTracking()
             .Include(o => o.CatchLocation)
-            .Where(o => o.CatchDate >= from && o.CatchDate < to)
+            .Where(o => o.CatchDate >= from && o.CatchDate < to && o.State != SuperkatState.Done)
             .ToListAsync();
     }
 
@@ -30,7 +30,23 @@ internal class ReportingRepository : IReportingRepository
     {
         return await _context.SuperKatten
             .AsNoTracking()
-            .Where(o => o.CatArea == catArea && o.CageNumber == cageNumber)
+            .Include(o => o.CatchLocation)
+            .Where(o => o.CatArea == catArea && o.CageNumber == cageNumber && o.State != SuperkatState.Done)
+            .ToListAsync();
+    }
+
+    public async Task<IReadOnlyCollection<Superkat>> GetNotNeutralizedSuperkatten()
+    {
+        var neutralizedSuperkatten = _context.MedicalProcedures
+            .AsNoTracking()
+            .Where(m => m.ProcedureType == MedicalProcedureType.Neutralize)
+            .Select(m => m.SuperkatId)
+            .ToList();
+
+        return await _context.SuperKatten
+            .AsNoTracking()
+            .Include(o => o.CatchLocation)
+            .Where(o => !neutralizedSuperkatten.Contains(o.Id) && o.State != SuperkatState.Done)
             .ToListAsync();
     }
 }

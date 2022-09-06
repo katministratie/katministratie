@@ -27,7 +27,7 @@ public class MedicalProcedureMapper : IMedicalProcedureMapper
             MedicalProcedureType.Stronghold => ContractEntities.MedicalProcedureType.Stronghold,
             MedicalProcedureType.Sickness => ContractEntities.MedicalProcedureType.Sickness,
             MedicalProcedureType.Checkup => ContractEntities.MedicalProcedureType.Checkup,
-            _ => throw new InvalidEnumArgumentException(nameof(procedureType), (int)procedureType, typeof(MedicalProcedureType))
+            MedicalProcedureType.Note => ContractEntities.MedicalProcedureType.Note,
         };
     }
 

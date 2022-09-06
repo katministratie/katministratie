@@ -8,29 +8,30 @@ namespace Superkatten.Katministratie.Host.Components.SuperkatComponents.Action;
 public partial class SuperkatActions: ComponentBase
 {
     [Inject]
-    public Navigation Navigation { get; set; }
+    public Navigation Navigation { get; set; } = null!;
 
     [Parameter]
-    public SuperkatView SuperkatView { get; set; }
+    public SuperkatView SuperkatView { get; set; } = null!;
 
     [Parameter]
     public EventCallback OnActionExecuted { get; set; }
 
+
     private async Task ToggleReserve()
     {
-        await _superkatActionService.ToggleReserveSuperkatAsync(SuperkatView.Id);
+        await _superkatActionService.ToggleReserveSuperkatAsync(SuperkatView.Superkat.Id);
         await OnActionExecuted.InvokeAsync();
     }
 
     private async Task ToggleRetour()
     {
-        await _superkatActionService.ToggleRetourSuperkatAsync(SuperkatView.Id);
+        await _superkatActionService.ToggleRetourSuperkatAsync(SuperkatView.Superkat.Id);
         await OnActionExecuted.InvokeAsync();
     }
 
     private void AddMedicalProcedure()
     {
-        var navigateToUrl = "AddMedicalProcedure/" + SuperkatView.Id.ToString();
+        var navigateToUrl = "AddMedicalProcedure/" + SuperkatView.Superkat.Id.ToString();
         Navigation.NavigateTo(navigateToUrl);
     }
 }

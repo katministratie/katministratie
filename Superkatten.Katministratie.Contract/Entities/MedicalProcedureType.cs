@@ -5,5 +5,6 @@ public enum MedicalProcedureType
     Stronghold,
     Neutralize,
     Checkup,
-    Sickness
+    Sickness,
+    Note
 }

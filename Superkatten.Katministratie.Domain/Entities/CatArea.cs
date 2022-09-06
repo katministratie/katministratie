@@ -6,6 +6,7 @@
         Room2,
         SmallEnclosure,
         BigEnclosure,
-        Infirmary
+        Infirmary,
+        HostFamily
     }
 }

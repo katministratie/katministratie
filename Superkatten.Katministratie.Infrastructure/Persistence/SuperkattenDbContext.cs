@@ -6,13 +6,14 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence;
 
 public class SuperkattenDbContext : DbContext
 {
-    public DbSet<UserDto> Users { get; set; }
-    public DbSet<Superkat> SuperKatten { get; set; }
-    public DbSet<Location> Locations { get; set; }
-    public DbSet<Gastgezin> Gastgezinnen { get; set; }
-    public DbSet<MedicalProcedure> MedicalProcedures { get; set; }
+    public DbSet<UserDto> Users => Set<UserDto>();
+    public DbSet<Superkat> SuperKatten => Set<Superkat>();
+    public DbSet<Location> Locations => Set<Location>();
+    public DbSet<Gastgezin> Gastgezinnen => Set<Gastgezin>();
+    public DbSet<MedicalProcedure> MedicalProcedures => Set<MedicalProcedure>();
 
-    public SuperkattenDbContext(DbContextOptions<SuperkattenDbContext> options) : base(options)
+    public SuperkattenDbContext(DbContextOptions<SuperkattenDbContext> options) 
+        : base(options)
     {
 
     }

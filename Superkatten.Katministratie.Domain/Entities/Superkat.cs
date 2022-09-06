@@ -7,7 +7,7 @@ namespace Superkatten.Katministratie.Domain.Entities
     {
         public Guid Id { get; init; }
         public int Number { get; private set; }
-        public SuperkatState State { get; init; } = SuperkatState.Trapped;
+        public SuperkatState State { get; init; } = SuperkatState.Monitoring;
         public DateTime Birthday { get; private set; }
         public DateTime CatchDate { get; private set; } = DateTime.UtcNow;
         public Location CatchLocation { get; private set; }
@@ -24,6 +24,7 @@ namespace Superkatten.Katministratie.Domain.Entities
         public FoodType FoodType { get; private set; } = FoodType.FirstPhase;
         public string Color { get; private set; } = string.Empty;
         public Guid? GastgezinId { get; private set; }
+        public byte[]? Photo { get; private set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         // Constructor is needed for EF
@@ -81,21 +82,6 @@ namespace Superkatten.Katministratie.Domain.Entities
             Reserved = reserved;
         }
 
-        public void SetArea(CatArea area)
-        {
-            CatArea = area;
-        }
-
-        public void SetCageNumber(int? cageNumber)
-        {
-            if (cageNumber < 0)
-            {
-                throw new DomainException($"Cagenumber {cageNumber} cannot be less than zero");
-            }
-
-            CageNumber = cageNumber;
-        }
-
         public void SetAgeCategory(AgeCategory ageCategory)
         {
             AgeCategory = AgeCategory;
@@ -128,6 +114,39 @@ namespace Superkatten.Katministratie.Domain.Entities
         public Superkat WithGastgezinId(Guid? gastgezinId)
         {
             GastgezinId = gastgezinId;
+
+            if (gastgezinId is not null)
+            {
+                CageNumber = 1;
+                CatArea = CatArea.HostFamily;
+            }
+
+            return this;
+        }
+
+        public Superkat WithPhoto(byte[] photo)
+        {
+            Photo = photo;
+
+            return this;
+        }
+
+
+        public Superkat WithCatArea(CatArea area)
+        {
+            CatArea = area;
+
+            return this;
+        }
+
+        public Superkat WithCageNumber(int? cageNumber)
+        {
+            if (cageNumber < 0)
+            {
+                throw new DomainException($"Cagenumber {cageNumber} cannot be less than zero");
+            }
+
+            CageNumber = cageNumber;
 
             return this;
         }

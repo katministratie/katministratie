@@ -26,7 +26,9 @@ namespace Superkatten.Katministratie.Application.Mappers
                 Behaviour = MapToContract(superkat.Behaviour),
                 CatArea = MapToContract(superkat.CatArea),
                 Gender = MapToContract(superkat.Gender),
-                GastgezinId = superkat.GastgezinId
+                GastgezinId = superkat.GastgezinId,
+                Photo = superkat.Photo,
+                Color = superkat.Color,
             };
         }
 
@@ -45,10 +47,10 @@ namespace Superkatten.Katministratie.Application.Mappers
         {
             return state switch
             {
-                SuperkatState.Trapped => contractEntities.SuperkatState.Trapped,
-                SuperkatState.Neutralized => contractEntities.SuperkatState.Neutralized,
-                SuperkatState.Returnable => contractEntities.SuperkatState.Returnable,
-                SuperkatState.Checked => contractEntities.SuperkatState.Checked,
+                SuperkatState.Monitoring => contractEntities.SuperkatState.Monitoring,
+                SuperkatState.ReadyForAdoption => contractEntities.SuperkatState.ReadyForAdoption,
+                SuperkatState.WaitForPayment => contractEntities.SuperkatState.WaitForPayment,
+                SuperkatState.FinalizeChecks => contractEntities.SuperkatState.FinalizeChecks,
                 SuperkatState.Done => contractEntities.SuperkatState.Done,
                 _ => throw new InvalidEnumArgumentException(nameof(state), (int)state, typeof(SuperkatState))
             };
@@ -63,6 +65,7 @@ namespace Superkatten.Katministratie.Application.Mappers
                 CatArea.SmallEnclosure => contractEntities.CatArea.SmallEnclosure,
                 CatArea.BigEnclosure => contractEntities.CatArea.BigEnclosure,
                 CatArea.Room2 => contractEntities.CatArea.Room2,
+                CatArea.HostFamily => contractEntities.CatArea.HostFamily,
                 _ => throw new InvalidEnumArgumentException(nameof(catArea), (int)catArea, typeof(CatArea))
             };
         }
@@ -128,15 +131,17 @@ namespace Superkatten.Katministratie.Application.Mappers
                 State = MapContractToDomain(contractSuperkat.State)
             };
 
-            superkat.SetArea(MapContractToDomain(contractSuperkat.CatArea));
             superkat.SetBehaviour(MapContractToDomain(contractSuperkat.Behaviour));
             superkat.SetBirthday(contractSuperkat.Birthday);
-            superkat.SetCageNumber(contractSuperkat.CageNumber);
             superkat.SetGender(MapContractToDomain(contractSuperkat.Gender));
             superkat.SetAgeCategory(MapContractToDomain(contractSuperkat.AgeCategory));
             superkat.SetName(contractSuperkat.Name ?? string.Empty);
 
-            return superkat.WithGastgezinId(contractSuperkat.GastgezinId);
+            return superkat
+                .WithGastgezinId(contractSuperkat.GastgezinId)
+                .WithPhoto(contractSuperkat.Photo)
+                .WithCatArea(MapContractToDomain(contractSuperkat.CatArea))
+                .WithCageNumber(contractSuperkat.CageNumber);
         }
 
         public CatArea MapContractToDomain(contractEntities.CatArea area)
@@ -148,6 +153,7 @@ namespace Superkatten.Katministratie.Application.Mappers
                 contractEntities.CatArea.SmallEnclosure => CatArea.SmallEnclosure,
                 contractEntities.CatArea.BigEnclosure => CatArea.BigEnclosure,
                 contractEntities.CatArea.Room2 => CatArea.Room2,
+                contractEntities.CatArea.HostFamily => CatArea.HostFamily,
                 _ => throw new InvalidEnumArgumentException(nameof(area), (int)area, typeof(contractEntities.CatArea))
             };
         }
@@ -211,10 +217,10 @@ namespace Superkatten.Katministratie.Application.Mappers
         {
             return state switch
             {
-                contractEntities.SuperkatState.Trapped => SuperkatState.Trapped,
-                contractEntities.SuperkatState.Neutralized => SuperkatState.Neutralized,
-                contractEntities.SuperkatState.Returnable => SuperkatState.Returnable,
-                contractEntities.SuperkatState.Checked => SuperkatState.Checked,
+                contractEntities.SuperkatState.Monitoring => SuperkatState.Monitoring,
+                contractEntities.SuperkatState.ReadyForAdoption => SuperkatState.ReadyForAdoption,
+                contractEntities.SuperkatState.WaitForPayment => SuperkatState.WaitForPayment,
+                contractEntities.SuperkatState.FinalizeChecks => SuperkatState.FinalizeChecks,
                 contractEntities.SuperkatState.Done => SuperkatState.Done,
                 _ => throw new InvalidEnumArgumentException(nameof(state), (int)state, typeof(contractEntities.SuperkatState))
             };

@@ -1,8 +1,11 @@
 ﻿using MailKit.Net.Smtp;
 using MailKit.Security;
+using Microsoft.Extensions.Configuration;
 using MimeKit;
+using Superkatten.Katministratie.Application.Helpers;
 using System;
 using System.IO;
+using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,55 +13,63 @@ namespace Superkatten.Katministratie.Application.Services;
 
 public class MailService : IMailService
 {
-    public Task MailToAsync(string email, string subject, string content, string fileName)
+    private const string CAGEFORM_FILENAME = "kooikaart.pdf";
+    private const string SENDER_NAME = "Katministrator";
+    private const string SENDER_EMAIL_ADDRESS = "katministratie@superkatten.nl";
+
+    private readonly IEmailSettings _emailSettings;
+    private readonly IClientSecrets _clientSecretSettings;
+
+    public MailService(
+        IEmailSettings emailSettings,
+        IClientSecrets clientSecretSettings
+    )
+    {
+        _emailSettings = emailSettings;
+        _clientSecretSettings = clientSecretSettings;
+    }
+
+    public async Task MailToAsync(string email, string subject, string bodyText, byte[] documentData)
     {
         var message = new MimeMessage();
         message.To.Add(new MailboxAddress("Requester", email));
-        message.From.Add(new MailboxAddress("Katministrator", "katministratie@superkatten.nl"));
+        message.From.Add(new MailboxAddress(SENDER_NAME, SENDER_EMAIL_ADDRESS));
         message.Subject = subject;
         
-        var body = new TextPart("plain")
+        var body = new TextPart(MimeKit.Text.TextFormat.Plain)
         {
-            Text = content
+            Text = bodyText
         };
+
+        var stream = new MemoryStream(documentData);
 
         // create an image attachment for the file located at path
         // see: http://ibgwww.colorado.edu/~lessem/psyc5112/usail/mail/mime/typetxt.html
-        var attachment = new MimePart("application", "pdf")
+        var attachment = new MimePart(MediaTypeNames.Application.Pdf)
         {
-            Content = new MimeContent(File.OpenRead(fileName), ContentEncoding.Default),
-            ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+            Content = new MimeContent(stream),
+            ContentId = CAGEFORM_FILENAME,
             ContentTransferEncoding = ContentEncoding.Base64,
-            FileName = Path.GetFileName(fileName)
+            FileName = CAGEFORM_FILENAME
         };
 
-        // now create the multipart/mixed container to hold the message text and the
-        // image attachment
-        var multipart = new Multipart("mixed");
-        multipart.Add(body);
-        multipart.Add(attachment);
-
-        // now set the multipart/mixed as the message body
-        message.Body = multipart;
-
-        using (var client = new SmtpClient())
+        message.Body = new Multipart("mixed")
         {
-            //TODO: tijdelijk gmail account login gebruiken
-            client.Connect("smtp.gmail.com", 587, SecureSocketOptions.Auto);
-            client.Authenticate("johandekroon@gmail.com", "bctlyadxlapktqdc"); // LET OP -> MOET ENV VAR Worden in azure
-            try
-            {
-                var result = client.Send(message);
-            }
-            catch(Exception x)
-            {
-                //todo; hoe deze zichtbaar maken in UI
-            }
-            client.Disconnect(true);
-        }
+            body,
+            attachment
+        };
 
-        File.Delete(fileName);
+        using var client = new SmtpClient();
+        client.Connect(
+            _emailSettings.SmtpHost,
+            _emailSettings.SmtpPortNumber,
+            SecureSocketOptions.Auto);
+        client.Authenticate(
+            _clientSecretSettings.GmailClientId,
+            _clientSecretSettings.GmailClientSecret);
 
-        return Task.CompletedTask;
+        var result = await client.SendAsync(message);
+
+        client.Disconnect(true);
     }
 }

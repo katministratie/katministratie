@@ -9,13 +9,14 @@ namespace Superkatten.Katministratie.Host.Pages.GastgezinPages;
 public partial class OverviewGastgezinnen
 {
     [Inject]
-    private Navigation _navigation { get; set; }
+    private Navigation _navigation { get; set; } = null!;
 
     [Inject]
-    private IGastgezinService _gastgezinnenService { get; set; }
+    private IGastgezinService _gastgezinnenService { get; set; } = null!;
 
 
-    public List<Gastgezin> _gastgezinnen = new();
+
+    private List<Gastgezin> _gastgezinnen = new();
 
     protected override async Task OnInitializedAsync()
     {

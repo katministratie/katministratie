@@ -1,59 +1,123 @@
 ﻿using Blazorise;
 using Blazorise.Snackbar;
 using Microsoft.AspNetCore.Components;
+using Newtonsoft.Json.Linq;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Host.Entities;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Interfaces;
+using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 
+public class CatColor
+{
+    public string Id { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+}
+
 public partial class CreateSuperkat
 {
     public const int MAX_HOKNUMBER_ALLOWED = 50;
+    private const int NOTIFICATION_SHOW_TIME = 2500;
 
-    public DatePicker<DateTime?> datePicker;
+    [Inject] IPageProgressService PageProgressService { get; set; } = null!;
+    [Inject] public Navigation Navigation { get; set; } = null!;
+    [Inject] public ISuperkattenListService SuperkattenService { get; set; } = null!;
+    [Inject] public ILocationService LocationService { get; set; } = null!;
+    [Inject] private ISettingsService SettingsService { get; set; } = null!;
+
+    private static readonly CreateSuperkatSelections _selections = new();
+
     public DateTime? CatchDate = DateTime.UtcNow;
-    private Guid CatchLocationNameId;
+    private Guid _catchLocationNameId = Guid.NewGuid();
+
     public string CatchLocationName = string.Empty;
-    public LocationType CatchLocationType = LocationType.Farm;
-    public CatArea CatArea = CatArea.Quarantine;
     public int CageNumber = 1;
-    public CatBehaviour Behaviour = CatBehaviour.Unknown;
     public bool Retour = false;
-    public AgeCategory AgeCategory = AgeCategory.Kitten;
-    public Gender Gender = Gender.Unknown;
-    public LitterGranuleType LitterType = LitterGranuleType.Normal;
     public bool WetFoodAllowed = true;
-    public FoodType FoodType = FoodType.FirstPhase;
     public string CatColor = string.Empty;
     public bool StrongHoldGiven = false;
     public int EstimatedWeeksOld = 0;
+    private SnackbarStack? _snackbarStack;
+    public IEnumerable<Location> CatchLocations = new List<Location>();
+    public IEnumerable<CatColor> CatColors = new List<CatColor>();
 
-    [Inject] public Navigation? Navigation { get; set; }
+    private readonly static List<LocationType> _catchLocationTypes = Enum.GetValues(typeof(LocationType)).Cast<LocationType>().ToList();
+    private readonly static List<CatBehaviour> _catBehaviourTypes = Enum.GetValues(typeof(CatBehaviour)).Cast<CatBehaviour>().ToList();
+    private readonly static List<AgeCategory> _ageCategoryTypes = Enum.GetValues(typeof(AgeCategory)).Cast<AgeCategory>().ToList();
+    private readonly static List<CatArea> _catAreaTypes = Enum.GetValues(typeof(CatArea)).Cast<CatArea>().ToList();
+    private readonly static List<Gender> _genderTypes = Enum.GetValues(typeof(Gender)).Cast<Gender>().ToList();
+    private readonly static List<FoodType> _foodTypes = Enum.GetValues(typeof(FoodType)).Cast<FoodType>().ToList();
+    private readonly static List<LitterGranuleType> _litterGranuleTypes = Enum.GetValues(typeof(LitterGranuleType)).Cast<LitterGranuleType>().ToList();
 
-    [Inject] public ISuperkattenListService? SuperkattenService { get; set; }
+    private static List<string> _catchLocationTypeNames = null!;
+    private static List<string> _catBehaviourTypeNames = null!;
+    private static List<string> _ageCategoryTypeNames = null!;
+    private static List<string> _catAreaTypeNames = null!;
+    private static List<string> _genderTypeNames = null!;
+    private static List<string> _foodTypeNames = null!;
+    private static List<string> _litterGranuleTypeNames = null!;
 
-    [Inject] public ILocationService? LocationService { get; set; }
+    private static IReadOnlyCollection<int> _cageNumbers = Array.Empty<int>();
+    private static IReadOnlyCollection<string> _cageNumberNames = Array.Empty<string>();
 
+    private string _selectedSearchValue = string.Empty;
 
-    public IEnumerable<Location> Locations = new List<Location>();
-    private bool CanEnterHokNumber => CatArea != CatArea.SmallEnclosure && CatArea != CatArea.BigEnclosure;
+    private bool _isInitialized = false;
+
+    public async Task OnSelectCatArea(CatArea catArea)
+    {
+        _selections.Store(catArea);
+
+        _cageNumbers = Array.Empty<int>();
+        StateHasChanged();
+
+        var cageNumbers = await SettingsService.GetCageNumbersForCatAreaAsync(catArea);
+        _cageNumbers = cageNumbers is null
+            ? Array.Empty<int>()
+            : cageNumbers;
+        _cageNumberNames = _cageNumbers.Select(x => x.ToString()).ToList();
+
+        var selectedCageNumber = _cageNumbers.FirstOrDefault();
+        _selections.Store(selectedCageNumber);
+
+        StateHasChanged();
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        if (LocationService is null)
-        {
-            return;
-        }
+        _litterGranuleTypeNames = _litterGranuleTypes.Select(x => x.ToString()).ToList();
+        _catchLocationTypeNames = _catchLocationTypes.Select(x => x.ToString()).ToList();
+        _catBehaviourTypeNames = _catBehaviourTypes.Select(x => x.ToString()).ToList();
+        _ageCategoryTypeNames = _ageCategoryTypes.Select(x => x.ToString()).ToList();
+        _catAreaTypeNames = _catAreaTypes.Select(x => x.ToString()).ToList();
+        _genderTypeNames = _genderTypes.Select(x => x.ToString()).ToList();
+        _foodTypeNames = _foodTypes.Select(x => x.ToString()).ToList();
 
-        Locations = await LocationService.GetLocationsAsync();
+        CatchLocations = await LocationService.GetLocationsAsync();
 
-        await base.OnInitializedAsync();
+        var allSuperkatten = await SuperkattenService.GetAllSuperkattenAsync();
+        var colors = allSuperkatten
+            .Select(s => s.Color)
+            .Distinct();
+
+        var catColors = colors
+            .Select((value, index) => new CatColor
+                {
+                    Id = $"{index}",
+                    Name = value
+                })
+            .ToList();
+
+        CatColors = catColors;
+
+        _isInitialized = true;
     }
-
 
     public async Task OnAddSuperkat()
     {
@@ -67,6 +131,8 @@ public partial class CreateSuperkat
 
     private async Task<bool> StoreSuperkatAsync()
     {
+        await PageProgressService.Go(null, options => { options.Color = Color.Info; });
+
         if (SuperkattenService is null)
         {
             return false;
@@ -74,45 +140,62 @@ public partial class CreateSuperkat
 
         if (string.IsNullOrEmpty(CatchLocationName))
         {
-            //_notificationString = $"Vul de plaats waar de kat gevangen is in.";
-            //_ = _notification.Show();
+            await _snackbarStack!.PushAsync("Vangplaats is leeg",
+                SnackbarColor.Info,
+                options => options.IntervalBeforeClose = NOTIFICATION_SHOW_TIME
+            );
+
+            await PageProgressService.Go(-1);
+
             return false;
         }
 
         var catchLocation = new Location
         {
             Name = CatchLocationName,
-            Type = CatchLocationType
+            Type = _selections.LocationType
         };
 
         var createSuperkatParameters = new CreateSuperkatParameters()
         {
             CatchDate = CatchDate ?? DateTime.UtcNow,
             CatchLocation = catchLocation,
-            CatArea = CatArea,
-            CageNumber = CageNumber,
-            Behaviour = Behaviour,
+            CatArea = _selections.CatArea,
+            CageNumber = _selections.CageNumber,
+            Behaviour = _selections.CatBehaviour,
             Retour = Retour,
-            AgeCategory = AgeCategory,
-            Gender = Gender,
-            LitterType = LitterType,
+            AgeCategory = _selections.AgeCategory,
+            Gender = _selections.Gender,
+            LitterType = _selections.LitterGranuleType,
             WetFoodAllowed = WetFoodAllowed,
-            FoodType = FoodType,
+            FoodType = _selections.FoodType,
             CatColor = CatColor,
             EstimatedWeeksOld = EstimatedWeeksOld,
             StrongholdGiven = StrongHoldGiven
         };
 
         var superkat = await SuperkattenService.CreateSuperkatAsync(createSuperkatParameters);
+
+        await PageProgressService.Go(-1);
+
         if (superkat is null)
         {
-            //_notificationString = $"Fout bij het opslaan van de nieuwe superkat.";
-            //_ = _notification.Show();
+            await _snackbarStack!.PushAsync($"Fout bij het opslaan van de gegevens",
+            SnackbarColor.Danger,
+            options =>
+            {
+                options.IntervalBeforeClose = NOTIFICATION_SHOW_TIME;
+            });
             return false;
         }
 
-        //_notificationString = $"Superkat {superkat.CatchDate.Year % 100}-{superkat.Number:000} is aangemaakt";
-        //_ = _notification.Show();
+        await _snackbarStack!.PushAsync($"Superkat toegevoegd met nummer: {superkat.UniqueNumber}",
+            SnackbarColor.Info,
+            options =>
+            {
+                options.IntervalBeforeClose = NOTIFICATION_SHOW_TIME;
+            });
+
         return true;
     }
 }

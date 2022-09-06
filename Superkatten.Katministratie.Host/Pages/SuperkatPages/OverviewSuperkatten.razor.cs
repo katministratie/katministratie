@@ -8,22 +8,28 @@ namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 
 public partial class OverviewSuperkatten
 {
-    [Inject]
-    private Navigation  _navigation { get; set; }
+    [Inject] private Navigation _navigation { get; set; } = null!;
 
-    [Inject]
-    private ISuperkattenListService? _superkattenService { get; set; }
+    [Inject] private ISuperkattenListService _superkattenService { get; set; } = null!;
 
-    [Inject]
-    private ILocalStorageService _localStorageService { get; set; }
-
-    [Inject]
-    private ISuperkatActionService _superkatActionService { get; set; }
+    [Inject] private ILocalStorageService _localStorageService { get; set; } = null!;
 
 
     private List<Superkat> Superkatten { get; set; } = new();
 
     private bool _showSimpleListView = false;
+    private readonly int _itemsPerPage = 7;
+    private readonly int _displayedPageSetCount = 5;
+    private int _currentPage = 1;
+    private int _totalPageCount = 10;
+    private int _startPageNumber = 1;
+
+    private bool IsActive(int pageNumber) => _currentPage == pageNumber;
+    private bool IsFirstPageSet => _startPageNumber == 1;
+    private int _maxDisplayedPageNumber;
+    private bool IsLastPageSet => _maxDisplayedPageNumber > _totalPageCount;
+    private bool IsFirstPage => _currentPage == 1;
+    private bool IsLastPage => _currentPage == _totalPageCount;
 
     private async Task OnChangeSimpleListViewAsync()
     {
@@ -31,7 +37,7 @@ public partial class OverviewSuperkatten
         
         _showSimpleListView = !_showSimpleListView;
 
-        await _localStorageService.SetItem(
+        await _localStorageService.SetItemAsync(
             LocalStorageItems.LOCALSTORAGE_SETTING_SUPERKATTENLIST_TYPE,
             _showSimpleListView);
 
@@ -40,7 +46,8 @@ public partial class OverviewSuperkatten
 
     protected override async Task OnInitializedAsync()
     {
-        _showSimpleListView = await _localStorageService.GetItem<bool>(LocalStorageItems.LOCALSTORAGE_SETTING_SUPERKATTENLIST_TYPE);
+        _showSimpleListView = await _localStorageService.GetItemAsync<bool>(LocalStorageItems.LOCALSTORAGE_SETTING_SUPERKATTENLIST_TYPE);
+        
         await UpdateListAsync();
 
         await InitializePaginationAsync();
@@ -51,58 +58,26 @@ public partial class OverviewSuperkatten
         var superkatten = await _superkattenService.GetAllSuperkattenAsync();
         _totalPageCount = superkatten is null ? 0 : (superkatten.Count / _itemsPerPage) + 1;
         _maxDisplayedPageNumber = CalculateMaxDisplayedPageNumber();
-
     }
 
     private async Task UpdateListAsync()
     {
-        if (_superkattenService is null)
-        {
-            return;
-        }
-
         var superkatten = await _superkattenService.GetAllSuperkattenAsync();
-        if (superkatten is null)
-        {
-            return;
-        }
-
-        if (superkatten?.Count == 0)
-        {
-            return;
-        }
-
-        Superkatten = superkatten!
+        
+        var partialList = superkatten
             .AsQueryable()
             .OrderByDescending(sk => sk.Number)
             .Skip((_currentPage - 1) * _itemsPerPage)
             .Take(_itemsPerPage)
             .ToList();
+
+        Superkatten = partialList;
     }
 
     private void OnBackHome()
     {
         _navigation.NavigateTo("/");
     }
-
-    private Task Print(string printername)
-    {
-        return _superkatActionService.CreateSuperkatCageCardAsync(new());
-    }
-
-    private int _itemsPerPage = 10;
-    private int _currentPage = 1;
-    private int _displayedPageSetCount = 4;
-    private int _totalPageCount = 10;
-    private int _startPageNumber = 1;
-
-    private bool IsActive(int pageNumber) => _currentPage == pageNumber;
-    private bool IsFirstPageSet => _startPageNumber == 1;
-
-    private int _maxDisplayedPageNumber;
-    private bool IsLastPageSet => _maxDisplayedPageNumber > _totalPageCount;
-    private bool IsFirstPage => _currentPage == 1;
-    private bool IsLastPage => _currentPage == _totalPageCount;
 
     private async Task Previous()
     {

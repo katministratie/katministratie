@@ -9,4 +9,5 @@ public interface IReportingRepository
 {
     Task<IReadOnlyCollection<Superkat>> GetSuperkattenBetweenFromToAsync(DateTime from, DateTime to);
     Task<IReadOnlyCollection<Superkat>> GetSuperkattenAtLocationAsync(CatArea catArea, int? cageNumber);
+    Task<IReadOnlyCollection<Superkat>> GetNotNeutralizedSuperkatten();
 }

@@ -2,9 +2,9 @@
 
 public enum SuperkatState
 {
-    Trapped,
-    Neutralized,
-    Returnable,
-    Checked,
+    Monitoring,
+    ReadyForAdoption,
+    WaitForPayment,
+    FinalizeChecks,
     Done
 }
