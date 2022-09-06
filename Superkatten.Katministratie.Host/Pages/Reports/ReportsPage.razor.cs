@@ -11,6 +11,7 @@ public partial class ReportsPage
     [Inject] public Navigation Navigation { get; set; } = null!;
     [Inject] public IAuthenticationService AuthenticationService { get; set; } = null!;
     [Inject] public IReportingService ReportingService { get; set; } = null!;
+    [Inject] public IUserLoginService LoginService { get; set; } = null!;
 
     private void OnBackHome()
     {
@@ -24,7 +25,7 @@ public partial class ReportsPage
 
     private async Task OnCreateWakkerDierInventoryReport()
     {
-        var email = AuthenticationService?.User?.Email;
+        var email = LoginService.User?.Email;
         if (string.IsNullOrEmpty(email))
         {
             //           _notificationString = "Email van ingelogde gebruiker is niet ingevuld. De email kan niet worden verstuurd.";
@@ -43,7 +44,7 @@ public partial class ReportsPage
 
     private async Task OnNotNeutralizedInRefugeReport()
     {
-        var email = AuthenticationService?.User?.Email ?? string.Empty;
+        var email = LoginService.User?.Email ?? string.Empty;
 
         await ReportingService.EmailNotNeutralizedInRefugeReportAsync(email);
     }
@@ -51,7 +52,7 @@ public partial class ReportsPage
     private async Task OnNotNeutralizedAdopteesReport()
     {
 
-        var email = AuthenticationService?.User?.Email ?? string.Empty;
+        var email = LoginService.User?.Email ?? string.Empty;
 
         await ReportingService.EmailNotNeutralizedAdopteesReportAsync(email);
     }
