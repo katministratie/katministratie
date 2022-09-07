@@ -121,14 +121,14 @@ partial class MoveSuperkat
             return;
         }
 
-        var updateSuperkat = new UpdateSuperkatParameters()
+        var updateSuperkat = new ReallocateSuperkatParameters()
         {
             GastgezinId = _selectedCatArea is not CatArea.HostFamily ? null : _selectedSuperkat.GastgezinId,
             CatArea = _selectedCatArea,
             CageNumber = _selectedCageNumber
         };
 
-        await _superkattenListService.UpdateSuperkatAsync(_selectedSuperkat.Id, updateSuperkat);
+        await _superkattenListService.ReallocateSuperkatAsync(_selectedSuperkat.Id, updateSuperkat);
 
         _navigation.NavigateBack();
     }

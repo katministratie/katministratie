@@ -62,11 +62,6 @@ namespace Superkatten.Katministratie.Domain.Entities
             Birthday = birthday;
         }
 
-        public void SetName(string name)
-        {
-            Name = name;
-        }
-
         public void SetBehaviour(CatBehaviour catBehaviour)
         {
             Behaviour = catBehaviour;
@@ -147,6 +142,13 @@ namespace Superkatten.Katministratie.Domain.Entities
             }
 
             CageNumber = cageNumber;
+
+            return this;
+        }
+
+        public Superkat WithName(string name)
+        {
+            Name = name;
 
             return this;
         }

@@ -130,9 +130,25 @@ namespace Superkatten.Katministratie.Application.Services
             }
 
             var updatedSuperkat = superkat
-                .WithGastgezinId(updateSuperkatParameters.GastgezinId)
-                .WithCatArea(_superkattenMapper.MapContractToDomain(updateSuperkatParameters.CatArea))
-                .WithCageNumber(updateSuperkatParameters.CageNumber);
+                .WithName(updateSuperkatParameters.Name);
+
+            await _superkattenRepository.UpdateSuperkatAsync(updatedSuperkat);
+
+            return superkat;
+        }
+
+        public async Task<Superkat> UpdateSuperkatAsync(Guid guid, ReallocateSuperkatParameters reallocateSuperkatParameters)
+        {
+            var superkat = await _superkattenRepository.GetSuperkatAsync(guid);
+            if (superkat is null)
+            {
+                throw new ServiceException($"Superkat cannot be found for id {guid}");
+            }
+
+            var updatedSuperkat = superkat
+                .WithGastgezinId(reallocateSuperkatParameters.GastgezinId)
+                .WithCatArea(_superkattenMapper.MapContractToDomain(reallocateSuperkatParameters.CatArea))
+                .WithCageNumber(reallocateSuperkatParameters.CageNumber);
 
             await _superkattenRepository.UpdateSuperkatAsync(updatedSuperkat);
 

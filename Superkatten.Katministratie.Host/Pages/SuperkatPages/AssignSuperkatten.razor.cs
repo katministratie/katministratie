@@ -60,9 +60,9 @@ public partial class AssignSuperkatten
         AvailableSuperkatten?.Remove(superkat);
         AssignedSuperkatten?.Add(superkat);
 
-        return SuperkattenService.UpdateSuperkatAsync(
+        return SuperkattenService.ReallocateSuperkatAsync(
             superkat.Id,
-            new UpdateSuperkatParameters
+            new ReallocateSuperkatParameters
             {
                 CatArea = CatArea.HostFamily,
                 CageNumber = 1,

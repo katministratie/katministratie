@@ -1,10 +1,6 @@
-﻿using Superkatten.Katministratie.Contract.Entities;
-
-namespace Superkatten.Katministratie.Contract.ApiInterface;
+﻿namespace Superkatten.Katministratie.Contract.ApiInterface;
 
 public class UpdateSuperkatParameters
 {
-    public Guid? GastgezinId { get; set; }
-    public CatArea CatArea { get; set; }
-    public int CageNumber { get; set; }
+    public string Name { get; set; } = string.Empty;
 }
