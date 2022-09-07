@@ -16,7 +16,14 @@
         </Button>
         
         <Button Clicked="@OnEditSuperkat" style="width:80px;">
-            @SuperkatView.Superkat.Name
+            @if (string.IsNullOrEmpty(SuperkatView.Superkat.Name))
+            {
+                <div style="font-size:12px;color:#333333;background:#fefede;padding-bottom:2px;border-radius:6px;">geef naam</div>
+            }
+            else
+            {
+                @SuperkatView.Superkat.Name;
+            }
         </Button>
 
         <Button>

@@ -4,7 +4,6 @@ using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Interfaces;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Superkatten.Katministratie.Host.Pages.MedicalProceduresPages;
 
@@ -28,14 +27,36 @@ partial class AddMedicalProcedure
     private static List<MedicalProcedureType> _medicalProcedures = null!;
     private static List<string> _medialProcedureNames = null!;
 
-    [MemberNotNull(nameof(_medicalProcedures), nameof(_medialProcedureNames))]
     protected override async Task OnInitializedAsync()
     {
-        _medicalProcedures = Enum.GetValues(typeof(MedicalProcedureType)).Cast<MedicalProcedureType>().ToList();
-        _medialProcedureNames = _medicalProcedures.Select(x => x.ToString()).ToList();
-        
         var superkat = await _superkattenService.GetSuperkatAsync(SuperkatId);
         _superkat = superkat ?? throw new ArgumentNullException(nameof(superkat));
+
+        await BuildMedialProcedureSelectionList();
+
+        _medialProcedureNames = _medicalProcedures
+            .Select(x => x.ToString())
+            .ToList();
+    }
+
+    private async Task BuildMedialProcedureSelectionList()
+    {
+        _medicalProcedures = Enum.GetValues(typeof(MedicalProcedureType)).Cast<MedicalProcedureType>().ToList();
+
+        if (_superkat is null)
+        {
+            return;
+        }
+
+        var allMedicalProcedures = await _medicalprocedureService.GetAllMedicalProcedures();
+        var isNeutralized = allMedicalProcedures
+            .Where(s => s.Id == _superkat.Id && s.ProcedureType == MedicalProcedureType.Neutralize)
+            .Any();
+
+        if (isNeutralized)
+        {
+            _medicalProcedures.Remove(MedicalProcedureType.Neutralize);
+        }
     }
 
     private Task OnSelectMedialProcedure(MedicalProcedureType medialProcedure)
