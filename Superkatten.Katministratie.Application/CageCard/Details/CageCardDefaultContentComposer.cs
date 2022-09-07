@@ -1,15 +1,13 @@
 ﻿using QuestPDF.Fluent;
-using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using Superkatten.Katministratie.Domain.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Superkatten.Katministratie.Application.CageCard.Details;
 
 public class CageCardDefaultContentComposer : IComponent
 {
+    private const int MAX_COLUMS = 4;
     private IReadOnlyCollection<Superkat> _superkatten { get; init; }
 
     public CageCardDefaultContentComposer(IReadOnlyCollection<Superkat> superkatten)
@@ -29,9 +27,9 @@ public class CageCardDefaultContentComposer : IComponent
 
     private void ComposeTable(IContainer container)
     {
-        var columns = _superkatten.Count < 4
+        var columns = _superkatten.Count < MAX_COLUMS
             ? _superkatten.Count
-            : _superkatten.Count % 4;
+            : MAX_COLUMS;
 
         container
             .PaddingBottom(5)

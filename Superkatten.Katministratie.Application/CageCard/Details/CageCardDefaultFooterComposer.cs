@@ -41,16 +41,18 @@ namespace Superkatten.Katministratie.Application.CageCard.Details
                 .Column(column =>
                 {
                     column.Item()
-                        .Text(string.Join("-", foods));
-                    column.Spacing(5);
-
-                    column.Item()
-                        .Text(string.Join("-", litterTypes));
+                        .Text($"Voer toegestaan: {string.Join("-", foods)}");
 
                     column.Spacing(5);
 
                     column.Item()
-                        .Text(string.Join("-", wedFoods));
+                        .Text($"Kattenbak: {string.Join("-", litterTypes)}");
+
+                    column.Spacing(5);
+
+                    column.Item()
+                        .Text($"Nat voer toegestaan: {string.Join("-", wedFoods)}");
+
                     column.Spacing(5);
 
                     column.Item()
