@@ -1,92 +1,42 @@
 ﻿@page "/register"
 
-@using System.ComponentModel.DataAnnotations
-@using Superkatten.Katministratie.Host.Helpers
-@using Superkatten.Katministratie.Host.Services
-@using Superkatten.Katministratie.Host.Services.Authentication
-@using System.Diagnostics;
+<Div Class="container">
+    <fieldset>
+        <Field>
+            <FieldLabel>Naam</FieldLabel>
+            <FieldBody>
+                <TextEdit Placeholder="Naam / Roepnaam" MaskType="MaskType.RegEx" EditMask="^[a-zA-Z ]*$" @bind-Text="_name" />
+            </FieldBody>
+        </Field>
 
-@inject IAuthenticationService AuthenticationService
-@inject NavigationManager NavigationManager
+        <Field>
+            <FieldLabel>Login naam</FieldLabel>
+            <FieldBody>
+                <TextEdit Placeholder="Gebruikersnaam" MaskType="MaskType.RegEx" EditMask="^[a-z]*$" @bind-Text="_userName" />
+            </FieldBody>
+        </Field>
 
-<div class="card">
-        <h4 class="card-header">Katministratie Login</h4>
-        <div class="card-body">
-            <EditForm Model="@model" OnValidSubmit="HandleValidSubmit">
-                <DataAnnotationsValidator />
-                <div class="form-group">
-                    <label>Username</label>
-                    <InputText @bind-Value="model.Username" class="form-control" />
-                    <ValidationMessage For="@(() => model.Username)" />
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <InputText @bind-Value="model.Password" type="password" class="form-control" />
-                    <ValidationMessage For="@(() => model.Password)" />
-                </div>
-                <div class="form-group">
-                    <label>Name</label>
-                    <InputText @bind-Value="model.Name" class="form-control" />
-                    <ValidationMessage For="@(() => model.Name)" />
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <InputText @bind-Value="model.Email"  type="email" class="form-control" />
-                    <ValidationMessage For="@(() => model.Email)" />
-                </div>
+        <Field>
+            <FieldLabel>Email</FieldLabel>
+            <FieldBody>
+                <TextEdit Placeholder="email" Role="TextRole.Email" @bind-Text="@_email" />
+            </FieldBody>
+        </Field>
 
-                <button class="btn btn-primary">
-                    Register
-                </button>
-                @if (!string.IsNullOrEmpty(error)) {
-                    <div class="alert alert-danger mt-3 mb-0">@error</div>
-                }                
-            </EditForm>
-
-            <Divider />
-            
-            <Button Size="Size.Medium" Color="Color.Primary" Clicked="@OnBackHome">Terug</Button>
-        </div>
-    </div>
-
-@code {
-    private Model model = new Model();
-    private string error = string.Empty;
-
-    private async void HandleValidSubmit()
+        <Field>
+            <FieldLabel>Wachtwoord</FieldLabel>
+            <FieldBody>
+                <TextEdit Placeholder="Wachtwoord" Role="TextRole.Password" @bind-Text="@_password" />
+            </FieldBody>
+        </Field>
+    </fieldset>
+    
+    @if (!string.IsNullOrEmpty(_error))
     {
-        try
-        {
-            await AuthenticationService.RegisterAsync(model.Username, model.Password, model.Name, model.Email);
-
-            var returnUrl = NavigationManager.QueryString("returnUrl");
-            NavigationManager.NavigateTo(returnUrl);
-        }
-        catch (Exception ex)
-        {
-            error = ex.Message;
-            StateHasChanged();
-        }
+        <div class="alert alert-danger mt-3 mb-0">@_error</div>
     }
 
-    private void OnBackHome()
-    {
-        NavigationManager.NavigateTo("/");
-    }
+    <Button Size="Size.Medium" Color="Color.Primary" Clicked="@HandleValidSubmit">Ok</Button>
+    <Button Size="Size.Medium" Color="Color.Primary" Clicked="@OnBackHome">Terug</Button>
+</Div>
 
-    private class Model
-    {
-        [Required]
-        public string Username { get; set; } = string.Empty;
-
-        [Required]
-        public string Password { get; set; } = string.Empty;
-
-        [Required]
-        public string Name { get; set; } = string.Empty;
-
-        [Required]
-        public string Email{ get; set; } = string.Empty;
-
-    }
-}
