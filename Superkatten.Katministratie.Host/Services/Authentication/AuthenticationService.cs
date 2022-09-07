@@ -54,7 +54,7 @@ namespace Superkatten.Katministratie.Host.Services.Authentication
                 Email = email,
             };
 
-            _ = await _httpService.Post<RegisterRequest>(uri, registerRequest);
+            await _httpService.Post(uri, registerRequest);
         }
     }
 }
