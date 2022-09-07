@@ -15,6 +15,58 @@
 }
 
 
+@if (_loginModel is null)
+{
+    return;
+}
+
+<Modal @ref="_authenticationDialog">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Inloggen</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+          @if (@_isLoggingIn)
+          {
+            <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
+                <SpinKit Type="SpinKitType.Chase" Size="40px" />
+            </Div>
+            <Field>
+              <TextEdit Placeholder="@_loginModel.Username" />
+            </Field>
+          }
+          else
+          {
+            <Field>
+                <FieldLabel>Gebruikersnaam</FieldLabel>
+                <TextEdit @ref="_textEditLoginName" Role="TextRole.Text"
+                          MaskType="MaskType.RegEx" 
+                            EditMask="^[a-z]*$" 
+                            @bind-Text="@_loginModel.Username" 
+                            Placeholder="Vul de gebruikersnaam in..." 
+                            KeyPress="@OnKeyPress"/>
+            </Field>
+            <Field>
+                <FieldLabel>Wachtwoord</FieldLabel>
+                <TextEdit Role="TextRole.Password" 
+                            @bind-Text="@_loginModel.Password" 
+                            Placeholder="Vul je wachtwoord in..."
+                            KeyPress="@OnKeyPress"/>
+            </Field>
+          }
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideModal">
+              Sluiten
+            </Button>
+            <Button Disabled="@_isLoggingIn" Loading="@_isLoggingIn" Color="Color.Primary" Clicked="@SaveAndHideModal">
+              Ok
+            </Button>            
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
 <Fields>
     <Field Padding="Padding.Is1">
         @if (UserLoginService?.User is not null)
@@ -59,10 +111,14 @@
 @if (!UserLoginService.IsAuthenticated)
 {
     <Container>
-        <Field Class="border p-3" Style="border-radius:20px;">
-            Je bent niet ingelogd. Bovenin kan je inloggen door op de <span class="material-icons">face</span> te klikken.
+        <Field Class="border p-3 mt-5" Style="border-radius:20px">
+            <Div Style="font-size:28px;">
+            Je bent niet ingelogd. Je kan inloggen door op de <span class="material-icons">face</span> te klikken.
+            <br />
+            <br />
             Als je nieuw bent moet je jezelf eerst aanmelden. Aanmelden doe je door op de <span class="material-icons">add_circle_outline</span> 
-            te klikken.
+            te klikken. Nadat je bent aangemeld neem contact op met de beheerder om jou toegang te geven.
+            </Div>
         </Field>
     </Container>
 
