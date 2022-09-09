@@ -11,7 +11,7 @@
     return;
 }
 
-<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnBackHome">Terug</Button>
+@*<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnBackHome">Terug</Button>*@
 
 <WaitForItComponent Visible="@_superkatten.Any()" />
 @if (_forceSelectedSuperkat)
@@ -45,6 +45,9 @@ else
 </Container>
 
 @if (IsSelectionComplete)
-{
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Verplaats</Button>
+    {<Container>
+        <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">
+            Verplaats
+        </Button>
+    </Container>
 }

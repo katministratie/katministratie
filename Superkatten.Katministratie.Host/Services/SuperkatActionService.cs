@@ -1,5 +1,8 @@
-﻿using Superkatten.Katministratie.Host.Entities;
+﻿using Superkatten.Katministratie.Contract.ApiInterface;
+using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Host.Entities;
 using Superkatten.Katministratie.Host.Services.Http;
+using System;
 
 namespace Superkatten.Katministratie.Host.Services
 {
@@ -29,6 +32,18 @@ namespace Superkatten.Katministratie.Host.Services
             //var uri = "api/SuperkatAction/CreateSuperkatCageCard";
             //await _client.PutAsJsonAsync(uri, parameters);
             throw new NotImplementedException();
+        }
+
+        public Task ReserveSuperkatten(Guid gastgezinId, IReadOnlyCollection<Superkat> reservedSuperkattenParameters)
+        {
+            var uri = $"api/Adopting";
+            var reserveParameters = new ReserveSuperkattenParameters
+            {
+                GastgezinId = gastgezinId,
+                Superkatten = reservedSuperkattenParameters
+            };
+
+            return _httpService.Put(uri, reserveParameters);
         }
     }
 }

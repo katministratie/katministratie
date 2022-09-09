@@ -1,0 +1,36 @@
+﻿@page "/SuperkatAdoption/{GastgezinId:guid}"
+
+@using Superkatten.Katministratie.Host.Components.SuperkatComponents
+
+<h1>Adoptie superkatten</h1>
+
+@if (_assignedSuperkatten is null || _selectedSuperkatten is null)
+{
+    <Div Margin="Margin.Is2">
+        <Row>
+            <Column ColumnSize="ColumnSize.Is1">
+                <SpinKit Type="SpinKitType.Chase" Size="30px" />
+            </Column>
+        </Row>
+    </Div>
+    return;
+}
+
+<TextEdit @bind-Text="@_emailAddress" />
+
+<SuperkatSelectorComponent 
+    AvailableSuperkatten="@_assignedSuperkatten"
+    SelectedSuperkatten="@_selectedSuperkatten"
+    AvailableCollectionHeader="Katten:"
+    SelectedCollectionHeader="Gereserveerd:"
+    AddSuperkat="(superkat) => { AddSuperkatToSelectionAsync(superkat); }"
+    RemoveSuperkat="(superkat) => { RemoveSuperkatFromSelection(superkat); }" />
+
+<Row>
+    <Column>
+        <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnBack">Terug</Button>
+    </Column>
+    <Column>
+        <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnSendAdoptionPapers">Reserveer</Button>
+    </Column>
+</Row>

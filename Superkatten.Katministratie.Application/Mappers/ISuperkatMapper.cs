@@ -8,7 +8,7 @@ namespace Superkatten.Katministratie.Application.Mappers
     {
         Superkat MapContractToDomain(ContractEntitiess.Superkat superkat);
 
-        ContractEntitiess.Superkat MapDomainToContract(Superkat createdSuperkat);
+        ContractEntitiess.Superkat MapDomainToContract(Superkat superkat);
 
 
         CatArea MapContractToDomain(ContractEntitiess.CatArea area);

@@ -7,7 +7,7 @@ namespace Superkatten.Katministratie.Domain.Entities
     {
         public Guid Id { get; init; }
         public int Number { get; private set; }
-        public SuperkatState State { get; init; } = SuperkatState.Monitoring;
+        public SuperkatState State { get; set; } = SuperkatState.Monitoring;
         public DateTime Birthday { get; private set; }
         public DateTime CatchDate { get; private set; } = DateTime.UtcNow;
         public Location CatchLocation { get; private set; }
@@ -149,6 +149,13 @@ namespace Superkatten.Katministratie.Domain.Entities
         public Superkat WithName(string name)
         {
             Name = name;
+
+            return this;
+        }
+
+        public Superkat WithState(SuperkatState state)
+        {
+            State = state;
 
             return this;
         }

@@ -62,6 +62,16 @@ public partial class GastgezinComponent : ComponentBase
         Navigation?.NavigateTo($"/AssignSuperkatten/{_gastgezin.Id}");
     }
 
+    private void OnStartAdoption()
+    {
+        if (_gastgezin is null)
+        {
+            return;
+        }
+
+        Navigation?.NavigateTo($"/SuperkatAdoption/{_gastgezin.Id}");
+    }
+
     private async Task OnFinishEdit()
     {
         _editMode = HostFamilyComponentEditMode.DisplayDetailsOnly;

@@ -4,6 +4,7 @@ using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Domain.Entities;
+using System.Linq;
 
 namespace Superkatten.Katministratie.SuperkatApi.Controllers
 {
@@ -47,6 +48,19 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
             var superkat = await _service.CreateSuperkatAsync(newSuperkatParameters);
 
             return Ok(_mapper.MapDomainToContract(superkat));
+        }
+
+        [HttpPut]
+        [Route("Adopting")]
+        public async Task<IActionResult> PutSuperkatten(ReserveSuperkattenParameters reserveSuperkattenParameters)
+        {
+            var superkatten = reserveSuperkattenParameters
+                .Superkatten
+                .Select(s => _mapper.MapContractToDomain(s))
+                .ToList();
+            await _service.StartSuperkattenAdoptionAsync(reserveSuperkattenParameters.GastgezinId, superkatten);
+
+            return Ok();
         }
 
         [HttpPost]
@@ -100,5 +114,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
                 return Problem(ex.Message, null, null, "Error bij ophalen data");
             }
         }
+
+
     }
 }

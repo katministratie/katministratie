@@ -1,0 +1,21 @@
+﻿@using Superkatten.Katministratie.Host.Components.Helpers
+
+<HeaderItem Titel="@AvailableCollectionHeader" />
+
+@foreach (var superkat in _availableSuperkatten)
+{
+    <Button Margin="Margin.Is1" Size="Size.Small" Color="Color.Primary" Clicked="() => { return AddSuperkatToSelectionAsync(superkat); }">
+        @superkat.UniqueNumber<br>
+        @superkat.Name
+    </Button>
+}
+
+<HeaderItem Titel="@SelectedCollectionHeader" />
+
+@foreach (var superkat in _selectedSuperkatten)
+{
+    <Button Margin="Margin.Is1" Size="Size.Small" Color="Color.Primary" Clicked="() => { return RemoveSuperkatFromSelectionAsync(superkat); }">
+        @superkat.UniqueNumber<br>
+        <Div Style="font-size:10px">@superkat.Name</Div>
+    </Button>
+}

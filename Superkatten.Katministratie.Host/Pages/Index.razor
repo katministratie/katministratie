@@ -1,8 +1,12 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Authorization
 @using Superkatten.Katministratie.Host.Components.Helpers
 @using System.Collections
 
+@attribute [Authorize(Roles = "Administrator")] 
+
 <PageTitle>Superkatten</PageTitle>
+
 
 @if (AuthenticationService is null 
     || Navigation is null 
@@ -11,12 +15,6 @@
     || _loginModel is null)
 {
   <Field>Initializing...</Field>
-    return;
-}
-
-
-@if (_loginModel is null)
-{
     return;
 }
 
@@ -85,7 +83,6 @@
             @if (UserLoginService.IsAuthenticated)
             {   
               <Tooltip Text="Logout">
-
                   <span class="material-icons">logout</span>
               </Tooltip>
             }
