@@ -13,9 +13,9 @@ public class ReportingService : IReportingService
         _httpService = httpService;
     }
 
-    public async Task EmailInventoryDetailsReportAsync(RequestCatchLocationEmailParameters requestPeriod)
+    public async Task EmailInventoryDetailsReportAsync(RequestCatchOriginEmailParameters requestPeriod)
     {
-        var uri = "api/Reporting/reports/catchlocation";
+        var uri = "api/Reporting/reports/catchOrigin";
         await _httpService.Put(uri, requestPeriod);
     }
 

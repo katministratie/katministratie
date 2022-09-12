@@ -32,7 +32,7 @@ public partial class ReportsPage
             //           await _notification.Show();
         }
 
-        var requestParameters = new RequestCatchLocationEmailParameters
+        var requestParameters = new RequestCatchOriginEmailParameters
         {
             Email = email ?? string.Empty,
             From = DateTime.UtcNow.AddMonths(-3),
@@ -51,7 +51,6 @@ public partial class ReportsPage
 
     private async Task OnNotNeutralizedAdopteesReport()
     {
-
         var email = LoginService.User?.Email ?? string.Empty;
 
         await ReportingService.EmailNotNeutralizedAdopteesReportAsync(email);
