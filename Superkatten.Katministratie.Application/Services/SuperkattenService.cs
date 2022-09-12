@@ -57,7 +57,7 @@ namespace Superkatten.Katministratie.Application.Services
                 catchOrigin
             );
             
-            UpdateSuperkatDetails(superkat, createSuperkatParameters);
+            superkat = UpdateSuperkatDetails(superkat, createSuperkatParameters);
 
             await _superkattenRepository.CreateSuperkatAsync(superkat);
 
@@ -74,7 +74,7 @@ namespace Superkatten.Katministratie.Application.Services
             return superkat;
         }
 
-        private void UpdateSuperkatDetails(Superkat superkat, CreateSuperkatParameters createSuperkatParameters)
+        private Superkat UpdateSuperkatDetails(Superkat superkat, CreateSuperkatParameters createSuperkatParameters)
         {
             var catchDate = createSuperkatParameters.CatchDate;
             var estimatedBirthday = catchDate.AddDays(-DAY_IN_ONE_WEEK * createSuperkatParameters.EstimatedWeeksOld);
@@ -83,13 +83,17 @@ namespace Superkatten.Katministratie.Application.Services
             superkat.SetRetour(createSuperkatParameters.Retour);
             superkat.SetAgeCategory(_superkattenMapper.MapContractToDomain(createSuperkatParameters.AgeCategory));
             superkat.SetBehaviour(_superkattenMapper.MapContractToDomain(createSuperkatParameters.Behaviour));
-            superkat.SetArea(_superkattenMapper.MapContractToDomain(createSuperkatParameters.CatArea));
             superkat.SetGender(_superkattenMapper.MapContractToDomain(createSuperkatParameters.Gender));
             superkat.SetBirthday(estimatedBirthday);
             superkat.SetLitterType(_superkattenMapper.MapContractToDomain(createSuperkatParameters.LitterType));
             superkat.SetWetFoodAllowed(createSuperkatParameters.WetFoodAllowed);
             superkat.SetFoodType(_superkattenMapper.MapContractToDomain(createSuperkatParameters.FoodType));
             superkat.SetColor(createSuperkatParameters.CatColor);
+
+
+            return superkat
+                .WithCageNumber(createSuperkatParameters.CageNumber)
+                .WithCatArea(_superkattenMapper.MapContractToDomain(createSuperkatParameters.CatArea));
         }
 
         public async Task DeleteSuperkatAsync(Guid guid)
@@ -126,7 +130,25 @@ namespace Superkatten.Katministratie.Application.Services
             }
 
             var updatedSuperkat = superkat
-                .WithGastgezinId(updateSuperkatParameters.GastgezinId);
+                .WithName(updateSuperkatParameters.Name);
+
+            await _superkattenRepository.UpdateSuperkatAsync(updatedSuperkat);
+
+            return superkat;
+        }
+
+        public async Task<Superkat> UpdateSuperkatAsync(Guid guid, ReallocateSuperkatParameters reallocateSuperkatParameters)
+        {
+            var superkat = await _superkattenRepository.GetSuperkatAsync(guid);
+            if (superkat is null)
+            {
+                throw new ServiceException($"Superkat cannot be found for id {guid}");
+            }
+
+            var updatedSuperkat = superkat
+                .WithGastgezinId(reallocateSuperkatParameters.GastgezinId)
+                .WithCatArea(_superkattenMapper.MapContractToDomain(reallocateSuperkatParameters.CatArea))
+                .WithCageNumber(reallocateSuperkatParameters.CageNumber);
 
             await _superkattenRepository.UpdateSuperkatAsync(updatedSuperkat);
 

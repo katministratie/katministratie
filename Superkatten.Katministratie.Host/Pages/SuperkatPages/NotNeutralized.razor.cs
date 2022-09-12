@@ -13,7 +13,6 @@ public partial class NotNeutralized
 
     [Inject] private ISuperkattenListService _superkattenListService { get; set; } = null!;
 
-
     private List<Superkat> Superkatten { get; set; } = new();
     private static List<string> _neutralizeFilterOptionNames = null!;
 

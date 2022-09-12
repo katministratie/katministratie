@@ -1,4 +1,5 @@
 ﻿using Superkatten.Katministratie.Contract.ApiInterface;
+using Superkatten.Katministratie.Contract.ApiInterface.Reporting;
 using Superkatten.Katministratie.Contract.Entities;
 
 namespace Superkatten.Katministratie.Host.Services
@@ -10,6 +11,7 @@ namespace Superkatten.Katministratie.Host.Services
         Task<List<Superkat>> GetAllNotNeutralizedSuperkattenAsync();
         Task<Superkat> GetSuperkatAsync(Guid id);
         Task<Superkat?> CreateSuperkatAsync(CreateSuperkatParameters newSuperkat);
+        Task ReallocateSuperkatAsync(Guid id, ReallocateSuperkatParameters updateSuperkat);
         Task UpdateSuperkatAsync(Guid id, UpdateSuperkatParameters updateSuperkat);
         Task DeleteSuperkatAsync(Guid id);
         Task<Superkat?> UpdateSuperkatPhoto(Guid id, UpdateSuperkatPhotoParameters updateSuperkatPhotoParameters);

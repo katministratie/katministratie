@@ -21,18 +21,17 @@ public partial class OverviewMedicalProcedures
         var medicalProcedures = await _medicalProcedureService.GetAllMedicalProcedures();
 
         medicalProcedures = medicalProcedures
-            .OrderByDescending(o => o.SuperkatNumber)
-            .ThenByDescending(o => o.Timestamp)
+            .OrderByDescending(o => o.Timestamp)
             .ToList();
 
         foreach (var medicalProcedure in medicalProcedures)
         {
             var key = MedicalProcedureInformationDictionary.TryAdd(
-                medicalProcedure.SuperkatNumber ?? "unkown", 
+                medicalProcedure.UniqueNumber ?? "unkown", 
                 new List<MedicalProcedureInformation>()
             );
 
-            MedicalProcedureInformationDictionary[medicalProcedure.SuperkatNumber ?? "unkown"].Add(medicalProcedure);
+            MedicalProcedureInformationDictionary[medicalProcedure.UniqueNumber ?? "unkown"].Add(medicalProcedure);
         }
     }
 

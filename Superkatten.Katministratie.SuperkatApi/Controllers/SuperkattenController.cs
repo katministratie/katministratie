@@ -50,6 +50,16 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpPost]
+        [Route("Reallocate")]
+        public async Task<IActionResult> PostSuperkat(Guid id, [FromBody] ReallocateSuperkatParameters reallocateSuperkatParameters)
+        {
+            var superkat = await _service.UpdateSuperkatAsync(id, reallocateSuperkatParameters);
+
+            return Ok(_mapper.MapDomainToContract(superkat));
+        }
+
+        [HttpPost]
+        [Route("Update")]
         public async Task<IActionResult> PostSuperkat(Guid id, [FromBody] UpdateSuperkatParameters updateSuperkatParameters)
         {
             var superkat = await _service.UpdateSuperkatAsync(id, updateSuperkatParameters);

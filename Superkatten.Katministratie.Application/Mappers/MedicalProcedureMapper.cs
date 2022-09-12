@@ -8,11 +8,12 @@ namespace Superkatten.Katministratie.Application.Mappers;
 
 public class MedicalProcedureMapper : IMedicalProcedureMapper
 {
-    public MedicalProcedureInformation MapToContract(string superkatNumber, MedicalProcedure medicalProcedure)
+    public MedicalProcedureInformation MapToContract(Superkat superkat, MedicalProcedure medicalProcedure)
     {
         return new MedicalProcedureInformation
         {
-            SuperkatNumber = superkatNumber,
+            Id = superkat.Id,
+            UniqueNumber = superkat.UniqueNumber,
             ProcedureType = MapMedicalProcedureTypeToContract(medicalProcedure.ProcedureType),
             Remark = medicalProcedure.Remark,
             Timestamp = medicalProcedure.Timestamp

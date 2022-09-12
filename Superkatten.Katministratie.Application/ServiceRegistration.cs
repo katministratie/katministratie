@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Superkatten.Katministratie.Application.Authenticate;
 using Superkatten.Katministratie.Application.Authorization;
 using Superkatten.Katministratie.Application.CageCard;
+using Superkatten.Katministratie.Application.Helpers;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
 using Superkatten.Katministratie.Application.Reporting;
@@ -31,7 +32,9 @@ namespace Superkatten.Katministratie.Application
             services.AddTransient<ICatchOriginMapper, CatchOriginMapper>();
             services.AddTransient<ICageCardComposerFactory, CageCardComposerFactory>();
             services.AddTransient<ISettingsService, SettingsService>();
-            
+            services.AddTransient<IEmailSettings, EmailSettings>();
+            services.AddTransient<IClientSecrets, ClientSecrets>();
+
             services.AddScoped<IJwtUtils, JwtUtils>();
             services.AddScoped<IUserService, UserService>();
 

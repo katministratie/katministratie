@@ -9,21 +9,37 @@
     return;
 }
 
-<Row Style="color:#222222" Class="px-2">
-    <Column Padding="Padding.Is0" Class="col-2">
-        @SuperkatView.Superkat.UniqueNumber
-    </Column>
-    <Column Padding="Padding.Is0" Class="col-2">
-        <BehaviourComponent Behaviour="@SuperkatView.Superkat.Behaviour" />
-    </Column>
-    <Column Padding="Padding.Is0" Class="col-2">
-        <SuperkatGenderComponent GenderIcon="@SuperkatView.GenderIcon" />
-    </Column>
-    <Column Padding="Padding.Is0" Class="col-2">
-        @SuperkatView.CatLocationAsString
-    </Column>
-    <Column Padding="Padding.Is0" Class="col-3">
-        <SuperkatActions SuperkatView="@SuperkatView" OnActionExecuted="@ReloadSuperkatData" />
-    </Column>
-</Row>
+<div>
+    <div class="row m-1 mb-2 border" style="border-radius:10px;">
+        <Button>
+            @SuperkatView.Superkat.UniqueNumber
+        </Button>
+        
+        <Button Clicked="@OnEditSuperkat" style="width:80px;">
+            @if (string.IsNullOrEmpty(SuperkatView.Superkat.Name))
+            {
+                <div style="font-size:12px;color:#333333;background:#fefede;padding-bottom:2px;border-radius:6px;">geef naam</div>
+            }
+            else
+            {
+                @SuperkatView.Superkat.Name;
+            }
+        </Button>
 
+        <Button>
+            <BehaviourComponent Behaviour="@SuperkatView.Superkat.Behaviour" />
+        </Button>
+        
+        <Button>
+            <SuperkatGenderComponent GenderIcon="@SuperkatView.GenderIcon" />
+        </Button>
+
+        <Button Class="m-1 rounded-pill" style="width:70px;background:#eeeeee;">
+            @SuperkatView.CatLocationAsString
+        </Button>
+
+        <Button>
+            <SuperkatActions SuperkatView="@SuperkatView" OnActionExecuted="@ReloadSuperkatDataAsync" />
+        </Button>
+    </div>
+</div>

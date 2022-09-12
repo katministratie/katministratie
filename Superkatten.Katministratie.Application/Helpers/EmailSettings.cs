@@ -1,16 +1,23 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 
 namespace Superkatten.Katministratie.Application.Helpers;
 
-public static class EmailSettings
+public class EmailSettings : IEmailSettings
 {
-    private const string ENVIRONMENT_VAR_SMTP_HOST_ADDRESS = "APPSETTING_SmtpAddress";
-    private const string ENVIRONMENT_VAR_SMTP_PORT_NUMBER = "APPSETTING_SmtpPortNumber";
-    private const string DEFAULT_SMTP_PORT_NUMBER = "0";
+    // See: https://docs.microsoft.com/en-us/azure/app-service/reference-app-settings?tabs=kudu%2Cdotnet
 
-    public static string SmtpHost { get; }
-        = Environment.GetEnvironmentVariable(ENVIRONMENT_VAR_SMTP_HOST_ADDRESS) ?? string.Empty;
+    public static string ENVIRONMENT_VAR_SMTP_HOST_ADDRESS = "APPSETTING_SmtpAddress";
+    public static string ENVIRONMENT_VAR_SMTP_PORT_NUMBER = "APPSETTING_SmtpPortNumber";
 
-    public static int SmtpPortNumber { get; }
-        = int.Parse(Environment.GetEnvironmentVariable(ENVIRONMENT_VAR_SMTP_PORT_NUMBER) ?? DEFAULT_SMTP_PORT_NUMBER);
-};
+    private readonly IConfiguration _configuration;
+
+    public EmailSettings(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
+
+    public string SmtpHost => _configuration.GetValue<string>(ENVIRONMENT_VAR_SMTP_HOST_ADDRESS) ?? string.Empty;
+
+    public int SmtpPortNumber => _configuration.GetValue<int>(ENVIRONMENT_VAR_SMTP_PORT_NUMBER);
+}

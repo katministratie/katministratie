@@ -1,5 +1,6 @@
 ﻿using MailKit.Net.Smtp;
 using MailKit.Security;
+using Microsoft.Extensions.Configuration;
 using MimeKit;
 using Superkatten.Katministratie.Application.Helpers;
 using System;
@@ -15,6 +16,18 @@ public class MailService : IMailService
     private const string CAGEFORM_FILENAME = "kooikaart.pdf";
     private const string SENDER_NAME = "Katministrator";
     private const string SENDER_EMAIL_ADDRESS = "katministratie@superkatten.nl";
+
+    private readonly IEmailSettings _emailSettings;
+    private readonly IClientSecrets _clientSecretSettings;
+
+    public MailService(
+        IEmailSettings emailSettings,
+        IClientSecrets clientSecretSettings
+    )
+    {
+        _emailSettings = emailSettings;
+        _clientSecretSettings = clientSecretSettings;
+    }
 
     public async Task MailToAsync(string email, string subject, string bodyText, byte[] documentData)
     {
@@ -48,12 +61,12 @@ public class MailService : IMailService
 
         using var client = new SmtpClient();
         client.Connect(
-            EmailSettings.SmtpHost,
-            EmailSettings.SmtpPortNumber,
+            _emailSettings.SmtpHost,
+            _emailSettings.SmtpPortNumber,
             SecureSocketOptions.Auto);
         client.Authenticate(
-            ClientSecrets.GmailClientId,
-            ClientSecrets.GmailClientSecret);
+            _clientSecretSettings.GmailClientId,
+            _clientSecretSettings.GmailClientSecret);
 
         var result = await client.SendAsync(message);
 
