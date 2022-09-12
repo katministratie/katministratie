@@ -51,7 +51,6 @@ public partial class ReportsPage
 
     private async Task OnNotNeutralizedAdopteesReport()
     {
-
         var email = LoginService.User?.Email ?? string.Empty;
 
         await ReportingService.EmailNotNeutralizedAdopteesReportAsync(email);
