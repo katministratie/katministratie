@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using Superkatten.Katministratie.Host.Components.Helpers
+@using System.Collections
 
 <PageTitle>Superkatten</PageTitle>
 
@@ -13,93 +14,6 @@
     return;
 }
 
-
-<Fields>
-    <Field Padding="Padding.Is1">
-        @if (UserLoginService?.User is not null)
-        {
-          <Span>
-            <span class="material-icons">face</span>
-              <span>
-                    @UserLoginService?.User.Name
-              </span>
-          </Span>
-        }
-        else
-        {
-          <Field>niet ingelogged</Field>
-        }
-    </Field>
-
-    <Field TextAlignment="TextAlignment.End">
-        <Button Clicked="@OnLoginLogout">
-            @if (UserLoginService.IsAuthenticated)
-            {   
-              <Tooltip Text="Logout">
-
-                  <span class="material-icons">logout</span>
-              </Tooltip>
-            }
-            else
-            {
-                <Tooltip Text="Login">
-                    <span class="material-icons">face</span>
-                </Tooltip>
-            }
-        </Button>
-   
-        <Button Clicked="@OnRegister">
-            <Tooltip Text="Register">
-                <span class="material-icons">
-                    add_circle_outline
-                </span>
-            </Tooltip>
-        </Button>
-    </Field>
-</Fields>
-
-@if (!UserLoginService.IsAuthenticated)
-{
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnRegister">Register</Button>
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnLogin">Login</Button>
-}
-else
-{
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnLogout">Logout</Button>
-
-    <Divider />
-    
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateSuperkatPhoto">Maak foto</Button>
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateSuperkat">Nieuwe kat</Button>
-    
-    <Divider />
-
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowSuperkatStatus">Bekijk superkat status</Button>
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowOverviewSuperkatten">Alle katten</Button>
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowNotNeutralized">Niet geneutraliseerde katten</Button>
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowOverviewGastgezinnen">Gastgezinnen</Button>
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowMedicalProcedures">Medische handelingen</Button>
-
-    <Divider /> 
-    
-    <HeaderItem Titel="Rapporten"/>
-
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnEmailCageCard">
-        Email mij een kooikaart
-    </Button>
-
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateWakkerDierInventoryReport">
-        Email wakker dier inventarisatie data
-    </Button>
-
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnNotNeutralizedInRefugeReport">
-        Email niet geneutraliseerde katten in opvang
-    </Button>
-
-    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnNotNeutralizedAdopteesReport">
-        Email niet geneutraliseerde geplaatste katten
-    </Button>
-}
 
 @if (_loginModel is null)
 {
@@ -152,3 +66,143 @@ else
         </ModalFooter>
     </ModalContent>
 </Modal>
+
+<Fields>
+    <Field Padding="Padding.Is1">
+        @if (UserLoginService?.User is not null)
+        {
+          <Span>
+            <span class="material-icons">face</span>
+              <span>
+                    @UserLoginService?.User.Name
+              </span>
+          </Span>
+        }
+    </Field>
+
+    <Field TextAlignment="TextAlignment.End">
+        <Button Clicked="@OnLoginLogout">
+            @if (UserLoginService.IsAuthenticated)
+            {   
+              <Tooltip Text="Logout">
+
+                  <span class="material-icons">logout</span>
+              </Tooltip>
+            }
+            else
+            {
+                <Tooltip Text="Login">
+                    <span class="material-icons">face</span>
+                </Tooltip>
+            }
+        </Button>
+   
+        <Button Clicked="@OnRegister">
+            <Tooltip Text="Register">
+                <span class="material-icons">
+                    add_circle_outline
+                </span>
+            </Tooltip>
+        </Button>
+    </Field>
+</Fields>
+
+
+@if (!UserLoginService.IsAuthenticated)
+{
+    <Container>
+        <Field Class="border p-3 mt-5" Style="border-radius:20px">
+            <Div Style="font-size:24px;">
+            Je bent niet ingelogd. Je kan inloggen door op de <span class="material-icons">face</span> te klikken.
+            <br />
+            <br />
+            Als je nieuw bent moet je jezelf eerst aanmelden. Aanmelden doe je door op de <span class="material-icons">add_circle_outline</span> 
+            te klikken. Nadat je bent aangemeld neem contact op met de beheerder om jou toegang te geven.
+            </Div>
+        </Field>
+    </Container>
+
+    return;
+}
+
+<Divider />
+
+<Container>
+        
+    <HeaderItem Titel="Katten beheer"/>
+
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateSuperkatPhoto">
+        <div class="row justify-content-md-center">
+            <div class="col-4 text-right"><span class="material-icons">photo_camera</span></div>
+            <div class="col-5 text-left">Maak foto</div>
+        </div>
+    </Button>
+
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnMoveSuperkat">
+        <div class="row justify-content-md-center">
+            <div class="col-4 text-right"><span class="material-icons">exit_to_app</span></div>
+            <div class="col-5 text-left">Verplaats kat</div>
+        </div>
+    </Button>
+
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCreateSuperkat">
+        <div class="row justify-content-md-center">
+            <div class="col-4 text-right"><span class="material-icons">add</span></div>
+            <div class="col-5 text-left">Nieuwe kat</div>
+        </div>
+    </Button>
+    
+    <HeaderItem Titel="Algemeen"/>
+
+    <Divider />
+
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowSuperkatStatus">
+        <div class="row justify-content-md-center">
+            <div class="col-4 text-right"><span class="material-icons">swipe_up_alt</span></div>
+            <div class="col-5 text-left">Superkat status</div>
+        </div>
+    </Button>
+
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowOverviewSuperkatten">
+        <div class="row justify-content-md-center">
+            <div class="col-4 text-right"><span class="material-icons">pets</span></div>
+            <div class="col-5 text-left">Superkatten</div>
+        </div>
+    </Button>
+
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowNotNeutralized">
+        <div class="row justify-content-md-center">
+            <div class="col-4 text-right"><span class="material-icons">content_cut</span></div>
+            <div class="col-5 text-left">Neutralisatie</div>
+        </div>
+    </Button>
+
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowMedicalProcedures">
+        <div class="row justify-content-md-center">
+            <div class="col-4 text-right"><span class="material-icons">vaccines</span></div>
+            <div class="col-5 text-left">Medische handelingen</div>
+        </div>
+    </Button>
+    
+    <Divider />
+
+    <HeaderItem Titel="Gastgezin" />
+
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowOverviewGastgezinnen">
+        <div class="row justify-content-md-center">
+            <div class="col-4 text-right"><span class="material-icons">family_restroom</span></div>
+            <div class="col-5 text-left">Gastgezinnen</div>
+        </div>
+    </Button>
+
+    <Divider />
+
+    <HeaderItem Titel="Rapportage"/>
+
+    <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowReportingPage">
+        <div class="row justify-content-md-center">
+            <div class="col-4 text-right"><span class="material-icons">text_snippet</span></div>
+            <div class="col-5 text-left">Rapportage</div>
+        </div>
+    </Button>
+</Container>

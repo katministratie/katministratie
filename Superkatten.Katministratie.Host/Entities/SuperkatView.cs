@@ -27,9 +27,9 @@ namespace Superkatten.Katministratie.Host.Entities
             {
                 CatArea.Quarantine => $"Q-{Superkat.CageNumber}",
                 CatArea.Infirmary => $"ZB-{Superkat.CageNumber}",
-                CatArea.SmallEnclosure => $"{Superkat.CageNumber}",
-                CatArea.BigEnclosure => $"{Superkat.CageNumber}",
-                CatArea.Room2 => $"{Superkat.CageNumber}",
+                CatArea.SmallEnclosure => $"S-{Superkat.CageNumber}",
+                CatArea.BigEnclosure => $"B-{Superkat.CageNumber}",
+                CatArea.Room2 => $"R-{Superkat.CageNumber}",
                 CatArea.HostFamily => "GG",
                 _ => $"??-{Superkat.CageNumber}"
             };

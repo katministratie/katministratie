@@ -32,9 +32,9 @@ public class CageCardDocument : IDocument
         {
             page.Margin(50);
 
-            page.Header().Background(Colors.Grey.Lighten5).Element(headerComponent.Compose);
+            page.Header().Background(Colors.White).Element(headerComponent.Compose);
             page.Content().Background(Colors.White).Element(contentComponent.Compose);
-            page.Footer().Background(Colors.Grey.Lighten5).Element(footerComponent.Compose);
+            page.Footer().Background(Colors.White).Element(footerComponent.Compose);
         });
     }
 }

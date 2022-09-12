@@ -27,6 +27,7 @@ builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
 
 var urlApi = Environment.GetEnvironmentVariable("UriSuperkattenApi");
 urlApi ??= "https://superkattenapi-dev.azurewebsites.net/";
+//urlApi ??= "https://localhost:7171/";
 
 builder.Services.AddTransient(s =>
 {

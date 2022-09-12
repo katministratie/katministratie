@@ -62,6 +62,10 @@ public partial class Index
     {
         Navigation.NavigateTo("CreateSuperkatPhoto");
     }
+    private void OnMoveSuperkat()
+    {
+        Navigation.NavigateTo("MoveSuperkat");
+    }
 
     private void OnCreateSuperkat()
     {
@@ -91,6 +95,10 @@ public partial class Index
     private void OnShowSuperkatStatus()
     {
         Navigation.NavigateTo("SuperkatStatus");
+    }
+    private void OnShowReportingPage()
+    {
+        Navigation.NavigateTo("ReportsPage");
     }
 
     private Task HideModal()

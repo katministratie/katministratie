@@ -23,10 +23,10 @@ public class MedicalProcedureService : IMedicalProcedureService
     {
         var uri = "api/MedicalProcedure";
 
-        var medicalProcedures = await _httpService.Get<List<MedicalProcedureInformation>>(uri);
+            var allMedicalProcedures = await _httpService.Get<List<MedicalProcedureInformation>>(uri);
 
-        return medicalProcedures is null
+        return allMedicalProcedures is null
             ? new List<MedicalProcedureInformation>()
-            : medicalProcedures;
+            : allMedicalProcedures;
     }
 }

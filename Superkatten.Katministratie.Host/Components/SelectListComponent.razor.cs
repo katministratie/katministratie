@@ -34,12 +34,9 @@ public partial class SelectListComponent<TItem>
                 return;
             }
 
-            _items = (List<TItem>)value;
-            if (!ItemNames.Any())
-            {
-                ItemNames = _items.Select(x => x?.ToString() ?? string.Empty).ToList();
-            }
+            _items = value.ToList();
 
+            SetDefaultItemNames();
             UpdateItems();
         }
     }
@@ -58,8 +55,6 @@ public partial class SelectListComponent<TItem>
             return;
         }
 
-        UpdateItems();
-
         var selectedValueIndex = InitialSelectedItem is null
             ? 0
             : GetInitialIndex(InitialSelectedItem);
@@ -67,7 +62,15 @@ public partial class SelectListComponent<TItem>
         await OnSelectedValueChanged(selectedValueIndex);
     }
 
-    public void UpdateItems()
+    private void SetDefaultItemNames()
+    {
+        if (!ItemNames.Any() || ItemNames.Count != Items.Count)
+        {
+            ItemNames = _items.Select(x => x?.ToString() ?? string.Empty).ToList();
+        }
+    }
+
+    private void UpdateItems()
     { 
         _selectionItemData = _items
             .Select((itemObject, index) =>

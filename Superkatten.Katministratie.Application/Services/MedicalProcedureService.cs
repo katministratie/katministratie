@@ -57,12 +57,10 @@ public class MedicalProcedureService : IMedicalProcedureService
                 throw new ServiceException($"Superkat with Id '{medicalProcedure.SuperkatId}' cannot be found");
             }
 
-            var superkatDisplayableNumber = superkat.CatchDate.Year.ToString() + "-" + superkat.Number.ToString("000");
-
-            var medicalProcedureInformation = _medialProcedureMapper.MapToContract(superkatDisplayableNumber, medicalProcedure);
+            var medicalProcedureInformation = _medialProcedureMapper.MapToContract(superkat, medicalProcedure);
             result.Add(medicalProcedureInformation);
         }
 
-        return result.OrderBy(o=>o.SuperkatNumber).ToList();
+        return result.OrderBy(o=>o.UniqueNumber).ToList();
     }
 }
