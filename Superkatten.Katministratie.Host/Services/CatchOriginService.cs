@@ -6,7 +6,6 @@ namespace Superkatten.Katministratie.Host.Services;
 
 public class CatchOriginService : ICatchOriginService
 {
-
     private readonly IHttpService _httpService;
 
     public CatchOriginService(IHttpService httpService)
