@@ -1,6 +1,6 @@
 ﻿namespace Superkatten.Katministratie.Host.Entities;
 
-public enum NeutralizedLocationView
+public enum IsNeutralizedAtLocationView
 {
     All,
     Refuge,

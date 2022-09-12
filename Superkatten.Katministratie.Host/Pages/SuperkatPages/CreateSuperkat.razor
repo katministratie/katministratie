@@ -23,14 +23,14 @@
 
 <HeaderItem Titel="Vang informatie"></HeaderItem>
 <Field>
-    <FieldLabel>Locatie</FieldLabel>
-    <Autocomplete TItem="Location"
+    <FieldLabel>Vanglokatie</FieldLabel>
+    <Autocomplete TItem="CatchOrigin"
               TValue="Guid"
-              Data="@CatchLocations"
+              Data="@CatchOrigins"
               TextField="@(( item ) => item.Name)"
               ValueField="@(( item ) => item.Id)"
-              @bind-SelectedValue="@_catchLocationNameId"
-              @bind-SelectedText="@CatchLocationName"
+              @bind-SelectedValue="@_catchOriginNameId"
+              @bind-SelectedText="@CatchOriginName"
               Placeholder="Search..."
               Filter="AutocompleteFilter.Contains"
               FreeTyping
@@ -39,12 +39,38 @@
     </Autocomplete>
 </Field>
 
+<Row>
+    <Column ColumnSize="ColumnSize.Is8">
+        <SelectListComponent DefaultText="Ruimte"
+                             InitialSelectedItem="_selections.CatArea"
+                             TItem="CatArea"
+                             Items="@_catAreaTypes"
+                             ItemNames="@_catAreaTypeNames"
+                             OnSelectionChanged="@OnSelectCatArea" />
+    </Column>
+    <Column ColumnSize="ColumnSize.Is4">
+        @if (_cageNumbers.Count > 1)
+        {
+            <SelectListComponent DefaultText="Hok"
+                             TItem="int"
+                             Items="@_cageNumbers"
+                             ItemNames="@_cageNumberNames"
+                             OnSelectionChanged="@_selections.Store" />
+        }
+        else
+        {
+            <HeaderItem Titel="Hok"></HeaderItem>
+            <Field>Geen hokken</Field>
+        }
+    </Column>
+</Row>
+
 <Field>
-  <SelectListComponent DefaultText="Locatie type"
-    InitialSelectedItem="@_selections.LocationType"
-    TItem="LocationType" 
-    Items="@_catchLocationTypes" 
-    ItemNames="@_catchLocationTypeNames"
+  <SelectListComponent DefaultText="Vanglocatie type"
+    InitialSelectedItem="@_selections.catchOriginType"
+    TItem="CatchOriginType" 
+    Items="@_catchOriginTypes" 
+    ItemNames="@_catchOriginTypeNames"
     OnSelectionChanged="@_selections.Store"/>
 </Field>
 <Field>
@@ -112,32 +138,6 @@
         </Autocomplete>
     </Field>
 </Field>
-
-<Row>
-    <Column ColumnSize="ColumnSize.Is8">
-      <SelectListComponent DefaultText="Ruimte"
-        InitialSelectedItem="_selections.CatArea"
-        TItem="CatArea" 
-        Items="@_catAreaTypes" 
-        ItemNames="@_catAreaTypeNames"
-        OnSelectionChanged="@OnSelectCatArea"/>
-    </Column>
-    <Column ColumnSize="ColumnSize.Is4">
-@if (_cageNumbers.Count > 1)
-{
-        <SelectListComponent DefaultText="Hok"
-          TItem="int" 
-          Items="@_cageNumbers" 
-          ItemNames="@_cageNumberNames"
-          OnSelectionChanged="@_selections.Store"/>
-}
-else
-{
-      <HeaderItem Titel="Hok"></HeaderItem>
-      <Field>Geen hokken</Field>
-}
-    </Column>
-</Row>
 
 <SelectListComponent DefaultText="Geslacht"
     InitialSelectedItem="_selections.Gender"

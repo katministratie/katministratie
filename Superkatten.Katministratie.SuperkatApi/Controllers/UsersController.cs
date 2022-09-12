@@ -24,6 +24,7 @@ public class UsersController : ControllerBase
     public IActionResult Authenticate(AuthenticateRequest model)
     {
         Console.WriteLine($"Authenticate {model.Username}");
+        
         var response = _userService.Authenticate(model);
 
         return Ok(response);

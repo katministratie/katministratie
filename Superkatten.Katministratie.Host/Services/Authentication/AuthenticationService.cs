@@ -29,11 +29,10 @@ namespace Superkatten.Katministratie.Host.Services.Authentication
                 Password = password
             };
 
-            var result = await _httpService.Post<AuthenticateResponse>(uri, authenticateRequest);
-
-            return result is null
-                ? null
-                : new User 
+            try
+            {
+                var result = await _httpService.Post<AuthenticateResponse>(uri, authenticateRequest);
+                return new User
                 {
                     Name = result?.Name ?? string.Empty,
                     Email = result?.Email ?? string.Empty,
@@ -41,6 +40,11 @@ namespace Superkatten.Katministratie.Host.Services.Authentication
                     Token = result?.Token ?? string.Empty,
                     Id = result?.Id ?? -1
                 };
+            }
+            catch 
+            {
+                return null;
+            }
         }
 
         public async Task RegisterAsync(string username, string password, string name, string email)

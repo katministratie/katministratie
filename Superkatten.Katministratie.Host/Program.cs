@@ -21,7 +21,7 @@ builder.Services.AddTransient<ISuperkatActionService, SuperkatActionService>();
 builder.Services.AddTransient<IGastgezinService, GastgezinService>();
 builder.Services.AddTransient<IMedicalProcedureService, MedicalProcedureService>();
 builder.Services.AddTransient<IReportingService, ReportingService>();
-builder.Services.AddTransient<ILocationService, LocationService>();
+builder.Services.AddTransient<ICatchOriginService, CatchOriginService>();
 builder.Services.AddTransient<ISettingsService, SettingsService>();
 builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
 

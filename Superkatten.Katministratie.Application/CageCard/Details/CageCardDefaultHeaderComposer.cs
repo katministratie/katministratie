@@ -40,21 +40,21 @@ public class CageCardDefaultHeaderComposer : IComponent
                     .FontSize(20);
 
                 row.RelativeItem()
-                    .Text(GetCatchLocation(_superkatten))
+                    .Text(GetCatchOrigin(_superkatten))
                     .Style(titleStyle)
                     .FontSize(20);
             });
     }
 
-    private static string GetCatchLocation(IReadOnlyCollection<Superkat> superkatten)
+    private static string GetCatchOrigin(IReadOnlyCollection<Superkat> superkatten)
     {
-        var firstCatchLocation = superkatten
+        var firstCatchOrigin = superkatten
             .OrderBy(s => s.CatchDate)
             .ToList()
-            .Select(s => s.CatchLocation)
+            .Select(s => s.CatchOrigin)
             .FirstOrDefault();
 
-        return firstCatchLocation?.Name ?? string.Empty;
+        return firstCatchOrigin?.Name ?? string.Empty;
     }
 
     private static string GetFirstCatchDate(IReadOnlyCollection<Superkat> superkatten)

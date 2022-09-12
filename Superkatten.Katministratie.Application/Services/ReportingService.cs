@@ -39,7 +39,7 @@ public class ReportingService : IReportingService
         _superkatMapper = superkatMapper;
     }
 
-    public async Task EmailCatchLocationReport(string email, DateTime from, DateTime to)
+    public async Task EmailCatchOriginReport(string email, DateTime from, DateTime to)
     {
         if (EmailValidator.IsValidEmail(email))
         {

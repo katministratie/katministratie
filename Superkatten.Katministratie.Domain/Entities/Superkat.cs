@@ -10,7 +10,7 @@ namespace Superkatten.Katministratie.Domain.Entities
         public SuperkatState State { get; init; } = SuperkatState.Monitoring;
         public DateTime Birthday { get; private set; }
         public DateTime CatchDate { get; private set; } = DateTime.UtcNow;
-        public Location CatchLocation { get; private set; }
+        public CatchOrigin CatchOrigin { get; private set; }
         public string Name { get; private set; } = string.Empty;
         public bool Reserved { get; private set; }
         public bool Retour { get; private set; }
@@ -34,19 +34,19 @@ namespace Superkatten.Katministratie.Domain.Entities
         public Superkat(
             int number,
             DateTime catchDate,
-            Location catchLocation
+            CatchOrigin catchOrigin
         )
         {
-            if (catchLocation is null)
+            if (catchOrigin is null)
             {
-                throw new DomainException($"{nameof(catchLocation)} may not be null");
+                throw new DomainException($"{nameof(catchOrigin)} may not be null");
             }
 
             Id = Guid.NewGuid();
 
             Number = number;
             CatchDate = catchDate;
-            CatchLocation = catchLocation;
+            CatchOrigin = catchOrigin;
         }
 
         public string UniqueNumber
@@ -125,7 +125,6 @@ namespace Superkatten.Katministratie.Domain.Entities
 
             return this;
         }
-
 
         public Superkat WithCatArea(CatArea area)
         {
