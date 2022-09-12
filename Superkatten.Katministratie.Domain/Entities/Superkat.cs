@@ -126,7 +126,6 @@ namespace Superkatten.Katministratie.Domain.Entities
             return this;
         }
 
-
         public Superkat WithCatArea(CatArea area)
         {
             CatArea = area;
