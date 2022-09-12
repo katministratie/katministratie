@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Superkatten.Katministratie.Contract.ApiInterface.Reporting;
+using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Pages.Users;
 using Superkatten.Katministratie.Host.Services;
@@ -21,13 +22,21 @@ public partial class Index
     [Inject] public IReportingService ReportingService { get; set; } = null!;
 
 
-    private LoginModel _loginModel = new()!;
+    private LoginModel _loginModel = new();
     private Modal? _authenticationDialog = null!;
     private bool _isLoggingIn = false;
+    private int _superkattenInRefugeCount;
+    private int _superkattenNotNeutralizedCount;
 
     protected override async Task OnInitializedAsync()
     {
         await UserLoginService.InitializeAsync();
+
+        var superkattenInRefuge = await SuperkattenService.GetAllSuperkattenAsync();
+        var superkattenNotNeutralized = await SuperkattenService.GetAllNotNeutralizedSuperkattenAsync();
+
+        _superkattenInRefugeCount = superkattenInRefuge.Count(s => s.GastgezinId is null && s.State != SuperkatState.Done);
+        _superkattenNotNeutralizedCount = superkattenNotNeutralized.Count;
     }
 
     private void OnRegister()
@@ -130,6 +139,8 @@ public partial class Index
 
         await _authenticationDialog.Hide();
         await PageProgressService.Go(-1);
+
+        _isLoggingIn = false;
     }
 
     private async Task OnKeyPress(KeyboardEventArgs eventArgs)

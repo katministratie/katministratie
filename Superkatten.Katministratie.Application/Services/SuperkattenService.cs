@@ -79,7 +79,6 @@ namespace Superkatten.Katministratie.Application.Services
             var catchDate = createSuperkatParameters.CatchDate;
             var estimatedBirthday = catchDate.AddDays(-DAY_IN_ONE_WEEK * createSuperkatParameters.EstimatedWeeksOld);
 
-            superkat.SetCageNumber(createSuperkatParameters.CageNumber);
             superkat.SetRetour(createSuperkatParameters.Retour);
             superkat.SetAgeCategory(_superkattenMapper.MapContractToDomain(createSuperkatParameters.AgeCategory));
             superkat.SetBehaviour(_superkattenMapper.MapContractToDomain(createSuperkatParameters.Behaviour));
@@ -89,7 +88,6 @@ namespace Superkatten.Katministratie.Application.Services
             superkat.SetWetFoodAllowed(createSuperkatParameters.WetFoodAllowed);
             superkat.SetFoodType(_superkattenMapper.MapContractToDomain(createSuperkatParameters.FoodType));
             superkat.SetColor(createSuperkatParameters.CatColor);
-
 
             return superkat
                 .WithCageNumber(createSuperkatParameters.CageNumber)

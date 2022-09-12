@@ -39,6 +39,32 @@
     </Autocomplete>
 </Field>
 
+<Row>
+    <Column ColumnSize="ColumnSize.Is8">
+        <SelectListComponent DefaultText="Ruimte"
+                             InitialSelectedItem="_selections.CatArea"
+                             TItem="CatArea"
+                             Items="@_catAreaTypes"
+                             ItemNames="@_catAreaTypeNames"
+                             OnSelectionChanged="@OnSelectCatArea" />
+    </Column>
+    <Column ColumnSize="ColumnSize.Is4">
+        @if (_cageNumbers.Count > 1)
+        {
+            <SelectListComponent DefaultText="Hok"
+                             TItem="int"
+                             Items="@_cageNumbers"
+                             ItemNames="@_cageNumberNames"
+                             OnSelectionChanged="@_selections.Store" />
+        }
+        else
+        {
+            <HeaderItem Titel="Hok"></HeaderItem>
+            <Field>Geen hokken</Field>
+        }
+    </Column>
+</Row>
+
 <Field>
   <SelectListComponent DefaultText="Vanglocatie type"
     InitialSelectedItem="@_selections.catchOriginType"
@@ -112,32 +138,6 @@
         </Autocomplete>
     </Field>
 </Field>
-
-<Row>
-    <Column ColumnSize="ColumnSize.Is8">
-      <SelectListComponent DefaultText="Ruimte"
-        InitialSelectedItem="_selections.CatArea"
-        TItem="CatArea" 
-        Items="@_catAreaTypes" 
-        ItemNames="@_catAreaTypeNames"
-        OnSelectionChanged="@OnSelectCatArea"/>
-    </Column>
-    <Column ColumnSize="ColumnSize.Is4">
-@if (_cageNumbers.Count > 1)
-{
-        <SelectListComponent DefaultText="Hok"
-          TItem="int" 
-          Items="@_cageNumbers" 
-          ItemNames="@_cageNumberNames"
-          OnSelectionChanged="@_selections.Store"/>
-}
-else
-{
-      <HeaderItem Titel="Hok"></HeaderItem>
-      <Field>Geen hokken</Field>
-}
-    </Column>
-</Row>
 
 <SelectListComponent DefaultText="Geslacht"
     InitialSelectedItem="_selections.Gender"

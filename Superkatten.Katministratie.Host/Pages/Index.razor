@@ -162,15 +162,29 @@
     </Button>
 
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowOverviewSuperkatten">
-        <div class="row justify-content-md-center">
-            <div class="col-4 text-right"><span class="material-icons">pets</span></div>
+        <div class="row justify-content-md-center">            
+            <div class="col-4 text-right">                
+                <span class="material-icons">pets</span>
+                <Div Style="position:absolute;right:0px;top:0px;font-size:13px;">
+                    <Badge Position="Position.Relative.Top.Is0.End.Is0" Pill Color="Color.Warning">
+                        @_superkattenInRefugeCount
+                    </Badge>
+                </Div>
+            </div>
             <div class="col-5 text-left">Superkatten</div>
         </div>
     </Button>
 
     <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnShowNotNeutralized">
         <div class="row justify-content-md-center">
-            <div class="col-4 text-right"><span class="material-icons">content_cut</span></div>
+            <div class="col-4 text-right">
+                <span class="material-icons">content_cut</span>
+                <Div Style="position:absolute;right:0px;top:0px;font-size:13px;">
+                    <Badge Position="Position.Relative.Top.Is0.End.Is0" Pill Color="Color.Warning">
+                        @_superkattenNotNeutralizedCount
+                    </Badge>
+                </Div>
+            </div>
             <div class="col-5 text-left">Neutralisatie</div>
         </div>
     </Button>

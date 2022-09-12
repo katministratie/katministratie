@@ -136,22 +136,18 @@ public class HttpService : IHttpService
 
         if (!response.IsSuccessStatusCode)
         {
-            var mediaType = response.Content?.Headers.ContentType?.MediaType;
-            if (mediaType != "application/json")
-            {
-                throw new Exception($"unsuccesfull; response is: {response.StatusCode}");
-            }
-
             if (response.Content is null)
             {
                 throw new Exception("No content available, reason of failure unknown");
             }
 
             var error = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
-            throw new Exception(error is not null
-                        ? error["message"]
-                        : "Fatal error"
-                      );
+
+            throw new Exception(
+                error is not null 
+                ? error["message"] 
+                : "Fatal error"
+            );
         }
     }
 
