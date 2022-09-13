@@ -28,15 +28,14 @@ public partial class CreateSuperkat
     [Inject] IPageProgressService PageProgressService { get; set; } = null!;
     [Inject] public Navigation Navigation { get; set; } = null!;
     [Inject] public ISuperkattenListService SuperkattenService { get; set; } = null!;
-    [Inject] public ILocationService LocationService { get; set; } = null!;
+    [Inject] public ICatchOriginService CatchOriginService { get; set; } = null!;
     [Inject] private ISettingsService SettingsService { get; set; } = null!;
 
     private static readonly CreateSuperkatSelections _selections = new();
 
     public DateTime? CatchDate = DateTime.UtcNow;
-    private Guid _catchLocationNameId = Guid.NewGuid();
-
-    public string CatchLocationName = string.Empty;
+    private Guid _catchOriginNameId = Guid.NewGuid();
+    public string CatchOriginName = string.Empty;
     public int CageNumber = 1;
     public bool Retour = false;
     public bool WetFoodAllowed = true;
@@ -44,10 +43,10 @@ public partial class CreateSuperkat
     public bool StrongHoldGiven = false;
     public int EstimatedWeeksOld = 0;
     private SnackbarStack? _snackbarStack;
-    public IEnumerable<Location> CatchLocations = new List<Location>();
+    public IEnumerable<CatchOrigin> CatchOrigins = new List<CatchOrigin>();
     public IEnumerable<CatColor> CatColors = new List<CatColor>();
 
-    private readonly static List<LocationType> _catchLocationTypes = Enum.GetValues(typeof(LocationType)).Cast<LocationType>().ToList();
+    private readonly static List<CatchOriginType> _catchOriginTypes = Enum.GetValues(typeof(CatchOriginType)).Cast<CatchOriginType>().ToList();
     private readonly static List<CatBehaviour> _catBehaviourTypes = Enum.GetValues(typeof(CatBehaviour)).Cast<CatBehaviour>().ToList();
     private readonly static List<AgeCategory> _ageCategoryTypes = Enum.GetValues(typeof(AgeCategory)).Cast<AgeCategory>().ToList();
     private readonly static List<CatArea> _catAreaTypes = Enum.GetValues(typeof(CatArea)).Cast<CatArea>().ToList();
@@ -55,7 +54,7 @@ public partial class CreateSuperkat
     private readonly static List<FoodType> _foodTypes = Enum.GetValues(typeof(FoodType)).Cast<FoodType>().ToList();
     private readonly static List<LitterGranuleType> _litterGranuleTypes = Enum.GetValues(typeof(LitterGranuleType)).Cast<LitterGranuleType>().ToList();
 
-    private static List<string> _catchLocationTypeNames = null!;
+    private static List<string> _catchOriginTypeNames = null!;
     private static List<string> _catBehaviourTypeNames = null!;
     private static List<string> _ageCategoryTypeNames = null!;
     private static List<string> _catAreaTypeNames = null!;
@@ -92,14 +91,14 @@ public partial class CreateSuperkat
     protected override async Task OnInitializedAsync()
     {
         _litterGranuleTypeNames = _litterGranuleTypes.Select(x => x.ToString()).ToList();
-        _catchLocationTypeNames = _catchLocationTypes.Select(x => x.ToString()).ToList();
+        _catchOriginTypeNames = _catchOriginTypes.Select(x => x.ToString()).ToList();
         _catBehaviourTypeNames = _catBehaviourTypes.Select(x => x.ToString()).ToList();
         _ageCategoryTypeNames = _ageCategoryTypes.Select(x => x.ToString()).ToList();
         _catAreaTypeNames = _catAreaTypes.Select(x => x.ToString()).ToList();
         _genderTypeNames = _genderTypes.Select(x => x.ToString()).ToList();
         _foodTypeNames = _foodTypes.Select(x => x.ToString()).ToList();
 
-        CatchLocations = await LocationService.GetLocationsAsync();
+        CatchOrigins = await CatchOriginService.GetCatchOriginsAsync();
 
         var allSuperkatten = await SuperkattenService.GetAllSuperkattenAsync();
         var colors = allSuperkatten
@@ -138,7 +137,7 @@ public partial class CreateSuperkat
             return false;
         }
 
-        if (string.IsNullOrEmpty(CatchLocationName))
+        if (string.IsNullOrEmpty(CatchOriginName))
         {
             await _snackbarStack!.PushAsync("Vangplaats is leeg",
                 SnackbarColor.Info,
@@ -150,16 +149,16 @@ public partial class CreateSuperkat
             return false;
         }
 
-        var catchLocation = new Location
+        var catchLocation = new CatchOrigin
         {
-            Name = CatchLocationName,
-            Type = _selections.LocationType
+            Name = CatchOriginName,
+            Type = _selections.catchOriginType
         };
 
         var createSuperkatParameters = new CreateSuperkatParameters()
         {
             CatchDate = CatchDate ?? DateTime.UtcNow,
-            CatchLocation = catchLocation,
+            CatchOrigin = catchLocation,
             CatArea = _selections.CatArea,
             CageNumber = _selections.CageNumber,
             Behaviour = _selections.CatBehaviour,

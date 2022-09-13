@@ -14,8 +14,13 @@ public partial class NotNeutralized
     [Inject] private ISuperkattenListService _superkattenListService { get; set; } = null!;
 
     private List<Superkat> Superkatten { get; set; } = new();
-    private readonly static List<NeutralizedLocationView> _neutralizeFilterOptions = Enum.GetValues(typeof(NeutralizedLocationView)).Cast<NeutralizedLocationView>().ToList();
     private static List<string> _neutralizeFilterOptionNames = null!;
+
+    private readonly static List<IsNeutralizedAtLocationView> _neutralizeFilterOptions = Enum
+    .GetValues(typeof(IsNeutralizedAtLocationView))
+    .Cast<IsNeutralizedAtLocationView>()
+    .ToList();
+
 
     protected override Task OnInitializedAsync()
     {
@@ -26,7 +31,7 @@ public partial class NotNeutralized
         return Task.CompletedTask;
     }
 
-    private async Task UpdateListAsync(NeutralizedLocationView filter)
+    private async Task UpdateListAsync(IsNeutralizedAtLocationView filter)
     {
         var unsortedSuperkatten = await _superkattenListService.GetAllNotNeutralizedSuperkattenAsync();
 
@@ -34,13 +39,14 @@ public partial class NotNeutralized
 
         Superkatten = filter switch
         {
-            NeutralizedLocationView.All => superkatten,
-            NeutralizedLocationView.Refuge => superkatten.Where(o => o.GastgezinId == null).ToList(),
-            NeutralizedLocationView.HostFamily => superkatten.Where(o => o.GastgezinId != null).ToList(),
+            IsNeutralizedAtLocationView.All => superkatten,
+            IsNeutralizedAtLocationView.Refuge => superkatten.Where(o => o.GastgezinId == null).ToList(),
+            IsNeutralizedAtLocationView.HostFamily => superkatten.Where(o => o.GastgezinId != null).ToList(),
+            _ => throw new InvalidEnumArgumentException(nameof(filter), (int)filter, typeof(IsNeutralizedAtLocationView))
         };
     }
 
-    private async Task OnSelectFilter(NeutralizedLocationView selectedFilter)
+    private async Task OnSelectFilter(IsNeutralizedAtLocationView selectedFilter)
     {
         await UpdateListAsync(selectedFilter);
     }

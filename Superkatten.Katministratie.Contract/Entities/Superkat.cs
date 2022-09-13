@@ -7,7 +7,7 @@ public class Superkat
     public SuperkatState State { get; init; }
     public DateTime Birthday { get; init; }
     public DateTime CatchDate { get; init; }
-    public Location CatchLocation { get; init; } = new();
+    public CatchOrigin CatchOrigin { get; init; } = new();
     public string Name { get; init; } = string.Empty;
     public bool Reserved { get; init; }
     public bool Retour { get; init; }

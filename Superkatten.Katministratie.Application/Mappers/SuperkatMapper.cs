@@ -17,7 +17,7 @@ namespace Superkatten.Katministratie.Application.Mappers
                 Birthday = superkat.Birthday,
                 CageNumber = superkat.CageNumber,
                 CatchDate = superkat.CatchDate,
-                CatchLocation = MapToContract(superkat.CatchLocation),
+                CatchOrigin = MapToContract(superkat.CatchOrigin),
                 AgeCategory = MapToContract(superkat.AgeCategory),
                 Name = superkat.Name,
                 Number = superkat.Number,
@@ -91,31 +91,31 @@ namespace Superkatten.Katministratie.Application.Mappers
                 _ => throw new InvalidEnumArgumentException(nameof(ageCategory), (int)ageCategory, typeof(AgeCategory))
             };
         }
-        private static contractEntities.LocationType MapToContract(LocationType locationType)
+        private static contractEntities.CatchOriginType MapToContract(CatchOriginType catchOriginType)
         {
-            return locationType switch
+            return catchOriginType switch
             {
-                LocationType.Farm => contractEntities.LocationType.Farm,
-                LocationType.PrivateProperty => contractEntities.LocationType.PrivateProperty,
-                LocationType.AllotmentGarden => contractEntities.LocationType.AllotmentGarden,
-                LocationType.Camping => contractEntities.LocationType.Camping,
-                LocationType.Farmhouse => contractEntities.LocationType.Farmhouse,
-                LocationType.Stable => contractEntities.LocationType.Stable,
-                LocationType.BusinessPark => contractEntities.LocationType.BusinessPark,
-                LocationType.UrbanArea => contractEntities.LocationType.UrbanArea,
-                LocationType.RuralArea => contractEntities.LocationType.RuralArea,
-                LocationType.NatureReserve => contractEntities.LocationType.NatureReserve,
-                _ => throw new InvalidEnumArgumentException(nameof(locationType), (int)locationType, typeof(LocationType))
+                CatchOriginType.Farm => contractEntities.CatchOriginType.Farm,
+                CatchOriginType.PrivateProperty => contractEntities.CatchOriginType.PrivateProperty,
+                CatchOriginType.AllotmentGarden => contractEntities.CatchOriginType.AllotmentGarden,
+                CatchOriginType.Camping => contractEntities.CatchOriginType.Camping,
+                CatchOriginType.Farmhouse => contractEntities.CatchOriginType.Farmhouse,
+                CatchOriginType.Stable => contractEntities.CatchOriginType.Stable,
+                CatchOriginType.BusinessPark => contractEntities.CatchOriginType.BusinessPark,
+                CatchOriginType.UrbanArea => contractEntities.CatchOriginType.UrbanArea,
+                CatchOriginType.RuralArea => contractEntities.CatchOriginType.RuralArea,
+                CatchOriginType.NatureReserve => contractEntities.CatchOriginType.NatureReserve,
+                _ => throw new InvalidEnumArgumentException(nameof(catchOriginType), (int)catchOriginType, typeof(CatchOriginType))
             };
         }
 
-        private static contractEntities.Location MapToContract(Location location)
+        private static contractEntities.CatchOrigin MapToContract(CatchOrigin catchOrigin)
         {
-            return new contractEntities.Location
+            return new contractEntities.CatchOrigin
             {
-                Id = location.Id,
-                Name = location.Name,
-                Type = MapToContract(location.Type)
+                Id = catchOrigin.Id,
+                Name = catchOrigin.Name,
+                Type = MapToContract(catchOrigin.Type)
             };
         }
 
@@ -124,7 +124,7 @@ namespace Superkatten.Katministratie.Application.Mappers
             var superkat = new Superkat(
                 contractSuperkat.Number,
                 contractSuperkat.CatchDate,
-                MapContractToDomain(contractSuperkat.CatchLocation)
+                MapContractToDomain(contractSuperkat.CatchOrigin)
             )
             {
                 Id = contractSuperkat.Id,
@@ -226,27 +226,27 @@ namespace Superkatten.Katministratie.Application.Mappers
             };
         }
 
-        public Location MapContractToDomain(contractEntities.Location location)
+        public CatchOrigin MapContractToDomain(contractEntities.CatchOrigin catchOrigin)
         {
-            var locationType = MapContractToDomain(location.Type);
-            return new Location(location.Name, locationType);
+            var catchOriginType = MapContractToDomain(catchOrigin.Type);
+            return new CatchOrigin(catchOrigin.Name, catchOriginType);
         }
 
-        private static LocationType MapContractToDomain(contractEntities.LocationType locationType)
+        private static CatchOriginType MapContractToDomain(contractEntities.CatchOriginType catchOriginType)
         {
-            return locationType switch
+            return catchOriginType switch
             {
-                contractEntities.LocationType.Farm => LocationType.Farm,
-                contractEntities.LocationType.PrivateProperty => LocationType.PrivateProperty,
-                contractEntities.LocationType.AllotmentGarden => LocationType.AllotmentGarden,
-                contractEntities.LocationType.Camping => LocationType.Camping,
-                contractEntities.LocationType.Farmhouse => LocationType.Farmhouse,
-                contractEntities.LocationType.Stable => LocationType.Stable,
-                contractEntities.LocationType.BusinessPark => LocationType.BusinessPark,
-                contractEntities.LocationType.UrbanArea => LocationType.UrbanArea,
-                contractEntities.LocationType.RuralArea => LocationType.RuralArea,
-                contractEntities.LocationType.NatureReserve => LocationType.NatureReserve,
-                _ => throw new InvalidEnumArgumentException(nameof(locationType), (int)locationType, typeof(contractEntities.LocationType))
+                contractEntities.CatchOriginType.Farm => CatchOriginType.Farm,
+                contractEntities.CatchOriginType.PrivateProperty => CatchOriginType.PrivateProperty,
+                contractEntities.CatchOriginType.AllotmentGarden => CatchOriginType.AllotmentGarden,
+                contractEntities.CatchOriginType.Camping => CatchOriginType.Camping,
+                contractEntities.CatchOriginType.Farmhouse => CatchOriginType.Farmhouse,
+                contractEntities.CatchOriginType.Stable => CatchOriginType.Stable,
+                contractEntities.CatchOriginType.BusinessPark => CatchOriginType.BusinessPark,
+                contractEntities.CatchOriginType.UrbanArea => CatchOriginType.UrbanArea,
+                contractEntities.CatchOriginType.RuralArea => CatchOriginType.RuralArea,
+                contractEntities.CatchOriginType.NatureReserve => CatchOriginType.NatureReserve,
+                _ => throw new InvalidEnumArgumentException(nameof(catchOriginType), (int)catchOriginType, typeof(contractEntities.CatchOriginType))
             };
         }
     }

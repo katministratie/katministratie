@@ -20,13 +20,13 @@ public class ReportingController : ControllerBase
     }
 
     [HttpPut]
-    [Route("reports/catchlocation")]
-    public async Task<IActionResult> EmailCatchLocationReport([FromBody] RequestCatchLocationEmailParameters requestCatchLocationParameters)
+    [Route("reports/catchOrigin")]
+    public async Task<IActionResult> EmailCatchOriginReport([FromBody] RequestCatchOriginEmailParameters requestCatchOriginParameters)
     {
-        await _reportingService.EmailCatchLocationReport(
-            requestCatchLocationParameters.Email,
-            requestCatchLocationParameters.From,
-            requestCatchLocationParameters.To
+        await _reportingService.EmailCatchOriginReport(
+            requestCatchOriginParameters.Email,
+            requestCatchOriginParameters.From,
+            requestCatchOriginParameters.To
         );
 
         return Ok();

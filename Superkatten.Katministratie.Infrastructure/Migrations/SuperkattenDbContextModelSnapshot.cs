@@ -22,6 +22,24 @@ namespace Superkatten.Katministratie.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Superkatten.Katministratie.Domain.Entities.CatchOrigin", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CatchOrigins");
+                });
+
             modelBuilder.Entity("Superkatten.Katministratie.Domain.Entities.Gastgezin", b =>
                 {
                     b.Property<Guid>("Id")
@@ -44,24 +62,6 @@ namespace Superkatten.Katministratie.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Gastgezinnen");
-                });
-
-            modelBuilder.Entity("Superkatten.Katministratie.Domain.Entities.Location", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("Superkatten.Katministratie.Domain.Entities.MedicalProcedure", b =>
@@ -111,7 +111,7 @@ namespace Superkatten.Katministratie.Infrastructure.Migrations
                     b.Property<DateTime>("CatchDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("CatchLocationId")
+                    b.Property<Guid>("CatchOriginId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Color")
@@ -154,7 +154,7 @@ namespace Superkatten.Katministratie.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CatchLocationId");
+                    b.HasIndex("CatchOriginId");
 
                     b.ToTable("SuperKatten");
                 });
@@ -194,13 +194,13 @@ namespace Superkatten.Katministratie.Infrastructure.Migrations
 
             modelBuilder.Entity("Superkatten.Katministratie.Domain.Entities.Superkat", b =>
                 {
-                    b.HasOne("Superkatten.Katministratie.Domain.Entities.Location", "CatchLocation")
+                    b.HasOne("Superkatten.Katministratie.Domain.Entities.CatchOrigin", "CatchOrigin")
                         .WithMany()
-                        .HasForeignKey("CatchLocationId")
+                        .HasForeignKey("CatchOriginId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CatchLocation");
+                    b.Navigation("CatchOrigin");
                 });
 #pragma warning restore 612, 618
         }

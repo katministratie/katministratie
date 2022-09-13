@@ -58,7 +58,7 @@ public class SuperkattenRepository : ISuperkattenRepository
             .SuperKatten
             .AsNoTracking()
             .Where(o => o.State != SuperkatState.Done)
-            .Include(o => o.CatchLocation)
+            .Include(o => o.CatchOrigin)
             .ToListAsync();
 
         return superkatten;
@@ -69,7 +69,7 @@ public class SuperkattenRepository : ISuperkattenRepository
         var superkat = await _context
             .SuperKatten
             .AsNoTracking()
-            .Include(o => o.CatchLocation)
+            .Include(o => o.CatchOrigin)
             .FirstOrDefaultAsync(s => s.Id == id);
 
         return superkat is null 

@@ -8,7 +8,7 @@ public class SuperkattenDbContext : DbContext
 {
     public DbSet<UserDto> Users => Set<UserDto>();
     public DbSet<Superkat> SuperKatten => Set<Superkat>();
-    public DbSet<Location> Locations => Set<Location>();
+    public DbSet<CatchOrigin> CatchOrigins => Set<CatchOrigin>();
     public DbSet<Gastgezin> Gastgezinnen => Set<Gastgezin>();
     public DbSet<MedicalProcedure> MedicalProcedures => Set<MedicalProcedure>();
 
