@@ -1,8 +1,3 @@
-In de ApiKeyHandler gebruiken we ProblemDetails maar als ik de nuget van MS importeer dan krijgen we conflicten ?
-
-private github key:
-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
-
 Database migration done with:
 PM> dotnet ef migrations --project Superkatten.Katministratie.Infrastructure --startup-project Superkatten.Katministratie.SuperkatApi add InitialCreate
 
