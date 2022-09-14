@@ -16,15 +16,31 @@
     return;
 }
 
-<TextEdit @bind-Text="@_emailAddress" />
+<Container>
 
-<SuperkatSelectorComponent 
-    AvailableSuperkatten="@_assignedSuperkatten"
-    SelectedSuperkatten="@_selectedSuperkatten"
-    AvailableCollectionHeader="Katten:"
-    SelectedCollectionHeader="Gereserveerd:"
-    AddSuperkat="(superkat) => { AddSuperkatToSelectionAsync(superkat); }"
-    RemoveSuperkat="(superkat) => { RemoveSuperkatFromSelection(superkat); }" />
+    <Field>
+        <FieldLabel>Name</FieldLabel>
+        <FieldBody>
+            <TextEdit @bind-Text="@_name" />
+        </FieldBody>
+    </Field>
+
+    <Field>
+        <FieldLabel>Email</FieldLabel>
+        <FieldBody>
+            <TextEdit @bind-Text="@_emailAddress" />
+        </FieldBody>
+    </Field>
+
+    <SuperkatSelectorComponent 
+        AvailableSuperkatten="@_assignedSuperkatten"
+        SelectedSuperkatten="@_selectedSuperkatten"
+        AvailableCollectionHeader="Katten:"
+        SelectedCollectionHeader="Gereserveerd:"
+        AddSuperkat="(superkat) => { AddSuperkatToSelectionAsync(superkat); }"
+        RemoveSuperkat="(superkat) => { RemoveSuperkatFromSelection(superkat); }" />
+
+</Container>
 
 <Row>
     <Column>

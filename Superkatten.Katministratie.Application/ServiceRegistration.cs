@@ -34,6 +34,7 @@ namespace Superkatten.Katministratie.Application
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IEmailSettings, EmailSettings>();
             services.AddTransient<IClientSecrets, ClientSecrets>();
+            services.AddTransient<IAdoptionService, AdoptionService>();
 
             services.AddScoped<IJwtUtils, JwtUtils>();
             services.AddScoped<IUserService, UserService>();

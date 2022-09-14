@@ -34,11 +34,13 @@ namespace Superkatten.Katministratie.Host.Services
             throw new NotImplementedException();
         }
 
-        public Task ReserveSuperkatten(Guid gastgezinId, IReadOnlyCollection<Superkat> reservedSuperkattenParameters)
+        public Task AdoptSuperkatten(Guid gastgezinId, IReadOnlyCollection<Guid> reservedSuperkattenParameters, string name, string email)
         {
-            var uri = $"api/Adopting";
+            var uri = $"api/Superkatten/Adopting";
             var reserveParameters = new ReserveSuperkattenParameters
             {
+                AdoptantName = name,
+                AdoptantEmail = email,
                 GastgezinId = gastgezinId,
                 Superkatten = reservedSuperkattenParameters
             };

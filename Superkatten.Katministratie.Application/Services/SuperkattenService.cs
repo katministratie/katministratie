@@ -174,16 +174,5 @@ namespace Superkatten.Katministratie.Application.Services
         {
             return _reportingRepository.GetNotNeutralizedSuperkatten();
         }
-
-        public Task StartSuperkattenAdoptionAsync(Guid gastgezinId, IReadOnlyCollection<Superkat> superkatten)
-        {
-            foreach(var superkat in superkatten)
-            {
-                var updatedSuperkat = superkat.WithState(SuperkatState.AdoptionRunning);
-                _superkattenRepository.UpdateSuperkatAsync(updatedSuperkat);
-            }
-
-            return Task.CompletedTask;
-        }
     }
 }

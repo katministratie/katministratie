@@ -31,8 +31,8 @@
     </CollapseHeader>
     <CollapseBody>
         <Row>
-            <Column Style="border:1px;border-color:#e41212;">
-                @if (@_superkatView.Superkat.Photo is not null)
+            <Column>
+                @if (_superkatView.Superkat.Photo is not null && _superkatView.Superkat.Photo.Length > 0)
                 {
                     <Figure>
                         <FigureImage Rounded Source="@GetSuperkatImage(_superkatView.Superkat.Photo)" />
@@ -41,7 +41,7 @@
                 else
                 {
                     <Figure>
-                        <FigureImage Source="Images/superkat.jpg" />
+                        <FigureImage Rounded Source="./Images/superkat.jpg" />
                         <FigureCaption><Button Clicked="() => OnClickCreatePhoto(_superkatView.Superkat)">Maak een foto</Button></FigureCaption>
                     </Figure>
                 }

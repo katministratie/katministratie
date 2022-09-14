@@ -105,7 +105,7 @@ builder.Configuration.AddEnvironmentVariables();
             builder => 
             {
                 builder.WithOrigins(
-//                    "https://localhost:7292"
+                    "https://localhost:7292"
                 );
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();
@@ -123,10 +123,10 @@ using (var scope = app.Services.CreateScope())
 {
     var dataContext = scope.ServiceProvider.GetRequiredService<SuperkattenDbContext>();
     var isCreated = dataContext.Database.EnsureCreated();
-    //if (!isCreated)
-    //{
-    //    await dataContext.Database.MigrateAsync();
-    //}
+    if (!isCreated)
+    {
+        await dataContext.Database.MigrateAsync();
+    }
 }
 
 app.UseSwagger();

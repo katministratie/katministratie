@@ -17,6 +17,5 @@ namespace Superkatten.Katministratie.Application.Interfaces
         Task<Superkat> UpdateSuperkatAsync(Guid guid, ReallocateSuperkatParameters reallocateSuperkatParameters);
         Task<Superkat> UpdateSuperkatAsync(Guid guid, UpdateSuperkatPhotoParameters updateSuperkatPhotoParameters);
         Task DeleteSuperkatAsync(Guid guid);
-        Task StartSuperkattenAdoptionAsync(Guid gastgezinId, IReadOnlyCollection<Superkat> superkatten);
     }
 }
