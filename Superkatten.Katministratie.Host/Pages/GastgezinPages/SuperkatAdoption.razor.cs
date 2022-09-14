@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazorise;
+using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Pages.SuperkatPages;
@@ -13,32 +14,48 @@ public partial class SuperkatAdoption
     [Inject] public ISuperkatActionService SuperkattenActionService { get; set; } = null!;
     [Inject] public IGastgezinService GastegezinService { get; set; } = null!;
 
+
     [Parameter] public Guid GastgezinId { get; set; }
+
+
     private List<Superkat> _assignedSuperkatten = null!;
     private List<Superkat> _selectedSuperkatten = new();
     private string _emailAddress = string.Empty;
     private string _name = string.Empty; 
     private Gastgezin? _gastgezin;
+    private bool _disableContinueButton => 
+        string.IsNullOrWhiteSpace(_emailAddress) ||
+        string.IsNullOrWhiteSpace(_name) ||
+        !_selectedSuperkatten.Any(); 
     protected override async Task OnInitializedAsync()
     {
         _gastgezin = await GastegezinService.GetGastgezinAsync(GastgezinId);
 
         var superkatten = await SuperkattenService.GetAllSuperkattenAsync();
         var assignedSuperkatten = superkatten
-            .Where(o => o.GastgezinId == _gastgezin?.Id && !o.Reserved)
+            .Where(o => o.GastgezinId == _gastgezin?.Id)
             .OrderBy(s => s.Number)
             .ToList();
         
+        if (assignedSuperkatten is null)
+        {
+            throw new Exception("No assigned superkatten available");
+        }
+
         _selectedSuperkatten = assignedSuperkatten
             .Where(s => s.State != SuperkatState.Monitoring)
             .ToList();
 
-        _assignedSuperkatten = assignedSuperkatten is null
-            ? new()
-            : assignedSuperkatten
-                .Where(s => s.State == SuperkatState.Monitoring)
-                .ToList() ?? new();
-            ;
+        _assignedSuperkatten = assignedSuperkatten
+            .Where(s => s.State == SuperkatState.Monitoring)
+            .ToList();
+    }
+    private void ValidateEmail(ValidatorEventArgs e)
+    {
+        var email = Convert.ToString(e.Value);
+
+        e.Status = string.IsNullOrEmpty(email) ? ValidationStatus.None :
+            email.Contains("@") ? ValidationStatus.Success : ValidationStatus.Error;
     }
 
     private void OnSendAdoptionPapers()

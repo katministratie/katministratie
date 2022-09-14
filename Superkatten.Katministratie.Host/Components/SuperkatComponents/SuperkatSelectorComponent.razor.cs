@@ -7,11 +7,11 @@ public partial class SuperkatSelectorComponent : ComponentBase
 {
     [Parameter] public List<Superkat> AvailableSuperkatten { get; set; } = null!;
     [Parameter] public List<Superkat> SelectedSuperkatten { get; set; } = null!;
-
     [Parameter] public EventCallback<Superkat> AddSuperkat { get; set; }
     [Parameter] public EventCallback<Superkat> RemoveSuperkat { get; set; }
     [Parameter] public string AvailableCollectionHeader { get; set; } = "Keuze uit:";
     [Parameter] public string SelectedCollectionHeader { get; set; } = "Geselecteerd:";
+    [Parameter] public bool EnableOneWay { get; set; } = false;
 
 
     private readonly List<Superkat> _availableSuperkatten = new();

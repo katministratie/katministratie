@@ -18,35 +18,45 @@
 
 <Container>
 
-    <Field>
-        <FieldLabel>Name</FieldLabel>
-        <FieldBody>
-            <TextEdit @bind-Text="@_name" />
-        </FieldBody>
-    </Field>
+    <Div Class="mb-2">
+        <Validation Validator="ValidationRule.IsNotEmpty">
+            <TextEdit Placeholder="Naam adoptant" @bind-Text="@_name">
+                <Feedback>
+                    <ValidationNone>Geef naam adoptant in</ValidationNone>
+                    <ValidationSuccess>Name is goed.</ValidationSuccess>
+                    <ValidationError>Vul een valide naam in</ValidationError>
+                </Feedback>
+            </TextEdit>
+        </Validation>
+    </Div>
 
-    <Field>
-        <FieldLabel>Email</FieldLabel>
-        <FieldBody>
-            <TextEdit @bind-Text="@_emailAddress" />
-        </FieldBody>
-    </Field>
+    <Div Class="mb-2">
+        <Validation Validator="@ValidateEmail">
+            <TextEdit Role="TextRole.Email" Placeholder="Email adres" @bind-Text="@_emailAddress">
+                <Feedback>
+                    <ValidationNone>Voer een email adres in</ValidationNone>
+                    <ValidationSuccess>Email is ok</ValidationSuccess>
+                    <ValidationError>Email adres is niet juist</ValidationError>
+                </Feedback>
+            </TextEdit>
+        </Validation>
+    </Div>
 
     <SuperkatSelectorComponent 
         AvailableSuperkatten="@_assignedSuperkatten"
         SelectedSuperkatten="@_selectedSuperkatten"
-        AvailableCollectionHeader="Katten:"
-        SelectedCollectionHeader="Gereserveerd:"
+        AvailableCollectionHeader="Beschikbare katten"
+        SelectedCollectionHeader="Katten gekozen voor adoptie"
         AddSuperkat="(superkat) => { AddSuperkatToSelectionAsync(superkat); }"
-        RemoveSuperkat="(superkat) => { RemoveSuperkatFromSelection(superkat); }" />
+        EnableOneWay="@true"/>
 
+
+    <Row>
+        <Column>
+            <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnBack">Terug</Button>
+        </Column>
+        <Column>
+            <Button Disabled="@_disableContinueButton" Block Size="Size.Large" Color="Color.Primary" Clicked="@OnSendAdoptionPapers">Reserveer</Button>
+        </Column>
+    </Row>
 </Container>
-
-<Row>
-    <Column>
-        <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnBack">Terug</Button>
-    </Column>
-    <Column>
-        <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnSendAdoptionPapers">Reserveer</Button>
-    </Column>
-</Row>

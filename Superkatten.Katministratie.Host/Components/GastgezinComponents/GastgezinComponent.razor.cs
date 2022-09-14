@@ -8,43 +8,29 @@ namespace Superkatten.Katministratie.Host.Components.GastgezinComponents;
 
 public partial class GastgezinComponent : ComponentBase
 {
-
-    [Inject]
-    private IGastgezinService? _gastgezinService { get; set; }
-    
-    [Inject]
-    private Navigation? Navigation { get; set; }
+    [Inject] public ISuperkattenListService SuperkattenService { get; set; } = null!;
+    [Inject] public IGastgezinService GastgezinService { get; set; } = null!;    
+    [Inject] private Navigation Navigation { get; set; } = null!;
 
 
-    [Parameter]
-    public Gastgezin? Gastgezin 
-    { 
-        get => _gastgezin; 
-        set => _gastgezin = value; 
-    }
+    [Parameter] public Gastgezin Gastgezin { get; set; } = null!;
+    [Parameter] public EventCallback<Gastgezin> OnGastgezinDeleted { get; set; }
 
-    [Parameter]
-    public EventCallback<Gastgezin> OnGastgezinDeleted { get; set; }
-
-
-    private Gastgezin? _gastgezin;
 
     private HostFamilyComponentEditMode _editMode = HostFamilyComponentEditMode.DisplayDetailsOnly;
 
+    private bool _disableAdoption;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var superkatten = await SuperkattenService.GetAllSuperkattenAsync();
+        _disableAdoption = !superkatten.Any(o => o.GastgezinId == Gastgezin?.Id);
+    }
+
     private async Task OnDelete()
     {
-        if (_gastgezinService is null)
-        {
-            throw new Exception("No gastgezin service available");
-        }
-
-        if (_gastgezin is null)
-        {
-            throw new Exception("gastgezin is null");
-        }
-
-        await _gastgezinService!.DeleteGastgezinAsync(_gastgezin.Id);
-        await OnGastgezinDeleted.InvokeAsync(_gastgezin);
+        await GastgezinService!.DeleteGastgezinAsync(Gastgezin.Id);
+        await OnGastgezinDeleted.InvokeAsync(Gastgezin);
     }
 
     private void OnEdit()
@@ -54,38 +40,18 @@ public partial class GastgezinComponent : ComponentBase
 
     private void OnAssignSuperkat()
     {
-        if (_gastgezin is null)
-        {
-            return;
-        }
-
-        Navigation?.NavigateTo($"/AssignSuperkatten/{_gastgezin.Id}");
+        Navigation?.NavigateTo($"/AssignSuperkatten/{Gastgezin.Id}");
     }
 
     private void OnStartAdoption()
     {
-        if (_gastgezin is null)
-        {
-            return;
-        }
-
-        Navigation?.NavigateTo($"/SuperkatAdoption/{_gastgezin.Id}");
+        Navigation?.NavigateTo($"/SuperkatAdoption/{Gastgezin.Id}");
     }
 
     private async Task OnFinishEdit()
     {
         _editMode = HostFamilyComponentEditMode.DisplayDetailsOnly;
-
-        if (_gastgezin is null)
-        {
-            return;
-        }
-
-        if (_gastgezinService is null)
-        {
-            return;
-        }
-
-        Gastgezin = await _gastgezinService.GetGastgezinAsync(_gastgezin.Id);
+        var gastgezin = await GastgezinService.GetGastgezinAsync(Gastgezin.Id);
+        Gastgezin = gastgezin ?? throw new Exception($"No gastgezin available with id {Gastgezin.Id}");
     }
 }
