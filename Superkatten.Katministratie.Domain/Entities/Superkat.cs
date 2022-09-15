@@ -30,8 +30,7 @@ namespace Superkatten.Katministratie.Domain.Entities
         // Constructor is needed for EF
         public Superkat() { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
-        public Superkat(
+                public Superkat(
             int number,
             DateTime catchDate,
             CatchOrigin catchOrigin

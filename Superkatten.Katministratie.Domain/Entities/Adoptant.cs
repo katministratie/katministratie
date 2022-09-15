@@ -37,5 +37,4 @@ public class Adoptant
             Id = Id
         };
     }
-
 }
