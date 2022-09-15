@@ -11,10 +11,8 @@ public partial class GastgezinComponent : ComponentBase
     [Inject] public ISuperkattenListService SuperkattenService { get; set; } = null!;
     [Inject] public IGastgezinService GastgezinService { get; set; } = null!;    
     [Inject] private Navigation Navigation { get; set; } = null!;
-
-        [Parameter] public Gastgezin Gastgezin { get; set; } = null!;
+    [Parameter] public Gastgezin Gastgezin { get; set; } = null!;
     [Parameter] public EventCallback<Gastgezin> OnGastgezinDeleted { get; set; }
-
 
     private HostFamilyComponentEditMode _editMode = HostFamilyComponentEditMode.DisplayDetailsOnly;
 
