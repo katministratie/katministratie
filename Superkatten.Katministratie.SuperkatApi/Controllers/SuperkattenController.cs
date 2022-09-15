@@ -117,7 +117,5 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
                 return Problem(ex.Message, null, null, "Error bij ophalen data");
             }
         }
-
-
     }
 }

@@ -13,10 +13,8 @@ public partial class SuperkatSelectorComponent : ComponentBase
     [Parameter] public string SelectedCollectionHeader { get; set; } = "Geselecteerd:";
     [Parameter] public bool EnableOneWay { get; set; } = false;
 
-
     private readonly List<Superkat> _availableSuperkatten = new();
     private readonly List<Superkat> _selectedSuperkatten = new();
-
 
     protected override Task OnInitializedAsync()
     {

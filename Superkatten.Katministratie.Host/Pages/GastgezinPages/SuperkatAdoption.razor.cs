@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Helpers;
-using Superkatten.Katministratie.Host.Pages.SuperkatPages;
 using Superkatten.Katministratie.Host.Services;
 
 namespace Superkatten.Katministratie.Host.Pages.GastgezinPages;
@@ -14,9 +13,7 @@ public partial class SuperkatAdoption
     [Inject] public ISuperkatActionService SuperkattenActionService { get; set; } = null!;
     [Inject] public IGastgezinService GastegezinService { get; set; } = null!;
 
-
     [Parameter] public Guid GastgezinId { get; set; }
-
 
     private List<Superkat> _assignedSuperkatten = null!;
     private List<Superkat> _selectedSuperkatten = new();

@@ -12,8 +12,7 @@ public partial class GastgezinComponent : ComponentBase
     [Inject] public IGastgezinService GastgezinService { get; set; } = null!;    
     [Inject] private Navigation Navigation { get; set; } = null!;
 
-
-    [Parameter] public Gastgezin Gastgezin { get; set; } = null!;
+        [Parameter] public Gastgezin Gastgezin { get; set; } = null!;
     [Parameter] public EventCallback<Gastgezin> OnGastgezinDeleted { get; set; }
 
 
