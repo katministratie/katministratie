@@ -7,4 +7,5 @@ public interface ISuperkatActionService
     Task ToggleReserveSuperkatAsync(Guid superkatId);
     Task ToggleRetourSuperkatAsync(Guid superkatId);
     Task CreateSuperkatCageCardAsync(SuperkatCageCardPrintParameters parameters);
+    Task AdoptSuperkatten(Guid gastgezinId, IReadOnlyCollection<Guid> reservedSuperkattenParameters, string name, string email);
 }

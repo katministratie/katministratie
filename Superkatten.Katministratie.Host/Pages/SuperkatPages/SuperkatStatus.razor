@@ -1,4 +1,4 @@
-﻿@page "/SuperkatStatus"
+﻿@page "/SuperkatStatus/{SuperkatId:guid?}"
 @using Superkatten.Katministratie.Contract.Entities
 @using Superkatten.Katministratie.Host.Components.Helpers
 @using Superkatten.Katministratie.Host.Components.SuperkatComponents
@@ -143,6 +143,8 @@
     [Inject] private Navigation _navigation { get; set; } = null!;
 
     [Inject] private ISuperkattenListService _superkattenListService { get; set; } = null!;
+
+    [Parameter] public Guid SuperkatId { get; set; }
 
     private IReadOnlyCollection<Superkat> _superkatten = Array.Empty<Superkat>();
     private IReadOnlyCollection<string> _superkatNames = Array.Empty<string>();

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Superkatten.Katministratie.Infrastructure.Persistence;
 
@@ -11,9 +12,10 @@ using Superkatten.Katministratie.Infrastructure.Persistence;
 namespace Superkatten.Katministratie.Infrastructure.Migrations
 {
     [DbContext(typeof(SuperkattenDbContext))]
-    partial class SuperkattenDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220914064814_AddAdoptant")]
+    partial class AddAdoptant
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

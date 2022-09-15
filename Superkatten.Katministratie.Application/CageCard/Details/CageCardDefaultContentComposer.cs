@@ -45,8 +45,12 @@ public class CageCardDefaultContentComposer : IComponent
                     grid.Item().Element(superkatElement.Compose);
                 }
 
-                var filling = _superkatten.Count % columns;
-                for (var fillingIndex = 0; fillingIndex < filling; fillingIndex++)
+                var reminder = (MAX_COLUMS - _superkatten.Count) % MAX_COLUMS;
+                var fillingCount = _superkatten.Count <= MAX_COLUMS
+                    ? 0
+                    : reminder;
+
+                for (var fillingIndex = 0; fillingIndex < fillingCount; fillingIndex++)
                 {
                     grid.Item().Border(1);
                 }

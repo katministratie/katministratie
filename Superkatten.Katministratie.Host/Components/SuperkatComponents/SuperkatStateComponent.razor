@@ -1,5 +1,7 @@
 ﻿@using Superkatten.Katministratie.Contract.Entities
 
+@*TODO: Deze is nog niet goed*@
+
 <Field Horizontal Margin="Margin.Is2">
     <Fields TextWeight="TextWeight.Light">
         @switch(State)
@@ -9,7 +11,7 @@
                 <FieldLabel>NRC</FieldLabel>
                 break;
 
-            case SuperkatState.ReadyForAdoption:
+            case SuperkatState.AdoptionRunning:
                 <FieldLabel class="text-white bg-dark">TN</FieldLabel>
                 <FieldLabel>RC</FieldLabel>
                 break;

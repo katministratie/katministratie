@@ -3,7 +3,7 @@
 public enum SuperkatState
 {
     Monitoring,
-    ReadyForAdoption,
+    AdoptionRunning,
     WaitForPayment,
     FinalizeChecks,
     Done

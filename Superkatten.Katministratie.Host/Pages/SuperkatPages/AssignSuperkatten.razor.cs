@@ -45,11 +45,6 @@ public partial class AssignSuperkatten
             .ToList();
     }
 
-    private static string GetSuperkatNumber(Superkat superkat)
-    {
-        return superkat.CatchDate.Year.ToString() + "-" + superkat.Number.ToString("000");
-    }
-
     private Task AddSuperkatToSelectionAsync(Superkat superkat)
     {
         if (_gastgezin is null)

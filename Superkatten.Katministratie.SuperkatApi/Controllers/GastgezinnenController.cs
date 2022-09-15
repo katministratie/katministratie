@@ -52,7 +52,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
                 _mapper.MapDomainToContract(gastgezin)
             );
         }
-
+        
         [HttpDelete]
         public async Task<IActionResult> DeleteGastgezin(Guid id)
         {
