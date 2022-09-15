@@ -88,14 +88,8 @@ public class SuperkattenRepository : ISuperkattenRepository
         {
             throw new DatabaseException($"No superkat found in the database with id {superkat.Id}");
         }
-        try
-        {
-            _context.Update(superkat);
-        }
-        catch(Exception ex)
-        {
+        _context.Update(superkat);
 
-        }
         await _context.SaveChangesAsync();
     }
 
