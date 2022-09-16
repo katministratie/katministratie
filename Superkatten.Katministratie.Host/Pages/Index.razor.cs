@@ -8,7 +8,6 @@ using Superkatten.Katministratie.Host.Pages.Users;
 using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Authentication;
 using Superkatten.Katministratie.Host.Services.Interfaces;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Superkatten.Katministratie.Host.Pages;
 

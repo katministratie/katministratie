@@ -28,7 +28,7 @@ public class CageCardSuperkatDetailsComponent : IComponent
 
                 column.Item()
                     .PaddingLeft(15)
-                    .Background(Colors.BlueGrey.Darken3)
+                    .Background(Colors.White)
                     .Element(cardBody.Compose);
             });
     }

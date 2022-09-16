@@ -48,7 +48,7 @@ namespace Superkatten.Katministratie.Application.Mappers
             return state switch
             {
                 SuperkatState.Monitoring => contractEntities.SuperkatState.Monitoring,
-                SuperkatState.ReadyForAdoption => contractEntities.SuperkatState.ReadyForAdoption,
+                SuperkatState.AdoptionRunning => contractEntities.SuperkatState.AdoptionRunning,
                 SuperkatState.WaitForPayment => contractEntities.SuperkatState.WaitForPayment,
                 SuperkatState.FinalizeChecks => contractEntities.SuperkatState.FinalizeChecks,
                 SuperkatState.Done => contractEntities.SuperkatState.Done,
@@ -218,7 +218,7 @@ namespace Superkatten.Katministratie.Application.Mappers
             return state switch
             {
                 contractEntities.SuperkatState.Monitoring => SuperkatState.Monitoring,
-                contractEntities.SuperkatState.ReadyForAdoption => SuperkatState.ReadyForAdoption,
+                contractEntities.SuperkatState.AdoptionRunning => SuperkatState.AdoptionRunning,
                 contractEntities.SuperkatState.WaitForPayment => SuperkatState.WaitForPayment,
                 contractEntities.SuperkatState.FinalizeChecks => SuperkatState.FinalizeChecks,
                 contractEntities.SuperkatState.Done => SuperkatState.Done,

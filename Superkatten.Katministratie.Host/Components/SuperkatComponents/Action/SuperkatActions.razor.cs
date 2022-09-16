@@ -5,7 +5,7 @@ using Superkatten.Katministratie.Host.Helpers;
 
 namespace Superkatten.Katministratie.Host.Components.SuperkatComponents.Action;
 
-public partial class SuperkatActions: ComponentBase
+public partial class SuperkatActions : ComponentBase
 {
     [Inject]
     public Navigation Navigation { get; set; } = null!;
@@ -31,7 +31,11 @@ public partial class SuperkatActions: ComponentBase
 
     private void AddMedicalProcedure()
     {
-        var navigateToUrl = "AddMedicalProcedure/" + SuperkatView.Superkat.Id.ToString();
-        Navigation.NavigateTo(navigateToUrl);
+        Navigation.NavigateTo($"AddMedicalProcedure/{SuperkatView.Superkat.Id}");
+    }
+
+    private void ShowSuperkatState()
+    {
+        Navigation.NavigateTo($"SuperkatStatus/{SuperkatView.Superkat.Id}");
     }
 }

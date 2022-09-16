@@ -7,7 +7,7 @@ namespace Superkatten.Katministratie.Domain.Entities
     {
         public Guid Id { get; init; }
         public int Number { get; private set; }
-        public SuperkatState State { get; init; } = SuperkatState.Monitoring;
+        public SuperkatState State { get; set; } = SuperkatState.Monitoring;
         public DateTime Birthday { get; private set; }
         public DateTime CatchDate { get; private set; } = DateTime.UtcNow;
         public CatchOrigin CatchOrigin { get; private set; }
@@ -30,8 +30,7 @@ namespace Superkatten.Katministratie.Domain.Entities
         // Constructor is needed for EF
         public Superkat() { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
-        public Superkat(
+                public Superkat(
             int number,
             DateTime catchDate,
             CatchOrigin catchOrigin
@@ -148,6 +147,21 @@ namespace Superkatten.Katministratie.Domain.Entities
         public Superkat WithName(string name)
         {
             Name = name;
+
+            return this;
+        }
+
+        public Superkat WithState(SuperkatState desiredState)
+        {
+            State = (State, desiredState) switch
+            {
+                (SuperkatState.Monitoring, SuperkatState.AdoptionRunning) => desiredState,
+                (SuperkatState.AdoptionRunning, SuperkatState.WaitForPayment) => desiredState,
+                (SuperkatState.WaitForPayment, SuperkatState.FinalizeChecks) => desiredState,
+                (SuperkatState.WaitForPayment, SuperkatState.Monitoring) => desiredState,
+                (SuperkatState.FinalizeChecks, SuperkatState.Done) => desiredState,
+                _ => throw new DomainException($"It is not possible to transition from {State} to {desiredState}")
+            };
 
             return this;
         }

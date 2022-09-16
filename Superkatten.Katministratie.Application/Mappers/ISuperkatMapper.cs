@@ -7,7 +7,7 @@ namespace Superkatten.Katministratie.Application.Mappers
     public interface ISuperkatMapper
     {
         Superkat MapContractToDomain(ContractEntitiess.Superkat superkat);
-        ContractEntitiess.Superkat MapDomainToContract(Superkat createdSuperkat);
+        ContractEntitiess.Superkat MapDomainToContract(Superkat superkat);
         CatArea MapContractToDomain(ContractEntitiess.CatArea area);
         CatBehaviour MapContractToDomain(ContractEntitiess.CatBehaviour behaviour);
         Gender MapContractToDomain(ContractEntitiess.Gender gender);

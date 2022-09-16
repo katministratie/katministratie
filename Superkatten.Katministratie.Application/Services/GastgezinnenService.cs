@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Superkatten.Katministratie.Application.Services
 {
     public class GastgezinnenService : IGastgezinnenService
-    {
+    { 
         public readonly ILogger<GastgezinnenService> _logger;
         public readonly IGastgezinnenRepository _gastgezinRepository;
         private readonly ISuperkattenRepository _superkattenRepository;

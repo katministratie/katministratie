@@ -44,7 +44,7 @@ namespace Superkatten.Katministratie.Infrastructure.Migrations
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
-            migrationBuilder.Sql("INSERT INTO CatchOrigin SELECT * FROM Locations");
+            migrationBuilder.Sql("INSERT INTO CatchOrigins SELECT * FROM Locations");
 
             migrationBuilder.DropTable(
                 name: "Locations");
