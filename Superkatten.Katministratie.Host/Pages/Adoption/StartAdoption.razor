@@ -1,0 +1,54 @@
+﻿@page "/Adoption/{AdopterId:guid}/Start"
+
+<h1>Start van het adoptieproces</h1>
+
+<PageTitle>Start adoptie</PageTitle>
+
+<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Ok</Button>
+<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
+
+<Divider />
+
+<Container>
+  <Div>
+    <Span>
+      Vul hier je gegevens in zodat we de adoptiepapieren in orde kunnen maken.
+      Deze zal je ontvangen op het email adres wat je hebt opgegeven.
+      De adoptiekatten zijn:
+    </Span>
+    
+    <Span>
+    @foreach(var superkat in _superkatten)
+    {
+      <div> @superkat.UniqueNumber (@superkat.Name)</div>
+    }
+    </Span>
+
+    <Span>
+      Vul hieronder je adres gegevens in:
+    </Span>
+    <Span>
+      <Field>
+        <FieldLabel>Naam:</FieldLabel>
+        <FieldBody><TextEdit Text="@_adopterName"></TextEdit></FieldBody>
+      </Field>
+      <Field>
+          <FieldLabel>Adres:</FieldLabel>
+          <FieldBody><TextEdit Text="@_adopterAddress"></TextEdit></FieldBody>
+      </Field>
+      <Field>
+          <FieldLabel>Postcode:</FieldLabel>
+          <FieldBody><TextEdit Text="@_adopterPostcode"></TextEdit></FieldBody>
+      </Field>
+      <Field>
+          <FieldLabel>Woonplaats:</FieldLabel>
+          <FieldBody><TextEdit Text="@_adopterCity"></TextEdit></FieldBody>
+      </Field>
+      <Field>
+          <FieldLabel>Telfoon:</FieldLabel>
+          <FieldBody><TextEdit Text="@_adopterPhone"></TextEdit></FieldBody>
+      </Field>
+
+    </Span>
+  </Div>
+</Container>

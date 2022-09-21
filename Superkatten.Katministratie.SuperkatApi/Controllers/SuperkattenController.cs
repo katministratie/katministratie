@@ -59,7 +59,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
 
         [HttpPut]
         [Route("Adopting")]
-        public async Task<IActionResult> PutSuperkatten(ReserveSuperkattenParameters reserveSuperkattenParameters)
+        public async Task<IActionResult> PutSuperkatten(StartAdoptionSuperkattenParameters reserveSuperkattenParameters)
         {
             await _adoptionService.StartSuperkattenAdoptionAsync(reserveSuperkattenParameters);
 

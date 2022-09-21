@@ -37,7 +37,7 @@ namespace Superkatten.Katministratie.Host.Services
         public Task AdoptSuperkatten(Guid gastgezinId, IReadOnlyCollection<Guid> reservedSuperkattenParameters, string name, string email)
         {
             var uri = $"api/Superkatten/Adopting";
-            var reserveParameters = new ReserveSuperkattenParameters
+            var reserveParameters = new StartAdoptionSuperkattenParameters
             {
                 AdoptantName = name,
                 AdoptantEmail = email,

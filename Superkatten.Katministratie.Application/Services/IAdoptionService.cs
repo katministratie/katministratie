@@ -5,5 +5,5 @@ namespace Superkatten.Katministratie.Application.Services;
 
 public interface IAdoptionService
 {
-    Task StartSuperkattenAdoptionAsync(ReserveSuperkattenParameters reserveSuperkattenParameters);
+    Task StartSuperkattenAdoptionAsync(StartAdoptionSuperkattenParameters reserveSuperkattenParameters);
 }

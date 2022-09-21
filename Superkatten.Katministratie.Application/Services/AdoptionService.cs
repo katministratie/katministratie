@@ -25,7 +25,7 @@ public class AdoptionService : IAdoptionService
         _adoptantRepository = adoptantRepository;
     }
 
-    public async Task StartSuperkattenAdoptionAsync(ReserveSuperkattenParameters reserveSuperkattenParameters)
+    public async Task StartSuperkattenAdoptionAsync(StartAdoptionSuperkattenParameters reserveSuperkattenParameters)
     {
         var adoptant = await CreateAdoptant(
             reserveSuperkattenParameters.AdoptantName,
@@ -54,19 +54,41 @@ public class AdoptionService : IAdoptionService
         return adoptant;
     }
 
-    private Task InformAdoptantAsync(Adoptant adoptant, IReadOnlyCollection<Guid> superkatten)
+    private async Task InformAdoptantAsync(Adoptant adopter, IReadOnlyCollection<Guid> superkatten)
     {
-        var bodyText = $"Beste {adoptant.Name},/n/n" +
-            "Je hebt gekozen om het adoptie proces in gang te zetten. /n" +
-            $"Klik op XXXXX om verder te gaan. /n/n" +
+        var bodyText = $"Beste {adopter.Name},/n" +
+            "/n" +
+            "Je hebt gekozen om het adoptie proces in gang te zetten voor de volgende katten: /n" +
+            await CreateLineWithCatInfoAsync(superkatten) +
+            "/n" +
+            "Voor het adoptie process zal je bij het ophalen van de katten een aantal formulieren ondertekenen." +
+            "hierbij zitten ook de voorwaarden. Deze kan je alvast lezen via de volgende link: <a href=\"#\" \\>" +
+            $"Klik op <a href=\"/Adoption/{adopter.Id}/Start\" /> om verder te gaan. /n" +
+            "/n" +
             "Met vriendelijke groet,/n" +
             "Stichting Superkatten";
 
-            return _mailService.MailToAsync(
-                email: adoptant.Email,
+            await _mailService.MailToAsync(
+                email: adopter.Email,
                 subject: "Adoptie stichting superkatten",
                 bodyText: bodyText,
                 documentData: Array.Empty<byte>()
             );
+    }
+
+    private async Task<string> CreateLineWithCatInfoAsync(IReadOnlyCollection<Guid> superkatten)
+    {
+        var line = string.Empty;
+        foreach (var superkatId in superkatten)
+        {
+            var superkat = await _superkattenRepository.GetSuperkatAsync(superkatId);
+            if (superkat == null) 
+            {
+                continue;
+            }
+
+            line += $"{superkat.Name} met nummer {superkat.UniqueNumber} /n";
+        }
+        return line;
     }
 }
