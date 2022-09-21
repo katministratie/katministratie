@@ -1,0 +1,17 @@
+﻿@page "/Adoption/Overview
+
+
+<h1>Adoptanten</h1>
+
+<PageTitle>Status adoptie</PageTitle>
+
+<Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
+
+<Divider />
+
+<Span>Hieronder staan de adoptanten en de status van het adoptieproces waar ze in zitten.</Span>
+
+@foreach(var adoptant in _adoptanten)
+{
+  <AdoptantComponent Adoptant=adoptant />
+}

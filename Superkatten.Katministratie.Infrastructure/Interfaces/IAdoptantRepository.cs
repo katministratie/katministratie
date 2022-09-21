@@ -1,4 +1,4 @@
-﻿using Superkatten.Katministratie.Domain.Entities;
+﻿using Superkatten.Katministratie.Domain.Entities.Adoption;
 using System.Threading.Tasks;
 
 namespace Superkatten.Katministratie.Infrastructure.Interfaces;

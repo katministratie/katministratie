@@ -151,19 +151,19 @@ namespace Superkatten.Katministratie.Domain.Entities
             return this;
         }
 
-        public Superkat WithState(SuperkatState desiredState)
+        public void StartAdoption()
         {
-            State = (State, desiredState) switch
-            {
-                (SuperkatState.Monitoring, SuperkatState.AdoptionRunning) => desiredState,
-                (SuperkatState.AdoptionRunning, SuperkatState.WaitForPayment) => desiredState,
-                (SuperkatState.WaitForPayment, SuperkatState.FinalizeChecks) => desiredState,
-                (SuperkatState.WaitForPayment, SuperkatState.Monitoring) => desiredState,
-                (SuperkatState.FinalizeChecks, SuperkatState.Done) => desiredState,
-                _ => throw new DomainException($"It is not possible to transition from {State} to {desiredState}")
-            };
+            State = SuperkatState.AdoptionRunning;
+        }
 
-            return this;
+        public void AbortAdoption()
+        {
+            State = SuperkatState.Monitoring;
+        }
+
+        public void FinishAdoption()
+        {
+            State = SuperkatState.Adopted;
         }
     }
 }

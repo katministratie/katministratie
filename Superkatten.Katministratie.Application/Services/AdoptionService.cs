@@ -5,6 +5,9 @@ using System;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
 using Superkatten.Katministratie.Infrastructure.Persistence;
 using Superkatten.Katministratie.Domain.Entities;
+using Superkatten.Katministratie.Domain.Entities.Adoption;
+using System.Linq;
+using System.Security.AccessControl;
 
 namespace Superkatten.Katministratie.Application.Services;
 
@@ -32,19 +35,18 @@ public class AdoptionService : IAdoptionService
             reserveSuperkattenParameters.AdoptantEmail
         );
 
-        await ChangeSuperkattenStateToAdoptionRunningAsync(reserveSuperkattenParameters.Superkatten);
+        adoptant.StartAdoption();
 
+        await Task.WhenAll(reserveSuperkattenParameters.Superkatten.Select(StartAdoptionAsync));
+        
         await InformAdoptantAsync(adoptant, reserveSuperkattenParameters.Superkatten);
     }
 
-    private async Task ChangeSuperkattenStateToAdoptionRunningAsync(IReadOnlyCollection<Guid> superkatten)
+    private async Task StartAdoptionAsync(Guid superkatId)
     {
-        foreach (var superkatId in superkatten)
-        {
-            var superkat = await _superkattenRepository.GetSuperkatAsync(superkatId);
-            var updatedSuperkat = superkat.WithState(SuperkatState.AdoptionRunning);
-            await _superkattenRepository.UpdateSuperkatAsync(updatedSuperkat);
-        }
+        var superkat = await _superkattenRepository.GetSuperkatAsync(superkatId);
+        superkat.StartAdoption();
+        await _superkattenRepository.UpdateSuperkatAsync(superkat);
     }
 
     private async Task<Adoptant> CreateAdoptant(string adoptantName, string adoptantEmail)
