@@ -22,7 +22,7 @@ namespace Superkatten.Katministratie.Domain.Entities
         public bool WetFoodAllowed { get; private set; } = true;
         public FoodType FoodType { get; private set; } = FoodType.FirstPhase;
         public string Color { get; private set; } = string.Empty;
-        public LocationBase Location { get; private set; }
+        public BaseLocation Location { get; private set; }
         public byte[]? Photo { get; private set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
@@ -34,7 +34,7 @@ namespace Superkatten.Katministratie.Domain.Entities
             int number,
             DateTime catchDate,
             CatchOrigin catchOrigin,
-            LocationBase location
+            BaseLocation location
         )
         {
             Id = Guid.NewGuid();
@@ -91,7 +91,7 @@ namespace Superkatten.Katministratie.Domain.Entities
             };
         }
 
-        public void Relocate(LocationBase newLocation)
+        public void Relocate(BaseLocation newLocation)
         {
             Location = newLocation;
         }
