@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Superkatten.Katministratie.Domain.Entities;
+using Superkatten.Katministratie.Domain.Entities.Locations;
 using Superkatten.Katministratie.Infrastructure.Entities;
 
 namespace Superkatten.Katministratie.Infrastructure.Persistence;

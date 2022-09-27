@@ -2,7 +2,7 @@
 using Superkatten.Katministratie.Application.Exceptions;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Contract.ApiInterface;
-using Superkatten.Katministratie.Domain.Entities;
+using Superkatten.Katministratie.Domain.Entities.Locations;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;

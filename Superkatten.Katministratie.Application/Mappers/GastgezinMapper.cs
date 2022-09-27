@@ -1,4 +1,4 @@
-﻿using Superkatten.Katministratie.Domain.Entities;
+﻿using Superkatten.Katministratie.Domain.Entities.Locations;
 using System.Linq;
 using ContractEntities = Superkatten.Katministratie.Contract.Entities;
 

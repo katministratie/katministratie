@@ -5,6 +5,7 @@ using System;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
 using Superkatten.Katministratie.Infrastructure.Persistence;
 using Superkatten.Katministratie.Domain.Entities;
+using Superkatten.Katministratie.Domain.Entities.Locations;
 
 namespace Superkatten.Katministratie.Application.Services;
 
