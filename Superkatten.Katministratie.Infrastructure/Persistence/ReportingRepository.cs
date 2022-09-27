@@ -22,7 +22,7 @@ internal class ReportingRepository : IReportingRepository
         return await _context.SuperKatten
             .AsNoTracking()
             .Include(o => o.CatchOrigin)
-            .Where(o => o.CatchDate >= from && o.CatchDate < to && o.State != SuperkatState.Done)
+            .Where(o => o.CatchDate >= from && o.CatchDate < to && o.State != SuperkatState.Adopted)
             .ToListAsync();
     }
 
@@ -31,7 +31,7 @@ internal class ReportingRepository : IReportingRepository
         return await _context.SuperKatten
             .AsNoTracking()
             .Include(o => o.CatchOrigin)
-            .Where(o => o.CatArea == catArea && o.CageNumber == cageNumber && o.State != SuperkatState.Done)
+            .Where(o => o.CatArea == catArea && o.CageNumber == cageNumber && o.State != SuperkatState.Adopted)
             .ToListAsync();
     }
 
@@ -46,7 +46,7 @@ internal class ReportingRepository : IReportingRepository
         return await _context.SuperKatten
             .AsNoTracking()
             .Include(o => o.CatchOrigin)
-            .Where(o => !neutralizedSuperkatten.Contains(o.Id) && o.State != SuperkatState.Done)
+            .Where(o => !neutralizedSuperkatten.Contains(o.Id) && o.State != SuperkatState.Adopted)
             .ToListAsync();
     }
 }

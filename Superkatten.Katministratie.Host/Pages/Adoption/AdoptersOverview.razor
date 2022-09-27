@@ -1,4 +1,4 @@
-﻿@page "/Adoption/Overview
+﻿@page "/Adoption/Overview"
 
 
 <h1>Adoptanten</h1>
@@ -11,7 +11,7 @@
 
 <Span>Hieronder staan de adoptanten en de status van het adoptieproces waar ze in zitten.</Span>
 
-@foreach(var adoptant in _adoptanten)
+@foreach(var adopter in _adopters)
 {
-  <AdoptantComponent Adoptant=adoptant />
+  <AdoptantComponent Adoptant=adopter/>
 }

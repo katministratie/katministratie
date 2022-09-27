@@ -48,10 +48,8 @@ namespace Superkatten.Katministratie.Application.Mappers
             return state switch
             {
                 SuperkatState.Monitoring => contractEntities.SuperkatState.Monitoring,
-                SuperkatState.AdoptionRunning => contractEntities.SuperkatState.AdoptionRunning,
-                SuperkatState.WaitForPayment => contractEntities.SuperkatState.WaitForPayment,
-                SuperkatState.FinalizeChecks => contractEntities.SuperkatState.FinalizeChecks,
-                SuperkatState.Done => contractEntities.SuperkatState.Done,
+                SuperkatState.AdoptionRunning=> contractEntities.SuperkatState.AdoptionRunning,
+                SuperkatState.Adopted => contractEntities.SuperkatState.Adopted,
                 _ => throw new InvalidEnumArgumentException(nameof(state), (int)state, typeof(SuperkatState))
             };
         }
@@ -219,9 +217,7 @@ namespace Superkatten.Katministratie.Application.Mappers
             {
                 contractEntities.SuperkatState.Monitoring => SuperkatState.Monitoring,
                 contractEntities.SuperkatState.AdoptionRunning => SuperkatState.AdoptionRunning,
-                contractEntities.SuperkatState.WaitForPayment => SuperkatState.WaitForPayment,
-                contractEntities.SuperkatState.FinalizeChecks => SuperkatState.FinalizeChecks,
-                contractEntities.SuperkatState.Done => SuperkatState.Done,
+                contractEntities.SuperkatState.Adopted => SuperkatState.Adopted,
                 _ => throw new InvalidEnumArgumentException(nameof(state), (int)state, typeof(contractEntities.SuperkatState))
             };
         }
