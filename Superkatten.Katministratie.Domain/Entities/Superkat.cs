@@ -1,3 +1,4 @@
+using Superkatten.Katministratie.Domain.Entities.Locations;
 using Superkatten.Katministratie.Domain.Exceptions;
 using System;
 
@@ -15,141 +16,87 @@ namespace Superkatten.Katministratie.Domain.Entities
         public bool Reserved { get; private set; }
         public bool Retour { get; private set; }
         public CatBehaviour Behaviour { get; private set; } = CatBehaviour.Unknown;
-        public AgeCategory AgeCategory{ get; private set; }
+        public AgeCategory AgeCategory { get; private set; }
         public Gender Gender { get; private set; } = Gender.Unknown;
         public LitterGranuleType LitterType { get; private set; } = LitterGranuleType.Normal;
         public bool WetFoodAllowed { get; private set; } = true;
         public FoodType FoodType { get; private set; } = FoodType.FirstPhase;
         public string Color { get; private set; } = string.Empty;
-        public Location Location { get; private set; }
+        public LocationBase Location { get; private set; }
         public byte[]? Photo { get; private set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         // Constructor is needed for EF
         public Superkat() { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-                public Superkat(
+
+        public Superkat(
             int number,
             DateTime catchDate,
-            CatchOrigin catchOrigin
+            CatchOrigin catchOrigin,
+            LocationBase location
         )
         {
-            if (catchOrigin is null)
-            {
-                throw new DomainException($"{nameof(catchOrigin)} may not be null");
-            }
-
             Id = Guid.NewGuid();
 
             Number = number;
             CatchDate = catchDate;
             CatchOrigin = catchOrigin;
+            Location = location;
         }
 
-        public string UniqueNumber
+        public string UniqueNumber => CatchDate.Year.ToString() + "-" + Number.ToString("000");
+
+        public Superkat CreateUpdatedModel(
+            DateTime birthday,
+            CatBehaviour catBehaviour,
+            bool retour,
+            bool reserved,
+            AgeCategory ageCategory,
+            Gender gender,
+            LitterGranuleType litterType,
+            bool wetFoodAllowed,
+            FoodType foodType,
+            string color,
+            byte[] photo,
+            string name
+        )
         {
-            get
+            if (CatchOrigin is null)
             {
-                return CatchDate.Year.ToString() + "-" + Number.ToString("000");
-            }
-        }
-
-        public void SetBirthday(DateTime birthday)
-        {
-            Birthday = birthday;
-        }
-
-        public void SetBehaviour(CatBehaviour catBehaviour)
-        {
-            Behaviour = catBehaviour;
-        }
-
-        public void SetRetour(bool retour)
-        {
-            Retour = retour;
-        }
-
-        public void SetReserved(bool reserved)
-        {
-            Reserved = reserved;
-        }
-
-        public void SetAgeCategory(AgeCategory ageCategory)
-        {
-            AgeCategory = AgeCategory;
-        }
-        public void SetGender(Gender gender)
-        {
-            Gender = gender;
-        }
-
-        public void SetLitterType(LitterGranuleType litterType)
-        {
-            LitterType = litterType;
-        }
-
-        public void SetWetFoodAllowed(bool wetFoodAllowed)
-        {
-            WetFoodAllowed = wetFoodAllowed;
-        }
-
-        public void SetFoodType(FoodType foodType)
-        {
-            FoodType = foodType;
-        }
-
-        public void SetColor(string color)
-        {
-            Color = color;
-        }
-
-        public Superkat WithGastgezinId(Guid? gastgezinId)
-        {
-            GastgezinId = gastgezinId;
-
-            if (gastgezinId is not null)
-            {
-                CageNumber = 1;
-                CatArea = CatArea.HostFamily;
+                throw new DomainException($"{nameof(CatchOrigin)} may not be null");
             }
 
-            return this;
-        }
-
-        public Superkat WithPhoto(byte[] photo)
-        {
-            Photo = photo;
-
-            return this;
-        }
-
-        public Superkat WithCatArea(CatArea area)
-        {
-            CatArea = area;
-
-            return this;
-        }
-
-        public Superkat WithCageNumber(int? cageNumber)
-        {
-            if (cageNumber < 0)
+            if (Location is null)
             {
-                throw new DomainException($"Cagenumber {cageNumber} cannot be less than zero");
+                throw new DomainException($"{nameof(Location)} may not be null");
             }
 
-            CageNumber = cageNumber;
+            return new Superkat(Number, CatchDate, CatchOrigin, Location)
+            {
+                Id = Id,
 
-            return this;
+                Birthday = birthday,
+                Behaviour = catBehaviour,
+                Retour = retour,
+                Reserved = reserved,
+                AgeCategory = AgeCategory,
+                Gender = gender,
+                LitterType = litterType,
+                WetFoodAllowed = wetFoodAllowed,
+                FoodType = foodType,
+                Color = color,
+                Photo = photo,
+                Name = name
+            };
         }
 
-        public Superkat WithName(string name)
+        public void Relocate(LocationBase newLocation)
         {
-            Name = name;
-
-            return this;
+            Location = newLocation;
         }
 
-        public Superkat WithState(SuperkatState desiredState)
+        public Superkat SetState(SuperkatState desiredState)
         {
             State = (State, desiredState) switch
             {

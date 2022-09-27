@@ -11,6 +11,16 @@ public class Refuge : LocationBase
     public string Postcode { get; } = "4151 CC";
     public string City { get; } = "Acquoy";
 
+    private CatArea CatArea {get; init;} = CatArea.Quarantine;
+    private int? CageNumber { get; init; }
+
+
+    public Refuge(CatArea catArea, int? cageNumber)
+    {
+        CatArea = catArea;
+        CageNumber = cageNumber;
+    }
+
     public static List<int> GetCageNumbersForCatArea(CatArea catArea)
     {
         return catArea switch
