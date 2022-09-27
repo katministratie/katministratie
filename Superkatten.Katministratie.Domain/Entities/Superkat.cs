@@ -14,8 +14,6 @@ namespace Superkatten.Katministratie.Domain.Entities
         public string Name { get; private set; } = string.Empty;
         public bool Reserved { get; private set; }
         public bool Retour { get; private set; }
-        public CatArea CatArea { get; private set; } = CatArea.Quarantine;
-        public int? CageNumber { get; private set; }
         public CatBehaviour Behaviour { get; private set; } = CatBehaviour.Unknown;
         public AgeCategory AgeCategory{ get; private set; }
         public Gender Gender { get; private set; } = Gender.Unknown;
@@ -23,7 +21,7 @@ namespace Superkatten.Katministratie.Domain.Entities
         public bool WetFoodAllowed { get; private set; } = true;
         public FoodType FoodType { get; private set; } = FoodType.FirstPhase;
         public string Color { get; private set; } = string.Empty;
-        public Guid? GastgezinId { get; private set; }
+        public Location Location { get; private set; }
         public byte[]? Photo { get; private set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

@@ -1,10 +1,12 @@
 ﻿using Superkatten.Katministratie.Domain.Exceptions;
 using System;
 
-namespace Superkatten.Katministratie.Domain.Entities;
+namespace Superkatten.Katministratie.Domain.Entities.Locations;
 
-public class Gastgezin
+public class Gastgezin : LocationBase
 {
+    public override LocationType LocationType => LocationType.HostFamily;
+
     public Guid Id { get; private set; }
     public string Name { get; private set; }
     public string? Address { get; private set; }
@@ -12,9 +14,9 @@ public class Gastgezin
     public string? Phone { get; private set; }
 
     public Gastgezin(
-        string name, 
-        string? address, 
-        string? city, 
+        string name,
+        string? address,
+        string? city,
         string? phone
     )
     {

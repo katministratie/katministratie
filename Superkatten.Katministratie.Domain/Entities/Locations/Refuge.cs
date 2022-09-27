@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace Superkatten.Katministratie.Domain.Entities;
+namespace Superkatten.Katministratie.Domain.Entities.Locations;
 
-public class Refuge
+public class Refuge : LocationBase
 {
+    public override LocationType LocationType => LocationType.Refuge;
+
     public string Address { get; } = "Huigenstraat 49";
     public string Postcode { get; } = "4151 CC";
     public string City { get; } = "Acquoy";
-    
+
     public static List<int> GetCageNumbersForCatArea(CatArea catArea)
     {
         return catArea switch

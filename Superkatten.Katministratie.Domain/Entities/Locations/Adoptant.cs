@@ -1,10 +1,11 @@
 ﻿using Superkatten.Katministratie.Domain.Exceptions;
 using System;
 
-namespace Superkatten.Katministratie.Domain.Entities;
+namespace Superkatten.Katministratie.Domain.Entities.Locations;
 
-public class Adoptant
+public class Adoptant : LocationBase
 {
+    public override LocationType LocationType => LocationType.Adopter;
     public Guid Id { get; init; }
     public string Name { get; init; }
     public string? Address { get; set; }
