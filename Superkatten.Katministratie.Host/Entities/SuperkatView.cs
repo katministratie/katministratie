@@ -1,4 +1,6 @@
 ﻿using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Contract.Entities.Locations;
+using Superkatten.Katministratie.Host.Helpers;
 
 namespace Superkatten.Katministratie.Host.Entities
 {
@@ -8,7 +10,7 @@ namespace Superkatten.Katministratie.Host.Entities
 
         public string GenderIcon => $"./images/Gender/{Superkat.Gender}.png";
 
-        public bool IsAtGastgezin => Superkat.GastgezinId is not null;
+        public bool IsAtGastgezin => Superkat.Location.LocationType is LocationType.HostFamily;
 
         public SuperkatView(Superkat superkat)
         {
@@ -22,16 +24,6 @@ namespace Superkatten.Katministratie.Host.Entities
 
         public bool IsVisible { get; set; } = false;
 
-        public string CatLocationAsString =>
-            Superkat.CatArea switch
-            {
-                CatArea.Quarantine => $"Q-{Superkat.CageNumber}",
-                CatArea.Infirmary => $"ZB-{Superkat.CageNumber}",
-                CatArea.SmallEnclosure => $"S-{Superkat.CageNumber}",
-                CatArea.BigEnclosure => $"B-{Superkat.CageNumber}",
-                CatArea.Room2 => $"R-{Superkat.CageNumber}",
-                CatArea.HostFamily => "GG",
-                _ => $"??-{Superkat.CageNumber}"
-            };
+        public string CatLocationAsString => LocationDisplayConverter.ConvertLocation(Superkat.Location);
     }
 }

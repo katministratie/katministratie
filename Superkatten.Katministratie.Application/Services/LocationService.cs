@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Superkatten.Katministratie.Application.Exceptions;
+﻿using Superkatten.Katministratie.Application.Exceptions;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Domain.Entities.Locations;
@@ -11,21 +10,16 @@ using System.Threading.Tasks;
 
 namespace Superkatten.Katministratie.Application.Services
 {
-    public class GastgezinnenService : IGastgezinnenService
+    public class LocationService : ILocationService
     {
         private readonly ILocationRepository _locationRepository;
-        private readonly ISuperkattenRepository _superkattenRepository;
 
-        public GastgezinnenService(
-            ILocationRepository locationRepository,
-            ISuperkattenRepository superkattenRepository
-        )
+        public LocationService(ILocationRepository locationRepository)
         {
             _locationRepository = locationRepository;
-            _superkattenRepository = superkattenRepository;
         }
 
-        public async Task<Gastgezin> CreateGastgezinAsync(CreateUpdateLocationNawParameters parameters)
+        public async Task<BaseLocation> CreateHostFamilyAsync(CreateUpdateLocationNawParameters parameters)
         {
             if (string.IsNullOrEmpty(parameters.Name))
             {
@@ -46,15 +40,16 @@ namespace Superkatten.Katministratie.Application.Services
             return gastgezin;
         }
        
-        public async Task DeleteGastgezinAsync(Guid id)
+        public async Task DeleteLocationAsync(Guid id)
         {
             await _locationRepository.DeleteLocationAsync(id);
         }
 
-        public async Task<IReadOnlyCollection<Gastgezin>> GetGastgezinnenAsync()
+        public async Task<IReadOnlyCollection<BaseLocation>> GetLocationsAsync()
         {
-            var gastgezinnen = await _locationRepository.GetLocationsAsync();
-            return gastgezinnen.ToList();
+            var locations = await _locationRepository.GetLocationsAsync();
+            
+            return locations.ToList();
         }
 
         public async Task<BaseLocation> UpdateLocationAsync(Guid locationId, CreateUpdateLocationNawParameters parameters)
@@ -79,7 +74,7 @@ namespace Superkatten.Katministratie.Application.Services
                 parameters.Email
             );
 
-            await _locationRepository.UpdateGastgezinAsync(location);
+            await _locationRepository.UpdateLocationAsync(location);
 
             return location;
         }

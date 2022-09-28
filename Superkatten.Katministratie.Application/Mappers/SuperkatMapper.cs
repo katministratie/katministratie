@@ -1,4 +1,5 @@
 ﻿using Superkatten.Katministratie.Domain.Entities;
+using Superkatten.Katministratie.Domain.Entities.Locations;
 using System;
 using System.ComponentModel;
 
@@ -8,6 +9,13 @@ namespace Superkatten.Katministratie.Application.Mappers
 {
     public class SuperkatMapper : ISuperkatMapper
     {
+        private readonly ILocationMapper _locationMapper;
+
+        public SuperkatMapper(ILocationMapper locationMapper)
+        {
+            _locationMapper = locationMapper;
+        }
+
         public contractEntities.Superkat MapDomainToContract(Superkat superkat)
         {
             return new contractEntities.Superkat
@@ -15,7 +23,6 @@ namespace Superkatten.Katministratie.Application.Mappers
                 Id = superkat.Id,
                 State = MapToContract(superkat.State),
                 Birthday = superkat.Birthday,
-                CageNumber = superkat.CageNumber,
                 CatchDate = superkat.CatchDate,
                 CatchOrigin = MapToContract(superkat.CatchOrigin),
                 AgeCategory = MapToContract(superkat.AgeCategory),
@@ -24,11 +31,10 @@ namespace Superkatten.Katministratie.Application.Mappers
                 Reserved = superkat.Reserved,
                 Retour = superkat.Retour,
                 Behaviour = MapToContract(superkat.Behaviour),
-                CatArea = MapToContract(superkat.CatArea),
                 Gender = MapToContract(superkat.Gender),
-                GastgezinId = superkat.GastgezinId,
                 Photo = superkat.Photo ?? Array.Empty<byte>(),
                 Color = superkat.Color,
+                Location = _locationMapper.ToContract(superkat.Location)
             };
         }
 
@@ -53,20 +59,6 @@ namespace Superkatten.Katministratie.Application.Mappers
                 SuperkatState.FinalizeChecks => contractEntities.SuperkatState.FinalizeChecks,
                 SuperkatState.Done => contractEntities.SuperkatState.Done,
                 _ => throw new InvalidEnumArgumentException(nameof(state), (int)state, typeof(SuperkatState))
-            };
-        }
-
-        private static contractEntities.CatArea MapToContract(CatArea catArea)
-        {
-            return catArea switch
-            {
-                CatArea.Quarantine => contractEntities.CatArea.Quarantine,
-                CatArea.Infirmary => contractEntities.CatArea.Infirmary,
-                CatArea.SmallEnclosure => contractEntities.CatArea.SmallEnclosure,
-                CatArea.BigEnclosure => contractEntities.CatArea.BigEnclosure,
-                CatArea.Room2 => contractEntities.CatArea.Room2,
-                CatArea.HostFamily => contractEntities.CatArea.HostFamily,
-                _ => throw new InvalidEnumArgumentException(nameof(catArea), (int)catArea, typeof(CatArea))
             };
         }
 
@@ -119,30 +111,6 @@ namespace Superkatten.Katministratie.Application.Mappers
             };
         }
 
-        public Superkat MapContractToDomain(contractEntities.Superkat contractSuperkat)
-        {
-            var superkat = new Superkat(
-                contractSuperkat.Number,
-                contractSuperkat.CatchDate,
-                MapContractToDomain(contractSuperkat.CatchOrigin)
-            )
-            {
-                Id = contractSuperkat.Id,
-                State = MapContractToDomain(contractSuperkat.State)
-            };
-
-            superkat.SetBehaviour(MapContractToDomain(contractSuperkat.Behaviour));
-            superkat.SetBirthday(contractSuperkat.Birthday);
-            superkat.SetGender(MapContractToDomain(contractSuperkat.Gender));
-            superkat.SetAgeCategory(MapContractToDomain(contractSuperkat.AgeCategory));
-
-            return superkat
-                .WithGastgezinId(contractSuperkat.GastgezinId)
-                .WithPhoto(contractSuperkat.Photo)
-                .WithCatArea(MapContractToDomain(contractSuperkat.CatArea))
-                .WithCageNumber(contractSuperkat.CageNumber)
-                .WithName(contractSuperkat.Name ?? string.Empty);
-        }
 
         public CatArea MapContractToDomain(contractEntities.CatArea area)
         {
@@ -153,7 +121,6 @@ namespace Superkatten.Katministratie.Application.Mappers
                 contractEntities.CatArea.SmallEnclosure => CatArea.SmallEnclosure,
                 contractEntities.CatArea.BigEnclosure => CatArea.BigEnclosure,
                 contractEntities.CatArea.Room2 => CatArea.Room2,
-                contractEntities.CatArea.HostFamily => CatArea.HostFamily,
                 _ => throw new InvalidEnumArgumentException(nameof(area), (int)area, typeof(contractEntities.CatArea))
             };
         }

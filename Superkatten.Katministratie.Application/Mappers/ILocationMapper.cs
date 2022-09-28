@@ -1,9 +1,10 @@
 ﻿using Superkatten.Katministratie.Domain.Entities.Locations;
+
 using ContractEntities = Superkatten.Katministratie.Contract.Entities;
 
 namespace Superkatten.Katministratie.Application.Mappers;
 
-public interface IGastgezinMapper
+public interface ILocationMapper
 {
-    public ContractEntities.Gastgezin MapDomainToContract(Gastgezin gastgezin);
+    public ContractEntities.Locations.Location ToContract(BaseLocation location);
 }

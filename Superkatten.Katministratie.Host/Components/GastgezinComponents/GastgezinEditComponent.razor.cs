@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Superkatten.Katministratie.Contract.ApiInterface;
-using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Contract.Entities.Locations;
 using Superkatten.Katministratie.Host.Entities;
 using Superkatten.Katministratie.Host.Services;
 
@@ -13,7 +13,7 @@ public partial class GastgezinEditComponent
     private IGastgezinService? _gastgezinService { get; set; }
 
     [Parameter]
-    public Gastgezin? Gastgezin 
+    public Location? Gastgezin 
     { 
         set
         {

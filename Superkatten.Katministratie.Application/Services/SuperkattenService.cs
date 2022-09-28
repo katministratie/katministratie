@@ -50,7 +50,7 @@ namespace Superkatten.Katministratie.Application.Services
         {                        
             var maxSuperkatNumberForYear = await _superkattenRepository.GetMaxSuperkatNumberForYear(DateTimeOffset.Now.Year);
             var catchOrigin = await CreateCatchOriginFromParametersAsync(createSuperkatParameters);
-            var location = await CreateLocationFromParametersAsync(createSuperkatParameters);
+            var location = CreateLocationFromParametersAsync(createSuperkatParameters);
 
             var superkat = new Superkat(
                 maxSuperkatNumberForYear + 1, 
@@ -76,7 +76,7 @@ namespace Superkatten.Katministratie.Application.Services
             return superkat;
         }
 
-        private async Task<BaseLocation> CreateLocationFromParametersAsync(CreateSuperkatParameters createSuperkatParameters)
+        private BaseLocation CreateLocationFromParametersAsync(CreateSuperkatParameters createSuperkatParameters)
         {
             var catArea = _superkattenMapper.MapContractToDomain(createSuperkatParameters.CatArea);
             return new Refuge(catArea, createSuperkatParameters.CageNumber);

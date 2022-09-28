@@ -12,10 +12,10 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
     [ApiController]
     public class GastgezinnenController : ControllerBase
     {
-        private readonly IGastgezinnenService _service;
-        private readonly IGastgezinMapper _mapper;
+        private readonly ILocationService _service;
+        private readonly ILocationMapper _mapper;
 
-        public GastgezinnenController(IGastgezinnenService service, IGastgezinMapper mapper)
+        public GastgezinnenController(ILocationService service, ILocationMapper mapper)
         {
             _service = service;
             _mapper = mapper;
@@ -24,7 +24,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllGastgezinnen()
         {
-            var gastgezinnen = await _service.GetGastgezinnenAsync();
+            var gastgezinnen = await _service.GetLocationsAsync();
 
             return Ok(
                 gastgezinnen
@@ -36,7 +36,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         [HttpPut]
         public async Task<IActionResult> PutGastgezin([FromBody] CreateUpdateLocationNawParameters createGastgezinParameters)
         {
-            var gastgezin = await _service.CreateGastgezinAsync(createGastgezinParameters);
+            var gastgezin = await _service.CreateLocationAsync(createGastgezinParameters);
             
             return Ok(
                 _mapper.MapDomainToContract(gastgezin)
@@ -56,7 +56,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteGastgezin(Guid id)
         {
-            await _service.DeleteGastgezinAsync(id);
+            await _service.DeleteLocationAsync(id);
 
             return Ok();
         }
