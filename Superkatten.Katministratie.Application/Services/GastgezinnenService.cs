@@ -12,87 +12,76 @@ using System.Threading.Tasks;
 namespace Superkatten.Katministratie.Application.Services
 {
     public class GastgezinnenService : IGastgezinnenService
-    { 
-        public readonly ILogger<GastgezinnenService> _logger;
-        public readonly IGastgezinnenRepository _gastgezinRepository;
+    {
+        private readonly ILocationRepository _locationRepository;
         private readonly ISuperkattenRepository _superkattenRepository;
 
         public GastgezinnenService(
-            ILogger<GastgezinnenService> logger,
-            IGastgezinnenRepository gastgezinRepository,
+            ILocationRepository locationRepository,
             ISuperkattenRepository superkattenRepository
         )
         {
-            _logger = logger;
-            _gastgezinRepository = gastgezinRepository;
+            _locationRepository = locationRepository;
             _superkattenRepository = superkattenRepository;
         }
 
-        public async Task<Gastgezin> CreateGastgezinAsync(CreateUpdateGastgezinParameters createGastgezinParameters)
+        public async Task<Gastgezin> CreateGastgezinAsync(CreateUpdateLocationNawParameters parameters)
         {
-            if (string.IsNullOrEmpty(createGastgezinParameters.Name))
+            if (string.IsNullOrEmpty(parameters.Name))
             {
                 throw new ValidationException("Gastgezin name is invalid");
             }
 
             var gastgezin = new Gastgezin(
-                createGastgezinParameters.Name,
-                createGastgezinParameters.Address,
-                createGastgezinParameters.City,
-                createGastgezinParameters.Phone
+                parameters.Name,
+                parameters.Postcode,
+                parameters.Address,
+                parameters.City,
+                parameters.Phone,
+                parameters.Email
                 );
 
-            await _gastgezinRepository.CreateGastgezinAsync(gastgezin);
+            await _locationRepository.CreateLocationAsync(gastgezin);
 
             return gastgezin;
         }
        
         public async Task DeleteGastgezinAsync(Guid id)
         {
-            await _gastgezinRepository.DeleteGastgezinAsync(id);
-
-            // delete all assignments for the superkatten
-            var superkatten = await _superkattenRepository.GetSuperkattenAsync();
-            var toBeUpdated = superkatten
-                .Where(o => o.GastgezinId == id)
-                .ToList();
-
-            foreach(var superkat in toBeUpdated)
-            {
-                var updatedSuperkat = superkat.WithGastgezinId(null);
-                await _superkattenRepository.UpdateSuperkatAsync(updatedSuperkat);
-            }
+            await _locationRepository.DeleteLocationAsync(id);
         }
 
-        public async Task<IReadOnlyCollection<Gastgezin>> ReadAvailableGastgezinAsync()
+        public async Task<IReadOnlyCollection<Gastgezin>> GetGastgezinnenAsync()
         {
-            var gastgezinnen = await _gastgezinRepository.GetGastgezinnenAsync();
+            var gastgezinnen = await _locationRepository.GetLocationsAsync();
             return gastgezinnen.ToList();
         }
 
-        public async Task<Gastgezin> UpdateGastgezinAsync(Guid id, CreateUpdateGastgezinParameters updateGastgezinParameters)
+        public async Task<BaseLocation> UpdateLocationAsync(Guid locationId, CreateUpdateLocationNawParameters parameters)
         {
-            if (string.IsNullOrEmpty(updateGastgezinParameters.Name))
+            if (string.IsNullOrEmpty(parameters.Name))
             {
-                throw new ValidationException($"Gastgezin name is empty");
+                throw new ValidationException($"location name is empty");
             }
 
-            var gastgezin = await _gastgezinRepository.GetGastgezinAsync(id);
-            if (gastgezin is null)
+            var location = await _locationRepository.GetLocationAsync(locationId);
+            if (location is null)
             {
-                throw new ValidationException($"gastgezin with guid: {id} does not exsist");
+                throw new ValidationException($"location with guid: {locationId} does not exsist");
             }
 
-            var updatedGastgezin = gastgezin.Update(
-                updateGastgezinParameters.Name,
-                updateGastgezinParameters.Address,
-                updateGastgezinParameters.City,
-                updateGastgezinParameters.Phone
+            location.UpdateNaw(
+                parameters.Name,
+                parameters.Address,
+                parameters.Postcode,
+                parameters.City,
+                parameters.Phone,
+                parameters.Email
             );
 
-            await _gastgezinRepository.UpdateGastgezinAsync(updatedGastgezin);
+            await _locationRepository.UpdateGastgezinAsync(location);
 
-            return updatedGastgezin;
+            return location;
         }
     }
 }

@@ -9,11 +9,13 @@ namespace Superkatten.Katministratie.Domain.Entities
         public Guid Id { get; init; }
         public int Number { get; private set; }
         public SuperkatState State { get; set; } = SuperkatState.Monitoring;
-        public DateTime Birthday { get; private set; }
         public DateTime CatchDate { get; private set; } = DateTime.UtcNow;
         public CatchOrigin CatchOrigin { get; private set; }
+        public bool Reserved { get; private set; } = false;
         public string Name { get; private set; } = string.Empty;
-        public bool Reserved { get; private set; }
+        public BaseLocation Location { get; private set; }
+
+        public DateTime Birthday { get; private set; }
         public bool Retour { get; private set; }
         public CatBehaviour Behaviour { get; private set; } = CatBehaviour.Unknown;
         public AgeCategory AgeCategory { get; private set; }
@@ -22,7 +24,6 @@ namespace Superkatten.Katministratie.Domain.Entities
         public bool WetFoodAllowed { get; private set; } = true;
         public FoodType FoodType { get; private set; } = FoodType.FirstPhase;
         public string Color { get; private set; } = string.Empty;
-        public BaseLocation Location { get; private set; }
         public byte[]? Photo { get; private set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
@@ -51,27 +52,14 @@ namespace Superkatten.Katministratie.Domain.Entities
             DateTime birthday,
             CatBehaviour catBehaviour,
             bool retour,
-            bool reserved,
             AgeCategory ageCategory,
             Gender gender,
             LitterGranuleType litterType,
             bool wetFoodAllowed,
             FoodType foodType,
-            string color,
-            byte[] photo,
-            string name
+            string color
         )
         {
-            if (CatchOrigin is null)
-            {
-                throw new DomainException($"{nameof(CatchOrigin)} may not be null");
-            }
-
-            if (Location is null)
-            {
-                throw new DomainException($"{nameof(Location)} may not be null");
-            }
-
             return new Superkat(Number, CatchDate, CatchOrigin, Location)
             {
                 Id = Id,
@@ -79,21 +67,28 @@ namespace Superkatten.Katministratie.Domain.Entities
                 Birthday = birthday,
                 Behaviour = catBehaviour,
                 Retour = retour,
-                Reserved = reserved,
-                AgeCategory = AgeCategory,
+                AgeCategory = ageCategory,
                 Gender = gender,
                 LitterType = litterType,
                 WetFoodAllowed = wetFoodAllowed,
                 FoodType = foodType,
-                Color = color,
-                Photo = photo,
-                Name = name
+                Color = color
             };
         }
 
         public void Relocate(BaseLocation newLocation)
         {
             Location = newLocation;
+        }
+
+        public void SetPhoto(byte[] photo)
+        {
+            Photo = photo;
+        }
+
+        public void SetName(string name)
+        {
+            Name = name;
         }
 
         public Superkat SetState(SuperkatState desiredState)

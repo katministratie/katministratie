@@ -40,7 +40,7 @@ public partial class CreateGastgezin
 
     private async Task StoreGastgezin()
     {
-        var createGastgezin = new CreateUpdateGastgezinParameters
+        var createGastgezin = new CreateUpdateLocationNawParameters
         {
             Name = GastgezinData.Name,
             Address = GastgezinData.Address,

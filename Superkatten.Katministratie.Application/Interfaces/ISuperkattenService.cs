@@ -1,4 +1,5 @@
 ﻿using Superkatten.Katministratie.Contract.ApiInterface;
+using Superkatten.Katministratie.Contract.ApiInterface.Reallocate;
 using Superkatten.Katministratie.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,8 @@ namespace Superkatten.Katministratie.Application.Interfaces
         Task<IReadOnlyCollection<Superkat>> ReadAvailableSuperkattenAsync();
         Task<IReadOnlyCollection<Superkat>> ReadNotNeutralizedSuperkattenAsync();
         Task<Superkat> UpdateSuperkatAsync(Guid guid, UpdateSuperkatParameters updateSuperkatParameters);
-        Task<Superkat> UpdateSuperkatAsync(Guid guid, ReallocateSuperkatParameters reallocateSuperkatParameters);
-        Task<Superkat> UpdateSuperkatAsync(Guid guid, UpdateSuperkatPhotoParameters updateSuperkatPhotoParameters);
+        Task<Superkat> ReallocateToGastgezinAsync(Guid guid, ReallocateToGastgezinParameters reallocateSuperkatParameters);
+        Task<Superkat> UpdateSuperkatAsync(Guid guid, PhotoParameters updateSuperkatPhotoParameters);
         Task DeleteSuperkatAsync(Guid guid);
     }
 }

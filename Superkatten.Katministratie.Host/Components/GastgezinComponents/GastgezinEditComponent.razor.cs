@@ -52,7 +52,7 @@ public partial class GastgezinEditComponent
             return;
         }
 
-        var updateGastgezinParameters = new CreateUpdateGastgezinParameters()
+        var updateGastgezinParameters = new CreateUpdateLocationNawParameters()
         {
             Name = _gastgezinData.Name,
             Address = _gastgezinData.Address,

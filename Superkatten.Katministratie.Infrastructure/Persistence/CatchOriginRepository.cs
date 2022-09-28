@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
 using System.Collections.Generic;
@@ -21,6 +20,7 @@ public class CatchOriginRepository : ICatchOriginRepository
     {
         return await _context
             .CatchOrigins
+            .AsNoTracking()
             .Where(l => l.Type == type && l.Name.ToLower().Equals(name.ToLower()))
             .FirstOrDefaultAsync();
     }

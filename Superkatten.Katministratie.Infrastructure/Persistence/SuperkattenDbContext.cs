@@ -11,7 +11,8 @@ public class SuperkattenDbContext : DbContext
     public DbSet<UserDto> Users => Set<UserDto>();
     public DbSet<Superkat> SuperKatten => Set<Superkat>();
     public DbSet<CatchOrigin> CatchOrigins => Set<CatchOrigin>();
-    public DbSet<Gastgezin> Gastgezinnen => Set<Gastgezin>();
+    public DbSet<LocationNaw> LocationNaw => Set<LocationNaw>();
+    public DbSet<BaseLocation> Locations => Set<BaseLocation>();
     public DbSet<MedicalProcedure> MedicalProcedures => Set<MedicalProcedure>();
 
     public SuperkattenDbContext(DbContextOptions<SuperkattenDbContext> options) 
@@ -22,6 +23,8 @@ public class SuperkattenDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<BaseLocation>()
+            .HasDiscriminator(b => b.LocationType);
 
     }
 }

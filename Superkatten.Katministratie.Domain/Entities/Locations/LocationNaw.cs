@@ -1,9 +1,11 @@
 ﻿using Superkatten.Katministratie.Domain.Exceptions;
+using System;
 
 namespace Superkatten.Katministratie.Domain.Entities.Locations;
 
 public class LocationNaw
 {
+    public Guid Id { get; set; }
     public string Name { get; init; } = null!;
     public string? Address { get; init; }
     public string? Postcode { get; init; }
@@ -11,7 +13,7 @@ public class LocationNaw
     public string? Phone { get; init; }
     public string? Email { get; init; }
 
-    internal static LocationNaw Create(string name, string? address, string? postcode, string? city, string? phone, string? email)
+    public static LocationNaw Create(string name, string? address, string? postcode, string? city, string? phone, string? email)
     {
         if (string.IsNullOrEmpty(name))
         {

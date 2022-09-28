@@ -28,6 +28,7 @@ public class SuperkattenRepository : ISuperkattenRepository
     {
         var superkatDtoExsist = await _context
             .SuperKatten
+            .AsNoTracking()
             .AnyAsync(s => s.Id == superkat.Id);            
         if (superkatDtoExsist)
         {
@@ -42,6 +43,7 @@ public class SuperkattenRepository : ISuperkattenRepository
     {
         var superkat = await _context
             .SuperKatten
+            .AsNoTracking()
             .FirstOrDefaultAsync(s => s.Id == guid);
         if (superkat is null)
         {

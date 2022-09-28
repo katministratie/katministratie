@@ -14,14 +14,14 @@ public class GastgezinService : IGastgezinService
     }
 
 
-    public async Task<Gastgezin?> CreateGastgezinAsync(CreateUpdateGastgezinParameters newGastgezinParameters)
+    public async Task<Gastgezin?> CreateGastgezinAsync(CreateUpdateLocationNawParameters newGastgezinParameters)
     {
         var uri = "api/Gastgezinnen";
         var response = await _httpService.Put<Gastgezin>(uri, newGastgezinParameters);
         return response;
     }
 
-    public async Task<Gastgezin?> UpdateGastgezinAsync(Guid id, CreateUpdateGastgezinParameters updateNawGastgezinParameters)
+    public async Task<Gastgezin?> UpdateGastgezinAsync(Guid id, CreateUpdateLocationNawParameters updateNawGastgezinParameters)
     {
         var uri = $"api/Gastgezinnen?Id={id}";
         var response = await _httpService.Post<Gastgezin>(uri, updateNawGastgezinParameters);

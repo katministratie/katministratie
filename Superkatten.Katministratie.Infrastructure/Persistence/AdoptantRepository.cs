@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Domain.Entities.Locations;
 using Superkatten.Katministratie.Infrastructure.Exceptions;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
@@ -20,11 +19,12 @@ public class AdoptantRepository : IAdoptantRepository
     {
         var adoptantExsist = await _context
             .Adoptants
-            .AnyAsync(a => a.Name == adoptant.Name);
+            .AsNoTracking()
+            .AnyAsync(a => a.Naw.Name == adoptant.Naw.Name);
 
         if (adoptantExsist)
         {
-            throw new DatabaseException($"A {nameof(Adoptant)} found in the database with name {adoptant.Name}");
+            throw new DatabaseException($"A {nameof(Adoptant)} found in the database with name {adoptant.Naw.Name}");
         }
 
         await _context.Adoptants.AddAsync(adoptant);
@@ -36,7 +36,7 @@ public class AdoptantRepository : IAdoptantRepository
         var adoptant = await _context
             .Adoptants
             .AsNoTracking()
-            .FirstOrDefaultAsync(s => s.Name == name);
+            .FirstOrDefaultAsync(s => s.Naw.Name == name);
 
         return adoptant is null
             ? throw new DatabaseException($"No adoptant found in the database with name '{name}'")

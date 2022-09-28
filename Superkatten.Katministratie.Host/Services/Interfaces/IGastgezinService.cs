@@ -7,8 +7,8 @@ public interface IGastgezinService
 {
     Task<List<Gastgezin>> GetAllGastgezinAsync();
     Task<Gastgezin?> GetGastgezinAsync(Guid id);
-    Task<Gastgezin?> CreateGastgezinAsync(CreateUpdateGastgezinParameters newGastgezinParameters);
-    Task<Gastgezin?> UpdateGastgezinAsync(Guid id, CreateUpdateGastgezinParameters updateNawGastgezinParameters);
+    Task<Gastgezin?> CreateGastgezinAsync(CreateUpdateLocationNawParameters newGastgezinParameters);
+    Task<Gastgezin?> UpdateGastgezinAsync(Guid id, CreateUpdateLocationNawParameters updateNawGastgezinParameters);
     Task DeleteGastgezinAsync(Guid id);
 }
 

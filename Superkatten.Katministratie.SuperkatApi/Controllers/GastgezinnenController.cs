@@ -24,7 +24,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllGastgezinnen()
         {
-            var gastgezinnen = await _service.ReadAvailableGastgezinAsync();
+            var gastgezinnen = await _service.GetGastgezinnenAsync();
 
             return Ok(
                 gastgezinnen
@@ -34,7 +34,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> PutGastgezin([FromBody] CreateUpdateGastgezinParameters createGastgezinParameters)
+        public async Task<IActionResult> PutGastgezin([FromBody] CreateUpdateLocationNawParameters createGastgezinParameters)
         {
             var gastgezin = await _service.CreateGastgezinAsync(createGastgezinParameters);
             
@@ -44,7 +44,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostGastgezin(Guid id, [FromBody] CreateUpdateGastgezinParameters updateGastgezinParameters)
+        public async Task<IActionResult> PostGastgezin(Guid id, [FromBody] CreateUpdateLocationNawParameters updateGastgezinParameters)
         {
             var gastgezin = await _service.UpdateGastgezinAsync(id, updateGastgezinParameters);
 
