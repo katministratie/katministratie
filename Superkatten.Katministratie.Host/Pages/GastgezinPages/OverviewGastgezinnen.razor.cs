@@ -33,7 +33,7 @@ public partial class OverviewGastgezinnen
         var gastgezinnen = await _gastgezinnenService.GetAllGastgezinAsync();
         _gastgezinnen  = gastgezinnen 
             .AsQueryable()
-            .OrderByDescending(item => item.Name)
+            .OrderByDescending(item => item.Naw.Name)
             .ToList();
     }
 

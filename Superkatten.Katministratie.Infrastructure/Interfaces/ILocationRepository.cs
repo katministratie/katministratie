@@ -10,9 +10,7 @@ namespace Superkatten.Katministratie.Infrastructure.Interfaces
         Task CreateLocationAsync(BaseLocation location);
         Task<BaseLocation> GetLocationAsync(Guid locationId);
         Task UpdateLocationAsync(BaseLocation location);
-
-        Task DeleteLocationAsync(Guid id);
-        
+        Task DeleteLocationAsync(Guid id);        
         Task<IReadOnlyCollection<BaseLocation>> GetLocationsAsync();
     }
 }

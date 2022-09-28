@@ -2,6 +2,7 @@
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using Superkatten.Katministratie.Domain.Entities;
+using Superkatten.Katministratie.Host.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,23 +71,9 @@ public class CageCardDefaultHeaderComposer : IComponent
 
     private static string GetCageNumberHeaderText(IReadOnlyCollection<Superkat> superkatten)
     {
-        var catArea = superkatten
-            .Select(s => s.CatArea)
-            .Distinct()
-            .ToList()
-            .FirstOrDefault();
+        var superkat = superkatten.FirstOrDefault();
 
-        var cageNumber = superkatten
-            .Select(s => s.CageNumber)
-            .Distinct()
-            .ToList()
-            .FirstOrDefault();
-        
-        var catAreaCode = ConvertCatAreaToShowString(catArea);
-
-        return string.IsNullOrEmpty(catAreaCode)
-            ? $"{cageNumber}"
-            : $"{catAreaCode}-{cageNumber}";
+        return LocationDisplayConverter.ConvertLocation(superkat?.Location);
     }
 
     private static string ConvertCatAreaToShowString(CatArea catArea)

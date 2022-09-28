@@ -3,6 +3,7 @@
 public class Location
 {
     public Guid Id { get; init; }
+    public string LocationName { get; init; } = string.Empty;
     public LocationType LocationType { get; init; }
-    public LocationNaw LocationNaw { get; init; } = null!;
+    public LocationNaw Naw { get; init; } = null!;
 }

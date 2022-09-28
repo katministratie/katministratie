@@ -23,7 +23,5 @@ namespace Superkatten.Katministratie.Host.Entities
         }
 
         public bool IsVisible { get; set; } = false;
-
-        public string CatLocationAsString => LocationDisplayConverter.ConvertLocation(Superkat.Location);
     }
 }

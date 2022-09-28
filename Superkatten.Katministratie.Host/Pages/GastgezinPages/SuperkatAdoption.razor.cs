@@ -31,7 +31,7 @@ public partial class SuperkatAdoption
 
         var superkatten = await SuperkattenService.GetAllSuperkattenAsync();
         var assignedSuperkatten = superkatten
-            .Where(o => o.GastgezinId == _gastgezin?.Id)
+            .Where(o => o.Location.Id == _gastgezin?.Id)
             .OrderBy(s => s.Number)
             .ToList();
         

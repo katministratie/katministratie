@@ -1,12 +1,17 @@
-﻿using Superkatten.Katministratie.Contract.Entities;
-using Superkatten.Katministratie.Contract.Entities.Locations;
+﻿using Superkatten.Katministratie.Domain.Entities;
+using Superkatten.Katministratie.Domain.Entities.Locations;
 
 namespace Superkatten.Katministratie.Host.Helpers;
 
 public static class LocationDisplayConverter
 {
-    public static string ConvertLocation(Location location)
+    public static string ConvertLocation(BaseLocation? location)
     {
+        if (location is null)
+        {
+            return string.Empty;
+        }
+
         var locationIdentifier = RefugeLocation(location.LocationType);
 
         if (location.LocationType is LocationType.Refuge)

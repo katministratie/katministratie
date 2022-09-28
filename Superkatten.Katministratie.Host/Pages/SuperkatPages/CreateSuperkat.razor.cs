@@ -152,7 +152,7 @@ public partial class CreateSuperkat
         var catchLocation = new CatchOrigin
         {
             Name = CatchOriginName,
-            Type = _selections.catchOriginType
+            Type = _selections.CatchOriginType
         };
 
         var createSuperkatParameters = new CreateSuperkatParameters()

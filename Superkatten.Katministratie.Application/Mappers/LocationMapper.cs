@@ -1,5 +1,6 @@
 ﻿using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Domain.Entities.Locations;
+using Superkatten.Katministratie.Host.Helpers;
 using System.ComponentModel;
 
 using ContractEntities = Superkatten.Katministratie.Contract.Entities;
@@ -25,9 +26,10 @@ public class LocationMapper : ILocationMapper
         {
             Id = location.Id,
             LocationType = ToContract(location.LocationType),
-            LocationNaw = ToContract(location.Naw),
+            Naw = ToContract(location.Naw),
             CatArea = ToContract(location.CatArea),
-            CageNumber = location.CageNumber
+            CageNumber = location.CageNumber,
+            LocationName = LocationDisplayConverter.ConvertLocation(location)
         };
     }
 
@@ -37,7 +39,8 @@ public class LocationMapper : ILocationMapper
         {
             Id = location.Id,
             LocationType = ToContract(location.LocationType),
-            LocationNaw = ToContract(location.Naw)
+            Naw = ToContract(location.Naw),
+            LocationName = LocationDisplayConverter.ConvertLocation(location)
         };
     }
 

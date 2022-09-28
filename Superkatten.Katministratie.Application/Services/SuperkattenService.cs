@@ -166,8 +166,12 @@ namespace Superkatten.Katministratie.Application.Services
 
             return superkat;
         }
+        public Task<Superkat> ReallocateInRefugeAsync(ReallocateInRefugeParameters parameters)
+        {
+            return Task.FromResult(new Superkat());
+        }
 
-        public async Task<Superkat> UpdateSuperkatAsync(Guid guid, PhotoParameters parameters)
+            public async Task<Superkat> UpdateSuperkatAsync(Guid guid, PhotoParameters parameters)
         {
             var superkat = await _superkattenRepository.GetSuperkatAsync(guid);
             if (superkat is null)

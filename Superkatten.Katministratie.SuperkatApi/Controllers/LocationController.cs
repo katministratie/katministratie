@@ -10,15 +10,15 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
     [AuthorizeRoles(PermissionEnum.Administrator, PermissionEnum.Coordinator)]
     [Route("api/[controller]")]
     [ApiController]
-    public class GastgezinnenController : ControllerBase
+    public class LocationController : ControllerBase
     {
         private readonly ILocationService _service;
-        private readonly ILocationMapper _mapper;
+        private readonly ILocationMapper _locationMapper;
 
-        public GastgezinnenController(ILocationService service, ILocationMapper mapper)
+        public LocationController(ILocationService service, ILocationMapper mapper)
         {
             _service = service;
-            _mapper = mapper;
+            _locationMapper = mapper;
         }
 
         [HttpGet]
@@ -26,30 +26,29 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         {
             var gastgezinnen = await _service.GetLocationsAsync();
 
-            return Ok(
-                gastgezinnen
-                .Select(s => _mapper.MapDomainToContract(s))
+            return Ok(gastgezinnen
+                .Select(_locationMapper.ToContract)
                 .ToList()
             );
         }
 
         [HttpPut]
-        public async Task<IActionResult> PutGastgezin([FromBody] CreateUpdateLocationNawParameters createGastgezinParameters)
+        public async Task<IActionResult> PutGastgezin([FromBody] CreateUpdateLocationNawParameters parameters)
         {
-            var gastgezin = await _service.CreateLocationAsync(createGastgezinParameters);
+            var gastgezin = await _service.CreateHostFamilyAsync(parameters);
             
             return Ok(
-                _mapper.MapDomainToContract(gastgezin)
+                _locationMapper.ToContract(gastgezin)
             );
         }
 
         [HttpPost]
         public async Task<IActionResult> PostGastgezin(Guid id, [FromBody] CreateUpdateLocationNawParameters updateGastgezinParameters)
         {
-            var gastgezin = await _service.UpdateGastgezinAsync(id, updateGastgezinParameters);
+            var gastgezin = await _service.UpdateLocationAsync(id, updateGastgezinParameters);
 
             return Ok(
-                _mapper.MapDomainToContract(gastgezin)
+                _locationMapper.ToContract(gastgezin)
             );
         }
         

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Contract.Entities.Locations;
-using Superkatten.Katministratie.Host.Entities;
 using Superkatten.Katministratie.Host.Services;
 
 namespace Superkatten.Katministratie.Host.Components.GastgezinComponents;
@@ -13,7 +11,7 @@ public partial class GastgezinEditComponent
     private IGastgezinService? _gastgezinService { get; set; }
 
     [Parameter]
-    public Location? Gastgezin 
+    public Location? Location 
     { 
         set
         {
@@ -23,17 +21,17 @@ public partial class GastgezinEditComponent
             }
 
             _gastgezinData.Id = value.Id;
-            _gastgezinData.Name = value.Name;
-            _gastgezinData.Address = value.Address ?? string.Empty;
-            _gastgezinData.City = value.City ?? string.Empty;
-            _gastgezinData.Phone = value.Phone ?? string.Empty;
+            _gastgezinData.Name = value.Naw.Name;
+            _gastgezinData.Address = value.Naw.Address ?? string.Empty;
+            _gastgezinData.City = value.Naw.City ?? string.Empty;
+            _gastgezinData.Phone = value.Naw.Phone ?? string.Empty;
         }
     }
 
     [Parameter]
     public EventCallback OnFinish { get; set; }
 
-    private GastgezinData _gastgezinData = new();
+    private readonly GastgezinData _gastgezinData = new();
     private async Task OnEditOk()
     {
         await StoreAsync();

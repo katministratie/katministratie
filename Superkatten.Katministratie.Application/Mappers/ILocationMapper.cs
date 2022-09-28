@@ -6,5 +6,5 @@ namespace Superkatten.Katministratie.Application.Mappers;
 
 public interface ILocationMapper
 {
-    public ContractEntities.Locations.Location ToContract(BaseLocation location);
+    ContractEntities.Locations.Location ToContract(BaseLocation location);
 }

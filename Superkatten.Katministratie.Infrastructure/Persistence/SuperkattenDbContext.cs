@@ -7,7 +7,6 @@ namespace Superkatten.Katministratie.Infrastructure.Persistence;
 
 public class SuperkattenDbContext : DbContext
 {
-    public DbSet<Adoptant> Adoptants => Set<Adoptant>();
     public DbSet<UserDto> Users => Set<UserDto>();
     public DbSet<Superkat> SuperKatten => Set<Superkat>();
     public DbSet<CatchOrigin> CatchOrigins => Set<CatchOrigin>();
@@ -25,6 +24,5 @@ public class SuperkattenDbContext : DbContext
     {
         modelBuilder.Entity<BaseLocation>()
             .HasDiscriminator(b => b.LocationType);
-
     }
 }

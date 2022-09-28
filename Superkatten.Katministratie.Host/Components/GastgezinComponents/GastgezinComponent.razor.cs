@@ -21,7 +21,7 @@ public partial class GastgezinComponent : ComponentBase
     protected override async Task OnInitializedAsync()
     {
         var superkatten = await SuperkattenService.GetAllSuperkattenAsync();
-        _disableAdoption = !superkatten.Any(o => o.GastgezinId == Gastgezin?.Id);
+        _disableAdoption = !superkatten.Any(o => o.Location.Id == Gastgezin?.Id);
     }
 
     private async Task OnDelete()

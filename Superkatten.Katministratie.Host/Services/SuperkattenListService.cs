@@ -21,10 +21,15 @@ public class SuperkattenListService : ISuperkattenListService
         return await _httpService.Put<Superkat>(uri, newSuperkat);
     }
 
-    public async Task ReallocateSuperkatAsync(Guid id, ReallocateToGastgezinParameters updateSuperkat)
+    public async Task ReallocateSuperkatAsync(ReallocateInRefugeParameters parameters)
     {
-        var uri = $"api/Superkatten/Reallocate/?Id={id}";
-        await _httpService.Post<Superkat?>(uri, updateSuperkat);
+        var uri = $"api/Superkatten/Reallocate/Refuge";
+        await _httpService.Post<Superkat?>(uri, parameters);
+    }
+    public async Task ReallocateSuperkatAsync(Guid id, ReallocateToGastgezinParameters parameters)
+    {
+        var uri = $"api/Superkatten/Reallocate/HostFamily?Id={id}";
+        await _httpService.Post<Superkat?>(uri, parameters);
     }
 
     public async Task UpdateSuperkatAsync(Guid id, UpdateSuperkatParameters updateSuperkat)
