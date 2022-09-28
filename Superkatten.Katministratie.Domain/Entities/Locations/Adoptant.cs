@@ -9,6 +9,11 @@ public class Adoptant : BaseLocation
 {
     public override LocationType LocationType => LocationType.Adopter;
 
+    public Adoptant() : base(string.Empty, null, null, null, null, null)
+    {
+        // Mandatory for EF
+    }
+
     public Adoptant(string name, string? address, string? postcode, string? city, string? phone, string email) 
         : base(name, address, postcode, city, phone, email)
     {

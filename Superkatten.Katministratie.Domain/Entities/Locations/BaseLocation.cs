@@ -5,8 +5,15 @@ namespace Superkatten.Katministratie.Domain.Entities.Locations;
 public abstract class BaseLocation
 {
     public Guid Id { get; init; } = Guid.NewGuid();
+
     public abstract LocationType LocationType { get; }
+
     public LocationNaw Naw { get; private set; } = new LocationNaw();
+
+    public BaseLocation()
+    {
+        // EF needs an empty Ctor
+    }
 
     public BaseLocation(string name, string? address, string? postcode, string? city, string? phone, string? email)
     {

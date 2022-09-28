@@ -7,6 +7,11 @@ public class Gastgezin : BaseLocation
 {
     public override LocationType LocationType => LocationType.HostFamily;
 
+    public Gastgezin() : base(string.Empty, null, null, null, null, null)
+    {
+        // Mandatory for EF
+    }
+
     public Gastgezin(string name, string? address, string? postcode, string? city, string? phone, string? email)
         : base(name, address, postcode, city, phone, email)
     {
