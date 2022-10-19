@@ -40,12 +40,14 @@ public partial class CreateGastgezin
 
     private async Task StoreGastgezin()
     {
-        var createGastgezin = new CreateUpdateLocationNawParameters
+        var createGastgezin = new LocationNawParameters
         {
             Name = GastgezinData.Name,
             Address = GastgezinData.Address,
+            Postcode = GastgezinData.Postcode,
             City = GastgezinData.City,
-            Phone = GastgezinData.Phone
+            Phone = GastgezinData.Phone,
+            Email = GastgezinData.Email
         };
 
         var gastgezin = await GastgezinService.CreateGastgezinAsync(createGastgezin);

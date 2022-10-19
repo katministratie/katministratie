@@ -8,9 +8,9 @@ namespace Superkatten.Katministratie.Application.Interfaces
 {
     public interface ILocationService
     {
-        Task<BaseLocation> CreateHostFamilyAsync(CreateUpdateLocationNawParameters parameters);
+        Task<BaseLocation> CreateHostFamilyAsync(LocationNawParameters parameters);
         Task<IReadOnlyCollection<BaseLocation>> GetLocationsAsync();
-        Task<BaseLocation> UpdateLocationAsync(Guid locationId, CreateUpdateLocationNawParameters parameters);
+        Task<BaseLocation> UpdateLocationAsync(Guid locationId, LocationNawParameters parameters);
         Task DeleteLocationAsync(Guid id);
     }
 }

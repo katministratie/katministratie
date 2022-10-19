@@ -5,9 +5,10 @@ namespace Superkatten.Katministratie.Domain.Entities.Locations;
 
 public class Gastgezin : BaseLocation
 {
+    public const string TEMP_GASTGEZIN_NAME = "Temp gastgezin naam";
     public override LocationType LocationType => LocationType.HostFamily;
 
-    public Gastgezin() : base(string.Empty, null, null, null, null, null)
+    public Gastgezin() : base(TEMP_GASTGEZIN_NAME, null, null, null, null, null)
     {
         // Mandatory for EF
     }

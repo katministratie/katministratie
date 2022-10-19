@@ -50,12 +50,14 @@ public partial class GastgezinEditComponent
             return;
         }
 
-        var updateGastgezinParameters = new CreateUpdateLocationNawParameters()
+        var updateGastgezinParameters = new LocationNawParameters()
         {
             Name = _gastgezinData.Name,
             Address = _gastgezinData.Address,
+            Postcode = _gastgezinData.Postcode,
             City = _gastgezinData.City,
-            Phone = _gastgezinData.Phone
+            Phone = _gastgezinData.Phone,
+            Email = _gastgezinData.Email
         };
 
         await _gastgezinService!.UpdateGastgezinAsync((Guid)_gastgezinData.Id, updateGastgezinParameters);
@@ -66,7 +68,9 @@ public partial class GastgezinEditComponent
         public Guid? Id;
         public string Name = string.Empty;
         public string Address = string.Empty;
+        public string Postcode = string.Empty;
         public string City = string.Empty;
         public string Phone = string.Empty;
+        public string Email = string.Empty;
     }
 }

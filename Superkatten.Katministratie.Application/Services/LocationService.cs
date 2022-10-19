@@ -19,7 +19,7 @@ namespace Superkatten.Katministratie.Application.Services
             _locationRepository = locationRepository;
         }
 
-        public async Task<BaseLocation> CreateHostFamilyAsync(CreateUpdateLocationNawParameters parameters)
+        public async Task<BaseLocation> CreateHostFamilyAsync(LocationNawParameters parameters)
         {
             if (string.IsNullOrEmpty(parameters.Name))
             {
@@ -52,7 +52,7 @@ namespace Superkatten.Katministratie.Application.Services
             return locations.ToList();
         }
 
-        public async Task<BaseLocation> UpdateLocationAsync(Guid locationId, CreateUpdateLocationNawParameters parameters)
+        public async Task<BaseLocation> UpdateLocationAsync(Guid locationId, LocationNawParameters parameters)
         {
             if (string.IsNullOrEmpty(parameters.Name))
             {

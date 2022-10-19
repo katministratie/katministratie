@@ -33,7 +33,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> PutGastgezin([FromBody] CreateUpdateLocationNawParameters parameters)
+        public async Task<IActionResult> PutGastgezin([FromBody] LocationNawParameters parameters)
         {
             var gastgezin = await _service.CreateHostFamilyAsync(parameters);
             
@@ -43,7 +43,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostGastgezin(Guid id, [FromBody] CreateUpdateLocationNawParameters updateGastgezinParameters)
+        public async Task<IActionResult> PostGastgezin(Guid id, [FromBody] LocationNawParameters updateGastgezinParameters)
         {
             var gastgezin = await _service.UpdateLocationAsync(id, updateGastgezinParameters);
 

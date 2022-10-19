@@ -10,13 +10,20 @@
 
 <Divider />
 
-@if (!_gastgezinnen.Any())
+<Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
+@if (_gastgezinnen is null)
 {    
-    <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
-        <SpinKit Type="SpinKitType.Chase" Size="60px"/>
-    </Div>
+    <SpinKit Type="SpinKitType.Chase" Size="60px"/>
     return;
 }
+
+@if (!_gastgezinnen.Any())
+{
+    <span>Geen gastgezinnen gevonden</span>
+    return;
+}
+</Div>
+
 
 @foreach (var gastgezin in _gastgezinnen)
 {

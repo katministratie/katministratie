@@ -15,12 +15,6 @@ public class SuperkattenDbContext : DbContext
 
     public DbSet<BaseLocation> Locations => Set<BaseLocation>();
 
-/*
-    public DbSet<Gastgezin> Gastgezinnen => Set<Gastgezin>();
-    public DbSet<Adoptant> Adoptanten => Set<Adoptant>();
-    public DbSet<Refuge> Refugees => Set<Refuge>();
-*/
-
     public SuperkattenDbContext(DbContextOptions<SuperkattenDbContext> options) 
         : base(options)
     {

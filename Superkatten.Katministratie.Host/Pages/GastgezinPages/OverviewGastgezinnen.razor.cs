@@ -16,7 +16,7 @@ public partial class OverviewGastgezinnen
 
 
 
-    private List<Location> _gastgezinnen = new();
+    private List<Location>? _gastgezinnen = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -25,14 +25,12 @@ public partial class OverviewGastgezinnen
 
     private async Task UpdateListAsync()
     {
-        if (_gastgezinnenService is null)
-        {
-            return;
-        }
+        _gastgezinnen = new List<Location>();
 
         var gastgezinnen = await _gastgezinnenService.GetAllGastgezinAsync();
         _gastgezinnen  = gastgezinnen 
             .AsQueryable()
+            .Where(o => o.LocationType != LocationType.Refuge)
             .OrderByDescending(item => item.Naw.Name)
             .ToList();
     }

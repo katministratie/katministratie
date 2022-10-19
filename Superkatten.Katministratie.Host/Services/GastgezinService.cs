@@ -14,23 +14,23 @@ public class GastgezinService : IGastgezinService
     }
 
 
-    public async Task<Location?> CreateGastgezinAsync(CreateUpdateLocationNawParameters newGastgezinParameters)
+    public async Task<Location?> CreateGastgezinAsync(LocationNawParameters newGastgezinParameters)
     {
-        var uri = "api/Gastgezinnen";
+        var uri = "api/Location";
         var response = await _httpService.Put<Location>(uri, newGastgezinParameters);
         return response;
     }
 
-    public async Task<Location?> UpdateGastgezinAsync(Guid id, CreateUpdateLocationNawParameters updateNawGastgezinParameters)
+    public async Task<Location?> UpdateGastgezinAsync(Guid id, LocationNawParameters updateNawGastgezinParameters)
     {
-        var uri = $"api/Gastgezinnen?Id={id}";
+        var uri = $"api/Location?Id={id}";
         var response = await _httpService.Post<Location>(uri, updateNawGastgezinParameters);
         return response;
     }
 
     public async Task DeleteGastgezinAsync(Guid id)
     {
-        var uri = $"api/Gastgezinnen?Id={id}";
+        var uri = $"api/Location?Id={id}";
         await _httpService.Delete(uri);
     }
 
@@ -45,7 +45,7 @@ public class GastgezinService : IGastgezinService
         
     public async Task<List<Location>> GetAllGastgezinAsync()
     {
-        var uri = "api/Gastgezinnen";
+        var uri = "api/Location";
         var gastgezinnen = await _httpService.Get<List<Location>>(uri);
 
         return gastgezinnen is null

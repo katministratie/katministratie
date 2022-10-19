@@ -1,6 +1,6 @@
 ﻿namespace Superkatten.Katministratie.Contract.ApiInterface;
 
-public class CreateUpdateLocationNawParameters
+public class LocationNawParameters
 {
     public string Name { get; init; } = string.Empty;
     public string? Postcode { get; init; } = string.Empty;

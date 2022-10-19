@@ -60,6 +60,8 @@ internal class ReportingRepository : IReportingRepository
         return await _context.SuperKatten
             .AsNoTracking()
             .Include(o => o.CatchOrigin)
+            .Include(o => o.Location)
+            .Include(o => o.Location.Naw)
             .Where(o => !neutralizedSuperkatten.Contains(o.Id) && o.State != SuperkatState.Done)
             .ToListAsync();
     }
