@@ -35,15 +35,8 @@ public class SuperkattenRepository : ISuperkattenRepository
             throw new DatabaseException($"A {nameof(Superkat)} found in the database with id {superkat.Id}");
         }
 
-        try
-        {
-            await _context.SuperKatten.AddAsync(superkat);
-            await _context.SaveChangesAsync();
-        }
-        catch(Exception ex)
-        {
-
-        }
+        await _context.SuperKatten.AddAsync(superkat);
+        await _context.SaveChangesAsync();
     }
 
     public async Task DeleteSuperkatAsync(Guid guid)
@@ -109,7 +102,6 @@ public class SuperkattenRepository : ISuperkattenRepository
             _context.Locations.Add(superkat.Location);
             await _context.SaveChangesAsync();
         }
-
         
         _context.Update(superkat);
         await _context.SaveChangesAsync();

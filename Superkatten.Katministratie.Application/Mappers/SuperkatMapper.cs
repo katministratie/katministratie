@@ -111,7 +111,6 @@ namespace Superkatten.Katministratie.Application.Mappers
             };
         }
 
-
         public CatArea MapContractToDomain(contractEntities.CatArea area)
         {
             return area switch

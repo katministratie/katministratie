@@ -46,5 +46,4 @@ public static class LocationDisplayConverter
             _ => ""
         };
     }
-
 }
