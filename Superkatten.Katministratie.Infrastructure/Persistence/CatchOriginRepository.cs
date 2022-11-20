@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
 using System.Collections.Generic;

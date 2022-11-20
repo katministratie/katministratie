@@ -1,14 +1,14 @@
 ﻿using Superkatten.Katministratie.Contract.ApiInterface;
-using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Contract.Entities.Locations;
 
 namespace Superkatten.Katministratie.Host.Services;
 
 public interface IGastgezinService
 {
-    Task<List<Gastgezin>> GetAllGastgezinAsync();
-    Task<Gastgezin?> GetGastgezinAsync(Guid id);
-    Task<Gastgezin?> CreateGastgezinAsync(CreateUpdateGastgezinParameters newGastgezinParameters);
-    Task<Gastgezin?> UpdateGastgezinAsync(Guid id, CreateUpdateGastgezinParameters updateNawGastgezinParameters);
+    Task<List<Location>> GetAllGastgezinAsync();
+    Task<Location?> GetGastgezinAsync(Guid id);
+    Task<Location?> CreateGastgezinAsync(LocationNawParameters newGastgezinParameters);
+    Task<Location?> UpdateGastgezinAsync(Guid id, LocationNawParameters updateNawGastgezinParameters);
     Task DeleteGastgezinAsync(Guid id);
 }
 

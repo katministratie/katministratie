@@ -1,6 +1,7 @@
 ﻿using Blazorise;
 using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Contract.Entities.Locations;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services;
 
@@ -19,7 +20,7 @@ public partial class SuperkatAdoption
     private List<Superkat> _selectedSuperkatten = new();
     private string _emailAddress = string.Empty;
     private string _name = string.Empty; 
-    private Gastgezin? _gastgezin;
+    private Location? _gastgezin;
     private bool _disableContinueButton => 
         string.IsNullOrWhiteSpace(_emailAddress) ||
         string.IsNullOrWhiteSpace(_name) ||
@@ -30,7 +31,7 @@ public partial class SuperkatAdoption
 
         var superkatten = await SuperkattenService.GetAllSuperkattenAsync();
         var assignedSuperkatten = superkatten
-            .Where(o => o.GastgezinId == _gastgezin?.Id)
+            .Where(o => o.Location.Id == _gastgezin?.Id)
             .OrderBy(s => s.Number)
             .ToList();
         

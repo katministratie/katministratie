@@ -1,4 +1,5 @@
 ﻿using Superkatten.Katministratie.Contract.ApiInterface;
+using Superkatten.Katministratie.Contract.ApiInterface.Reallocate;
 using Superkatten.Katministratie.Contract.ApiInterface.Reporting;
 using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Services.Http;
@@ -20,10 +21,15 @@ public class SuperkattenListService : ISuperkattenListService
         return await _httpService.Put<Superkat>(uri, newSuperkat);
     }
 
-    public async Task ReallocateSuperkatAsync(Guid id, ReallocateSuperkatParameters updateSuperkat)
+    public async Task ReallocateSuperkatAsync(ReallocateInRefugeParameters parameters)
     {
-        var uri = $"api/Superkatten/Reallocate/?Id={id}";
-        await _httpService.Post<Superkat?>(uri, updateSuperkat);
+        var uri = $"api/Superkatten/Reallocate/Refuge";
+        await _httpService.Post<Superkat?>(uri, parameters);
+    }
+    public async Task ReallocateSuperkatAsync(Guid id, ReallocateToGastgezinParameters parameters)
+    {
+        var uri = $"api/Superkatten/Reallocate/HostFamily?Id={id}";
+        await _httpService.Post<Superkat?>(uri, parameters);
     }
 
     public async Task UpdateSuperkatAsync(Guid id, UpdateSuperkatParameters updateSuperkat)
@@ -77,7 +83,7 @@ public class SuperkattenListService : ISuperkattenListService
             : cageNumber;
     }
 
-    public async Task<Superkat?> UpdateSuperkatPhoto(Guid id, UpdateSuperkatPhotoParameters updateSuperkatPhotoParameters)
+    public async Task<Superkat?> UpdateSuperkatPhoto(Guid id, PhotoParameters updateSuperkatPhotoParameters)
     {
         var uri = $"api/Superkatten/photo?Id={id}";
         return await _httpService.Post<Superkat?>(uri, updateSuperkatPhotoParameters);

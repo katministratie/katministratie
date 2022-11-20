@@ -18,11 +18,11 @@ namespace Superkatten.Katministratie.Application
         {
             services.AddTransient<ISuperkatAction, SuperkatAction>();
             services.AddTransient<ISuperkattenService, SuperkattenService>();
-            services.AddTransient<IGastgezinnenService, GastgezinnenService>();
+            services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IMedicalProcedureService, MedicalProcedureService>();
             services.AddTransient<ICageCardProducer, CageCardProducer>();
             services.AddTransient<ISuperkatMapper, SuperkatMapper>();
-            services.AddTransient<IGastgezinMapper, GastgezinMapper>();
+            services.AddTransient<ILocationMapper, LocationMapper>();
             services.AddTransient<IUserAuthorisationMapper, UserAuthorisationMapper>();
             services.AddTransient<IMedicalProcedureMapper, MedicalProcedureMapper>();
             services.AddTransient<IReportBuilder, ReportBuilder>();

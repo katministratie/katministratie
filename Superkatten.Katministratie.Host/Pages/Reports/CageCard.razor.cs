@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.ApiInterface.Reporting;
 using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Contract.Entities.Locations;
 using Superkatten.Katministratie.Host.Components;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services;
@@ -82,11 +83,20 @@ partial class CageCard
     public async Task UpdateSuperkattenListAsync(int selectedCageNumber)
     {
         _selectedCageNumber = selectedCageNumber;
-        var superkatten = await SuperkattenService.GetAllNotAssignedSuperkattenAsync();
+        var activeSuperkattenList = await SuperkattenService.GetAllNotAssignedSuperkattenAsync();
+
+        var superkatten = new List<Superkat>();
+        foreach (var superkat in activeSuperkattenList)
+        {
+            var location = (Refuge)superkat.Location;
+            if (location.CatArea == _selectedCatArea && location.CageNumber == selectedCageNumber)
+            {
+                superkatten.Add(superkat);
+            }
+        }
         
         Superkatten = superkatten
-            .Where(s => s.CageNumber == selectedCageNumber && s.CatArea == _selectedCatArea)
-            .OrderBy(s => s.Number)
+            .OrderBy(s => s.UniqueNumber)
             .ToList();
     }
 

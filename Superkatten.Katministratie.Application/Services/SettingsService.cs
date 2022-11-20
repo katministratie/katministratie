@@ -1,6 +1,6 @@
 ﻿using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
-using Superkatten.Katministratie.Domain.Entities;
+using Superkatten.Katministratie.Domain.Entities.Locations;
 using System.Collections.Generic;
 
 using ContractEntities = Superkatten.Katministratie.Contract.Entities;

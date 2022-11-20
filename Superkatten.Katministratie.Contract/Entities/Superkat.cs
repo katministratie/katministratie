@@ -1,4 +1,6 @@
-﻿namespace Superkatten.Katministratie.Contract.Entities;
+﻿using Superkatten.Katministratie.Contract.Entities.Locations;
+
+namespace Superkatten.Katministratie.Contract.Entities;
 
 public class Superkat
 {
@@ -11,12 +13,10 @@ public class Superkat
     public string Name { get; init; } = string.Empty;
     public bool Reserved { get; init; }
     public bool Retour { get; init; }
-    public CatArea CatArea { get; init; }
-    public int? CageNumber { get; init; }
     public CatBehaviour Behaviour { get; init; }
     public AgeCategory AgeCategory { get; init; }
     public Gender Gender { get; set; }
-    public Guid? GastgezinId { get; set; }
+    public Location Location { get; init; } = new();
     public string Color { get; init; } = string.Empty;
     public byte[] Photo { get; init; } = Array.Empty<byte>();
 

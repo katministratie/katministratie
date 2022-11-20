@@ -4,6 +4,7 @@ using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
 using Superkatten.Katministratie.Application.Services;
 using Superkatten.Katministratie.Contract.ApiInterface;
+using Superkatten.Katministratie.Contract.ApiInterface.Reallocate;
 using Superkatten.Katministratie.Domain.Entities;
 using System.Linq;
 
@@ -67,10 +68,19 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         }
 
         [HttpPost]
-        [Route("Reallocate")]
-        public async Task<IActionResult> PostSuperkat(Guid id, [FromBody] ReallocateSuperkatParameters reallocateSuperkatParameters)
+        [Route("Reallocate/Refuge")]
+        public async Task<IActionResult> PostSuperkat(Guid id, [FromBody] ReallocateInRefugeParameters parameters)
         {
-            var superkat = await _superkattenService.UpdateSuperkatAsync(id, reallocateSuperkatParameters);
+            var superkat = await _superkattenService.ReallocateInRefugeAsync(parameters);
+
+            return Ok(_superkatMapper.MapDomainToContract(superkat));
+        }
+
+        [HttpPost]
+        [Route("Reallocate/HostFamily")]
+        public async Task<IActionResult> PostSuperkat(Guid id, [FromBody] ReallocateToGastgezinParameters reallocateSuperkatParameters)
+        {
+            var superkat = await _superkattenService.ReallocateToGastgezinAsync(id, reallocateSuperkatParameters);
 
             return Ok(_superkatMapper.MapDomainToContract(superkat));
         }
@@ -93,7 +103,7 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
 
         [HttpPost]
         [Route("Photo")]
-        public async Task<IActionResult> PostSuperkat(Guid id, [FromBody] UpdateSuperkatPhotoParameters updateSuperkatPhotoParameters)
+        public async Task<IActionResult> PostSuperkat(Guid id, [FromBody] PhotoParameters updateSuperkatPhotoParameters)
         {
             var superkat = await _superkattenService.UpdateSuperkatAsync(id, updateSuperkatPhotoParameters);
 

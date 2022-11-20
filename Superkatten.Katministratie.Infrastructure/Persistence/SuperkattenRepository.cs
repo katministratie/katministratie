@@ -28,7 +28,8 @@ public class SuperkattenRepository : ISuperkattenRepository
     {
         var superkatDtoExsist = await _context
             .SuperKatten
-            .AnyAsync(s => s.Id == superkat.Id);            
+            .AsNoTracking()
+            .AnyAsync(s => s.Id == superkat.Id);
         if (superkatDtoExsist)
         {
             throw new DatabaseException($"A {nameof(Superkat)} found in the database with id {superkat.Id}");
@@ -42,6 +43,7 @@ public class SuperkattenRepository : ISuperkattenRepository
     {
         var superkat = await _context
             .SuperKatten
+            .AsNoTracking()
             .FirstOrDefaultAsync(s => s.Id == guid);
         if (superkat is null)
         {
@@ -59,6 +61,8 @@ public class SuperkattenRepository : ISuperkattenRepository
             .AsNoTracking()
             .Where(o => o.State != SuperkatState.Done)
             .Include(o => o.CatchOrigin)
+            .Include(o => o.Location)
+            .Include(o => o.Location.LocationNaw)
             .ToListAsync();
 
         return superkatten;
@@ -70,6 +74,8 @@ public class SuperkattenRepository : ISuperkattenRepository
             .SuperKatten
             .AsNoTracking()
             .Include(o => o.CatchOrigin)
+            .Include(o => o.Location)
+            .Include(o => o.Location.LocationNaw)
             .FirstOrDefaultAsync(s => s.Id == id);
 
         return superkat is null 
@@ -83,13 +89,21 @@ public class SuperkattenRepository : ISuperkattenRepository
         var superkatExist = await _context
             .SuperKatten
             .AnyAsync(s => s.Id == superkat.Id);
-
         if (!superkatExist)
         {
             throw new DatabaseException($"No superkat found in the database with id {superkat.Id}");
         }
-        _context.Update(superkat);
 
+        var locationExists = await _context
+            .Locations
+            .AnyAsync(l => l.Id == superkat.Location.Id);
+        if (!locationExists)
+        {
+            _context.Locations.Add(superkat.Location);
+            await _context.SaveChangesAsync();
+        }
+        
+        _context.Update(superkat);
         await _context.SaveChangesAsync();
     }
 

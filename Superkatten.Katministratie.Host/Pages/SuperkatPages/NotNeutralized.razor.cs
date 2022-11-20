@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Contract.Entities.Locations;
 using Superkatten.Katministratie.Host.Entities;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services;
@@ -40,8 +41,8 @@ public partial class NotNeutralized
         Superkatten = filter switch
         {
             IsNeutralizedAtLocationView.All => superkatten,
-            IsNeutralizedAtLocationView.Refuge => superkatten.Where(o => o.GastgezinId == null).ToList(),
-            IsNeutralizedAtLocationView.HostFamily => superkatten.Where(o => o.GastgezinId != null).ToList(),
+            IsNeutralizedAtLocationView.Refuge => superkatten.Where(o => o.Location.LocationType is LocationType.Refuge).ToList(),
+            IsNeutralizedAtLocationView.HostFamily => superkatten.Where(o => o.Location.LocationType is LocationType.HostFamily).ToList(),
             _ => throw new InvalidEnumArgumentException(nameof(filter), (int)filter, typeof(IsNeutralizedAtLocationView))
         };
     }

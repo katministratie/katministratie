@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Superkatten.Katministratie.Contract.ApiInterface.Reporting;
 using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Contract.Entities.Locations;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Pages.Users;
 using Superkatten.Katministratie.Host.Services;
@@ -34,7 +35,8 @@ public partial class Index
         var superkattenInRefuge = await SuperkattenService.GetAllSuperkattenAsync();
         var superkattenNotNeutralized = await SuperkattenService.GetAllNotNeutralizedSuperkattenAsync();
 
-        _superkattenInRefugeCount = superkattenInRefuge.Count(s => s.GastgezinId is null && s.State != SuperkatState.Done);
+        _superkattenInRefugeCount = superkattenInRefuge
+            .Count(s => s.Location.LocationType is LocationType.Refuge);
         _superkattenNotNeutralizedCount = superkattenNotNeutralized.Count;
     }
 
