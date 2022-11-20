@@ -110,16 +110,9 @@ public class SuperkattenRepository : ISuperkattenRepository
             await _context.SaveChangesAsync();
         }
 
-        try
-        {
-
-            _context.Update(superkat);
-
-            await _context.SaveChangesAsync();
-        }
-        catch (Exception ex)
-        {
-        }
+        
+        _context.Update(superkat);
+        await _context.SaveChangesAsync();
     }
 
     public async Task<int> GetMaxSuperkatNumberForYear(int year)

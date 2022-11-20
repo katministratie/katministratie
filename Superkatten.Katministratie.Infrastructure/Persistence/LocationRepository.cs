@@ -72,7 +72,6 @@ public class LocationRepository : ILocationRepository
     { 
         var location = await _context
             .Locations
-            .AsNoTracking()
             .Include(o => o.LocationNaw)
             .AsNoTracking()
             .Where(o => o.Id == locationId)
