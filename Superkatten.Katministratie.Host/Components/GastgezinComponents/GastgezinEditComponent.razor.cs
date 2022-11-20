@@ -7,11 +7,9 @@ namespace Superkatten.Katministratie.Host.Components.GastgezinComponents;
 
 public partial class GastgezinEditComponent
 {
-    [Inject]
-    private IGastgezinService? _gastgezinService { get; set; }
+    [Inject] private IGastgezinService? _gastgezinService { get; set; }
 
-    [Parameter]
-    public Location? Location 
+    [Parameter] public Location? Location 
     { 
         set
         {
@@ -22,14 +20,15 @@ public partial class GastgezinEditComponent
 
             _gastgezinData.Id = value.Id;
             _gastgezinData.Name = value.Naw.Name;
+            _gastgezinData.Postcode = value.Naw.Postcode ?? string.Empty;
             _gastgezinData.Address = value.Naw.Address ?? string.Empty;
             _gastgezinData.City = value.Naw.City ?? string.Empty;
             _gastgezinData.Phone = value.Naw.Phone ?? string.Empty;
+            _gastgezinData.Email = value.Naw.Email ?? string.Empty;
         }
     }
 
-    [Parameter]
-    public EventCallback OnFinish { get; set; }
+    [Parameter] public EventCallback OnFinish { get; set; }
 
     private readonly GastgezinData _gastgezinData = new();
     private async Task OnEditOk()

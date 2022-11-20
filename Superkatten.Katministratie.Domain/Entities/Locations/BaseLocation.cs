@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Superkatten.Katministratie.Domain.Entities.Locations;
 
@@ -8,20 +9,15 @@ public abstract class BaseLocation
 
     public abstract LocationType LocationType { get; }
 
-    public LocationNaw Naw { get; private set; } = new LocationNaw();
+    public LocationNaw LocationNaw { get; private set; }
 
     public BaseLocation()
     {
         // EF needs an empty Ctor
     }
 
-    public BaseLocation(string name, string? address, string? postcode, string? city, string? phone, string? email)
-    {
-        Naw = LocationNaw.Create(name, address, postcode, city, phone, email);
-    }
-
     public void UpdateNaw(string name, string? address, string? postcode, string? city, string? phone, string? email)
     {
-        Naw = LocationNaw.Create(name, address, postcode, city, phone, email);
+        LocationNaw = LocationNaw.Create(name, address, postcode, city, phone, email);
     }
 }

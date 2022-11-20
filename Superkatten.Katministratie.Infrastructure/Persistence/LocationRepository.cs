@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Domain.Entities.Locations;
 using Superkatten.Katministratie.Infrastructure.Exceptions;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
@@ -23,11 +23,11 @@ public class LocationRepository : ILocationRepository
     {
         var locationExists = await _context
             .Locations
-            .AnyAsync(o => o.Naw.Name == location.Naw.Name);
+            .AnyAsync(o => o.LocationNaw.Name == location.LocationNaw.Name);
 
         if (locationExists)
         {
-            throw new DatabaseException($"A hostfamily found in the database with name '{location.Naw.Name}'");
+            throw new DatabaseException($"A hostfamily found in the database with name '{location.LocationNaw.Name}'");
         }
 
         await _context.Locations.AddAsync(location);
@@ -55,16 +55,25 @@ public class LocationRepository : ILocationRepository
     {
         return await _context
             .Locations
-            .Include(o => o.Naw)
-            .AsNoTracking()
+            .Include(o => o.LocationNaw)
             .ToListAsync();
+    }
+
+    public async Task<LocationNaw?> GetLocationNawAsync(string name)
+    {
+        var locationNaw = await _context
+            .LocationNaw
+            .FirstOrDefaultAsync(o => o.Name.Equals(name));
+
+        return locationNaw;
     }
 
     public async Task<BaseLocation> GetLocationAsync(Guid locationId)
     { 
         var location = await _context
             .Locations
-            .Include(o => o.Naw)
+            .AsNoTracking()
+            .Include(o => o.LocationNaw)
             .AsNoTracking()
             .Where(o => o.Id == locationId)
             .FirstOrDefaultAsync();
@@ -81,7 +90,7 @@ public class LocationRepository : ILocationRepository
             .AnyAsync(o => o.Id == location.Id);
         if (!locationExsist)
         {
-            throw new DatabaseException($"Location with name '{location.Naw.Name}' not found");
+            throw new DatabaseException($"Location with name '{location.LocationNaw.Name}' not found");
         }
 
         _context.Locations.Update(location);

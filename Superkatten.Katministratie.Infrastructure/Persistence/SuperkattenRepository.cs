@@ -29,14 +29,21 @@ public class SuperkattenRepository : ISuperkattenRepository
         var superkatDtoExsist = await _context
             .SuperKatten
             .AsNoTracking()
-            .AnyAsync(s => s.Id == superkat.Id);            
+            .AnyAsync(s => s.Id == superkat.Id);
         if (superkatDtoExsist)
         {
             throw new DatabaseException($"A {nameof(Superkat)} found in the database with id {superkat.Id}");
         }
 
-        await _context.SuperKatten.AddAsync(superkat);
-        await _context.SaveChangesAsync();
+        try
+        {
+            await _context.SuperKatten.AddAsync(superkat);
+            await _context.SaveChangesAsync();
+        }
+        catch(Exception ex)
+        {
+
+        }
     }
 
     public async Task DeleteSuperkatAsync(Guid guid)
@@ -62,7 +69,7 @@ public class SuperkattenRepository : ISuperkattenRepository
             .Where(o => o.State != SuperkatState.Done)
             .Include(o => o.CatchOrigin)
             .Include(o => o.Location)
-            .Include(o => o.Location.Naw)
+            .Include(o => o.Location.LocationNaw)
             .ToListAsync();
 
         return superkatten;
@@ -75,7 +82,7 @@ public class SuperkattenRepository : ISuperkattenRepository
             .AsNoTracking()
             .Include(o => o.CatchOrigin)
             .Include(o => o.Location)
-            .Include(o => o.Location.Naw)
+            .Include(o => o.Location.LocationNaw)
             .FirstOrDefaultAsync(s => s.Id == id);
 
         return superkat is null 
@@ -89,14 +96,30 @@ public class SuperkattenRepository : ISuperkattenRepository
         var superkatExist = await _context
             .SuperKatten
             .AnyAsync(s => s.Id == superkat.Id);
-
         if (!superkatExist)
         {
             throw new DatabaseException($"No superkat found in the database with id {superkat.Id}");
         }
-        _context.Update(superkat);
 
-        await _context.SaveChangesAsync();
+        var locationExists = await _context
+            .Locations
+            .AnyAsync(l => l.Id == superkat.Location.Id);
+        if (!locationExists)
+        {
+            _context.Locations.Add(superkat.Location);
+            await _context.SaveChangesAsync();
+        }
+
+        try
+        {
+
+            _context.Update(superkat);
+
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+        }
     }
 
     public async Task<int> GetMaxSuperkatNumberForYear(int year)

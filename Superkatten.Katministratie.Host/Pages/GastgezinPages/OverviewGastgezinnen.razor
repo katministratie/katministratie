@@ -2,6 +2,7 @@
 
 @using Blazorise.SpinKit
 @using Superkatten.Katministratie.Host.Components.GastgezinComponents;
+@using Superkatten.Katministratie.Contract.Entities.Locations;
 
 <PageTitle>Gastgezinnen</PageTitle>
 
@@ -25,7 +26,9 @@
 </Div>
 
 
-@foreach (var gastgezin in _gastgezinnen)
+@foreach (var location in _gastgezinnen)
 {
-    <GastgezinComponent Gastgezin=gastgezin OnGastgezinDeleted=OnGastgezinDeleted/>
+    <GastgezinComponent 
+        Gastgezin=@location 
+        OnGastgezinDeleted=@OnGastgezinDeleted/>
 }

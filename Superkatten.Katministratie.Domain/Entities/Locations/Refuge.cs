@@ -17,16 +17,24 @@ public class Refuge : BaseLocation
     public CatArea CatArea { get; init;} = CatArea.Quarantine;
     public int? CageNumber { get; init; }
 
-    public Refuge() : base(REFUGE_NAME, REFUGE_ADDRESS, REFUGE_POSTCODE, REFUGE_CITY, REFUGE_PHONE, REFUGE_EMAIL)
+    public Refuge()
     {
         // Mandatory for EF
     }
 
     public Refuge(CatArea catArea, int? cageNumber)
-        : base(REFUGE_NAME, REFUGE_ADDRESS, REFUGE_POSTCODE, REFUGE_CITY, REFUGE_PHONE, REFUGE_EMAIL)
     {
         CatArea = catArea;
         CageNumber = cageNumber;
+
+        UpdateNaw(
+            REFUGE_NAME,
+            REFUGE_ADDRESS,
+            REFUGE_POSTCODE,
+            REFUGE_CITY,
+            REFUGE_PHONE,
+            REFUGE_EMAIL
+        );
     }
 
     public static List<int> GetCageNumbersForCatArea(CatArea catArea)

@@ -172,9 +172,9 @@ public partial class CreateSuperkat
             EstimatedWeeksOld = EstimatedWeeksOld,
             StrongholdGiven = StrongHoldGiven
         };
-
+        
         var superkat = await SuperkattenService.CreateSuperkatAsync(createSuperkatParameters);
-
+        
         await PageProgressService.Go(-1);
 
         if (superkat is null)

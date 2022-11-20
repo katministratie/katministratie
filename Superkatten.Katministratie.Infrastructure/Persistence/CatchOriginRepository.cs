@@ -20,7 +20,6 @@ public class CatchOriginRepository : ICatchOriginRepository
     {
         return await _context
             .CatchOrigins
-            .AsNoTracking()
             .Where(l => l.Type == type && l.Name.ToLower().Equals(name.ToLower()))
             .FirstOrDefaultAsync();
     }

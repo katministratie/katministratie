@@ -2,6 +2,7 @@
 using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Domain.Entities.Locations;
 using Superkatten.Katministratie.Infrastructure.Entities;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Superkatten.Katministratie.Infrastructure.Persistence;
 
@@ -12,7 +13,6 @@ public class SuperkattenDbContext : DbContext
     public DbSet<CatchOrigin> CatchOrigins => Set<CatchOrigin>();
     public DbSet<LocationNaw> LocationNaw => Set<LocationNaw>();
     public DbSet<MedicalProcedure> MedicalProcedures => Set<MedicalProcedure>();
-
     public DbSet<BaseLocation> Locations => Set<BaseLocation>();
 
     public SuperkattenDbContext(DbContextOptions<SuperkattenDbContext> options) 

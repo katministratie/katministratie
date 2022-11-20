@@ -58,19 +58,19 @@ public class AdoptionService : IAdoptionService
 
     private Task InformAdoptantAsync(Adoptant adoptant, IReadOnlyCollection<Guid> superkatten)
     {
-        if (adoptant.Naw.Email is null)
+        if (adoptant.LocationNaw.Email is null)
         {
-            throw new ApplicationException($"Email of the adoptant '{adoptant.Naw.Name}' must be a valid");
+            throw new ApplicationException($"Email of the adoptant '{adoptant.LocationNaw.Name}' must be a valid");
         }
 
-        var bodyText = $"Beste {adoptant.Naw.Name},/n/n" +
+        var bodyText = $"Beste {adoptant.LocationNaw.Name},/n/n" +
             "Je hebt gekozen om het adoptie proces in gang te zetten. /n" +
             $"Klik op XXXXX om verder te gaan. /n/n" +
             "Met vriendelijke groet,/n" +
             "Stichting Superkatten";
 
             return _mailService.MailToAsync(
-                email: adoptant.Naw.Email,
+                email: adoptant.LocationNaw.Email,
                 subject: "Adoptie stichting superkatten",
                 bodyText: bodyText,
                 documentData: Array.Empty<byte>()

@@ -26,7 +26,7 @@ public class LocationMapper : ILocationMapper
         {
             Id = location.Id,
             LocationType = ToContract(location.LocationType),
-            Naw = ToContract(location.Naw),
+            Naw = ToContract(location.LocationNaw),
             CatArea = ToContract(location.CatArea),
             CageNumber = location.CageNumber,
             LocationName = LocationDisplayConverter.ConvertLocation(location)
@@ -39,7 +39,7 @@ public class LocationMapper : ILocationMapper
         {
             Id = location.Id,
             LocationType = ToContract(location.LocationType),
-            Naw = ToContract(location.Naw),
+            Naw = ToContract(location.LocationNaw),
             LocationName = LocationDisplayConverter.ConvertLocation(location)
         };
     }

@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Superkatten.Katministratie.Application.Exceptions;
+﻿using Superkatten.Katministratie.Application.Exceptions;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
 using Superkatten.Katministratie.Contract.ApiInterface;
@@ -10,7 +9,6 @@ using Superkatten.Katministratie.Infrastructure.Interfaces;
 using Superkatten.Katministratie.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,37 +18,37 @@ namespace Superkatten.Katministratie.Application.Services
     {
         public const int DAY_IN_ONE_WEEK = 7;
 
-        private readonly ILogger<SuperkattenService> _logger;
         private readonly ISuperkattenRepository _superkattenRepository;
         private readonly IReportingRepository _reportingRepository;
         private readonly IMedicalProceduresRepository _medicalProceduresRepository;
         private readonly ISuperkatMapper _superkattenMapper;
         private readonly ICatchOriginRepository _catchOriginRepository;
         private readonly ILocationRepository _locationRepository;
+        private readonly ILocationMapper _locationMapper;
 
         public SuperkattenService(
-            ILogger<SuperkattenService> logger,
             ISuperkattenRepository superkattenRepository,
             ILocationRepository locationRepository,
             IReportingRepository reportingRepository,
             IMedicalProceduresRepository medicalProceduresRepository,
             ICatchOriginRepository catchOriginRepository,
-            ISuperkatMapper superkattenMapper)
+            ISuperkatMapper superkattenMapper,
+            ILocationMapper locationMapper)
         {
-            _logger = logger;
             _superkattenRepository = superkattenRepository;
             _reportingRepository = reportingRepository;
             _medicalProceduresRepository = medicalProceduresRepository;
             _superkattenMapper = superkattenMapper;
             _catchOriginRepository = catchOriginRepository;
             _locationRepository = locationRepository;
+            _locationMapper = locationMapper;
         }
 
         public async Task<Superkat> CreateSuperkatAsync(CreateSuperkatParameters createSuperkatParameters)
         {                        
             var maxSuperkatNumberForYear = await _superkattenRepository.GetMaxSuperkatNumberForYear(DateTimeOffset.Now.Year);
-            var catchOrigin = await CreateCatchOriginFromParametersAsync(createSuperkatParameters);
-            var location = CreateLocationFromParametersAsync(createSuperkatParameters);
+            var catchOrigin = await GetOrCreateCatchOriginFromParametersAsync(createSuperkatParameters);
+            var location = await GetOrCreateLocationFromParametersAsync(createSuperkatParameters);
 
             var superkat = new Superkat(
                 maxSuperkatNumberForYear + 1, 
@@ -76,17 +74,31 @@ namespace Superkatten.Katministratie.Application.Services
             return superkat;
         }
 
-        private BaseLocation CreateLocationFromParametersAsync(CreateSuperkatParameters createSuperkatParameters)
+        private async Task<BaseLocation> GetOrCreateLocationFromParametersAsync(CreateSuperkatParameters createSuperkatParameters)
         {
             var catArea = _superkattenMapper.MapContractToDomain(createSuperkatParameters.CatArea);
-            return new Refuge(catArea, createSuperkatParameters.CageNumber);
+            var locations = await _locationRepository.GetLocationsAsync();
+            var location = locations
+                .Where(location => location.LocationType == LocationType.Refuge)
+                .Select(location => (Refuge)location)
+                .Where(refuge => refuge.CatArea == catArea && refuge.CageNumber == createSuperkatParameters.CageNumber)
+                .FirstOrDefault();
+
+            return location is not null 
+                ? location 
+                : new Refuge(catArea, createSuperkatParameters.CageNumber);
         }
 
-        private async Task<CatchOrigin> CreateCatchOriginFromParametersAsync(CreateSuperkatParameters createSuperkatParameters)
+        private async Task<CatchOrigin> GetOrCreateCatchOriginFromParametersAsync(CreateSuperkatParameters createSuperkatParameters)
         {
             var catchOriginDetails = _superkattenMapper.MapContractToDomain(createSuperkatParameters.CatchOrigin);
             var catchOrigin = await _catchOriginRepository.GetCatchOriginAsync(catchOriginDetails.Type, catchOriginDetails.Name);
-            return catchOrigin ?? await _catchOriginRepository.CreateCatchOriginAsync(catchOriginDetails.Type, catchOriginDetails.Name);
+            if (catchOrigin is null)
+            {
+                return new CatchOrigin(catchOriginDetails.Name, catchOriginDetails.Type);
+            }
+
+            return catchOrigin;
         }
 
         private Superkat UpdateSuperkatDetails(Superkat superkat, CreateSuperkatParameters createSuperkatParameters)
@@ -94,7 +106,7 @@ namespace Superkatten.Katministratie.Application.Services
             var catchDate = createSuperkatParameters.CatchDate;
             var estimatedBirthday = catchDate.AddDays(-DAY_IN_ONE_WEEK * createSuperkatParameters.EstimatedWeeksOld);
 
-            return superkat.CreateUpdatedModel(
+            var newSuperkat = superkat.CreateUpdatedModel(
                 estimatedBirthday,
                 _superkattenMapper.MapContractToDomain(createSuperkatParameters.Behaviour),
                 createSuperkatParameters.Retour,
@@ -104,6 +116,8 @@ namespace Superkatten.Katministratie.Application.Services
                 createSuperkatParameters.WetFoodAllowed,
                 _superkattenMapper.MapContractToDomain(createSuperkatParameters.FoodType),
                 createSuperkatParameters.CatColor);
+
+            return newSuperkat;
         }
 
         public async Task DeleteSuperkatAsync(Guid guid)
@@ -166,9 +180,36 @@ namespace Superkatten.Katministratie.Application.Services
 
             return superkat;
         }
-        public Task<Superkat> ReallocateInRefugeAsync(ReallocateInRefugeParameters parameters)
+
+        public async Task<Superkat> ReallocateInRefugeAsync(ReallocateInRefugeParameters parameters)
         {
-            return Task.FromResult(new Superkat());
+            var superkat = await _superkattenRepository.GetSuperkatAsync(parameters.SuperkatId);
+            if (superkat is null)
+            {
+                throw new ServiceException($"Superkat cannot be found for id {parameters.SuperkatId}");
+            }
+
+            // Get the new location
+            var catArea = _superkattenMapper.MapContractToDomain(parameters.CatArea);
+            var locations = await _locationRepository.GetLocationsAsync();
+            var refugeLocation = locations
+                .Where(location => location.LocationType == LocationType.Refuge)
+                .Select(location => (Refuge)location)
+                .FirstOrDefault(refugeLocation => refugeLocation.CageNumber == parameters.CageNumber
+                                      && refugeLocation.CatArea == catArea);
+
+            if (refugeLocation is null)
+            {
+                refugeLocation = new Refuge(catArea, parameters.CageNumber);
+            }
+
+            // Relocate
+            superkat.Relocate(refugeLocation);
+
+            // Update database
+            await _superkattenRepository.UpdateSuperkatAsync(superkat);
+
+            return superkat;
         }
 
         public async Task<Superkat> UpdateSuperkatAsync(Guid guid, PhotoParameters parameters)
