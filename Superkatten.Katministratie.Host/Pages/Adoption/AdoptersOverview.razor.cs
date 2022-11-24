@@ -8,7 +8,7 @@ public partial class AdoptersOverview
 {
     [Inject] public Navigation Navigation { get; set; } = null!;
 
-    private IReadOnlyCollection<Adoptant> _adopters;
+    private IReadOnlyCollection<Adoptant> _adopters = null!;
 
     protected override Task OnInitializedAsync()
     {

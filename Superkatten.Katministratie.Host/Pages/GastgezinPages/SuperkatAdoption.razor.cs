@@ -41,11 +41,11 @@ public partial class SuperkatAdoption
         }
 
         _selectedSuperkatten = assignedSuperkatten
-            .Where(s => s.State != SuperkatState.Monitoring)
+            .Where(s => s.State != SuperkatState.New)
             .ToList();
 
         _assignedSuperkatten = assignedSuperkatten
-            .Where(s => s.State == SuperkatState.Monitoring)
+            .Where(s => s.State == SuperkatState.New)
             .ToList();
     }
     private void ValidateEmail(ValidatorEventArgs e)

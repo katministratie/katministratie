@@ -8,7 +8,7 @@ namespace Superkatten.Katministratie.Domain.Entities
     {
         public Guid Id { get; init; }
         public int Number { get; private set; }
-        public SuperkatState State { get; private set; } = SuperkatState.Monitoring;
+        public SuperkatState State { get; private set; } = SuperkatState.New;
         public DateTime CatchDate { get; private set; } = DateTime.UtcNow;
         public CatchOrigin CatchOrigin { get; private set; }
         public bool Reserved { get; private set; } = false;
@@ -103,17 +103,17 @@ namespace Superkatten.Katministratie.Domain.Entities
 
         public void StartAdoption()
         {
-            State = SuperkatState.AdoptionRunning;
+            State = SuperkatState.Adoption;
         }
 
         public void AbortAdoption()
         {
-            State = SuperkatState.Monitoring;
+            State = SuperkatState.New;
         }
 
         public void FinishAdoption()
         {
-            State = SuperkatState.Adopted;
+            State = SuperkatState.Relocated;
         }
     }
 }

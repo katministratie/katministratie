@@ -46,10 +46,12 @@ public class GastgezinService : IGastgezinService
     public async Task<List<Location>> GetAllGastgezinAsync()
     {
         var uri = "api/Location";
-        var gastgezinnen = await _httpService.Get<List<Location>>(uri);
+        var locations = await _httpService.Get<List<Location>>(uri); 
 
-        return gastgezinnen is null
+        return locations is null
             ? new()
-            : gastgezinnen;
+            : locations
+                .Where(o => o.LocationType == LocationType.HostFamily)
+                .ToList();
     }
 }

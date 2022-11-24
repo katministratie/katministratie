@@ -1,13 +1,12 @@
-﻿using Superkatten.Katministratie.Contract.ApiInterface;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
+﻿using Microsoft.AspNetCore.Http;
+using Superkatten.Katministratie.Contract.ApiInterface;
+using Superkatten.Katministratie.Domain.Entities.Locations;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
 using Superkatten.Katministratie.Infrastructure.Persistence;
-using Superkatten.Katministratie.Domain.Entities;
-using Superkatten.Katministratie.Domain.Entities.Locations;
-using Superkatten.Katministratie.Domain.Entities.Adoption;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Superkatten.Katministratie.Application.Services;
 
@@ -28,26 +27,29 @@ public class AdoptionService : IAdoptionService
         _locationRepository = locationRepository;
     }
 
-    public async Task StartSuperkattenAdoptionAsync(StartAdoptionSuperkattenParameters reserveSuperkattenParameters)
+    public async Task StartSuperkattenAdoptionAsync(StartAdoptionSuperkattenParameters parameters)
     {
-        var adoptant = await CreateAdoptant(
-            reserveSuperkattenParameters.AdoptantName,
-            reserveSuperkattenParameters.AdoptantEmail
-        );
+        var locations = await _locationRepository.GetLocationsAsync();
+        var adoptant = locations
+            .Where(o => o.LocationNaw.Name == parameters.AdoptantName)
+            .Select(o => (Adoptant)o)
+            .FirstOrDefault();
 
-        adoptant.StartAdoption();
+        adoptant ??= await CreateAdoptant(parameters.AdoptantName, parameters.AdoptantEmail);
 
-        await Task.WhenAll(reserveSuperkattenParameters.Superkatten.Select(StartAdoptionAsync));
-        
-        await InformAdoptantAsync(adoptant, reserveSuperkattenParameters.Superkatten);
+        var sendResult = await SendStartAdoptionEmailAsync(adoptant, parameters.Superkatten);
+
+        if (sendResult)
+        {
+            await Task.WhenAll(parameters.Superkatten.Select(StartAdoptionAsync));
+        }
     }
 
     private async Task StartAdoptionAsync(Guid superkatId)
     {
-        //CHECKTHIS
-		//var superkat = await _superkattenRepository.GetSuperkatAsync(superkatId);
-        //superkat.StartAdoption();
-        //await _superkattenRepository.UpdateSuperkatAsync(superkat);
+        var superkat = await _superkattenRepository.GetSuperkatAsync(superkatId);
+        superkat.StartAdoption();
+        await _superkattenRepository.UpdateSuperkatAsync(superkat);
     }
 
     private async Task<Adoptant> CreateAdoptant(string adoptantName, string adoptantEmail)
@@ -57,26 +59,36 @@ public class AdoptionService : IAdoptionService
         return adoptant;
     }
 
-    private async Task InformAdoptantAsync(Adoptant adopter, IReadOnlyCollection<Guid> superkatten)
+    private async Task<bool> SendStartAdoptionEmailAsync(Adoptant adopter, IReadOnlyCollection<Guid> superkatten)
     {
-        var bodyText = $"Beste {adopter.Name},/n" +
-            "/n" +
-            "Je hebt gekozen om het adoptie proces in gang te zetten voor de volgende katten: /n" +
+        if (adopter.LocationNaw.Email is null)
+        {
+            return false;
+        }
+
+        var bodyText = $"Beste {adopter.LocationNaw.Name},{Environment.NewLine}" +
+            $"{Environment.NewLine}," +
+            $"Je hebt gekozen om het adoptie proces in gang te zetten voor de volgende katten:{Environment.NewLine}" +
             await CreateLineWithCatInfoAsync(superkatten) +
-            "/n" +
             "Voor het adoptie process zal je bij het ophalen van de katten een aantal formulieren ondertekenen." +
             "hierbij zitten ook de voorwaarden. Deze kan je alvast lezen via de volgende link: <a href=\"#\" \\>" +
-            $"Klik op <a href=\"/Adoption/{adopter.Id}/Start\" /> om verder te gaan. /n" +
-            "/n" +
-            "Met vriendelijke groet,/n" +
-            "Stichting Superkatten";
+            $"Klik op https://katministratie.azurewebsites.net/Adoption/{adopter.Id}/Start om verder te gaan. {Environment.NewLine}" +
+            $"{Environment.NewLine}" +
+            $"Met vriendelijke groet,{Environment.NewLine}" +
+            "Stichting Superkatten" +
+            $"{Environment.NewLine}" +
+            $"{Environment.NewLine}" +
+            $"{Environment.NewLine}" +
+            $"voorwaarden adoptie: https://katministratie.azurewebsites.net/voorwaarden_adoptie.pdf{Environment.NewLine}" +
+            $"formulier die moet worden ondertekend: https://katministratie.azurewebsites.net/ander_formulier_adoptie.pdf{Environment.NewLine}" +
+            $"{Environment.NewLine}";
 
-            return _mailService.MailToAsync(
-                email: adoptant.LocationNaw.Email,
-                subject: "Adoptie stichting superkatten",
-                bodyText: bodyText,
-                documentData: Array.Empty<byte>()
-            );
+        return await _mailService.MailToAsync(
+            email: adopter.LocationNaw.Email,
+            subject: "Adoptie stichting superkatten",
+            bodyText: bodyText,
+            documentData: Array.Empty<byte>()
+        );
     }
 
     private async Task<string> CreateLineWithCatInfoAsync(IReadOnlyCollection<Guid> superkatten)

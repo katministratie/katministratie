@@ -1,8 +1,8 @@
 ﻿@page "/Adoption/{AdopterId:guid}/Start"
 
-<h1>Start van het adoptieproces</h1>
-
 <PageTitle>Start adoptie</PageTitle>
+
+<h2>Start van het adoptieproces</h2>
 
 <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnOk">Ok</Button>
 <Button Block Size="Size.Large" Color="Color.Primary" Clicked="@OnCancel">Terug</Button>
@@ -30,7 +30,7 @@
     <Span>
       <Field>
         <FieldLabel>Naam:</FieldLabel>
-        <FieldBody><TextEdit Text="@_adopterName"></TextEdit></FieldBody>
+        <FieldBody><TextEdit Text="@AdopterName"></TextEdit></FieldBody>
       </Field>
       <Field>
           <FieldLabel>Adres:</FieldLabel>

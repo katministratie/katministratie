@@ -56,6 +56,7 @@ public class LocationRepository : ILocationRepository
         return await _context
             .Locations
             .Include(o => o.LocationNaw)
+            .AsNoTracking()
             .ToListAsync();
     }
 
@@ -63,6 +64,7 @@ public class LocationRepository : ILocationRepository
     {
         var locationNaw = await _context
             .LocationNaw
+            .AsNoTracking()
             .FirstOrDefaultAsync(o => o.Name.Equals(name));
 
         return locationNaw;

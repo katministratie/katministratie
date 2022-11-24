@@ -15,6 +15,8 @@ public class ClientSecrets : IClientSecrets
         _configuration = configuration;
     }
 
-    public string GmailClientId => _configuration.GetValue<string>(ENVIRONMENT_VAR_GMAIL_CLIENT_ID) ?? string.Empty;
-    public string GmailClientSecret => _configuration.GetValue<string>(ENVIRONMENT_VAR_GMAIL_CLIENT_SECRET) ?? string.Empty;
+    public string GmailClientId => Environment.GetEnvironmentVariable(ENVIRONMENT_VAR_GMAIL_CLIENT_ID) ?? string.Empty;
+    //_configuration.GetValue<string>(ENVIRONMENT_VAR_GMAIL_CLIENT_ID) ?? string.Empty;
+    public string GmailClientSecret => Environment.GetEnvironmentVariable(ENVIRONMENT_VAR_GMAIL_CLIENT_SECRET) ?? string.Empty;
+    //_configuration.GetValue<string>(ENVIRONMENT_VAR_GMAIL_CLIENT_SECRET) ?? string.Empty;
 };

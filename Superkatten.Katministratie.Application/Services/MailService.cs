@@ -1,19 +1,16 @@
 ﻿using MailKit.Net.Smtp;
 using MailKit.Security;
-using Microsoft.Extensions.Configuration;
 using MimeKit;
 using Superkatten.Katministratie.Application.Helpers;
 using System;
 using System.IO;
 using System.Net.Mime;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Superkatten.Katministratie.Application.Services;
 
 public class MailService : IMailService
 {
-    private const string CAGEFORM_FILENAME = "kooikaart.pdf";
     private const string SENDER_NAME = "Katministrator";
     private const string SENDER_EMAIL_ADDRESS = "katministratie@superkatten.nl";
 
@@ -29,13 +26,46 @@ public class MailService : IMailService
         _clientSecretSettings = clientSecretSettings;
     }
 
-    public async Task MailToAsync(string email, string subject, string bodyText, byte[] documentData)
+    public async Task<bool> MailToAsync(string email, string subject, string bodyText, byte[] documentData)
+    {
+        var message = BuildEmail(email, subject, bodyText, documentData);
+
+        using var client = new SmtpClient();
+        var sendResult = false;
+        try
+        {
+            client.Connect(
+                _emailSettings.SmtpHost,
+                _emailSettings.SmtpPortNumber,
+                SecureSocketOptions.Auto
+            );
+
+            client.Authenticate(
+                _clientSecretSettings.GmailClientId, 
+                _clientSecretSettings.GmailClientSecret
+            );
+
+            _ = await client.SendAsync(message);
+
+            sendResult = true;
+        }
+        catch (Exception)
+        {
+            // no finalize, maybe logging ?
+        }
+
+        client.Disconnect(true);
+
+        return sendResult;
+    }
+
+    private static MimeMessage BuildEmail(string email, string subject, string bodyText, byte[] documentData)
     {
         var message = new MimeMessage();
         message.To.Add(new MailboxAddress("Requester", email));
         message.From.Add(new MailboxAddress(SENDER_NAME, SENDER_EMAIL_ADDRESS));
         message.Subject = subject;
-        
+
         var body = new TextPart(MimeKit.Text.TextFormat.Plain)
         {
             Text = bodyText
@@ -48,9 +78,9 @@ public class MailService : IMailService
         var attachment = new MimePart(MediaTypeNames.Application.Pdf)
         {
             Content = new MimeContent(stream),
-            ContentId = CAGEFORM_FILENAME,
+            ContentId = "test",
             ContentTransferEncoding = ContentEncoding.Base64,
-            FileName = CAGEFORM_FILENAME
+            FileName = "test.pdf"
         };
 
         message.Body = new Multipart("mixed")
@@ -59,17 +89,6 @@ public class MailService : IMailService
             attachment
         };
 
-        using var client = new SmtpClient();
-        client.Connect(
-            _emailSettings.SmtpHost,
-            _emailSettings.SmtpPortNumber,
-            SecureSocketOptions.Auto);
-        client.Authenticate(
-            _clientSecretSettings.GmailClientId,
-            _clientSecretSettings.GmailClientSecret);
-
-        var result = await client.SendAsync(message);
-
-        client.Disconnect(true);
+        return message;
     }
 }

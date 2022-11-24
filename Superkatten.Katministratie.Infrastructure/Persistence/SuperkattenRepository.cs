@@ -58,11 +58,11 @@ public class SuperkattenRepository : ISuperkattenRepository
     {
         var superkatten = await _context
             .SuperKatten
-            .AsNoTracking()
-            .Where(o => o.State != SuperkatState.Adopted)
+            .Where(o => o.State != SuperkatState.Adoption)
             .Include(o => o.CatchOrigin)
             .Include(o => o.Location)
             .Include(o => o.Location.LocationNaw)
+            .AsNoTracking()
             .ToListAsync();
 
         return superkatten;
@@ -72,10 +72,10 @@ public class SuperkattenRepository : ISuperkattenRepository
     {
         var superkat = await _context
             .SuperKatten
-            .AsNoTracking()
             .Include(o => o.CatchOrigin)
             .Include(o => o.Location)
             .Include(o => o.Location.LocationNaw)
+            .AsNoTracking()
             .FirstOrDefaultAsync(s => s.Id == id);
 
         return superkat is null 
@@ -96,14 +96,22 @@ public class SuperkattenRepository : ISuperkattenRepository
 
         var locationExists = await _context
             .Locations
+            .AsNoTracking()
             .AnyAsync(l => l.Id == superkat.Location.Id);
         if (!locationExists)
         {
             _context.Locations.Add(superkat.Location);
             await _context.SaveChangesAsync();
         }
-        
-        _context.Update(superkat);
+
+        try
+        {
+            _context.Update(superkat);
+        }
+        catch (Exception ex)
+        {
+
+        }
         await _context.SaveChangesAsync();
     }
 

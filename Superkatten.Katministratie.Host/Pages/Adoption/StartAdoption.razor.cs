@@ -8,7 +8,7 @@ public partial class StartAdoption
     [Parameter] public Guid AdopterId { get; set; }
 
     private IReadOnlyCollection<Superkat> _superkatten = new List<Superkat>();
-    private string _adopterName = string.Empty;
+    public string AdopterName = string.Empty;
     private string _adopterAddress = string.Empty;
     private string _adopterPostcode = string.Empty;
     private string _adopterCity = string.Empty;
@@ -22,4 +22,13 @@ public partial class StartAdoption
         return Task.CompletedTask;
     }
 
+    private void OnOk()
+    {
+
+    }
+
+    private void OnCancel()
+    {
+
+    }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using Superkatten.Katministratie.Application.Authorization;
 using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
@@ -63,7 +64,6 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         public async Task<IActionResult> PutSuperkatten(StartAdoptionSuperkattenParameters reserveSuperkattenParameters)
         {
             await _adoptionService.StartSuperkattenAdoptionAsync(reserveSuperkattenParameters);
-
             return Ok();
         }
 

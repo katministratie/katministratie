@@ -2,7 +2,10 @@
 
 public enum SuperkatState
 {
-    Monitoring,
-    AdoptionRunning,
-    Adopted
+    New,
+    Relocating,
+    Promoting,
+    Adoption,
+    Relocated,
+    Done
 }
