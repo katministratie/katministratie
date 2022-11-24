@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Entities;
 using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Helpers;
+using Superkatten.Katministratie.Contract.Entities.Locations;
 
 namespace Superkatten.Katministratie.Host.Components.GastgezinComponents;
 
@@ -11,8 +11,8 @@ public partial class GastgezinComponent : ComponentBase
     [Inject] public ISuperkattenListService SuperkattenService { get; set; } = null!;
     [Inject] public IGastgezinService GastgezinService { get; set; } = null!;    
     [Inject] private Navigation Navigation { get; set; } = null!;
-    [Parameter] public Gastgezin Gastgezin { get; set; } = null!;
-    [Parameter] public EventCallback<Gastgezin> OnGastgezinDeleted { get; set; }
+    [Parameter] public Location Gastgezin { get; set; } = null!;
+    [Parameter] public EventCallback<Location> OnGastgezinDeleted { get; set; }
 
     private HostFamilyComponentEditMode _editMode = HostFamilyComponentEditMode.DisplayDetailsOnly;
 
@@ -21,7 +21,7 @@ public partial class GastgezinComponent : ComponentBase
     protected override async Task OnInitializedAsync()
     {
         var superkatten = await SuperkattenService.GetAllSuperkattenAsync();
-        _disableAdoption = !superkatten.Any(o => o.GastgezinId == Gastgezin?.Id);
+        _disableAdoption = !superkatten.Any(o => o.Location.Id == Gastgezin.Id);
     }
 
     private async Task OnDelete()

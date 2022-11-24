@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Superkatten.Katministratie.Domain.Entities;
+using Superkatten.Katministratie.Domain.Entities.Locations;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -28,11 +29,24 @@ internal class ReportingRepository : IReportingRepository
 
     public async Task<IReadOnlyCollection<Superkat>> GetSuperkattenAtLocationAsync(CatArea catArea, int? cageNumber)
     {
-        return await _context.SuperKatten
+        var superkatten = await _context.SuperKatten
             .AsNoTracking()
             .Include(o => o.CatchOrigin)
-            .Where(o => o.CatArea == catArea && o.CageNumber == cageNumber && o.State != SuperkatState.Adopted)
+            //CHECKTHIS .Where(o => o.CatArea == catArea && o.CageNumber == cageNumber && o.State != SuperkatState.Adopted)
             .ToListAsync();
+
+        return superkatten ?? new List<Superkat>();
+    }
+
+    private static bool IsLocation(BaseLocation location, CatArea catArea, int? cageNumber)
+    {
+        if (location.LocationType is not LocationType.Refuge)
+        {
+            return false;
+        }
+
+        var refugeLocation = (Refuge)location;
+        return refugeLocation.CatArea == catArea && refugeLocation.CageNumber == cageNumber;
     }
 
     public async Task<IReadOnlyCollection<Superkat>> GetNotNeutralizedSuperkatten()
@@ -46,7 +60,10 @@ internal class ReportingRepository : IReportingRepository
         return await _context.SuperKatten
             .AsNoTracking()
             .Include(o => o.CatchOrigin)
-            .Where(o => !neutralizedSuperkatten.Contains(o.Id) && o.State != SuperkatState.Adopted)
+            .Include(o => o.Location)
+            .Include(o => o.Location.LocationNaw)
+            .Where(o => !neutralizedSuperkatten.Contains(o.Id) && o.State != SuperkatState.Done)
+            //CHECKTHIS .Where(o => !neutralizedSuperkatten.Contains(o.Id) && o.State != SuperkatState.Adopted)
             .ToListAsync();
     }
 }

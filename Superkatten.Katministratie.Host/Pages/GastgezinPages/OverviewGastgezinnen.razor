@@ -2,6 +2,7 @@
 
 @using Blazorise.SpinKit
 @using Superkatten.Katministratie.Host.Components.GastgezinComponents;
+@using Superkatten.Katministratie.Contract.Entities.Locations;
 
 <PageTitle>Gastgezinnen</PageTitle>
 
@@ -10,15 +11,24 @@
 
 <Divider />
 
-@if (!_gastgezinnen.Any())
+<Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
+@if (_gastgezinnen is null)
 {    
-    <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle">
-        <SpinKit Type="SpinKitType.Chase" Size="60px"/>
-    </Div>
+    <SpinKit Type="SpinKitType.Chase" Size="60px"/>
     return;
 }
 
-@foreach (var gastgezin in _gastgezinnen)
+@if (!_gastgezinnen.Any())
 {
-    <GastgezinComponent Gastgezin=gastgezin OnGastgezinDeleted=OnGastgezinDeleted/>
+    <span>Geen gastgezinnen gevonden</span>
+    return;
+}
+</Div>
+
+
+@foreach (var location in _gastgezinnen)
+{
+    <GastgezinComponent 
+        Gastgezin=@location 
+        OnGastgezinDeleted=@OnGastgezinDeleted/>
 }

@@ -152,7 +152,7 @@ public partial class CreateSuperkat
         var catchLocation = new CatchOrigin
         {
             Name = CatchOriginName,
-            Type = _selections.catchOriginType
+            Type = _selections.CatchOriginType
         };
 
         var createSuperkatParameters = new CreateSuperkatParameters()
@@ -172,9 +172,9 @@ public partial class CreateSuperkat
             EstimatedWeeksOld = EstimatedWeeksOld,
             StrongholdGiven = StrongHoldGiven
         };
-
+        
         var superkat = await SuperkattenService.CreateSuperkatAsync(createSuperkatParameters);
-
+        
         await PageProgressService.Go(-1);
 
         if (superkat is null)

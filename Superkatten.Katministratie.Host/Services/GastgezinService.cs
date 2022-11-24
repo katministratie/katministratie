@@ -1,5 +1,5 @@
 ﻿using Superkatten.Katministratie.Contract.ApiInterface;
-using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Contract.Entities.Locations;
 using Superkatten.Katministratie.Host.Services.Http;
 
 namespace Superkatten.Katministratie.Host.Services;
@@ -14,27 +14,27 @@ public class GastgezinService : IGastgezinService
     }
 
 
-    public async Task<Gastgezin?> CreateGastgezinAsync(CreateUpdateGastgezinParameters newGastgezinParameters)
+    public async Task<Location?> CreateGastgezinAsync(LocationNawParameters newGastgezinParameters)
     {
-        var uri = "api/Gastgezinnen";
-        var response = await _httpService.Put<Gastgezin>(uri, newGastgezinParameters);
+        var uri = "api/Location";
+        var response = await _httpService.Put<Location>(uri, newGastgezinParameters);
         return response;
     }
 
-    public async Task<Gastgezin?> UpdateGastgezinAsync(Guid id, CreateUpdateGastgezinParameters updateNawGastgezinParameters)
+    public async Task<Location?> UpdateGastgezinAsync(Guid id, LocationNawParameters updateNawGastgezinParameters)
     {
-        var uri = $"api/Gastgezinnen?Id={id}";
-        var response = await _httpService.Post<Gastgezin>(uri, updateNawGastgezinParameters);
+        var uri = $"api/Location?Id={id}";
+        var response = await _httpService.Post<Location>(uri, updateNawGastgezinParameters);
         return response;
     }
 
     public async Task DeleteGastgezinAsync(Guid id)
     {
-        var uri = $"api/Gastgezinnen?Id={id}";
+        var uri = $"api/Location?Id={id}";
         await _httpService.Delete(uri);
     }
 
-    public async Task<Gastgezin?> GetGastgezinAsync(Guid id)
+    public async Task<Location?> GetGastgezinAsync(Guid id)
     {
         var gastgezinnen = await GetAllGastgezinAsync();
 
@@ -43,10 +43,10 @@ public class GastgezinService : IGastgezinService
             .First();
     }
         
-    public async Task<List<Gastgezin>> GetAllGastgezinAsync()
+    public async Task<List<Location>> GetAllGastgezinAsync()
     {
-        var uri = "api/Gastgezinnen";
-        var gastgezinnen = await _httpService.Get<List<Gastgezin>>(uri);
+        var uri = "api/Location";
+        var gastgezinnen = await _httpService.Get<List<Location>>(uri);
 
         return gastgezinnen is null
             ? new()

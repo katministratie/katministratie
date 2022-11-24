@@ -5,9 +5,9 @@ using System;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
 using Superkatten.Katministratie.Infrastructure.Persistence;
 using Superkatten.Katministratie.Domain.Entities;
+using Superkatten.Katministratie.Domain.Entities.Locations;
 using Superkatten.Katministratie.Domain.Entities.Adoption;
 using System.Linq;
-using System.Security.AccessControl;
 
 namespace Superkatten.Katministratie.Application.Services;
 
@@ -15,17 +15,17 @@ public class AdoptionService : IAdoptionService
 {
     private readonly IMailService _mailService;
     private readonly ISuperkattenRepository _superkattenRepository;
-    private readonly IAdoptantRepository _adoptantRepository;
+    private readonly ILocationRepository _locationRepository;
 
     public AdoptionService(
-        IAdoptantRepository adoptantRepository,
+        ILocationRepository locationRepository,
         ISuperkattenRepository superkattenRepository,
         IMailService mailService
     )
     {
         _mailService = mailService;
         _superkattenRepository = superkattenRepository;
-        _adoptantRepository = adoptantRepository;
+        _locationRepository = locationRepository;
     }
 
     public async Task StartSuperkattenAdoptionAsync(StartAdoptionSuperkattenParameters reserveSuperkattenParameters)
@@ -44,15 +44,16 @@ public class AdoptionService : IAdoptionService
 
     private async Task StartAdoptionAsync(Guid superkatId)
     {
-        var superkat = await _superkattenRepository.GetSuperkatAsync(superkatId);
-        superkat.StartAdoption();
-        await _superkattenRepository.UpdateSuperkatAsync(superkat);
+        //CHECKTHIS
+		//var superkat = await _superkattenRepository.GetSuperkatAsync(superkatId);
+        //superkat.StartAdoption();
+        //await _superkattenRepository.UpdateSuperkatAsync(superkat);
     }
 
     private async Task<Adoptant> CreateAdoptant(string adoptantName, string adoptantEmail)
     {
-        var adoptant = new Adoptant(adoptantName, adoptantEmail);
-        await _adoptantRepository.CreateAdoptant(adoptant);
+        var adoptant = new Adoptant(adoptantName, null, null, null, null, adoptantEmail);
+        await _locationRepository.CreateLocationAsync(adoptant);
         return adoptant;
     }
 
@@ -70,8 +71,8 @@ public class AdoptionService : IAdoptionService
             "Met vriendelijke groet,/n" +
             "Stichting Superkatten";
 
-            await _mailService.MailToAsync(
-                email: adopter.Email,
+            return _mailService.MailToAsync(
+                email: adoptant.LocationNaw.Email,
                 subject: "Adoptie stichting superkatten",
                 bodyText: bodyText,
                 documentData: Array.Empty<byte>()

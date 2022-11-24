@@ -1,19 +1,15 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
 using Superkatten.Katministratie.Contract.ApiInterface;
-using Superkatten.Katministratie.Contract.Entities;
-using Superkatten.Katministratie.Host.Entities;
+using Superkatten.Katministratie.Contract.Entities.Locations;
 using Superkatten.Katministratie.Host.Services;
 
 namespace Superkatten.Katministratie.Host.Components.GastgezinComponents;
 
 public partial class GastgezinEditComponent
 {
-    [Inject]
-    private IGastgezinService? _gastgezinService { get; set; }
+    [Inject] private IGastgezinService? _gastgezinService { get; set; }
 
-    [Parameter]
-    public Gastgezin? Gastgezin 
+    [Parameter] public Location? Location 
     { 
         set
         {
@@ -23,17 +19,18 @@ public partial class GastgezinEditComponent
             }
 
             _gastgezinData.Id = value.Id;
-            _gastgezinData.Name = value.Name;
-            _gastgezinData.Address = value.Address ?? string.Empty;
-            _gastgezinData.City = value.City ?? string.Empty;
-            _gastgezinData.Phone = value.Phone ?? string.Empty;
+            _gastgezinData.Name = value.Naw.Name;
+            _gastgezinData.Postcode = value.Naw.Postcode ?? string.Empty;
+            _gastgezinData.Address = value.Naw.Address ?? string.Empty;
+            _gastgezinData.City = value.Naw.City ?? string.Empty;
+            _gastgezinData.Phone = value.Naw.Phone ?? string.Empty;
+            _gastgezinData.Email = value.Naw.Email ?? string.Empty;
         }
     }
 
-    [Parameter]
-    public EventCallback OnFinish { get; set; }
+    [Parameter] public EventCallback OnFinish { get; set; }
 
-    private GastgezinData _gastgezinData = new();
+    private readonly GastgezinData _gastgezinData = new();
     private async Task OnEditOk()
     {
         await StoreAsync();
@@ -52,12 +49,14 @@ public partial class GastgezinEditComponent
             return;
         }
 
-        var updateGastgezinParameters = new CreateUpdateGastgezinParameters()
+        var updateGastgezinParameters = new LocationNawParameters()
         {
             Name = _gastgezinData.Name,
             Address = _gastgezinData.Address,
+            Postcode = _gastgezinData.Postcode,
             City = _gastgezinData.City,
-            Phone = _gastgezinData.Phone
+            Phone = _gastgezinData.Phone,
+            Email = _gastgezinData.Email
         };
 
         await _gastgezinService!.UpdateGastgezinAsync((Guid)_gastgezinData.Id, updateGastgezinParameters);
@@ -68,7 +67,9 @@ public partial class GastgezinEditComponent
         public Guid? Id;
         public string Name = string.Empty;
         public string Address = string.Empty;
+        public string Postcode = string.Empty;
         public string City = string.Empty;
         public string Phone = string.Empty;
+        public string Email = string.Empty;
     }
 }

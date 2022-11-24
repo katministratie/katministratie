@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Components;
-using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Contract.Entities.Locations;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services;
 
@@ -16,7 +16,7 @@ public partial class OverviewGastgezinnen
 
 
 
-    private List<Gastgezin> _gastgezinnen = new();
+    private List<Location>? _gastgezinnen = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -25,15 +25,13 @@ public partial class OverviewGastgezinnen
 
     private async Task UpdateListAsync()
     {
-        if (_gastgezinnenService is null)
-        {
-            return;
-        }
+        _gastgezinnen = new List<Location>();
 
         var gastgezinnen = await _gastgezinnenService.GetAllGastgezinAsync();
         _gastgezinnen  = gastgezinnen 
             .AsQueryable()
-            .OrderByDescending(item => item.Name)
+            .Where(o => o.LocationType != LocationType.Refuge)
+            .OrderByDescending(item => item.Naw.Name)
             .ToList();
     }
 
@@ -47,7 +45,7 @@ public partial class OverviewGastgezinnen
         _navigation.NavigateTo("CreateGastgezin");
     }
 
-    public void OnGastgezinDeleted(Gastgezin gastgezin)
+    public void OnGastgezinDeleted(Location gastgezin)
     {
         _gastgezinnen.Remove(gastgezin);
     }

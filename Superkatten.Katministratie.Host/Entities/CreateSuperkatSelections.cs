@@ -5,7 +5,7 @@ namespace Superkatten.Katministratie.Host.Entities;
 
 public class CreateSuperkatSelections
 {
-    public CatchOriginType catchOriginType { get; private set; } = CatchOriginType.PrivateProperty;
+    public CatchOriginType CatchOriginType { get; private set; } = CatchOriginType.PrivateProperty;
     public CatBehaviour CatBehaviour { get; private set; } = CatBehaviour.Shy;
     public AgeCategory AgeCategory { get; private set; } = AgeCategory.Kitten;
     public CatArea CatArea { get; private set; } = CatArea.Quarantine;
@@ -16,7 +16,7 @@ public class CreateSuperkatSelections
 
     public void Store(AgeCategory value) { AgeCategory = value; }
     public void Store(CatBehaviour value) { CatBehaviour = value; }
-    public void Store(CatchOriginType value) { catchOriginType = value; }
+    public void Store(CatchOriginType value) { CatchOriginType = value; }
     public void Store(CatArea value) { CatArea = value; }
     public void Store(Gender value) { Gender = value; }
     public void Store(FoodType value) { FoodType = value; }

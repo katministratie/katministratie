@@ -6,9 +6,7 @@ using Superkatten.Katministratie.Application.Interfaces;
 using Superkatten.Katministratie.Application.Mappers;
 using Superkatten.Katministratie.Application.Reporting;
 using Superkatten.Katministratie.Infrastructure.Interfaces;
-using Superkatten.Katministratie.Infrastructure.Persistence;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -92,7 +90,7 @@ public class ReportingService : IReportingService
 
         var allNotNeutralizedSuperkatten = await _reportingRepository.GetNotNeutralizedSuperkatten();
         var allNotNeutralizedSuperkattenAtHostFamily = allNotNeutralizedSuperkatten
-            .Where(o => o.GastgezinId != null)
+            .Where(o => o.Location.LocationType != Domain.Entities.Locations.LocationType.Refuge)
             .ToList();
 
         var pdfData = _cageCardProducer.CreateSuperkattenReport(allNotNeutralizedSuperkattenAtHostFamily);
@@ -114,7 +112,7 @@ public class ReportingService : IReportingService
 
         var allNotNeutralizedSuperkatten = await _reportingRepository.GetNotNeutralizedSuperkatten();
         var allNotNeutralizedSuperkattenAtRefuge = allNotNeutralizedSuperkatten
-            .Where(o => o.GastgezinId != null)
+            .Where(o => o.Location.LocationType == Domain.Entities.Locations.LocationType.Refuge)
             .ToList();
 
         var pdfData = _cageCardProducer.CreateSuperkattenReport(allNotNeutralizedSuperkattenAtRefuge);

@@ -94,9 +94,9 @@ public partial class CreateSuperkatPhoto
             return;
         }
 
-        var updateSuperkatPhotoParameters = new UpdateSuperkatPhotoParameters
+        var updateSuperkatPhotoParameters = new PhotoParameters
         {
-            PhotoData = Convert.FromBase64String(imageString.Split(',')[1])
+            Photo = Convert.FromBase64String(imageString.Split(',')[1])
         };
 
         await SuperkattenService.UpdateSuperkatPhoto(_selectedSuperkat.Id, updateSuperkatPhotoParameters);

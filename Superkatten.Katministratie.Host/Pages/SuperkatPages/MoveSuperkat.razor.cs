@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Components;
 using Superkatten.Katministratie.Contract.ApiInterface;
+using Superkatten.Katministratie.Contract.ApiInterface.Reallocate;
 using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services;
@@ -121,14 +122,14 @@ partial class MoveSuperkat
             return;
         }
 
-        var updateSuperkat = new ReallocateSuperkatParameters()
+        var updateSuperkat = new ReallocateInRefugeParameters()
         {
-            GastgezinId = _selectedCatArea is not CatArea.HostFamily ? null : _selectedSuperkat.GastgezinId,
+            SuperkatId = _selectedSuperkat.Id,
             CatArea = _selectedCatArea,
             CageNumber = _selectedCageNumber
         };
 
-        await _superkattenListService.ReallocateSuperkatAsync(_selectedSuperkat.Id, updateSuperkat);
+        await _superkattenListService.ReallocateSuperkatAsync(updateSuperkat);
 
         _navigation.NavigateBack();
     }

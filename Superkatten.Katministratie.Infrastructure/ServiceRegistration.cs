@@ -31,13 +31,12 @@ namespace Superkatten.Katministratie.Infrastructure
             }
 
             services.AddTransient<ISuperkattenRepository, SuperkattenRepository>();
-            services.AddTransient<IGastgezinnenRepository, GastgezinnenRepository>();
+            services.AddTransient<ILocationRepository, LocationRepository>();
             services.AddTransient<IUserAuthorisationRepository, UserAuthorisationRepository>();
             services.AddTransient<IMedicalProceduresRepository, MedicalProceduresRepository>();
             services.AddTransient<IReportingRepository, ReportingRepository>();
             services.AddTransient<IUserMapper, UserMapper>();
             services.AddTransient<ICatchOriginRepository, CatchOriginRepository>();
-            services.AddTransient<IAdoptantRepository, AdoptantRepository>();
 
             return services;
         }

@@ -60,6 +60,7 @@ public class UserAuthorisationRepository : IUserAuthorisationRepository
 
     public User? GetUserByName(string userName)
     {
+        var users = _context.Users.ToList();
         var userDto = _context.Users
             .SingleOrDefault(x => x.Username == userName);
 
