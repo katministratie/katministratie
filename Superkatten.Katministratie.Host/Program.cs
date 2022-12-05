@@ -10,6 +10,7 @@ using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Authentication;
 using Superkatten.Katministratie.Host.Services.Http;
 using Superkatten.Katministratie.Host.Services.Interfaces;
+using System.Globalization;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -42,6 +43,11 @@ builder.Services.AddSingleton<Navigation>();
 
 builder.Services.AddLogging(configure => configure.SetMinimumLevel(LogLevel.Debug));
 
+builder.Services.AddLocalization(options =>
+{
+    options.ResourcesPath = "Resources";
+});
+
 builder.Services
     .AddBlazorise(options =>
     {
@@ -50,8 +56,9 @@ builder.Services
     .AddBootstrapProviders()
     .AddFontAwesomeIcons();
 
-
-await builder.Build().RunAsync();
+await builder
+    .Build()
+    .RunAsync();
 
 //
 // Use configuration appsettings or other config file
