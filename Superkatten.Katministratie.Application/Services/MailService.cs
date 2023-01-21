@@ -61,6 +61,8 @@ public class MailService : IMailService
 
     private static MimeMessage BuildEmail(string email, string subject, string bodyText, byte[] documentData)
     {
+        // See also https://blog.christian-schou.dk/send-emails-with-asp-net-core-with-mailkit/
+
         var message = new MimeMessage();
         message.To.Add(new MailboxAddress("Requester", email));
         message.From.Add(new MailboxAddress(SENDER_NAME, SENDER_EMAIL_ADDRESS));

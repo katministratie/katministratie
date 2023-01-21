@@ -5,5 +5,6 @@ public enum PermissionEnum
     Viewer,
     Administrator,
     Gastgezin,
-    Coordinator
+    Coordinator,
+    Adopter
 }

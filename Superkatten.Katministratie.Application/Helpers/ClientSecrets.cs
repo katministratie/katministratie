@@ -5,8 +5,8 @@ namespace Superkatten.Katministratie.Application.Helpers;
 
 public class ClientSecrets : IClientSecrets
 {
-    private const string ENVIRONMENT_VAR_GMAIL_CLIENT_ID = "APPSETTING_MailClientId";
-    private const string ENVIRONMENT_VAR_GMAIL_CLIENT_SECRET = "APPSETTING_MailClientSecret";
+    public const string ENVIRONMENT_VAR_GMAIL_CLIENT_ID = "APPSETTING_MailClientId";
+    public const string ENVIRONMENT_VAR_GMAIL_CLIENT_SECRET = "APPSETTING_MailClientSecret";
 
     private readonly IConfiguration _configuration;
 

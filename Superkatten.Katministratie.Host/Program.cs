@@ -18,7 +18,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 // Add Transient services
 builder.Services.AddTransient<ISuperkattenListService, SuperkattenListService>();
 builder.Services.AddTransient<ISuperkatActionService, SuperkatActionService>();
-builder.Services.AddTransient<IGastgezinService, GastgezinService>();
+builder.Services.AddTransient<ILocationService, LocationService>();
 builder.Services.AddTransient<IMedicalProcedureService, MedicalProcedureService>();
 builder.Services.AddTransient<IReportingService, ReportingService>();
 builder.Services.AddTransient<ICatchOriginService, CatchOriginService>();

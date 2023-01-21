@@ -197,6 +197,7 @@ public partial class Index
 
         await ReportingService.EmailNotNeutralizedAdopteesReportAsync(email);
     }
+
     public async Task OnLoginLogout()
     {
         if (_authenticationDialog is null)

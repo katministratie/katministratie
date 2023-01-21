@@ -4,6 +4,7 @@ using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Contract.Entities.Locations;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services;
+using Superkatten.Katministratie.Host.Services.Authentication;
 
 namespace Superkatten.Katministratie.Host.Pages.GastgezinPages;
 
@@ -12,7 +13,7 @@ public partial class SuperkatAdoption
     [Inject] public Navigation Navigation { get; set; } = null!;
     [Inject] public ISuperkattenListService SuperkattenService { get; set; } = null!;
     [Inject] public ISuperkatActionService SuperkattenActionService { get; set; } = null!;
-    [Inject] public IGastgezinService GastegezinService { get; set; } = null!;
+    [Inject] public ILocationService GastegezinService { get; set; } = null!;
 
     [Parameter] public Guid GastgezinId { get; set; }
 
@@ -25,9 +26,10 @@ public partial class SuperkatAdoption
         string.IsNullOrWhiteSpace(_emailAddress) ||
         string.IsNullOrWhiteSpace(_name) ||
         !_selectedSuperkatten.Any(); 
+
     protected override async Task OnInitializedAsync()
     {
-        _gastgezin = await GastegezinService.GetGastgezinAsync(GastgezinId);
+        _gastgezin = await GastegezinService.GetLocationAsync(GastgezinId);
 
         var superkatten = await SuperkattenService.GetAllSuperkattenAsync();
         var assignedSuperkatten = superkatten

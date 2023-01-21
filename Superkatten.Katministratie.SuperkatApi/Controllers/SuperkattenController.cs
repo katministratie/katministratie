@@ -65,6 +65,17 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
         {
             await _adoptionService.StartSuperkattenAdoptionAsync(reserveSuperkattenParameters);
             return Ok();
+
+            // Process 
+            //var result = await _adoptionService.StartSuperkattenAdoptionAsync(reserveSuperkattenParameters);
+            //if (result)
+            //{
+            //    return StatusCode(StatusCodes.OK, "Adoption is started successfully");
+            //}
+            //else
+            //{
+            //    return StatusCode(StatusCodes.Status500InternalServerError, "An error occured during when starting the adoption process");
+            //}
         }
 
         [HttpPost]

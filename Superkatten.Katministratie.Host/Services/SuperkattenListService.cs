@@ -1,6 +1,5 @@
 ﻿using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Contract.ApiInterface.Reallocate;
-using Superkatten.Katministratie.Contract.ApiInterface.Reporting;
 using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Host.Services.Http;
 

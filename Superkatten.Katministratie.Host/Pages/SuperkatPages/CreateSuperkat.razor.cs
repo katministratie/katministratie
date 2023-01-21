@@ -172,28 +172,35 @@ public partial class CreateSuperkat
             EstimatedWeeksOld = EstimatedWeeksOld,
             StrongholdGiven = StrongHoldGiven
         };
-        
-        var superkat = await SuperkattenService.CreateSuperkatAsync(createSuperkatParameters);
-        
-        await PageProgressService.Go(-1);
 
-        if (superkat is null)
+        try
         {
-            await _snackbarStack!.PushAsync($"Fout bij het opslaan van de gegevens",
-            SnackbarColor.Danger,
-            options =>
-            {
-                options.IntervalBeforeClose = NOTIFICATION_SHOW_TIME;
-            });
-            return false;
-        }
+            var superkat = await SuperkattenService.CreateSuperkatAsync(createSuperkatParameters);
 
-        await _snackbarStack!.PushAsync($"Superkat toegevoegd met nummer: {superkat.UniqueNumber}",
-            SnackbarColor.Info,
-            options =>
+            await PageProgressService.Go(-1);
+
+            if (superkat is null)
             {
-                options.IntervalBeforeClose = NOTIFICATION_SHOW_TIME;
-            });
+                await _snackbarStack!.PushAsync($"Fout bij het opslaan van de gegevens",
+                SnackbarColor.Danger,
+                options =>
+                {
+                    options.IntervalBeforeClose = NOTIFICATION_SHOW_TIME;
+                });
+                return false;
+            }
+
+            await _snackbarStack!.PushAsync($"Superkat toegevoegd met nummer: {superkat.UniqueNumber}",
+                SnackbarColor.Info,
+                options =>
+                {
+                    options.IntervalBeforeClose = NOTIFICATION_SHOW_TIME;
+                });
+        }
+        catch (Exception ex)
+        {
+
+        }
 
         return true;
     }

@@ -14,7 +14,7 @@ public partial class AssignSuperkatten
     public ISuperkattenListService SuperkattenService { get; set; } = null!;
 
     [Inject]
-    public IGastgezinService GastgezinService { get; set; } = null!;
+    public ILocationService GastgezinService { get; set; } = null!;
 
     [Inject]
     public Navigation Navigation { get; set; } = null!;
@@ -32,7 +32,7 @@ public partial class AssignSuperkatten
 
     protected override async Task OnInitializedAsync()
     {
-        _gastgezin = await GastgezinService.GetGastgezinAsync(GastgezinId);
+        _gastgezin = await GastgezinService.GetLocationAsync(GastgezinId);
 
         var superkatten = await SuperkattenService.GetAllNotAssignedSuperkattenAsync();
         AvailableSuperkatten = superkatten

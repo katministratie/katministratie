@@ -1,4 +1,5 @@
 ﻿@page "/Adoption/Overview"
+@using Superkatten.Katministratie.Host.Components.Adoptions
 
 
 <h1>Adoptanten</h1>
@@ -13,5 +14,5 @@
 
 @foreach(var adopter in _adopters)
 {
-  <AdoptantComponent Adoptant=adopter/>
+  <AdopterComponent Adoptant=adopter/>
 }
