@@ -7,7 +7,7 @@ namespace Superkatten.Katministratie.Host.Components.GastgezinComponents;
 
 public partial class GastgezinEditComponent
 {
-    [Inject] private IGastgezinService? _gastgezinService { get; set; }
+    [Inject] private ILocationService? _gastgezinService { get; set; }
 
     [Parameter] public Location? Location 
     { 
@@ -59,7 +59,7 @@ public partial class GastgezinEditComponent
             Email = _gastgezinData.Email
         };
 
-        await _gastgezinService!.UpdateGastgezinAsync((Guid)_gastgezinData.Id, updateGastgezinParameters);
+        await _gastgezinService!.UpdateLocationAsync((Guid)_gastgezinData.Id, updateGastgezinParameters);
     }
 
     private class GastgezinData

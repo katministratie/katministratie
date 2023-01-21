@@ -8,7 +8,7 @@ namespace Superkatten.Katministratie.Domain.Entities
     {
         public Guid Id { get; init; }
         public int Number { get; private set; }
-        public SuperkatState State { get; private set; } = SuperkatState.Monitoring;
+        public SuperkatState State { get; private set; } = SuperkatState.New;
         public DateTime CatchDate { get; private set; } = DateTime.UtcNow;
         public CatchOrigin CatchOrigin { get; private set; }
         public bool Reserved { get; private set; } = false;
@@ -101,19 +101,19 @@ namespace Superkatten.Katministratie.Domain.Entities
             Reserved = reserved;
         }
 
-        public Superkat SetState(SuperkatState desiredState)
+        public void StartAdoption()
         {
-            State = (State, desiredState) switch
-            {
-                (SuperkatState.Monitoring, SuperkatState.AdoptionRunning) => desiredState,
-                (SuperkatState.AdoptionRunning, SuperkatState.WaitForPayment) => desiredState,
-                (SuperkatState.WaitForPayment, SuperkatState.FinalizeChecks) => desiredState,
-                (SuperkatState.WaitForPayment, SuperkatState.Monitoring) => desiredState,
-                (SuperkatState.FinalizeChecks, SuperkatState.Done) => desiredState,
-                _ => throw new DomainException($"It is not possible to transition from {State} to {desiredState}")
-            };
+            State = SuperkatState.Adoption;
+        }
 
-            return this;
+        public void AbortAdoption()
+        {
+            State = SuperkatState.New;
+        }
+
+        public void FinishAdoption()
+        {
+            State = SuperkatState.Relocated;
         }
     }
 }

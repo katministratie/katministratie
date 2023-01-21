@@ -9,7 +9,7 @@ namespace Superkatten.Katministratie.Host.Components.GastgezinComponents;
 public partial class GastgezinComponent : ComponentBase
 {
     [Inject] public ISuperkattenListService SuperkattenService { get; set; } = null!;
-    [Inject] public IGastgezinService GastgezinService { get; set; } = null!;    
+    [Inject] public ILocationService GastgezinService { get; set; } = null!;    
     [Inject] private Navigation Navigation { get; set; } = null!;
     [Parameter] public Location Gastgezin { get; set; } = null!;
     [Parameter] public EventCallback<Location> OnGastgezinDeleted { get; set; }
@@ -26,7 +26,7 @@ public partial class GastgezinComponent : ComponentBase
 
     private async Task OnDelete()
     {
-        await GastgezinService!.DeleteGastgezinAsync(Gastgezin.Id);
+        await GastgezinService!.DeleteLocationAsync(Gastgezin.Id);
         await OnGastgezinDeleted.InvokeAsync(Gastgezin);
     }
 
@@ -48,7 +48,7 @@ public partial class GastgezinComponent : ComponentBase
     private async Task OnFinishEdit()
     {
         _editMode = HostFamilyComponentEditMode.DisplayDetailsOnly;
-        var gastgezin = await GastgezinService.GetGastgezinAsync(Gastgezin.Id);
+        var gastgezin = await GastgezinService.GetLocationAsync(Gastgezin.Id);
         Gastgezin = gastgezin ?? throw new Exception($"No gastgezin available with id {Gastgezin.Id}");
     }
 }

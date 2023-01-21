@@ -32,6 +32,20 @@ namespace Superkatten.Katministratie.SuperkatApi.Controllers
             );
         }
 
+        [HttpGet]
+        [Route("adopter")]
+        [AuthorizeRoles(PermissionEnum.Adopter)]
+        public async Task<IActionResult> GetAdoptant(Guid Id)
+        {
+            var locations = await _service.GetLocationsAsync();
+
+            return Ok(locations
+                .Where(o => o.Id == Id)
+                .Select(_locationMapper.ToContract)
+                .ToList()
+            );
+        }
+
         [HttpPut]
         public async Task<IActionResult> PutGastgezin([FromBody] LocationNawParameters parameters)
         {

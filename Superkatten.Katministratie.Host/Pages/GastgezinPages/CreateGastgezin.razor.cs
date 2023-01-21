@@ -10,7 +10,7 @@ public partial class CreateGastgezin
 
     [Inject] public NavigationManager NavigationManager { get; set; } = null!;
 
-    [Inject] public IGastgezinService GastgezinService { get; set; } = null!;
+    [Inject] public ILocationService GastgezinService { get; set; } = null!;
 
 
     public HostFamilyNawData GastgezinData { get; set; } = new();
@@ -50,7 +50,7 @@ public partial class CreateGastgezin
             Email = GastgezinData.Email
         };
 
-        var gastgezin = await GastgezinService.CreateGastgezinAsync(createGastgezin);
+        var gastgezin = await GastgezinService.CreateLocationAsync(createGastgezin);
         if (gastgezin is null)
         {
 //TODO            await Message.Error($"Fout bij het opslaan van een nieuw gastgezin.", 1);

@@ -5,8 +5,8 @@ namespace Superkatten.Katministratie.Application.Helpers;
 
 public class ClientSecrets : IClientSecrets
 {
-    private const string ENVIRONMENT_VAR_GMAIL_CLIENT_ID = "APPSETTING_MailClientId";
-    private const string ENVIRONMENT_VAR_GMAIL_CLIENT_SECRET = "APPSETTING_MailClientSecret";
+    public const string ENVIRONMENT_VAR_GMAIL_CLIENT_ID = "APPSETTING_MailClientId";
+    public const string ENVIRONMENT_VAR_GMAIL_CLIENT_SECRET = "APPSETTING_MailClientSecret";
 
     private readonly IConfiguration _configuration;
 
@@ -15,6 +15,8 @@ public class ClientSecrets : IClientSecrets
         _configuration = configuration;
     }
 
-    public string GmailClientId => _configuration.GetValue<string>(ENVIRONMENT_VAR_GMAIL_CLIENT_ID) ?? string.Empty;
-    public string GmailClientSecret => _configuration.GetValue<string>(ENVIRONMENT_VAR_GMAIL_CLIENT_SECRET) ?? string.Empty;
+    public string GmailClientId => Environment.GetEnvironmentVariable(ENVIRONMENT_VAR_GMAIL_CLIENT_ID) ?? string.Empty;
+    //_configuration.GetValue<string>(ENVIRONMENT_VAR_GMAIL_CLIENT_ID) ?? string.Empty;
+    public string GmailClientSecret => Environment.GetEnvironmentVariable(ENVIRONMENT_VAR_GMAIL_CLIENT_SECRET) ?? string.Empty;
+    //_configuration.GetValue<string>(ENVIRONMENT_VAR_GMAIL_CLIENT_SECRET) ?? string.Empty;
 };

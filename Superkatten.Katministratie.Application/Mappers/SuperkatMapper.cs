@@ -53,10 +53,11 @@ namespace Superkatten.Katministratie.Application.Mappers
         {
             return state switch
             {
-                SuperkatState.Monitoring => contractEntities.SuperkatState.Monitoring,
-                SuperkatState.AdoptionRunning => contractEntities.SuperkatState.AdoptionRunning,
-                SuperkatState.WaitForPayment => contractEntities.SuperkatState.WaitForPayment,
-                SuperkatState.FinalizeChecks => contractEntities.SuperkatState.FinalizeChecks,
+                SuperkatState.New => contractEntities.SuperkatState.New,
+                SuperkatState.Relocating => contractEntities.SuperkatState.Relocating,
+                SuperkatState.Promoting => contractEntities.SuperkatState.Promoting,
+                SuperkatState.Adoption=> contractEntities.SuperkatState.Adoption,
+                SuperkatState.Relocated => contractEntities.SuperkatState.Relocated,
                 SuperkatState.Done => contractEntities.SuperkatState.Done,
                 _ => throw new InvalidEnumArgumentException(nameof(state), (int)state, typeof(SuperkatState))
             };
@@ -183,10 +184,11 @@ namespace Superkatten.Katministratie.Application.Mappers
         {
             return state switch
             {
-                contractEntities.SuperkatState.Monitoring => SuperkatState.Monitoring,
-                contractEntities.SuperkatState.AdoptionRunning => SuperkatState.AdoptionRunning,
-                contractEntities.SuperkatState.WaitForPayment => SuperkatState.WaitForPayment,
-                contractEntities.SuperkatState.FinalizeChecks => SuperkatState.FinalizeChecks,
+                contractEntities.SuperkatState.New => SuperkatState.New,
+                contractEntities.SuperkatState.Relocating => SuperkatState.Relocating,
+                contractEntities.SuperkatState.Promoting => SuperkatState.Promoting,
+                contractEntities.SuperkatState.Adoption => SuperkatState.Adoption,
+                contractEntities.SuperkatState.Relocated => SuperkatState.Relocated,
                 contractEntities.SuperkatState.Done => SuperkatState.Done,
                 _ => throw new InvalidEnumArgumentException(nameof(state), (int)state, typeof(contractEntities.SuperkatState))
             };

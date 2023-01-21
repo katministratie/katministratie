@@ -1,7 +1,4 @@
 ﻿using Superkatten.Katministratie.Domain.Exceptions;
-using System;
-using System.Net;
-using System.Numerics;
 
 namespace Superkatten.Katministratie.Domain.Entities.Locations;
 

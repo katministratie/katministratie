@@ -2,7 +2,6 @@
 using Superkatten.Katministratie.Domain.Entities;
 using Superkatten.Katministratie.Domain.Entities.Locations;
 using Superkatten.Katministratie.Infrastructure.Entities;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Superkatten.Katministratie.Infrastructure.Persistence;
 

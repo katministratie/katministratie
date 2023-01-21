@@ -6,22 +6,22 @@
     <Fields TextWeight="TextWeight.Light">
         @switch(State)
         {
-            case SuperkatState.Monitoring:
+            case SuperkatState.New:
                 <FieldLabel class="text-white bg-dark">T</FieldLabel>
                 <FieldLabel>NRC</FieldLabel>
                 break;
 
-            case SuperkatState.AdoptionRunning:
+            case SuperkatState.Promoting:
                 <FieldLabel class="text-white bg-dark">TN</FieldLabel>
                 <FieldLabel>RC</FieldLabel>
                 break;
 
-            case SuperkatState.WaitForPayment:
+            case SuperkatState.Relocated:
                 <FieldLabel class="text-white bg-dark">TNR</FieldLabel>
                 <FieldLabel>C</FieldLabel>
                 break;
 
-            case SuperkatState.FinalizeChecks:
+            case SuperkatState.Done:
                 <FieldLabel><div class="text-white bg-dark">TNRC</div></FieldLabel>
                 <FieldLabel><div class="">C</div></FieldLabel>
                 break;            

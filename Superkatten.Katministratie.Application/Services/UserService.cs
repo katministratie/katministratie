@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+
 using BcryptNet = BCrypt.Net.BCrypt;
 
 namespace Superkatten.Katministratie.Application.Services;
@@ -137,10 +138,5 @@ public class UserService : IUserService
     public void Delete(int id)
     {
         _userAuthorisationRepository.DeleteUserById(id);
-    }
-
-    public void SetUserEnabledState(int id, bool enabled)
-    {
-        throw new System.NotImplementedException();
     }
 }

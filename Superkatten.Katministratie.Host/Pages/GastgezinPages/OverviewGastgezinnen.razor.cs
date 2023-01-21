@@ -12,7 +12,7 @@ public partial class OverviewGastgezinnen
     private Navigation _navigation { get; set; } = null!;
 
     [Inject]
-    private IGastgezinService _gastgezinnenService { get; set; } = null!;
+    private ILocationService _gastgezinnenService { get; set; } = null!;
 
 
 
@@ -25,14 +25,11 @@ public partial class OverviewGastgezinnen
 
     private async Task UpdateListAsync()
     {
-        _gastgezinnen = new List<Location>();
+        var locations = await _gastgezinnenService.GetLocationsByTypeAsync(LocationType.HostFamily);
 
-        var gastgezinnen = await _gastgezinnenService.GetAllGastgezinAsync();
-        _gastgezinnen  = gastgezinnen 
-            .AsQueryable()
-            .Where(o => o.LocationType != LocationType.Refuge)
-            .OrderByDescending(item => item.Naw.Name)
-            .ToList();
+        _gastgezinnen = locations is null
+            ? new List<Location>()
+            : locations.ToList();
     }
 
     private void OnBackHome()
