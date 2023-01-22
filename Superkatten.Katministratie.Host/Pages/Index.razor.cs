@@ -15,7 +15,7 @@ namespace Superkatten.Katministratie.Host.Pages;
 
 public partial class Index
 {
-    [Inject] IStringLocalizer<Program> Localizer { get; set; }
+    [Inject] IStringLocalizer<Program> Localizer { get; set; } = null!;
     [Inject] IPageProgressService PageProgressService { get; set; } = null!;
     [Inject] public Navigation Navigation { get; set; } = null!;
     [Inject] public ISuperkattenListService SuperkattenService { get; set; } = null!;
