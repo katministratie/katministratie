@@ -2,9 +2,7 @@ name: Publish API to production
 on:
   push:
     branches:
-    - add-publish-api-to-production-workflow
-env:
-  AZURE_WEBAPP_NAME: SuperkattenApi
+    - main-azure
   AZURE_WEBAPP_PACKAGE_PATH: Superkatten.Katministratie.SuperkatApi\publish
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
