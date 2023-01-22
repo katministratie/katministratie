@@ -1,14 +1,14 @@
-name: Build and deploy SuperkattenHost
+name: Build and deploy .NET Core application to Web App SuperkattenApi
 on:
   push:
     branches:
     - main-azure
 env:
-  AZURE_WEBAPP_NAME: SuperkattenHost
-  AZURE_WEBAPP_PACKAGE_PATH: Superkatten.Katministratie.Host\published
+  AZURE_WEBAPP_NAME: SuperkattenApi
+  AZURE_WEBAPP_PACKAGE_PATH: Superkatten.Katministratie.SuperkatApi\publish
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
-  WORKING_DIRECTORY: Superkatten.Katministratie.Host
+  WORKING_DIRECTORY: Superkatten.Katministratie.SuperkatApi
 jobs:
   build:
     runs-on: windows-latest
@@ -44,5 +44,5 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.SuperkattenHost_807E }}
+        publish-profile: ${{ secrets.SuperkattenApi_1B9F }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
