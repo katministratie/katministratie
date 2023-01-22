@@ -1,4 +1,4 @@
-name: Build and deploy .NET Core application to Web App Katministratie
+name: Publish GUI to production
 on:
   push:
     branches:
