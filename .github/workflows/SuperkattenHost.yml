@@ -1,4 +1,4 @@
-name: Build and deploy SuperkattenHost
+name: Publish Host to production
 on:
   push:
     branches:
