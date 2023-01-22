@@ -5,8 +5,7 @@
 
 @attribute [Authorize(Roles = "Administrator")] 
 
-<PageTitle>Superkatten</PageTitle>
-
+<PageTitle>@KatministratieTitel</PageTitle>
 
 @if (AuthenticationService is null 
     || Navigation is null 
@@ -110,11 +109,7 @@
     <Container>
         <Field Class="border p-3 mt-5" Style="border-radius:20px">
             <Div Style="font-size:24px;">
-            Je bent niet ingelogd. Je kan inloggen door op de <span class="material-icons">face</span> te klikken.
-            <br />
-            <br />
-            Als je nieuw bent moet je jezelf eerst aanmelden. Aanmelden doe je door op de <span class="material-icons">add_circle_outline</span> 
-            te klikken. Nadat je bent aangemeld neem contact op met de beheerder om jou toegang te geven.
+                @LoginBodyText
             </Div>
         </Field>
     </Container>

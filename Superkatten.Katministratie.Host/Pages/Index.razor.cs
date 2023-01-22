@@ -1,19 +1,21 @@
 ﻿using Blazorise;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.Localization;
 using Superkatten.Katministratie.Contract.ApiInterface.Reporting;
-using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Contract.Entities.Locations;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Pages.Users;
 using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Authentication;
 using Superkatten.Katministratie.Host.Services.Interfaces;
+using System.Globalization;
 
 namespace Superkatten.Katministratie.Host.Pages;
 
 public partial class Index
 {
+    [Inject] IStringLocalizer<Program> Localizer { get; set; }
     [Inject] IPageProgressService PageProgressService { get; set; } = null!;
     [Inject] public Navigation Navigation { get; set; } = null!;
     [Inject] public ISuperkattenListService SuperkattenService { get; set; } = null!;
@@ -27,6 +29,9 @@ public partial class Index
     private bool _isLoggingIn = false;
     private int _superkattenInRefugeCount;
     private int _superkattenNotNeutralizedCount;
+
+    private string KatministratieTitel => Localizer["KatministrationTitle"].Value;
+    private string LoginBodyText => Localizer["LoginBodyText"].Value;
 
     protected override async Task OnInitializedAsync()
     {
