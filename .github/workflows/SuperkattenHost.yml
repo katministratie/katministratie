@@ -4,7 +4,7 @@ on:
     branches:
     - main-azure
 env:
-  AZURE_WEBAPP_NAME: SuperkattenHost
+  AZURE_WEBAPP_NAME: Katministratie
   AZURE_WEBAPP_PACKAGE_PATH: Superkatten.Katministratie.Host\published
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
