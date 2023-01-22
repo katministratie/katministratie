@@ -1,12 +1,14 @@
-name: Publish API to production
+name: Build and deploy .NET Core application to Web App SuperkattenHost
 on:
   push:
     branches:
-    - main-azure
-  AZURE_WEBAPP_PACKAGE_PATH: Superkatten.Katministratie.SuperkatApi\publish
+    - add-publish-api-to-production-workflow
+env:
+  AZURE_WEBAPP_NAME: SuperkattenHost
+  AZURE_WEBAPP_PACKAGE_PATH: Superkatten.Katministratie.Host\published
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
-  WORKING_DIRECTORY: Superkatten.Katministratie.SuperkatApi
+  WORKING_DIRECTORY: Superkatten.Katministratie.Host
 jobs:
   build:
     runs-on: windows-latest
@@ -42,5 +44,5 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.SuperkattenApi_DD96 }}
+        publish-profile: ${{ secrets.SuperkattenHost_807E }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
