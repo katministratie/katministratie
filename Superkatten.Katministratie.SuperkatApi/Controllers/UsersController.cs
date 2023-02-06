@@ -23,20 +23,30 @@ public class UsersController : ControllerBase
     [HttpPost("authenticate")]
     public IActionResult Authenticate(AuthenticateRequest model)
     {
-        Console.WriteLine($"Authenticate {model.Username}");
-        
-        var response = _userService.Authenticate(model);
-
-        return Ok(response);
+        try
+        {
+            var response = _userService.Authenticate(model);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return Problem(ex.Message);
+        }
     }
 
     [AllowAnonymous]
     [HttpPost("register")]
     public IActionResult Register(RegisterRequest model)
     {
-        _userService.Register(model);
-
-        return Ok();
+        try
+        {
+            _userService.Register(model);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return Problem(ex.Message);
+        }
     }
 
     [HttpGet]

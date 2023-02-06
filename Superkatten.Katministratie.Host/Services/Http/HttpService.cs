@@ -144,8 +144,8 @@ public class HttpService : IHttpService
             var error = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
 
             throw new Exception(
-                error is not null 
-                ? error["message"] 
+                error is not null
+                ? error["message"]
                 : "Fatal error"
             );
         }

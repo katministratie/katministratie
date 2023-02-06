@@ -169,7 +169,7 @@ public partial class Index
         Navigation.NavigateTo("CageCard");
     }
 
-    private async Task OnCreateWakkerDierInventoryReport()
+    private async Task OnCreateWaardigDierInventoryReport()
     {
         var email = UserLoginService?.User?.Email;
         if (string.IsNullOrEmpty(email))
