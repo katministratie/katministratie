@@ -1,16 +1,14 @@
 ﻿using Blazorise;
 using Blazorise.Snackbar;
 using Microsoft.AspNetCore.Components;
-using Newtonsoft.Json.Linq;
+using Microsoft.Extensions.Localization;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Contract.Language;
 using Superkatten.Katministratie.Host.Entities;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Interfaces;
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 
 namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 
@@ -25,7 +23,7 @@ public partial class CreateSuperkat
     public const int MAX_HOKNUMBER_ALLOWED = 50;
     private const int NOTIFICATION_SHOW_TIME = 2500;
 
-    [Inject] IPageProgressService PageProgressService { get; set; } = null!;
+    [Inject] IStringLocalizer<KatministratieApp> Localizer { get; set; } = null!;
     [Inject] public Navigation Navigation { get; set; } = null!;
     [Inject] public ISuperkattenListService SuperkattenService { get; set; } = null!;
     [Inject] public ICatchOriginService CatchOriginService { get; set; } = null!;
@@ -90,13 +88,13 @@ public partial class CreateSuperkat
 
     protected override async Task OnInitializedAsync()
     {
-        _litterGranuleTypeNames = _litterGranuleTypes.Select(x => x.ToString()).ToList();
-        _catchOriginTypeNames = _catchOriginTypes.Select(x => x.ToString()).ToList();
-        _catBehaviourTypeNames = _catBehaviourTypes.Select(x => x.ToString()).ToList();
-        _ageCategoryTypeNames = _ageCategoryTypes.Select(x => x.ToString()).ToList();
-        _catAreaTypeNames = _catAreaTypes.Select(x => x.ToString()).ToList();
-        _genderTypeNames = _genderTypes.Select(x => x.ToString()).ToList();
-        _foodTypeNames = _foodTypes.Select(x => x.ToString()).ToList();
+        _litterGranuleTypeNames = _litterGranuleTypes.Select(x => Localizer[x.GetType().Name + x.ToString()].Value).ToList();
+        _catchOriginTypeNames = _catchOriginTypes.Select(x => Localizer[x.GetType().Name + x.ToString()].Value).ToList();
+        _catBehaviourTypeNames = _catBehaviourTypes.Select(x => Localizer[x.GetType().Name + x.ToString()].Value).ToList();
+        _ageCategoryTypeNames = _ageCategoryTypes.Select(x => Localizer[x.GetType().Name + x.ToString()].Value).ToList();
+        _catAreaTypeNames = _catAreaTypes.Select(x => Localizer[x.GetType().Name + x.ToString()].Value).ToList();
+        _genderTypeNames = _genderTypes.Select(x => Localizer[x.GetType().Name + x.ToString()].Value).ToList();
+        _foodTypeNames = _foodTypes.Select(x => Localizer[x.GetType().Name + x.ToString()].Value).ToList();
 
         CatchOrigins = await CatchOriginService.GetCatchOriginsAsync();
 
@@ -130,8 +128,6 @@ public partial class CreateSuperkat
 
     private async Task<bool> StoreSuperkatAsync()
     {
-        await PageProgressService.Go(null, options => { options.Color = Color.Info; });
-
         if (SuperkattenService is null)
         {
             return false;
@@ -143,8 +139,6 @@ public partial class CreateSuperkat
                 SnackbarColor.Info,
                 options => options.IntervalBeforeClose = NOTIFICATION_SHOW_TIME
             );
-
-            await PageProgressService.Go(-1);
 
             return false;
         }
@@ -177,8 +171,6 @@ public partial class CreateSuperkat
         {
             var superkat = await SuperkattenService.CreateSuperkatAsync(createSuperkatParameters);
 
-            await PageProgressService.Go(-1);
-
             if (superkat is null)
             {
                 await _snackbarStack!.PushAsync($"Fout bij het opslaan van de gegevens",
@@ -199,7 +191,13 @@ public partial class CreateSuperkat
         }
         catch (Exception ex)
         {
-
+            await _snackbarStack!.PushAsync($"Fout bij het opslaan van de gegevens",
+            SnackbarColor.Danger,
+            options =>
+            {
+                options.IntervalBeforeClose = NOTIFICATION_SHOW_TIME;
+            });
+            return false;
         }
 
         return true;

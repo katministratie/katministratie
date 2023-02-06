@@ -9,13 +9,13 @@ using Superkatten.Katministratie.Host.Pages.Users;
 using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Authentication;
 using Superkatten.Katministratie.Host.Services.Interfaces;
-using System.Globalization;
+using Superkatten.Katministratie.Contract.Language;
 
 namespace Superkatten.Katministratie.Host.Pages;
 
 public partial class Index
 {
-    [Inject] IStringLocalizer<Program> Localizer { get; set; } = null!;
+    [Inject] IStringLocalizer<KatministratieApp> Localizer { get; set; } = null!;
     [Inject] IPageProgressService PageProgressService { get; set; } = null!;
     [Inject] public Navigation Navigation { get; set; } = null!;
     [Inject] public ISuperkattenListService SuperkattenService { get; set; } = null!;

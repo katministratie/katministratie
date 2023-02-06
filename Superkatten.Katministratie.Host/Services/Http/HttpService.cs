@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Superkatten.Katministratie.Contract.Authenticate;
+﻿using Superkatten.Katministratie.Contract.Authenticate;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.LocalStorage;
 using Superkatten.Katministratie.Host.Services.Authentication;

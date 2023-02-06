@@ -43,10 +43,7 @@ builder.Services.AddSingleton<Navigation>();
 
 builder.Services.AddLogging(configure => configure.SetMinimumLevel(LogLevel.Debug));
 
-builder.Services.AddLocalization(options =>
-{
-    options.ResourcesPath = "Resources";
-});
+builder.Services.AddLocalization();
 
 builder.Services
     .AddBlazorise(options =>

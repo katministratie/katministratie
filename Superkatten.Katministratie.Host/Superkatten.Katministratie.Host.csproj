@@ -52,7 +52,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\Pages\" />
     <Folder Include="wwwroot\js\" />
   </ItemGroup>
 

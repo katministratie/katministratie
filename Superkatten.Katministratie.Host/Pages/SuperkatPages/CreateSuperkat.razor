@@ -31,7 +31,7 @@
               ValueField="@(( item ) => item.Id)"
               @bind-SelectedValue="@_catchOriginNameId"
               @bind-SelectedText="@CatchOriginName"
-              Placeholder="Search..."
+              Placeholder="..."
               Filter="AutocompleteFilter.Contains"
               FreeTyping
               CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
