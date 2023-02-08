@@ -48,9 +48,8 @@ public partial class OverviewMedicalProcedures
 
     private string LocalizeMedicalProcedure(MedicalProcedureType procedureType)
     {
-        //var key = procedureType.GetType().Name + procedureType.ToString();
-        //return Localizer[key].Value;
-        return "test";
+        var key = procedureType.GetType().Name + procedureType.ToString();
+        return Localizer[key].Value;
     }
 }
 
