@@ -110,7 +110,7 @@ partial class MoveSuperkat
         return Task.CompletedTask;
     }
 
-    private void OnBackHome()
+    private void OnCancel()
     {
         _navigation.NavigateBack();
     }
