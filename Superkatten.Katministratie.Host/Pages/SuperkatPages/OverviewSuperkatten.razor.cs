@@ -9,17 +9,15 @@ namespace Superkatten.Katministratie.Host.Pages.SuperkatPages;
 public partial class OverviewSuperkatten
 {
     [Inject] private Navigation _navigation { get; set; } = null!;
-
     [Inject] private ISuperkattenListService _superkattenService { get; set; } = null!;
-
     [Inject] private ILocalStorageService _localStorageService { get; set; } = null!;
 
 
     private List<Superkat> Superkatten { get; set; } = new();
 
     private bool _showSimpleListView = false;
-    private readonly int _itemsPerPage = 7;
-    private readonly int _displayedPageSetCount = 5;
+    private readonly int _itemsPerPage = 10;
+    private readonly int _displayedPageSetCount = 10;
     private int _currentPage = 1;
     private int _totalPageCount = 10;
     private int _startPageNumber = 1;
@@ -46,7 +44,8 @@ public partial class OverviewSuperkatten
 
     protected override async Task OnInitializedAsync()
     {
-        _showSimpleListView = await _localStorageService.GetItemAsync<bool>(LocalStorageItems.LOCALSTORAGE_SETTING_SUPERKATTENLIST_TYPE);
+        _showSimpleListView = await _localStorageService
+            .GetItemAsync<bool>(LocalStorageItems.LOCALSTORAGE_SETTING_SUPERKATTENLIST_TYPE);
         
         await UpdateListAsync();
 
@@ -66,7 +65,7 @@ public partial class OverviewSuperkatten
         
         var partialList = superkatten
             .AsQueryable()
-            .OrderByDescending(sk => sk.Number)
+            .OrderBy(sk => sk.Number)
             .Skip((_currentPage - 1) * _itemsPerPage)
             .Take(_itemsPerPage)
             .ToList();
