@@ -350,5 +350,50 @@ namespace Superkatten.Katministratie.Contract.Language {
                 return ResourceManager.GetString("LoginBodyText", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reguliere controle.
+        /// </summary>
+        public static string MedicalProcedureTypeCheckup {
+            get {
+                return ResourceManager.GetString("MedicalProcedureTypeCheckup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Geneutraliseerd.
+        /// </summary>
+        public static string MedicalProcedureTypeNeutralize {
+            get {
+                return ResourceManager.GetString("MedicalProcedureTypeNeutralize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Algemene notitie.
+        /// </summary>
+        public static string MedicalProcedureTypeNote {
+            get {
+                return ResourceManager.GetString("MedicalProcedureTypeNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ziek.
+        /// </summary>
+        public static string MedicalProcedureTypeSickness {
+            get {
+                return ResourceManager.GetString("MedicalProcedureTypeSickness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stronghold.
+        /// </summary>
+        public static string MedicalProcedureTypeStronghold {
+            get {
+                return ResourceManager.GetString("MedicalProcedureTypeStronghold", resourceCulture);
+            }
+        }
     }
 }

@@ -2,16 +2,17 @@
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services.Interfaces;
 using Superkatten.Katministratie.Contract.ApiInterface;
+using Superkatten.Katministratie.Contract.Entities;
+using Microsoft.Extensions.Localization;
+using Superkatten.Katministratie.Contract.Language;
 
 namespace Superkatten.Katministratie.Host.Pages.MedicalProceduresPages;
 
 public partial class OverviewMedicalProcedures
 {
-    [Inject]
-    private Navigation _navigation { get; set; } = null!;
-
-    [Inject]
-    private IMedicalProcedureService _medicalProcedureService { get; set; } = null!;
+    [Inject] IStringLocalizer<KatministratieApp> Localizer { get; set; } = null!;
+    [Inject] private Navigation _navigation { get; set; } = null!;
+    [Inject] private IMedicalProcedureService _medicalProcedureService { get; set; } = null!;
 
 
     private Dictionary<string, List<MedicalProcedureInformation>> MedicalProcedureInformationDictionary { get; set; } = new();
@@ -43,6 +44,13 @@ public partial class OverviewMedicalProcedures
         }
 
         _navigation.NavigateBack();
+    }
+
+    private string LocalizeMedicalProcedure(MedicalProcedureType procedureType)
+    {
+        //var key = procedureType.GetType().Name + procedureType.ToString();
+        //return Localizer[key].Value;
+        return "test";
     }
 }
 

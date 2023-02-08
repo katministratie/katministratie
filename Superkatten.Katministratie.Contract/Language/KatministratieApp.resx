@@ -216,4 +216,19 @@ Nadat je bent aangemeld neem contact op met de beheerder om jou toegang te geven
   <data name="CatchOriginTypeNatureReserve" xml:space="preserve">
     <value>Natuurgebied</value>
   </data>
+  <data name="MedicalProcedureTypeStronghold" xml:space="preserve">
+    <value>Stronghold</value>
+  </data>
+  <data name="MedicalProcedureTypeNeutralize" xml:space="preserve">
+    <value>Geneutraliseerd</value>
+  </data>
+  <data name="MedicalProcedureTypeCheckup" xml:space="preserve">
+    <value>Reguliere controle</value>
+  </data>
+  <data name="MedicalProcedureTypeSickness" xml:space="preserve">
+    <value>Ziek</value>
+  </data>
+  <data name="MedicalProcedureTypeNote" xml:space="preserve">
+    <value>Algemene notitie</value>
+  </data>
 </root>

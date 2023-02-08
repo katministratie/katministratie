@@ -34,7 +34,7 @@
                         <Div Style="font-size:10px;color:grey">@item.Timestamp.ToLocalTime().ToString("hh:mm")</Div>
                     </Div>
                 </Field>
-                <Field>@item.ProcedureType</Field>
+                <Field>@LocalizeMedicalProcedure(item.ProcedureType)</Field>
                 <Field>@item.Remark</Field>
             </Fields>
             <hr/>

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using Superkatten.Katministratie.Contract.ApiInterface;
 using Superkatten.Katministratie.Contract.Entities;
+using Superkatten.Katministratie.Contract.Language;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services;
 using Superkatten.Katministratie.Host.Services.Interfaces;
@@ -9,10 +11,9 @@ namespace Superkatten.Katministratie.Host.Pages.MedicalProceduresPages;
 
 partial class AddMedicalProcedure
 {
+    [Inject] IStringLocalizer<KatministratieApp> Localizer { get; set; } = null!;
     [Inject] private IMedicalProcedureService _medicalprocedureService { get; set; } = null!;
-
     [Inject] private Navigation _navigation { get; set; } = null!;
-
     [Inject] private ISuperkattenListService _superkattenService { get; set; } = null!;
 
     
@@ -35,7 +36,7 @@ partial class AddMedicalProcedure
         await BuildMedialProcedureSelectionList();
 
         _medialProcedureNames = _medicalProcedures
-            .Select(x => x.ToString())
+            .Select(x => Localizer[x.GetType().Name + x.ToString()].Value)
             .ToList();
     }
 
