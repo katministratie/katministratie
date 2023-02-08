@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using Superkatten.Katministratie.Contract.ApiInterface.Reporting;
 using Superkatten.Katministratie.Contract.Entities;
 using Superkatten.Katministratie.Contract.Entities.Locations;
+using Superkatten.Katministratie.Contract.Language;
 using Superkatten.Katministratie.Host.Components;
 using Superkatten.Katministratie.Host.Helpers;
 using Superkatten.Katministratie.Host.Services;
@@ -13,6 +15,7 @@ namespace Superkatten.Katministratie.Host.Pages.Reports;
 
 partial class CageCard
 {
+    [Inject] private IStringLocalizer<KatministratieApp> Localizer { get; set; } = null!;
     [Inject] private ISettingsService SettingsService { get; set; } = null!;
     [Inject] private ISuperkattenListService SuperkattenService { get; set; } = null!;
     [Inject] public IAuthenticationService AuthenticationService { get; init; } = null!;
@@ -59,7 +62,7 @@ partial class CageCard
     protected override Task OnInitializedAsync()
     {
         _catAreas = Enum.GetValues(typeof(CatArea)).Cast<CatArea>().ToList();
-        _catAreaNames = _catAreas.Select(x => x.ToString()).ToList();
+        _catAreaNames = _catAreas.Select(x => Localizer[x.GetType().Name + x.ToString()].Value).ToList();
 
         return Task.CompletedTask;
     }
@@ -77,7 +80,8 @@ partial class CageCard
         var cageNumberNames = _cageNumbers.Select(x => x.ToString()).ToList();
         _cageNumberNames = cageNumberNames;
 
-        await UpdateSuperkattenListAsync(0);
+        var firstCage = _cageNumbers.FirstOrDefault();
+        await UpdateSuperkattenListAsync(firstCage);
     }
 
     public async Task UpdateSuperkattenListAsync(int selectedCageNumber)
@@ -88,10 +92,21 @@ partial class CageCard
         var superkatten = new List<Superkat>();
         foreach (var superkat in activeSuperkattenList)
         {
-            var location = (Refuge)superkat.Location;
-            if (location.CatArea == _selectedCatArea && location.CageNumber == selectedCageNumber)
+            try
             {
-                superkatten.Add(superkat);
+                var location = superkat.Location as Refuge;
+                if (location is null)
+                {
+                    // What to do here ?
+
+                }
+                else if (location.CatArea == _selectedCatArea && location.CageNumber == selectedCageNumber)
+                {
+                    superkatten.Add(superkat);
+                }
+            }
+            catch(Exception ex) 
+            { 
             }
         }
         
