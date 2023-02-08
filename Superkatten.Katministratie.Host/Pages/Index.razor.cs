@@ -38,33 +38,21 @@ public partial class Index
         await UserLoginService.InitializeAsync();
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (UserLoginService.IsAuthenticated)
+        {
+            await UpdateLabelMarkersAsync();
+            StateHasChanged();
+        }
+    }
+
     private void OnRegister()
     {
         Navigation.NavigateTo("Register");
     }
 
     private TextEdit? _textEditLoginName;
-
-    /*private async Task OnLogin()
-    {
-        if (_authenticationDialog is null)
-        {
-            return;
-        }
-
-        _loginModel = new();
-        await _authenticationDialog.Show();
-
-        if (_textEditLoginName is not null)
-        {
-            _ = InvokeAsync(() => _textEditLoginName.Focus());
-        }
-    }
-
-    private async Task OnLogout()
-    {        
-        await UserLoginService.ResetAsync();
-    }*/
 
     private void OnCreateSuperkatPhoto()
     {
@@ -140,8 +128,6 @@ public partial class Index
         await PageProgressService.Go(-1);
 
         _isLoggingIn = false;
-
-        await UpdateLabelMarkersAsync();
     }
 
     private async Task UpdateLabelMarkersAsync()
@@ -151,6 +137,7 @@ public partial class Index
 
         _superkattenInRefugeCount = superkattenInRefuge
             .Count(s => s.Location.LocationType is LocationType.Refuge);
+
         _superkattenNotNeutralizedCount = superkattenNotNeutralized.Count;
     }
 
@@ -164,10 +151,6 @@ public partial class Index
         await SaveAndHideModal();
     }
 
-    private void OnEmailCageCard()
-    {
-        Navigation.NavigateTo("CageCard");
-    }
 
     private async Task OnCreateWaardigDierInventoryReport()
     {
@@ -188,7 +171,7 @@ public partial class Index
         await ReportingService.EmailInventoryDetailsReportAsync(requestParameters);
     }
 
-    private async Task OnNotNeutralizedInRefugeReport()
+    /*private async Task OnNotNeutralizedInRefugeReport()
     {
         var email = UserLoginService?.User?.Email ?? string.Empty;
 
@@ -201,7 +184,7 @@ public partial class Index
         var email = UserLoginService?.User?.Email ?? string.Empty;
 
         await ReportingService.EmailNotNeutralizedAdopteesReportAsync(email);
-    }
+    }*/
 
     public async Task OnLoginLogout()
     {
