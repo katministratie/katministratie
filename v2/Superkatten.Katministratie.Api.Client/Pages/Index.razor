@@ -1,0 +1,10 @@
+﻿@page "/"
+
+<PageTitle>Katministratie</PageTitle>
+
+<button @onclick="RefreshPage">refresh</button>
+
+@foreach (var superkatView in Superkatten)
+{
+    <p>@superkatView.Superkat.Number</p>
+}
