@@ -44,8 +44,15 @@ public class HttpService : IHttpService
             return;
         }
 
+        if (response.StatusCode == HttpStatusCode.NotFound)
+        {
+            // Opgegeven URI bestaat niet
+            return;
+        }
+
         if (!response.IsSuccessStatusCode)
         {
+            var content = await response.Content.ReadAsStringAsync();
             var error = await response
                 .Content
                 .ReadFromJsonAsync<Dictionary<string, string>>();

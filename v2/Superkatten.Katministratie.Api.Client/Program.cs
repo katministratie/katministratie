@@ -9,11 +9,10 @@ namespace Superkatten.Katministratie.Api.Client
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
 
-            var urlApi = "http://localhost:5000";
+            var urlApi = "https://localhost:5000";
             builder.Services.AddTransient(s =>
             {
                 return new HttpClient
@@ -27,7 +26,6 @@ namespace Superkatten.Katministratie.Api.Client
             builder.Services.AddTransient<ISuperkattenService, SuperkattenService>();
 
             var app = builder.Build();
-
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

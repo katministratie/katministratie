@@ -1,10 +1,19 @@
 ﻿@page "/"
+@using Superkatten.Katministratie.Api.Client.Components
 
 <PageTitle>Katministratie</PageTitle>
 
-<button @onclick="RefreshPage">refresh</button>
+<div>
+    <p>Menu</p>
+    <hr/>
+</div>
+<div>
+    <button @onclick="CreateNewSuperkat">Nieuwe kat</button>
+</div>
 
-@foreach (var superkatView in Superkatten)
-{
-    <p>@superkatView.Superkat.Number</p>
-}
+<div style="display:flex;flex-direction:column;">
+    @foreach (var superkatView in Superkatten)
+    {
+        <SuperkatViewer Superkat="@superkatView" />
+    }
+</div>

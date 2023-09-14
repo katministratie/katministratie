@@ -20,7 +20,7 @@ public class SuperkattenService : ISuperkattenService
 
     public async Task<IReadOnlyList<SuperkatView>> GetSuperkattenAsync()
     {
-        var uri = "superkat";
+        var uri = "superkatten";
 
         var superkatten = await _httpService.Get<List<SuperkatDto>>(uri);
 

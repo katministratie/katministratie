@@ -1,15 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
-using Superkatten.Katministratie.Application.Authorisation;
 using Superkatten.Katministratie.Application.Contracts.Interfaces;
 using Superkatten.Katministratie.Application.Contracts.Parameters;
-using Superkatten.Katministratie.Domain.Shared;
+using Superkatten.Katministratie.HttpApi.ExceptionHandling;
+using System.Data;
 
 namespace Superkatten.Katministratie.HttpApi.Controllers
 {
-    // TODO: Tijdelijk uitgezet
-    //[AuthorizeRoles(UserPermissions.Administrator)]
-    //[ApiController]
     [Route("[controller]")]
+    [TypeFilter(typeof(ExceptionHandlingFilter))]
     public class SuperkattenController : ControllerBase
     {
         private readonly ILogger<SuperkattenController> _logger;
@@ -25,6 +23,7 @@ namespace Superkatten.Katministratie.HttpApi.Controllers
         }
 
         [HttpGet]
+        [HandleException(typeof(Exception))]
         public async Task<IActionResult> GetAll()
         {
             var superkatten = await _superkatService.GetSuperkattenAsync();
@@ -35,12 +34,6 @@ namespace Superkatten.Katministratie.HttpApi.Controllers
         public async Task<IActionResult> Create(NewSuperkatParameters parameters)
         {
             var superkat = await _superkatService.CreateSuperkatAsync(parameters);
-            
-            if(superkat is null)
-            {
-                return BadRequest("Superkat cannot be created");
-            }
-
             return Ok(superkat);
         }
     }

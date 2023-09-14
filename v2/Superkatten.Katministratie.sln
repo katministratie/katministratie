@@ -63,7 +63,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Superkatten.Katministratie.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Superkatten.Katministratie.Gui", "Superkatten.Katministratie.Gui\Superkatten.Katministratie.Gui.csproj", "{1D907798-9E3E-457F-A991-591C4C77D034}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Superkatten.Katministratie.Api.Client", "Superkatten.Katministratie.Api.Client\Superkatten.Katministratie.Api.Client.csproj", "{FABBCCB8-314A-48A7-97B4-DA5ABE491B79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Superkatten.Katministratie.Api.Client", "Superkatten.Katministratie.Api.Client\Superkatten.Katministratie.Api.Client.csproj", "{FABBCCB8-314A-48A7-97B4-DA5ABE491B79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

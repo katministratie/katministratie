@@ -36,7 +36,7 @@ public class SuperkatService : ISuperkatService
         return superkattenDto ?? Array.Empty<SuperkatDto>().ToList();
     }
 
-    public async Task<SuperkatDto?> CreateSuperkatAsync(NewSuperkatParameters newSuperkatParameters)
+    public async Task<SuperkatDto> CreateSuperkatAsync(NewSuperkatParameters newSuperkatParameters)
     {
         var entered = _systemTime.UtcNow;
         var maxSuperkatNumber = await _superkattenRepository.GetMaxSuperkatNumberForYear(entered.Year);

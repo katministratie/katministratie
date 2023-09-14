@@ -10,4 +10,8 @@ public class SuperkatView
     {
         Superkat = superkat;
     }
+
+    public string Number => Superkat.Entered.ToString("yy") + "-" + Superkat.Number.ToString("000");
+
+    public string Entered => Superkat.Entered.ToString("dd/MMM/yy");
 }

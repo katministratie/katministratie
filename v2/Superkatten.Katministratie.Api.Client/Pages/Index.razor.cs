@@ -10,10 +10,15 @@ public partial class Index
 
     private IReadOnlyList<SuperkatView> Superkatten { get; set; } = new List<SuperkatView>();
 
-    private async Task RefreshPage()
+    protected override async Task OnInitializedAsync()
     {
         Superkatten = await SuperkattenService.GetSuperkattenAsync();
-        
+
         StateHasChanged();
+    }
+
+    private Task CreateNewSuperkat()
+    {
+        return Task.CompletedTask;
     }
 }

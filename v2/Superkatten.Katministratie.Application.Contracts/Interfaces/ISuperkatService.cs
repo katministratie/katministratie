@@ -7,5 +7,5 @@ public interface ISuperkatService
 {
     Task<List<SuperkatDto>> GetSuperkattenAsync();
 
-    Task<SuperkatDto?> CreateSuperkatAsync(NewSuperkatParameters newSuperkatParameters);
+    Task<SuperkatDto> CreateSuperkatAsync(NewSuperkatParameters newSuperkatParameters);
 }
