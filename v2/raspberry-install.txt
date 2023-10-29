@@ -1,0 +1,175 @@
+// ########################################################################################################################
+// katministratie install on PI4
+// ########################################################################################################################
+Image used: ubuntu-22.04.3-preinstalled-server-arm64+raspi.img.xz
+User: ubuntu
+WW: ubuntu --> Change it to pcodeLdm
+
+
+
+// ########################################################################################################################
+// Startup
+// ########################################################################################################################
+sudo apt update
+sudo apt upgrade
+
+// ########################################################################################################################
+// Startup
+// ########################################################################################################################
+sudo apt install net-tools
+sudo useradd -m johan 
+sudo passwd johan
+
+// ########################################################################################################################
+// Install dotnet runtime 
+// ########################################################################################################################
+lsb_release -a => resultaat op de 19.10 plakken in de volgende regel
+wget https://packages.microsoft.com/config/ubuntu/19.10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+sudo apt-get update
+sudo apt-get install -y apt-transport-https
+sudo apt-get update
+sudo apt-get install -y dotnet-runtime-7.0
+sudo apt-get install -y aspnetcore-runtime-7.0
+
+OR....
+
+use URL: 
+https://learn.microsoft.com/en-us/dotnet/iot/deployment
+
+
+
+
+// ########################################################################################################################
+// Install FTP server
+// ########################################################################################################################
+sudo apt install -y vsftpd
+sudo systemctl start vsftpd
+sudo systemctl enable vsftpd
+sudo cp /etc/vsftpd.conf  /etc/vsftpd.conf_default
+sudo ufw allow 20/tcp
+sudo ufw allow 21/tcp
+
+// Enable upload of files -> edit the config with:
+sudo nano /etc/vsftpd.conf
+// And enable "#write_enable=YES" by removing the #
+// Save the files and restart the service
+sudo systemctl restart vsftpd.service
+
+// OPTIONAL: FTP Server: Change default dir
+sudo mkdir /srv/ftp/new_location
+sudo usermod -d /srv/ftp/new_location ftp
+sudo systemctl restart vsftpd.service
+
+
+// ########################################################################################################################
+// Install sqllite
+// ########################################################################################################################
+sudo apt install sqlite3
+
+
+// ########################################################################################################################
+// Install mysql
+// ########################################################################################################################
+sudo apt install mysql-server -y
+sudo mysql_secure_installation
+VALIDATE PASSWORD Component = Y => 1 = MEDIUM => Password:PcLdm
+Remove anonymous users = Y (remove)
+Disallow root login remotely = Y
+Remove test database = Y
+Reload Privileged Tabled = Y
+sudo systemctl enable --now mysql.service
+
+
+// ########################################################################################################################
+// Install apache en de modules
+// ########################################################################################################################
+sudo apt install -y apache2
+sudo a2enmod rewrite
+sudo a2enmod proxy
+sudo a2enmod proxy_http
+sudo a2enmod headers
+sudo a2enmod ssl
+
+
+// ########################################################################################################################
+// SSH
+// ########################################################################################################################
+
+// Install SSH server en zet firewall open
+sudo apt install -y openssh-server
+sudo ufw allow ssh
+
+// Controleer firewall settings
+sudo ufw app list => Welke apps
+sudo ufw app info "Apache Full" => Meer info van een app, bv welke poorten open staan
+
+
+
+
+
+
+
+
+// Install PHP
+sudo apt install php libapache2-mod-php php-mysql -y
+// Change load sequence
+sudo nano /etc/apache2/mods-enabled/dir.conf
+// change directoryIndex zodat index.php vooraan staat
+
+
+//---------------REMOVE ?
+sudo systemctl stop mysql
+sudo apt remove mysql-server mysql-client
+sudo apt autoremove -y
+sudo apt autoclean
+sudo rm -rf /etc/mysql
+sudo rm -rf /var/lib/mysql
+//----------------------- 
+
+
+// LAMP
+https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-20-04
+
+
+
+// ########################################################################################################################
+// Proxy
+// ########################################################################################################################
+
+sudo mkdir /var/www/katministratie
+sudo chown -R $USER:$USER /var/www/katministratie
+sudo nano /etc/apache2/sites-available/katministratie.conf
+// Vul het volgende in:
+// -----------------------------------------
+<VirtualHost *:80>
+    ServerName katministratie
+    ServerAlias www.katministratie 
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/katministratie
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+// -----------------------------------------
+// enable deze nieuwe website met
+sudo a2ensite katministratie
+// Disable default website
+sudo a2dissite 000-default
+//Check of config ok is
+sudo apache2ctl configtest
+// Maak index aan en vul deze met html code
+nano /var/www/katministratie/index.html
+// Altijd de apache herstarten
+sudo systemctl reload apache2
+
+// Packages installeren voor phpmyadmin
+https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-phpmyadmin-on-ubuntu-20-04
+
+
+// Add users to MySQL
+
+
+
+
+
+
